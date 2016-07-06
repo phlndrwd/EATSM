@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="f2" displayName="Input" projectFiles="true">
+        <itemPath>src/Input/Constants.h</itemPath>
+        <itemPath>src/Input/FileReader.h</itemPath>
+        <itemPath>src/Input/Parameters.h</itemPath>
+        <itemPath>src/Input/RestartState.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Model" projectFiles="true">
+        <itemPath>src/Model/Environment.h</itemPath>
+        <itemPath>src/Model/Genome.h</itemPath>
+        <itemPath>src/Model/HeterotrophProcessor.h</itemPath>
+        <itemPath>src/Model/Heterotrophs.h</itemPath>
+        <itemPath>src/Model/Individual.h</itemPath>
+        <itemPath>src/Model/Nutrient.h</itemPath>
+        <itemPath>src/Model/Phytoplankton.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f4" displayName="Output" projectFiles="true">
+        <itemPath>src/Output/DataRecorder.h</itemPath>
+        <itemPath>src/Output/Datum.h</itemPath>
+        <itemPath>src/Output/FileWriter.h</itemPath>
+        <itemPath>src/Output/FloatMatrixDatum.h</itemPath>
+        <itemPath>src/Output/FloatVectorDatum.h</itemPath>
+        <itemPath>src/Output/HeterotrophData.h</itemPath>
+        <itemPath>src/Output/IntegerMatrixDatum.h</itemPath>
+        <itemPath>src/Output/IntegerVectorDatum.h</itemPath>
+        <itemPath>src/Output/Logger.h</itemPath>
+        <itemPath>src/Output/Types.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="Tools" projectFiles="true">
+        <itemPath>src/Tools/Convertor.h</itemPath>
+        <itemPath>src/Tools/DateTime.h</itemPath>
+        <itemPath>src/Tools/Maths.h</itemPath>
+        <itemPath>src/Tools/Random.h</itemPath>
+        <itemPath>src/Tools/RandomSFMT.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="f2" displayName="Input" projectFiles="true">
+        <itemPath>src/Input/FileReader.cpp</itemPath>
+        <itemPath>src/Input/Parameters.cpp</itemPath>
+        <itemPath>src/Input/RestartState.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="Model" projectFiles="true">
+        <itemPath>src/Model/Environment.cpp</itemPath>
+        <itemPath>src/Model/Genome.cpp</itemPath>
+        <itemPath>src/Model/HeterotrophProcessor.cpp</itemPath>
+        <itemPath>src/Model/Heterotrophs.cpp</itemPath>
+        <itemPath>src/Model/Individual.cpp</itemPath>
+        <itemPath>src/Model/Nutrient.cpp</itemPath>
+        <itemPath>src/Model/Phytoplankton.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f4" displayName="Output" projectFiles="true">
+        <itemPath>src/Output/DataRecorder.cpp</itemPath>
+        <itemPath>src/Output/Datum.cpp</itemPath>
+        <itemPath>src/Output/FileWriter.cpp</itemPath>
+        <itemPath>src/Output/FloatMatrixDatum.cpp</itemPath>
+        <itemPath>src/Output/FloatVectorDatum.cpp</itemPath>
+        <itemPath>src/Output/HeterotrophData.cpp</itemPath>
+        <itemPath>src/Output/IntegerMatrixDatum.cpp</itemPath>
+        <itemPath>src/Output/IntegerVectorDatum.cpp</itemPath>
+        <itemPath>src/Output/Logger.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="Tools" projectFiles="true">
+        <itemPath>src/Tools/Convertor.cpp</itemPath>
+        <itemPath>src/Tools/DateTime.cpp</itemPath>
+        <itemPath>src/Tools/Maths.cpp</itemPath>
+        <itemPath>src/Tools/Random.cpp</itemPath>
+        <itemPath>src/Tools/RandomSFMT.cpp</itemPath>
+      </logicalFolder>
+      <itemPath>src/Main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>src/Input/</pElem>
+            <pElem>src/Model/</pElem>
+            <pElem>src/Output/</pElem>
+            <pElem>src/Tools/</pElem>
+          </incDir>
+        </ccTool>
+      </compileType>
+      <item path="src/Input/Constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/FileReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/FileReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/Parameters.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/RestartState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/RestartState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Environment.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Environment.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Genome.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Genome.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/HeterotrophProcessor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/HeterotrophProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotrophs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotrophs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Individual.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Individual.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Nutrient.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Nutrient.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Phytoplankton.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Phytoplankton.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/DataRecorder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/DataRecorder.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Datum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/Datum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FileWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FloatMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FloatMatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FloatVectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FloatVectorDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/HeterotrophData.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerMatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerVectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerVectorDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Convertor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/DateTime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/DateTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Maths.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Maths.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Random.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Random.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="src/Input/Constants.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/FileReader.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/FileReader.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/Parameters.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/Parameters.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Input/RestartState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/RestartState.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Environment.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Environment.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Genome.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Genome.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/HeterotrophProcessor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/HeterotrophProcessor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotrophs.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotrophs.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Individual.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Individual.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Nutrient.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Nutrient.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Model/Phytoplankton.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Phytoplankton.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/DataRecorder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/DataRecorder.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Datum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/Datum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FileWriter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FloatMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FloatMatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/FloatVectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/FloatVectorDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/HeterotrophData.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerMatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerVectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/IntegerVectorDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Convertor.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/DateTime.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/DateTime.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Maths.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Maths.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/Random.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/Random.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
