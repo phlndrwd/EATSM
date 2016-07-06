@@ -27,8 +27,6 @@ Parameters::~Parameters( ) {
         mSizeClassBoundaries.clear( );
         mSizeClassMidPoints.clear( );
 
-        delete mRandom;
-
         delete mThis;
     }
 }
@@ -43,9 +41,9 @@ Types::ParametersPointer Parameters::Get( ) {
 void Parameters::SetConstants( ) {
 
     mExperimentName = "Development";
-    mRandomNumberSeed = 0;
-    mRunTimeInSeconds = 9000;
-    mSamplingRate = 3000;
+    mRandomSeed = 0;
+    mRunTimeInSeconds = 60;
+    mSamplingRate = 100;
     mNumberOfSizeClasses = 100;
 
     mHeterotrophInitialisationMethod = Constants::eMultiple;
@@ -56,7 +54,7 @@ void Parameters::SetConstants( ) {
     mInitialNutrientVolume = 0;
     mInitialPhytoplanktonVolume = 1000000;
     mInitialHeterotrophVolume = 1000000;
-    mMinimumHeterotrophVolume = 50000;
+    mMinimumHeterotrophVolume = 5000;
 
     mSmallestIndividualVolume = 1;
     mLargestIndividualVolume = 1e+10;
@@ -137,8 +135,6 @@ double Parameters::GetParameterValueFromIndex( const unsigned int index ) {
     return mParameterValuesVector[ index ];
 }
 
-// Getters
-
 const std::string Parameters::GetExperimentName( ) const {
     return mExperimentName;
 }
@@ -147,8 +143,8 @@ unsigned int Parameters::GetRunTimeInSeconds( ) const {
     return mRunTimeInSeconds;
 }
 
-unsigned int Parameters::GetRandomNumberSeed( ) const {
-    return mRandomNumberSeed;
+unsigned int Parameters::GetRandomSeed( ) const {
+    return mRandomSeed;
 }
 
 unsigned int Parameters::GetSamplingRate( ) const {
@@ -291,27 +287,14 @@ const Types::FloatVector Parameters::GetInterSizeClassVolumeVector( const unsign
     return mInterSizeClassVolumeMatrix[ index ];
 }
 
-Types::RandomPointer Parameters::GetRandom( ) {
-    if( mRandom == 0 ) {
-        int seed = mRandomNumberSeed;
-
-        if( seed == 1 ) {
-            seed = DateTime::Get( )->GetRandomNumberSeed( );
-        }
-
-        mRandom = new Random( seed );
-    }
-    return mRandom;
-}
-
 // Setters
 
 void Parameters::SetExperimentName( const std::string experimentName ) {
     mExperimentName = experimentName;
 }
 
-void Parameters::SetRandomNumberSeed( const unsigned int randomNumberSeed ) {
-    mRandomNumberSeed = randomNumberSeed;
+void Parameters::SetRandomSeed( const unsigned int randomNumberSeed ) {
+    mRandomSeed = randomNumberSeed;
     mParameterValuesVector[ Constants::eRandomNumberSeed ] = randomNumberSeed;
 }
 

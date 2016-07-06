@@ -4,8 +4,8 @@ clear
 
 %% User Defined Parameters
 
-optionCurrentDataSet            = '2016-07-06_15-39-13';
-optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/1.0/Development/';
+optionCurrentDataSet            = '2016-07-06_16-55-11';
+optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/Development/';
 
 switchOnlyCountLevels           = 0;
 switchQuickView                 = 0;

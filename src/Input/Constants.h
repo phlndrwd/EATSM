@@ -11,7 +11,7 @@ namespace Constants {
         eMultiple,
         eSingle
     };
-    
+
     enum ePreferenceFunctionEnum {
         eParabolic,
         eNormal
@@ -22,7 +22,7 @@ namespace Constants {
         eType1,
         eType2
     };
-    
+
     enum eStarvationFunctionType {
         eLinear,
         eBetaExponential
@@ -172,7 +172,7 @@ namespace Constants {
 
         eSizeClassSubsetFraction,
         eHalfSaturationConstantFraction,
-        
+
         eAssimilationEfficiency,
         eFractionalMetabolicExpensePerTimeStep,
         eMetabolicIndex,
@@ -225,8 +225,8 @@ namespace Constants {
     const int cDateTimeBufferSize = 25;
     const int cOutputFolderPermissions = 0777;
     const int cMinimumParameterNameValueSpacing = 3;
-    
-    
+
+
     const double cReproductionScalingFactor = 2;
     const double cMinimumFractionalVolume = 0.5;
     const int cNumberOfIndividualRestartParameters = 5;
@@ -260,8 +260,18 @@ namespace Constants {
     const std::string cVersionCommandLineArgument = "-v";
 
     const char cStringSplitCharacter = '_';
-    
+
     const unsigned int cReproductionFactor = 2;
+
+    // Pseudo-Random Number Generator constants
+    const int cUniformIntMin = -2147483647;
+    const int cUniformIntMax = 2147483647;
+
+    const float cUniformDoubleMin = 0.0;
+    const float cUniformDoubleMax = 1.0;
+
+    const float cNormalMean = 0.0;
+    const float cNormalStdDev = 1.0;
 
     const std::string cSystemName = "EATSM";
     const std::string cSystemVersion = "0.1";

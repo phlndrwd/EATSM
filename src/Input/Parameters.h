@@ -3,7 +3,6 @@
 
 #include "Types.h"
 #include "Constants.h"
-#include "Random.h"
 
 class Parameters {
 public:
@@ -23,7 +22,7 @@ public:
     const std::string GetExperimentName( ) const;
 
     unsigned int GetRunTimeInSeconds( ) const;
-    unsigned int GetRandomNumberSeed( ) const;
+    unsigned int GetRandomSeed( ) const;
     unsigned int GetSamplingRate( ) const;
     unsigned int GetNumberOfSizeClasses( ) const;
 
@@ -56,7 +55,7 @@ public:
     // Setters
 
     void SetExperimentName( const std::string );
-    void SetRandomNumberSeed( const unsigned int );
+    void SetRandomSeed( const unsigned int );
     void SetRunTimeInSeconds( const unsigned int );
     void SetSamplingRate( const unsigned int );
     void SetNumberOfSizeClasses( const unsigned int );
@@ -109,8 +108,6 @@ public:
     const Types::FloatVector GetInterSizeClassPreferenceVector( const unsigned int ) const;
     const Types::FloatVector GetInterSizeClassVolumeVector( const unsigned int ) const;
 
-    Types::RandomPointer GetRandom( );
-
 private:
     Parameters( );
 
@@ -119,7 +116,7 @@ private:
     // User defined constants
 
     std::string mExperimentName;
-    unsigned int mRandomNumberSeed;
+    unsigned int mRandomSeed;
     unsigned int mRunTimeInSeconds;
     unsigned int mSamplingRate;
     unsigned int mNumberOfSizeClasses;
@@ -167,8 +164,6 @@ private:
 
     Types::FloatMatrix mInterSizeClassPreferenceMatrix;
     Types::FloatMatrix mInterSizeClassVolumeMatrix;
-
-    Types::RandomPointer mRandom;
 };
 
 #endif

@@ -6,6 +6,7 @@
 #include "Parameters.h"
 #include "Convertor.h"
 #include "Logger.h"
+#include "RandomInterface.h"
 
 /*
  * Construction and destruction
@@ -21,7 +22,7 @@ Individual::Individual( const double volumeHeritable, const unsigned int sizeCla
     // Initialise genome
     Types::DoubleVector genomeValues;
     genomeValues.push_back( Convertor::Get( )->VolumeToGeneValue( mVolumeHeritable ) );
-    genomeValues.push_back( Parameters::Get( )->GetRandom( )->UniformDouble( ) );
+    genomeValues.push_back( RandomInterface::Get( )->GetUniformDouble( ) );
     mGenome = new Genome( genomeValues );
     
 

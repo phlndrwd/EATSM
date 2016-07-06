@@ -202,7 +202,7 @@ void FileReader::SetParameter( const double value ) {
     switch( mParameterIndex ) {
 
         case Constants::eRandomNumberSeed:
-            Parameters::Get( )->SetRandomNumberSeed( ( unsigned int )value );
+            Parameters::Get( )->SetRandomSeed( ( unsigned int )value );
             break;
 
         case Constants::eRunTimeInSeconds:

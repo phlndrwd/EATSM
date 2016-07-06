@@ -1,5 +1,6 @@
 #include "Genome.h"
 
+#include "RandomInterface.h"
 #include "Parameters.h"
 #include "Convertor.h"
 #include "Logger.h"
@@ -34,11 +35,11 @@ Types::GenomePointer Genome::GetChildGenome( ) {
     if( mutationProbability > 0 ) {
         for( unsigned int geneIndex = 0; geneIndex < numberOfGenes; ++geneIndex ) {
 
-            if( Parameters::Get( )->GetRandom( )->UniformDouble( ) <= mutationProbability ) {
+            if( RandomInterface::Get( )->GetUniformDouble( ) <= mutationProbability ) {
 
                 isMutantChildGenome[ geneIndex ] = true;
 
-                double mutationValue = Parameters::Get( )->GetRandom( )->NormalDouble( 0, Parameters::Get( )->GetMutationStandardDeviation( ) );
+                double mutationValue = RandomInterface::Get( )->GetNormal( 0, Parameters::Get( )->GetMutationStandardDeviation( ) );
 
                 childGenomeValues[ geneIndex ] += mutationValue;
 

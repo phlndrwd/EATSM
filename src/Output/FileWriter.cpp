@@ -326,7 +326,7 @@ void FileWriter::CreateParameterStringVectors( const unsigned int totalNumberOfT
         mParameterNames.push_back( "ExperimentName" );
         mParameterValues.push_back( Parameters::Get( )->GetExperimentName( ) );
         mParameterNames.push_back( "RandomNumberSeed" );
-        mParameterValues.push_back( Convertor::Get( )->NumberToString( Parameters::Get( )->GetRandomNumberSeed( ) ) );
+        mParameterValues.push_back( Convertor::Get( )->NumberToString( Parameters::Get( )->GetRandomSeed( ) ) );
         mParameterNames.push_back( "RunTimeInSeconds" );
         mParameterValues.push_back( Convertor::Get( )->NumberToString( Parameters::Get( )->GetRunTimeInSeconds( ) ) );
         mParameterNames.push_back( "SamplingRate" );
@@ -420,7 +420,7 @@ void FileWriter::CreateParameterStringVectors( const unsigned int totalNumberOfT
         mParameterNames.push_back( "RandomSeedValue" );
         int seed = 0;
         
-        if( Parameters::Get( )->GetRandomNumberSeed( ) == 1 ) {
+        if( Parameters::Get( )->GetRandomSeed( ) == 1 ) {
             seed = DateTime::Get( )->GetRandomNumberSeed( );
         } 
         mParameterValues.push_back( Convertor::Get( )->NumberToString( seed ) );

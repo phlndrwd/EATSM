@@ -1,6 +1,6 @@
 #include "Maths.h"
 
-#include "Parameters.h"
+#include "RandomInterface.h"
 
 #include <math.h>
 #include <cmath> 
@@ -30,7 +30,7 @@ Maths::Maths( ) {
 
     double probability = value - flooredValue;
 
-    if( Parameters::Get( )->GetRandom( )->UniformDouble( ) < probability ) {
+    if( RandomInterface::Get( )->GetUniformDouble( ) < probability ) {
         return flooredValue + 1;
     } else {
         return flooredValue;

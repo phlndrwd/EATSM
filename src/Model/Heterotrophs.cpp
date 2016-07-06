@@ -10,6 +10,7 @@
 #include "Convertor.h"
 #include "Nutrient.h"
 #include "Phytoplankton.h"
+#include "RandomInterface.h"
 #include "RestartState.h"
 #include "Genome.h"
 
@@ -128,10 +129,11 @@ void Heterotrophs::InitialiseSizeClasses( ) {
     } else if( Parameters::Get( )->GetHeterotrophInitialisationMethod( ) == Constants::eMultiple ) {
 
         double initialSizeClassVolume = initialHeterotrophVolume / ( numberOfSizeClasses - firstPopulatedIndex );
+        double sizeClassVolumeBudget = 0;
 
         for( unsigned int sizeClassIndex = numberOfSizeClasses - 1; sizeClassIndex >= firstPopulatedIndex; --sizeClassIndex ) {
 
-            double sizeClassVolumeBudget = initialSizeClassVolume + sizeClassVolumeBudget;
+            sizeClassVolumeBudget += initialSizeClassVolume;
 
             double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex );
 
@@ -167,7 +169,7 @@ void Heterotrophs::Feeding( ) {
 
             for( unsigned int potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassSubsetSize; ++potentialEncounterIndex ) {
 
-                if( Parameters::Get( )->GetRandom( )->UniformDouble( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
+                if( RandomInterface::Get( )->GetUniformDouble( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
 
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
@@ -235,7 +237,7 @@ void Heterotrophs::Starvation( ) {
 
                 if( individual != 0 ) {
 
-                    if( Parameters::Get( )->GetRandom( )->UniformDouble( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) ) {
+                    if( RandomInterface::Get( )->GetUniformDouble( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) ) {
                         StarveToDeath( individual );
                     }
                 }
@@ -494,12 +496,12 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
 
     if( sizeClassLivingFrequency > 0 ) {
 
-        randomIndividualIndex = Parameters::Get( )->GetRandom( )->UniformInteger( sizeClassSize - 1 );
+        randomIndividualIndex = RandomInterface::Get( )->GetUniformInt( 0, sizeClassSize - 1 );
         randomIndividual = mSizeClasses[ sizeClassIndex ][ randomIndividualIndex ];
 
         while( randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
 
-            randomIndividualIndex = Parameters::Get( )->GetRandom( )->UniformInteger( sizeClassSize - 1 );
+            randomIndividualIndex = RandomInterface::Get( )->GetUniformInt( 0, sizeClassSize - 1 );
             randomIndividual = mSizeClasses[ sizeClassIndex ][ randomIndividualIndex ];
         }
     }

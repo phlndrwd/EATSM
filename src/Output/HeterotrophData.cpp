@@ -7,6 +7,7 @@
 #include "Individual.h"
 #include "Maths.h"
 #include "Genome.h"
+#include "RandomInterface.h"
 
 HeterotrophData::HeterotrophData( ) {
 
@@ -141,7 +142,7 @@ unsigned int HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned
 
     unsigned int randomPreySizeClassIndex = 0;
 
-    double randomValue = Parameters::Get( )->GetRandom( )->UniformDouble( );
+    double randomValue = RandomInterface::Get( )->GetUniformDouble( );
 
     double probabilitySum = 0;
 

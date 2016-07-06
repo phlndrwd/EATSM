@@ -17,7 +17,8 @@ class HeterotrophData;
 class HeterotrophProcessor;
 
 class Parameters;
-class Random;
+class RandomDefault;
+class RandomInterface;
 class Logger;
 class DateTime;
 class Convertor;
@@ -45,7 +46,8 @@ namespace Types {
     typedef HeterotrophData* HeterotrophDataPointer;
 
     typedef Parameters* ParametersPointer;
-    typedef Random* RandomPointer;
+    typedef RandomDefault* RandomDefaultPointer;
+    typedef RandomInterface* RandomInterfacePointer;
 
     typedef Logger* LoggerPointer;
     typedef DateTime* DateTimePointer;
