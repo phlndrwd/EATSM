@@ -37,15 +37,14 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/src/Input/FileReader.o \
 	${OBJECTDIR}/src/Input/Parameters.o \
-	${OBJECTDIR}/src/Input/RestartState.o \
 	${OBJECTDIR}/src/Main.o \
+	${OBJECTDIR}/src/Model/Autotroph.o \
 	${OBJECTDIR}/src/Model/Environment.o \
 	${OBJECTDIR}/src/Model/Genome.o \
 	${OBJECTDIR}/src/Model/HeterotrophProcessor.o \
 	${OBJECTDIR}/src/Model/Heterotrophs.o \
 	${OBJECTDIR}/src/Model/Individual.o \
 	${OBJECTDIR}/src/Model/Nutrient.o \
-	${OBJECTDIR}/src/Model/Phytoplankton.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/Datum.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
@@ -56,10 +55,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Output/IntegerVectorDatum.o \
 	${OBJECTDIR}/src/Output/Logger.o \
 	${OBJECTDIR}/src/Tools/Convertor.o \
-	${OBJECTDIR}/src/Tools/DateTime.o \
+	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/Maths.o \
 	${OBJECTDIR}/src/Tools/RandomDefault.o \
-	${OBJECTDIR}/src/Tools/RandomInterface.o
+	${OBJECTDIR}/src/Tools/RandomInterface.o \
+	${OBJECTDIR}/src/Tools/Timer.o
 
 
 # C Compiler Flags
@@ -96,15 +96,15 @@ ${OBJECTDIR}/src/Input/Parameters.o: src/Input/Parameters.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/Parameters.o src/Input/Parameters.cpp
 
-${OBJECTDIR}/src/Input/RestartState.o: src/Input/RestartState.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Input
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/RestartState.o src/Input/RestartState.cpp
-
 ${OBJECTDIR}/src/Main.o: src/Main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Main.o src/Main.cpp
+
+${OBJECTDIR}/src/Model/Autotroph.o: src/Model/Autotroph.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Model
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Autotroph.o src/Model/Autotroph.cpp
 
 ${OBJECTDIR}/src/Model/Environment.o: src/Model/Environment.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
@@ -135,11 +135,6 @@ ${OBJECTDIR}/src/Model/Nutrient.o: src/Model/Nutrient.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Nutrient.o src/Model/Nutrient.cpp
-
-${OBJECTDIR}/src/Model/Phytoplankton.o: src/Model/Phytoplankton.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Model
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Phytoplankton.o src/Model/Phytoplankton.cpp
 
 ${OBJECTDIR}/src/Output/DataRecorder.o: src/Output/DataRecorder.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
@@ -191,10 +186,10 @@ ${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Convertor.o src/Tools/Convertor.cpp
 
-${OBJECTDIR}/src/Tools/DateTime.o: src/Tools/DateTime.cpp 
+${OBJECTDIR}/src/Tools/Date.o: src/Tools/Date.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/DateTime.o src/Tools/DateTime.cpp
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Date.o src/Tools/Date.cpp
 
 ${OBJECTDIR}/src/Tools/Maths.o: src/Tools/Maths.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
@@ -210,6 +205,11 @@ ${OBJECTDIR}/src/Tools/RandomInterface.o: src/Tools/RandomInterface.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomInterface.o src/Tools/RandomInterface.cpp
+
+${OBJECTDIR}/src/Tools/Timer.o: src/Tools/Timer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Tools
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Timer.o src/Tools/Timer.cpp
 
 # Subprojects
 .build-subprojects:

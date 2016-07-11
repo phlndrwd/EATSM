@@ -3,27 +3,26 @@
 
 #include "Types.h"
 
+#include <iostream>
+
 class Logger {
 public:
     ~Logger( );
     static Types::LoggerPointer Get( );
-    void LogStringNoReturn( std::string, const bool bufferMessage = false );
-    void LogString( std::string, const bool bufferMessage = false );
-    void LogError( std::string, const bool bufferMessage = false );
-    void Click( std::string source = "" );
-    void OutputRunTime( );
-    
+
+    template< class T >
+    void LogMessageNoReturn( const T& message ) const {
+        std::cout << message;
+    }
+
+    template< class T >
+    void LogMessage( const T& message ) const {
+        std::cout << message << std::endl;
+    }
+
 private:
     Logger( );
-    
     static Types::LoggerPointer mThis;
-    
-    std::string mTerminalBuffer;
-
-    Types::TimeStruct mTimeStart;
-    Types::TimeStruct mTimeClick;
-    
-    bool mBufferFlag;
 };
 
 #endif

@@ -4,10 +4,10 @@ if switchOnlyCountLevels ~= 1
     optionVectorTitles{ 1 } = [ optionCurrentDataSet( 1:end - 1 ) ' Population size over time' ];
     optionVectorTitles{ 2 } = [ optionCurrentDataSet( 1:end - 1 ) ' Volume of heterotrophic population over time' ];
     optionVectorTitles{ 3 } = [ optionCurrentDataSet( 1:end - 1 ) ' Approximation for volume of heterotrophic population over time' ];
-    optionVectorTitles{ 4 } = [ optionCurrentDataSet( 1:end - 1 ) ' Flux from phytoplankton to animal population over time' ];
+    optionVectorTitles{ 4 } = [ optionCurrentDataSet( 1:end - 1 ) ' Flux from autotroph to animal population over time' ];
     optionVectorTitles{ 5 } = [ optionCurrentDataSet( 1:end - 1 ) ' Intra-population flux from consumption by carnivores' ];
-    optionVectorTitles{ 6 } = [ optionCurrentDataSet( 1:end - 1 ) ' Volume of phytoplankton population over time' ];
-    optionVectorTitles{ 7 } = [ optionCurrentDataSet( 1:end - 1 ) ' Flux from nutrient to phytoplankton population over time' ];
+    optionVectorTitles{ 6 } = [ optionCurrentDataSet( 1:end - 1 ) ' Volume of autotroph population over time' ];
+    optionVectorTitles{ 7 } = [ optionCurrentDataSet( 1:end - 1 ) ' Flux from nutrient to autotroph population over time' ];
     optionVectorTitles{ 8 } = [ optionCurrentDataSet( 1:end - 1 ) ' Volume of nutrient pool over time' ];
     optionVectorTitles{ 9 } = [ optionCurrentDataSet( 1:end - 1 ) ' Flux from animal to nutrient pool over time' ];
     optionVectorTitles{ 10 } = [ optionCurrentDataSet( 1:end - 1 ) ' Matter pool volumes over time' ];
@@ -16,9 +16,9 @@ if switchOnlyCountLevels ~= 1
     optionVectorPlotFiles{ 1 } = 'line_population_size';
     optionVectorPlotFiles{ 2 } = 'line_volume_population';
     optionVectorPlotFiles{ 3 } = 'line_volume_population_approximation';
-    optionVectorPlotFiles{ 4 } = 'line_volume_flux_from_phytoplankton';
+    optionVectorPlotFiles{ 4 } = 'line_volume_flux_from_autotroph';
     optionVectorPlotFiles{ 5 } = 'line_volume_flux_from_carnivores';
-    optionVectorPlotFiles{ 6 } = 'line_volume_phytoplankton';
+    optionVectorPlotFiles{ 6 } = 'line_volume_autotroph';
     optionVectorPlotFiles{ 7 } = 'line_volume_flux_from_nutrient';
     optionVectorPlotFiles{ 8 } = 'line_volume_nutrient';
     optionVectorPlotFiles{ 9 } = 'line_volume_flux_from_heterotrophs';
@@ -85,7 +85,7 @@ if switchOnlyCountLevels ~= 1
     
     set( gca,'FontSize', optionFontSize );
     area( axisAbstractTime, volumeMatrix );
-    legend( 'Nutrient', 'Phytoplankton', 'Population');
+    legend( 'Nutrient', 'Autotrophs', 'Heterotrophs');
     xlim( [ min( axisAbstractTime ) max( axisAbstractTime )  ] );
     ylim( [ 0 ( sum( sum( volumeMatrix ) ) / length( axisAbstractTime ) ) + 1 ] );
     

@@ -1,12 +1,12 @@
-#ifndef PHYTOPLANKTON
-#define	PHYTOPLANKTON
+#ifndef AUTOTROPH
+#define	AUTOTROPH
 
 #include "Types.h"
 
-class Phytoplankton {
+class Autotroph {
 public:
-    Phytoplankton( Types::NutrientPointer );
-    ~Phytoplankton( );
+    Autotroph( Types::NutrientPointer );
+    ~Autotroph( );
     
     void RecordData( );
     

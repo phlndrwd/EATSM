@@ -4,14 +4,15 @@ clear
 
 %% User Defined Parameters
 
-optionCurrentDataSet            = '2016-07-06_16-55-11';
-optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/Development/';
+optionCurrentDataSet            = '2016-07-11_17-05-33';
+optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 switchOnlyCountLevels           = 0;
-switchQuickView                 = 0;
+switchQuickView                 = 1;
 switchUseTitles                 = 1;
 switchReverseColourMap          = 0;
 
+optionMissingValue              = -9999;
 optionTrophicThreshold          = 0.75;
 optionMinimumHeterotrophVolume  = 10000;
 optionLineWidth                 = 3;

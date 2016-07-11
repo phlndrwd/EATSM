@@ -10,24 +10,29 @@ public:
 
     static Types::DataRecorderPointer Get( );
 
-    void AddIntegerVectorData( const unsigned int, const std::string, const int );
-    void AddIntegerMatrixData( const unsigned int, const std::string, const Types::IntegerVector );
+    void AddIntegerVectorData( const unsigned, const std::string, const int );
+    void AddIntegerMatrixData( const unsigned, const std::string, const Types::IntegerVector );
 
-    void AddFloatVectorData( const unsigned int, const std::string, const float );
-    void AddFloatVectorData( const unsigned int, const std::string, const Types::FloatVector );
-    void AddFloatMatrixData( const unsigned int, const std::string, const Types::FloatVector );
+    void AddFloatVectorData( const unsigned, const std::string, const float );
+    void AddFloatVectorData( const unsigned, const std::string, const Types::FloatVector );
+    void AddFloatMatrixData( const unsigned, const std::string, const Types::FloatVector );
 
-    unsigned int GetNumberOfDatums( ) const;
-    Types::DatumPointer GetDatumPointerFromIndex( const unsigned int ) const;
+    unsigned GetNumberOfDatums( ) const;
+    Types::DatumPointer GetDatumPointerFromIndex( const unsigned ) const;
+    
+    void AddInputFilePath( const std::string& );
+    Types::StringVector GetInputFilePaths( ) const;
 
 private:
     DataRecorder( );
 
-    int GetDatumIndexFromName( const unsigned int, const std::string, const Constants::eDatumTypes );
+    int GetDatumIndexFromName( const unsigned, const std::string, const Constants::eDatumTypes );
 
     static Types::DataRecorderPointer mThis;
 
     Types::DatumArray mDatums;
+    
+    Types::StringVector mInputFilePaths;
 };
 
 #endif

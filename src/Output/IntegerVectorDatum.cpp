@@ -5,7 +5,7 @@ IntegerVectorDatum::IntegerVectorDatum( const std::string& name ) {
     SetType( );
 }
 
-IntegerVectorDatum::IntegerVectorDatum( unsigned int enumIndex, const std::string& name ) {
+IntegerVectorDatum::IntegerVectorDatum( unsigned enumIndex, const std::string& name ) {
     mEnumIndex = enumIndex;
     mName = name;
     SetType( );
@@ -28,6 +28,6 @@ int IntegerVectorDatum::GetData( const int index ) const {
     return mData[ index ];
 }
 
-unsigned int IntegerVectorDatum::GetLength( ) const {
+unsigned IntegerVectorDatum::GetLength( ) const {
     return mData.size( );
 }

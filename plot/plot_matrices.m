@@ -77,13 +77,13 @@ if switchOnlyCountLevels ~= 1
         matrix = ExtendMatrix( matrix );
         
         if plotIndex < 12 && plotIndex ~= 8 || plotIndex == 14
-            matrix = LogMatrix( matrix );
+            matrix = LogMatrix( matrix, optionMissingValue );
         elseif plotIndex == 8 || plotIndex == 9
             matrix = ConvertZeroToNaN( matrix );
         elseif plotIndex == 10
-            matrix = ConvertToNaN( matrix );
+            matrix = ConvertToNaN( matrix, optionMissingValue );
         else
-            matrix = ConvertToNaN( matrix );
+            matrix = ConvertToNaN( matrix, optionMissingValue );
         end
         
         %% Collect data for population frequencies vector plot

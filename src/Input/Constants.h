@@ -7,30 +7,10 @@
 
 namespace Constants {
 
-    enum eHeterotrophInitialisationEnum {
-        eMultiple,
-        eSingle
-    };
-
-    enum ePreferenceFunctionEnum {
-        eParabolic,
-        eNormal
-    };
-
-    enum eFunctionalResponseEnum {
-        eType0, // Not used.
-        eType1,
-        eType2
-    };
-
-    enum eStarvationFunctionType {
-        eLinear,
-        eBetaExponential
-    };
-
-    enum eSwitchEnum {
-        eOff,
-        eOn
+    // Input data file enums
+    enum eParametersMetadata {
+        eParameterName,
+        eParameterValue
     };
 
     enum eGenomeIndices {
@@ -43,7 +23,7 @@ namespace Constants {
         eAxisSizeClassBoundaryValues
     };
 
-    const unsigned int cNumberOfAxisVectors = eAxisSizeClassBoundaryValues + 1;
+    const unsigned cNumberOfAxisVectors = eAxisSizeClassBoundaryValues + 1;
 
     const std::string cAxisVectorNames[ cNumberOfAxisVectors ] = {
         "AxisAbstractTime",
@@ -74,7 +54,7 @@ namespace Constants {
         eSizeClassAges
     };
 
-    const unsigned int cNumberOfSizeClassDatums = eSizeClassAges + 1;
+    const unsigned cNumberOfSizeClassDatums = eSizeClassAges + 1;
 
     const std::string cSizeClassDatumNames[ cNumberOfSizeClassDatums ] = {
         "SizeClassSizes",
@@ -104,7 +84,7 @@ namespace Constants {
         eTrophicAges
     };
 
-    const unsigned int cNumberOfTrophicDatums = eTrophicAges + 1;
+    const unsigned cNumberOfTrophicDatums = eTrophicAges + 1;
 
     const std::string cTrophicDatumNames[ cNumberOfTrophicDatums ] = {
         "TrophicFrequencies",
@@ -118,13 +98,13 @@ namespace Constants {
         eHeterotrophApproximateVolume,
         eToHeterotrophFlux,
         eInHeterotrophFlux,
-        ePhytoplanktonVolume,
+        eAutotrophVolume,
         eToPhytoplanktonFlux,
         eNutrientVolume,
         eToNutrientFlux
     };
 
-    const unsigned int cNumberOfVectorDatums = eToNutrientFlux + 1;
+    const unsigned cNumberOfVectorDatums = eToNutrientFlux + 1;
 
     const std::string cVectorDatumNames[ cNumberOfVectorDatums ] = {
         "HeterotrophFrequency",
@@ -132,82 +112,10 @@ namespace Constants {
         "HeterotrophApproximateVolume",
         "ToHeterotrophFlux",
         "InHeterotrophFlux",
-        "PhytoplanktonVolume",
+        "AutotrophVolume",
         "ToPhytoplanktonFlux",
         "NutrientVolume",
         "ToNutrientFlux"
-    };
-
-    enum eReturnCodes {
-        eSuccessful,
-        eIncorrectStatePath,
-        eIncorrectParameterPath,
-        eIncorrectVersion,
-        eTooManyParameters,
-        eNotEnoughParameters
-    };
-
-    enum eParameters {
-        eRandomNumberSeed,
-        eRunTimeInSeconds,
-        eSamplingRate,
-        eNumberOfSizeClasses,
-
-        eHeterotrophInitialisationMethod,
-        ePreferenceFunctionType,
-        eFunctionalResponseType,
-        eStarvationFunctionType,
-
-        eInitialNutrientVolume,
-        eInitialPhytoplanktonVolume,
-        eInitialHeterotrophVolume,
-        eMinimumHeterotrophVolume,
-
-        eSmallestIndividualVolume,
-        eLargestIndividualVolume,
-
-        ePreferredPreyVolumeRatio,
-        ePreferenceFunctionWidth,
-        ePreferenceFunctionHeight,
-
-        eSizeClassSubsetFraction,
-        eHalfSaturationConstantFraction,
-
-        eAssimilationEfficiency,
-        eFractionalMetabolicExpensePerTimeStep,
-        eMetabolicIndex,
-
-        eMutationProbability,
-        eMutationStandardDeviation
-    };
-
-    const unsigned int cNumberOfParameters = eMutationStandardDeviation + 1;
-
-    const std::string cParameterHandles[ cNumberOfParameters ] = {
-        "RandomNumberSeed",
-        "t",
-        "SamplingRate",
-        "d",
-        "HeterotrophInitialisationMethod",
-        "PreferenceFunctionType",
-        "FunctionalResponseType",
-        "StarvationFunctionType",
-        "Ninit",
-        "Pinit",
-        "Hinit",
-        "Hmin",
-        "vsmall",
-        "vlarge",
-        "beta",
-        "c",
-        "a",
-        "alpha",
-        "Kfrac",
-        "gamma",
-        "epsilon",
-        "k",
-        "Pmu",
-        "sigma"
     };
 
     enum eDatumTypes {
@@ -216,11 +124,13 @@ namespace Constants {
         eFloatVector,
         eFloatMatrix
     };
+    
+    
+    const std::string cConfigurationDirectory = "./input/";
+    const std::string cInputParametersFileName = "Parameters.csv";
 
-    const unsigned int cMaximumNumberOfTrophicLevels = 11; // 0 = unclassified, 1 = primary, etc.
-    const int cNaNValue = -10;
-
-    const double cPi = 3.14159265358979323846264338327950288;
+    const unsigned cMaximumNumberOfTrophicLevels = 11; // 0 = unclassified, 1 = primary, etc.
+    const int cMissingValue = -9999;
 
     const int cDateTimeBufferSize = 25;
     const int cOutputFolderPermissions = 0777;
@@ -236,7 +146,6 @@ namespace Constants {
     const std::string cOutputDirectoryName = "output";
     const std::string cOutputFileExtension = ".dat";
     const std::string cTextFileExtension = ".txt";
-    const std::string cFolderDelimiter = "/";
 
     const std::string cParameterNameValueDelimiter = " = ";
 
@@ -248,20 +157,16 @@ namespace Constants {
     const std::string cMatrixDatumNamesFileName = "MetaMatrixDatumNames";
     const std::string cVectorEnumIndicesFileName = "MetaVectorEnumIndicies";
     const std::string cMatrixEnumIndicesFileName = "MetaMatrixEnumIndicies";
-    const std::string cConstantsFileName = "Constants";
-    const std::string cSummaryFileName = "Summary";
-    const std::string cStateFileName = "State";
 
-    const std::string cOutputValueDelimiter = ", ";
     const std::string cWordDelimiter = " ";
-
-    const std::string cExperimentCommandLineArgument = "-e";
-    const std::string cRestartCommandLineArgument = "-r";
-    const std::string cVersionCommandLineArgument = "-v";
-
+    
+    const char cFolderDelimiter = '/';
     const char cStringSplitCharacter = '_';
+    const char cWhiteSpaceCharacter = ' ';
+    const char cDataDelimiterValue = ',';
+    const char cTextFileCommentCharacter = '#';
 
-    const unsigned int cReproductionFactor = 2;
+    const unsigned cReproductionFactor = 2;
 
     // Pseudo-Random Number Generator constants
     const int cUniformIntMin = -2147483647;

@@ -7,7 +7,7 @@
 class FloatMatrixDatum : public Datum {
 public:
     FloatMatrixDatum( const std::string& );
-    FloatMatrixDatum( const unsigned int, const std::string& );
+    FloatMatrixDatum( const unsigned, const std::string& );
     ~FloatMatrixDatum( );
     
     void SetType( );
@@ -18,8 +18,8 @@ public:
     const Types::FloatVector GetData( const int ) const;
     float GetData( const int, const int ) const;
     
-    unsigned int GetRows( ) const;
-    unsigned int GetColumns( ) const;
+    unsigned GetRows( ) const;
+    unsigned GetColumns( ) const;
 
 private:
     Types::FloatMatrix mData;

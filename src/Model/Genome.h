@@ -12,7 +12,7 @@ public:
 
     Types::GenomePointer GetChildGenome( );
     const Types::BooleanVector IsMutantGenome( ) const;
-    bool IsMutantGeneValue( const unsigned int ) const;
+    bool IsMutantGeneValue( const unsigned ) const;
 
     Types::DoubleVector GetGenomeValues( ) const;
     

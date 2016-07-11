@@ -14,7 +14,7 @@
 
 // For model initialisation.
 
-Individual::Individual( const double volumeHeritable, const unsigned int sizeClassIndex ) {
+Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
 
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
@@ -53,7 +53,7 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 
 // For model restart.
 
-Individual::Individual( const Types::GenomePointer genome, const double volumeActual, const double trophicLevel, const unsigned int sizeClassIndex, const unsigned int age ) {
+Individual::Individual( const Types::GenomePointer genome, const double volumeActual, const double trophicLevel, const unsigned sizeClassIndex, const unsigned age ) {
 
     mGenome = genome;
     mVolumeActual = volumeActual;
@@ -133,11 +133,11 @@ Individual::~Individual( ) {
     return mTrophicLevel;
 }
 
- unsigned int Individual::GetSizeClassIndex( ) const {
+ unsigned Individual::GetSizeClassIndex( ) const {
     return mSizeClassIndex;
 }
 
- unsigned int Individual::GetAge( ) const {
+ unsigned Individual::GetAge( ) const {
     return mAge;
 }
 
@@ -169,11 +169,11 @@ void Individual::SetTrophicLevel( const double trophicLevel ) {
     mTrophicLevel = trophicLevel;
 }
 
-void Individual::SetSizeClassIndex( const unsigned int sizeClassIndex ) {
+void Individual::SetSizeClassIndex( const unsigned sizeClassIndex ) {
     mSizeClassIndex = sizeClassIndex;
 }
 
-void Individual::SetAge( const unsigned int age ) {
+void Individual::SetAge( const unsigned age ) {
     mAge = age;
 }
 

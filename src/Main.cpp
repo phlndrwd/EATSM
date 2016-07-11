@@ -2,56 +2,61 @@
 #include "Constants.h"
 #include "Parameters.h"
 #include "FileReader.h"
-#include "DateTime.h"
 #include "Convertor.h"
 #include "Environment.h"
 #include "DataRecorder.h"
 #include "FileWriter.h"
+#include "Timer.h"
 #include "HeterotrophProcessor.h"
-#include "Individual.h"
-#include "RestartState.h"
-#include "Heterotrophs.h"
 
-Types::FileReaderPointer mFileReader;
+int main( ) {
+    Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
+    Logger::Get( )->LogMessage( "" );
 
-void RunModel( ) {
-    
-    DateTime::Get( )->StartTiming( );
-    FileWriter::Get( )->InitialiseOutputPath( );
+    FileReader mFileReader;
+    mFileReader.ReadParametersFile( );
 
     Types::EnvironmentPointer environment = new Environment( );
 
-    Logger::Get( )->LogString( "" );
-
-    unsigned int runTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( );
-
-    double oneTenthOfRunTimeInSeconds = runTimeInSeconds / 10.0;
-    unsigned int percentCount = 0;
-
-    unsigned int cumulativeTimeInSeconds;
-    unsigned int timeStep = 0;
+    Timer timer;
+    double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
     double cumulativeTenthsOfRunTime = 0;
-
+    unsigned cumulativeTimeInSeconds = 0;
+    unsigned percentCount = 0;
+    unsigned timeStep = 0;
     bool isAlive = true;
 
-    if( RestartState::Get( )->IsRestart( ) == true ) {
-        timeStep = RestartState::Get( )->GetStartingTimeStep( );
-        Logger::Get( )->LogString( "Restarting main time loop..." );
-    } else {
-        Logger::Get( )->LogString( "Starting main time loop..." );
-    }
+//    HeterotrophProcessor hetProc;
+//    unsigned correct = 0;
+//    unsigned wrong = 0;
+//    for( unsigned int size = Parameters::Get( )->GetSmallestIndividualVolume( ); size < Parameters::Get( )->GetLargestIndividualVolume( ); ++size ) {
+//
+//        unsigned foundInd = hetProc.FindSizeClassIndexFromVolume( size );
+//        unsigned calcInd = hetProc.CalculateSizeClassIndexFromVolume( size );
+//
+//        if( foundInd != calcInd ) {
+//            //Logger::Get( )->LogMessage( "foundInd> " + Convertor::Get( )->ToString( foundInd ) + ", calcInd> " + Convertor::Get( )->ToString( calcInd ) );
+//            ++wrong;
+//        } else {
+//            ++correct;
+//        }
+//    }
+//    Logger::Get( )->LogMessage( "wrong> " + Convertor::Get( )->ToString( wrong ) + ", correct> " + Convertor::Get( )->ToString( correct ) );
 
+
+    Logger::Get( )->LogMessage( "" );
+    Logger::Get( )->LogMessage( "Starting main time loop..." );
+    timer.Start( );
     do {
-        DateTime::Get( )->SplitTiming( );
-        cumulativeTimeInSeconds = DateTime::Get( )->GetCumulativeTimeInSeconds( );
+        cumulativeTimeInSeconds = timer.Split( );
 
         // Update before data collection; calculates essential variables for encounter rates.
         environment->Update( );
 
         // Text output for the completion of each ten percent of the run 
-        if( cumulativeTimeInSeconds >= ( unsigned int )cumulativeTenthsOfRunTime ) {
+        if( cumulativeTimeInSeconds >= ( unsigned )cumulativeTenthsOfRunTime ) {
             cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-            Logger::Get( )->LogString( "t = " + Convertor::Get( )->NumberToString( timeStep ) + Constants::cOutputValueDelimiter + Convertor::Get( )->NumberToString( percentCount ) + "% completed." );
+            Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( timeStep ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
             percentCount += 10;
         }
 
@@ -62,181 +67,19 @@ void RunModel( ) {
         }
 
         timeStep = timeStep + 1;
-    } while( cumulativeTimeInSeconds < runTimeInSeconds && isAlive == true );
+    } while( cumulativeTimeInSeconds < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
 
-    if( cumulativeTimeInSeconds >= runTimeInSeconds ) {
-        Logger::Get( )->LogString( "Main time loop complete." );
+    if( cumulativeTimeInSeconds >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
+        Logger::Get( )->LogMessage( "Main time loop complete." );
     } else {
-        Logger::Get( )->LogError( "Heterotroph population crashed. Main time loop aborted." );
+        Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );
     }
-
-    Logger::Get( )->LogString( "" );
-    Logger::Get( )->OutputRunTime( );
-    Logger::Get( )->LogString( DateTime::Get( )->GetFormattedDateAndTime( Constants::cCompleteDateFormat ) );
-    Logger::Get( )->LogString( "" );
-    Logger::Get( )->LogString( "Summary..." );
-    environment->OutputHeterotrophSummaryData( );
-    Logger::Get( )->LogString( "" );
-    FileWriter::Get( )->WriteOutputDataToFile( environment, timeStep, cumulativeTimeInSeconds, isAlive );
-    Logger::Get( )->LogString( "Output data written to file." );
+    Logger::Get( )->LogMessage( "" );
+    FileWriter fileWriter;
+    fileWriter.WriteFiles( );
+    Logger::Get( )->LogMessage( "Total run time " + Convertor::Get( )->ToString( timer.Stop( ) ) + "s" );
 
     delete environment;
-}
-
-const std::string GetFileReadOutputMessage( const Constants::eReturnCodes returnCode ) {
-
-    std::string outputMessage;
-
-    switch( returnCode ) {
-
-        case Constants::eIncorrectParameterPath:
-            outputMessage = "Could not access \"" + mFileReader->GetParametersFilePath( ) + "\". System exiting.";
-            break;
-
-        case Constants::eIncorrectVersion:
-            outputMessage = "Incorrect version \"" + mFileReader->GetParametersFilePath( ) + "\". System exiting.";
-            break;
-
-        default:
-            // Do nothing
-            break;
-    }
-
-    return outputMessage;
-}
-
-int main( int numberOfArguments, char* commandlineArguments[ ] ) {
-
-    bool runModel = false;
-
-    std::string startUpString = Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up...";
-
-    switch( numberOfArguments ) {
-        case 1:
-        {
-            Logger::Get( )->LogString( startUpString, true );
-            Parameters::Get( )->SetConstants( );
-            Parameters::Get( )->CalculateSizeClassVectors( );
-            Parameters::Get( )->CalculateVariables( );
-            Logger::Get( )->LogString( "Using default constant values.", true );
-
-            runModel = true;
-
-            break;
-        }
-
-        case 2:
-        {
-            std::string command = commandlineArguments[ 1 ];
-
-            if( command == Constants::cVersionCommandLineArgument ) {
-
-                Logger::Get( )->LogString( Constants::cSystemName );
-                Logger::Get( )->LogString( Constants::cSystemVersion );
-                Logger::Get( )->LogString( Constants::cSystemDate );
-                Logger::Get( )->LogString( Constants::cSystemTime );
-
-                runModel = false;
-
-            } else {
-
-                mFileReader = new FileReader( );
-
-                Constants::eReturnCodes returnCode = mFileReader->ReadParametersFile( command );
-
-                if( returnCode == Constants::eSuccessful ) {
-
-                    Logger::Get( )->LogString( startUpString, true );
-                    Parameters::Get( )->CalculateSizeClassVectors( );
-                    Parameters::Get( )->CalculateVariables( );
-                    Logger::Get( )->LogString( "Using constants input file \"" + mFileReader->GetParametersFilePath( ) + "\".", true );
-                    runModel = true;
-                } else {
-                    Logger::Get( )->LogError( GetFileReadOutputMessage( returnCode ), true );
-                }
-
-                delete mFileReader;
-            }
-
-            break;
-        }
-
-        case 3:
-        {
-            std::string command = commandlineArguments[ 1 ];
-
-            if( command == Constants::cRestartCommandLineArgument ) {
-
-                mFileReader = new FileReader( );
-
-                Constants::eReturnCodes returnCode = mFileReader->Restart( commandlineArguments[ 2 ] );
-
-                if( returnCode == Constants::eSuccessful ) {
-
-                    Logger::Get( )->LogString( startUpString, true );
-                    // Calculate variables (necessarily) called in restart function.
-                    Logger::Get( )->LogString( "Using restart input file \"" + mFileReader->GetParametersFilePath( ) + "\".", true );
-                    runModel = true;
-                } else {
-                    Logger::Get( )->LogError( GetFileReadOutputMessage( returnCode ), true );
-                }
-
-                delete mFileReader;
-
-            } else {
-                Logger::Get( )->LogError( "Badly formed argument. System exiting.", true );
-            }
-            break;
-        }
-
-        case 5:
-        {
-            std::string command = commandlineArguments[ 1 ];
-
-            if( command == Constants::cExperimentCommandLineArgument ) {
-
-                std::string constantsFile = commandlineArguments[ 4 ];
-
-                mFileReader = new FileReader( );
-
-                Constants::eReturnCodes returnCode = mFileReader->ReadParametersFile( constantsFile );
-
-                if( returnCode == Constants::eSuccessful ) {
-
-                    std::string experimentName = commandlineArguments[ 2 ];
-                    std::string dataSetDirectoryName = Convertor::Get( )->ParameterNamesListToValuesString( Convertor::Get( )->StringToWords( commandlineArguments[ 3 ], Constants::cStringSplitCharacter ) );
-
-                    Logger::Get( )->LogString( startUpString, true );
-                    Parameters::Get( )->CalculateSizeClassVectors( );
-                    Parameters::Get( )->CalculateVariables( );
-                    Parameters::Get( )->SetExperimentName( experimentName );
-
-                    FileWriter::Get( )->SetDataSetDirectoryName( dataSetDirectoryName );
-
-                    Logger::Get( )->LogString( "Using constants input file \"" + mFileReader->GetParametersFilePath( ) + "\".", true );
-                    runModel = true;
-                } else {
-                    Logger::Get( )->LogError( GetFileReadOutputMessage( returnCode ), true );
-                }
-
-                delete mFileReader;
-
-            }
-            break;
-        }
-
-        default:
-            Logger::Get( )->LogError( "Badly formed argument. System exiting.", true );
-            break;
-    }
-
-    if( runModel == true ) {
-
-        DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassBoundaryValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassBoundaryValues ], Parameters::Get( )->GetSizeClassBoundaries( ) );
-        DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassMidPointValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassMidPointValues ], Parameters::Get( )->GetSizeClassMidPoints( ) );
-
-        RunModel( );
-    }
 
     return 0;
 }

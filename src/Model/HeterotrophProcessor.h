@@ -17,8 +17,9 @@ public:
     double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;
     double CalculateStarvationProbability( const Types::IndividualPointer ) const;
 
-    unsigned int FindAndSetSizeClassIndex( const Types::IndividualPointer ) const;
-    unsigned int FindSizeClassIndexFromVolume( const double ) const;
+    unsigned FindAndSetSizeClassIndex( const Types::IndividualPointer ) const;
+    unsigned FindSizeClassIndexFromVolume( const double ) const;
+    
     bool ShouldIndividualMoveSizeClass( const Types::IndividualPointer ) const;
 
 private:

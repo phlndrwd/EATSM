@@ -9,50 +9,46 @@ public:
     ~HeterotrophData( );
 
     void RecordOutputData( );
-    void OutputSummary( );
 
     void InitialiseDataStructures( );
     void ResetDataStructures( );
     
-    unsigned int GetProbabilisticPreySizeClassIndex( const unsigned int ) const;
+    unsigned GetProbabilisticPreySizeClassIndex( const unsigned ) const;
     
     void CalculateSizeClassInteractionProbabilities( );
-    double GetEffectiveSizeClassVolume( const unsigned int, const unsigned int ) const;
-    void SetEffectiveSizeClassVolume( const unsigned int, const unsigned int, const double );
+    double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
+    void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
     
-    unsigned int GetCoupledSizeClassIndex( const unsigned int );
-    double GetEffectivePreyVolume( const unsigned int );
-    double GetFeedingProbability( const unsigned int );
+    unsigned GetCoupledSizeClassIndex( const unsigned );
+    double GetEffectivePreyVolume( const unsigned );
+    double GetFeedingProbability( const unsigned );
 
-    void SetCoupledSizeClassIndex( const unsigned int, const unsigned int );
-    void SetEffectivePreyVolume( const unsigned int, const double );
-    void SetFeedingProbability( const unsigned int, const double );
+    void SetCoupledSizeClassIndex( const unsigned, const unsigned );
+    void SetEffectivePreyVolume( const unsigned, const double );
+    void SetFeedingProbability( const unsigned, const double );
 
     void AddIndividualData( const Types::IndividualPointer );
-    void AddSizeClassData( const unsigned int, const unsigned int );
+    void AddSizeClassData( const unsigned, const unsigned );
     void NormaliseData( );
 
     bool AreHeterotrophsAlive( ) const;
 
     void IncrementVegetarianFrequencies( const Types::IndividualPointer );
     void IncrementCarnivoreFrequencies( const Types::IndividualPointer, const Types::IndividualPointer );
-    void IncrementFailedFeedingAttemptFrequency( );
-    void IncrementFailedVegetarianFrequency( );
-    void IncrementFailedCarnivoreFrequency( );
-    void IncrementStarvedFrequencies( const unsigned int );
-    void IncrementBirthFrequencies( const unsigned int, const unsigned int );
-    void IncrementMutantFrequency( const unsigned int, const unsigned int );
+    void IncrementStarvedFrequencies( const unsigned );
+    void IncrementBirthFrequencies( const unsigned, const unsigned );
+    void IncrementMutantFrequency( const unsigned, const unsigned );
 
-    unsigned int GetVegetarianFrequency( ) const;
-    unsigned int GetCarnivoreFrequency( ) const;
-    unsigned int GetChildFrequency( ) const;
-    unsigned int GetStarvedFrequency( ) const;
-    unsigned int GetFailedCarnivoreFrequency( ) const;
-    unsigned int GeFailedVegetarianFrequency( ) const;
-    unsigned int GetFailedFeedingAttemptFrequency( ) const;
+    unsigned GetVegetarianFrequency( ) const;
+    unsigned GetCarnivoreFrequency( ) const;
+    unsigned GetChildFrequency( ) const;
+    unsigned GetStarvedFrequency( ) const;
+    unsigned GetFailedCarnivoreFrequency( ) const;
+    unsigned GeFailedVegetarianFrequency( ) const;
+    unsigned GetFailedFeedingAttemptFrequency( ) const;
 
 private:
-    void AddTrophicLevel( const double, const double, const unsigned int, const unsigned int );
+    void AddTrophicLevel( const double, const double, const unsigned, const unsigned );
 
     Types::FloatMatrix mEffectiveSizeClassVolumeMatrix;
     Types::FloatMatrix mSizeClassInteractionProbabilityMatrix;
@@ -79,19 +75,11 @@ private:
     Types::FloatVector mTrophicVolumes;
     Types::FloatVector mTrophicAges;
     
-    unsigned int mFrequency;
+    unsigned mFrequency;
     double mVolume;
     double mApproximateVolume;
     double mToFlux;
     double mInFlux;
-
-    unsigned int mVegetarianFrequency;
-    unsigned int mCarnivoreFrequency;
-    unsigned int mBirthFrequency;
-    unsigned int mStarvedFrequency;
-    unsigned int mFailedCarnivoreFrequency;
-    unsigned int mFailedVegetarianFrequency;
-    unsigned int mFailedFeedingAttemptFrequency;
 };
 
 #endif

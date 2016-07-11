@@ -4,7 +4,7 @@ Constants::eDatumTypes Datum::GetType( ) {
     return mType;
 }
 
-unsigned int Datum::GetEnumIndex( ) {
+unsigned Datum::GetEnumIndex( ) {
     return mEnumIndex;
 }
 

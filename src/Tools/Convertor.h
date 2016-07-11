@@ -14,20 +14,27 @@ public:
     ~Convertor( );
     static Types::ConvertorPointer Get( );
 
-    const std::string NumberToString( double ) const;
-    double StringToNumber( std::string ) const;
+    template< class T >
+    const std::string ToString( const T& input ) const {
+        std::stringstream stringStream;
+        stringStream << input;
 
-    double GeneValueToVolume( double ) const;
-    double VolumeToGeneValue( double ) const;
+        return stringStream.str( );
+    }
 
-    const Types::StringVector StringToWords( const std::string, const char );
-    const std::string ParameterNamesListToValuesString( const Types::StringVector );
-    const std::string DoubleToPrecisionString( double, unsigned int );
+    double StringToNumber( const std::string& ) const;
+
+    const Types::StringVector StringToWords( const std::string&, const char ) const;
+    const std::string DoubleToPrecisionString( const double&, const unsigned& ) const;
+
+    std::string ToLowercase( const std::string ) const;
+    std::string RemoveWhiteSpace( const std::string ) const;
+
+    const double GeneValueToVolume( double ) const;
+    const double VolumeToGeneValue( double ) const;
 
 private:
     Convertor( );
-
-    double ParameterHandleToValue( const std::string );
 
     static Types::ConvertorPointer mThis;
 };

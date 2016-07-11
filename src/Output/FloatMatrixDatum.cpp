@@ -6,7 +6,7 @@ FloatMatrixDatum::FloatMatrixDatum( const std::string& name ) {
     SetType( );
 }
 
-FloatMatrixDatum::FloatMatrixDatum( const unsigned int enumIndex, const std::string& name ) {
+FloatMatrixDatum::FloatMatrixDatum( const unsigned enumIndex, const std::string& name ) {
     mEnumIndex = enumIndex;
     mName = name;
     SetType( );
@@ -15,7 +15,7 @@ FloatMatrixDatum::FloatMatrixDatum( const unsigned int enumIndex, const std::str
 FloatMatrixDatum::~FloatMatrixDatum( ) {
 
     mName.clear( );
-    for( unsigned int column = 0; column < GetColumns( ); ++column ) {
+    for( unsigned column = 0; column < GetColumns( ); ++column ) {
         mData[ column ].clear( );
     }
     mData.clear( );
@@ -41,11 +41,11 @@ float FloatMatrixDatum::GetData( const int row, const int column ) const {
     return mData[ column ][ row ];
 }
 
-unsigned int FloatMatrixDatum::GetRows( ) const {
+unsigned FloatMatrixDatum::GetRows( ) const {
     return mData[ GetColumns( ) - 1 ].size( );
 }
 
-unsigned int FloatMatrixDatum::GetColumns( ) const {
+unsigned FloatMatrixDatum::GetColumns( ) const {
     return mData.size( );
 }
 

@@ -2,13 +2,14 @@
 #define TYPES
 
 #include <vector>       // For std::vector
-#include <sstream>      // For std::stringstream
-#include <fstream>      // For std::ofstream
+#include <fstream>      // For std::i/ofstream
 #include <sys/time.h>   // For struct timeval
+#include <sys/stat.h>   // For mkdir
+#include <map>          // For map
 
 class Environment;
 class Nutrient;
-class Phytoplankton;
+class Autotroph;
 class Heterotrophs;
 class Individual;
 class Genome;
@@ -20,14 +21,12 @@ class Parameters;
 class RandomDefault;
 class RandomInterface;
 class Logger;
-class DateTime;
 class Convertor;
 class Maths;
 class FileReader;
 class FileWriter;
 class DataRecorder;
 class Datum;
-class RestartState;
 class IntegerVectorDatum;
 class FloatVectorDatum;
 class IntegerMatrixDatum;
@@ -37,7 +36,7 @@ namespace Types {
 
     typedef Environment* EnvironmentPointer;
     typedef Nutrient* NutrientPointer;
-    typedef Phytoplankton* PhytoplanktonPointer;
+    typedef Autotroph* AutotrophPointer;
     typedef Heterotrophs* HeterotrophsPointer;
     typedef Individual* IndividualPointer;
     typedef Genome* GenomePointer;
@@ -50,15 +49,11 @@ namespace Types {
     typedef RandomInterface* RandomInterfacePointer;
 
     typedef Logger* LoggerPointer;
-    typedef DateTime* DateTimePointer;
     typedef Convertor* ConvertorPointer;
-    typedef Maths* MathPointer;
+    typedef Maths* MathsPointer;
 
-    typedef FileReader* FileReaderPointer;
-    typedef FileWriter* FileWriterPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef Datum* DatumPointer;
-    typedef RestartState* RestartStatePointer;
 
     typedef IntegerVectorDatum* IntegerVectorDatumPointer;
     typedef FloatVectorDatum* FloatVectorDatumPointer;
@@ -72,7 +67,7 @@ namespace Types {
 
     typedef std::vector< bool > BooleanVector;
     typedef std::vector< int > IntegerVector;
-    typedef std::vector< unsigned int > UnsignedIntegerVector;
+    typedef std::vector< unsigned > UnsignedIntegerVector;
     typedef std::vector< float > FloatVector;
     typedef std::vector< double > DoubleVector;
 
@@ -80,10 +75,7 @@ namespace Types {
     typedef std::vector< FloatVector > FloatMatrix;
     
     typedef std::vector< std::string > StringVector;
-
-    typedef std::ifstream InputFileStream;
-    typedef std::ofstream OutputFileStream;
-    typedef std::stringstream StringStream;
+    typedef std::vector< StringVector > StringMatrix;
 
 
     typedef time_t Time;

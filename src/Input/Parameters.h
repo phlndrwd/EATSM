@@ -10,77 +10,63 @@ public:
 
     static Types::ParametersPointer Get( );
 
-    void SetConstants( );
+    bool Initialise( const Types::StringMatrix& );
 
-    void CalculateSizeClassVectors( );
-    void CalculateVariables( );
-
-    double GetParameterValueFromIndex( const unsigned int );
+    void CalculateParameters( );
 
     // Getters
+    unsigned GetRunTimeInSeconds( ) const;
+    unsigned GetRandomSeed( ) const;
+    unsigned GetSamplingRate( ) const;
+    unsigned GetNumberOfSizeClasses( ) const;
 
-    const std::string GetExperimentName( ) const;
-
-    unsigned int GetRunTimeInSeconds( ) const;
-    unsigned int GetRandomSeed( ) const;
-    unsigned int GetSamplingRate( ) const;
-    unsigned int GetNumberOfSizeClasses( ) const;
-
-    unsigned int GetHeterotrophInitialisationMethod( ) const;
-    unsigned int GetPreferenceFunctionType( ) const;
-    unsigned int GetFunctionalResponseType( ) const;
-    unsigned int GetStarvationFunctionType( ) const;
+    unsigned InitialisationMethod( ) const;
 
     double GetInitialNutrientVolume( ) const;
-    double GetInitialPhytoplanktonVolume( ) const;
+    double GetInitialAutotrophVolume( ) const;
     double GetInitialHeterotrophVolume( ) const;
     double GetMinimumHeterotrophVolume( ) const;
 
     double GetSmallestIndividualVolume( ) const;
     double GetLargestIndividualVolume( ) const;
 
-    unsigned int GetPreferredPreyVolumeRatio( ) const;
+    unsigned GetPreferredPreyVolumeRatio( ) const;
     double GetPreferenceFunctionWidth( ) const;
     double GetPreferenceFunctionHeight( ) const;
 
     double GetSizeClassSubsetFraction( ) const;
     double GetHalfSaturationConstantFraction( ) const;
     double GetAssimilationEfficiency( ) const;
-    double GetFractionalMetabolicExpensePerTimeStep( ) const;
+    double GetFractionalMetabolicExpense( ) const;
     double GetMetabolicIndex( ) const;
 
     double GetMutationProbability( ) const;
     double GetMutationStandardDeviation( ) const;
 
     // Setters
+    void SetRandomSeed( const unsigned );
+    void SetRunTimeInSeconds( const unsigned );
+    void SetSamplingRate( const unsigned );
+    void SetNumberOfSizeClasses( const unsigned );
 
-    void SetExperimentName( const std::string );
-    void SetRandomSeed( const unsigned int );
-    void SetRunTimeInSeconds( const unsigned int );
-    void SetSamplingRate( const unsigned int );
-    void SetNumberOfSizeClasses( const unsigned int );
-
-    void SetHeterotrophInitialisationMethod( const unsigned int );
-    void SetPreferenceFunctionType( const unsigned int );
-    void SetFunctionalResponseType( const unsigned int );
-    void SetStarvationFunctionType( const unsigned int );
+    void SetInitialisationMethod( const unsigned );
 
     void SetInitialNutrientVolume( const double );
-    void SetInitialPhytoplanktonVolume( const double );
+    void SetInitialAutotrophVolume( const double );
     void SetInitialHeterotrophVolume( const double );
     void SetMinimumHeterotrophVolume( const double );
 
     void SetSmallestIndividualVolume( const double );
     void SetLargestIndividualVolume( const double );
 
-    void SetPreferredPreyVolumeRatio( const unsigned int );
+    void SetPreferredPreyVolumeRatio( const unsigned );
     void SetPreferenceFunctionWidth( const double );
     void SetPreferenceFunctionHeight( const double );
 
     void SetSizeClassSubsetFraction( const double );
     void SetHalfSaturationConstantFraction( const double );
     void SetAssimilationEfficiency( const double );
-    void SetFractionalMetabolicExpensePerTimeStep( const double );
+    void SetFractionalMetabolicExpense( const double );
     void SetMetabolicIndex( const double );
 
     void SetMutationProbability( const double );
@@ -91,13 +77,13 @@ public:
     double GetSmallestVolumeExponent( ) const;
     double GetLargestVolumeExponent( ) const;
 
-    unsigned int GetPhytoplanktonSizeClassIndex( ) const;
+    unsigned GetPhytoplanktonSizeClassIndex( ) const;
 
-    double GetSizeClassBoundary( const unsigned int ) const;
-    double GetSizeClassMidPoint( const unsigned int ) const;
+    double GetSizeClassBoundary( const unsigned ) const;
+    double GetSizeClassMidPoint( const unsigned ) const;
 
-    double GetInterSizeClassPreference( const unsigned int, const unsigned int ) const;
-    double GetInterSizeClassVolume( const unsigned int, const unsigned int ) const;
+    double GetInterSizeClassPreference( const unsigned, const unsigned ) const;
+    double GetInterSizeClassVolume( const unsigned, const unsigned ) const;
 
     double GetTotalVolume( ) const;
     double GetHalfSaturationConstant( ) const;
@@ -105,8 +91,8 @@ public:
     const Types::FloatVector GetSizeClassBoundaries( ) const;
     const Types::FloatVector GetSizeClassMidPoints( ) const;
 
-    const Types::FloatVector GetInterSizeClassPreferenceVector( const unsigned int ) const;
-    const Types::FloatVector GetInterSizeClassVolumeVector( const unsigned int ) const;
+    const Types::FloatVector GetInterSizeClassPreferenceVector( const unsigned ) const;
+    const Types::FloatVector GetInterSizeClassVolumeVector( const unsigned ) const;
 
 private:
     Parameters( );
@@ -114,20 +100,15 @@ private:
     static Types::ParametersPointer mThis;
 
     // User defined constants
+    unsigned mRandomSeed;
+    unsigned mRunTimeInSeconds;
+    unsigned mSamplingRate;
+    unsigned mNumberOfSizeClasses;
 
-    std::string mExperimentName;
-    unsigned int mRandomSeed;
-    unsigned int mRunTimeInSeconds;
-    unsigned int mSamplingRate;
-    unsigned int mNumberOfSizeClasses;
-
-    unsigned int mHeterotrophInitialisationMethod;
-    unsigned int mPreferenceFunctionType;
-    unsigned int mFunctionalResponseType;
-    unsigned int mStarvationFunctionType;
+    unsigned mInitialisationMethod;
 
     double mInitialNutrientVolume;
-    double mInitialPhytoplanktonVolume;
+    double mInitialAutotrophVolume;
     double mInitialHeterotrophVolume;
     double mMinimumHeterotrophVolume;
 
@@ -136,12 +117,12 @@ private:
     double mSizeClassSubsetFraction;
     double mHalfSaturationConstantFraction;
 
-    unsigned int mPreferredPreyVolumeRatio;
+    unsigned mPreferredPreyVolumeRatio;
     double mPreferenceFunctionWidth;
     double mPreferenceFunctionHeight;
 
     double mAssimilationEfficiency;
-    double mFractionalMetabolicExpensePerTimeStep;
+    double mFractionalMetabolicExpense;
     double mMetabolicIndex;
 
     double mMutationProbability;
@@ -149,15 +130,13 @@ private:
 
     // Calculated variables
 
-    unsigned int mPhytoplanktonSizeClassIndex;
+    unsigned mPhytoplanktonSizeClassIndex;
 
     double mSmallestVolumeExponent;
     double mLargestVolumeExponent;
 
     double mTotalVolume;
     double mHalfSaturationConstant;
-
-    Types::FloatVector mParameterValuesVector;
 
     Types::FloatVector mSizeClassBoundaries;
     Types::FloatVector mSizeClassMidPoints;

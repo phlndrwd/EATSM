@@ -4,17 +4,10 @@
 #include "Parameters.h"
 #include "Constants.h"
 #include "Logger.h"
-#include "RestartState.h"
 
 Nutrient::Nutrient( ) {
-    
-    if( RestartState::Get( )->IsRestart( ) == true ) {
-        mVolume = RestartState::Get( )->GetNutrientVolume( );
-    } else {
-        mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
-    }
-
-    Logger::Get( )->LogString( "Nutrient pool created." );
+    mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
+    Logger::Get( )->LogMessage( "Nutrient pool created." );
 }
 
 Nutrient::~Nutrient( ) {

@@ -24,7 +24,7 @@ Types::GenomePointer Genome::GetChildGenome( ) {
 
     Types::BooleanVector isMutantChildGenome;
 
-    unsigned int numberOfGenes = mGenomeValues.size( );
+    unsigned numberOfGenes = mGenomeValues.size( );
 
     isMutantChildGenome.resize( numberOfGenes, false );
 
@@ -33,7 +33,7 @@ Types::GenomePointer Genome::GetChildGenome( ) {
     double mutationProbability = Parameters::Get( )->GetMutationProbability( );
 
     if( mutationProbability > 0 ) {
-        for( unsigned int geneIndex = 0; geneIndex < numberOfGenes; ++geneIndex ) {
+        for( unsigned geneIndex = 0; geneIndex < numberOfGenes; ++geneIndex ) {
 
             if( RandomInterface::Get( )->GetUniformDouble( ) <= mutationProbability ) {
 
@@ -66,7 +66,7 @@ Types::DoubleVector Genome::GetGenomeValues( ) const {
     return mGenomeValues;
 }
 
-bool Genome::IsMutantGeneValue( const unsigned int geneIndex ) const {
+bool Genome::IsMutantGeneValue( const unsigned geneIndex ) const {
     return mIsMutantGenome[ geneIndex ];
 }
 

@@ -9,7 +9,7 @@ public:
 
     virtual ~Datum( ) {};
     Constants::eDatumTypes GetType( );
-    unsigned int GetEnumIndex( );
+    unsigned GetEnumIndex( );
     const std::string& GetName( );
 
 private:
@@ -17,7 +17,7 @@ private:
 
 protected:
     Constants::eDatumTypes mType;
-    unsigned int mEnumIndex;
+    unsigned mEnumIndex;
     std::string mName;
 };
 

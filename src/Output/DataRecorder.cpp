@@ -6,7 +6,6 @@
 #include "FloatMatrixDatum.h"
 #include "Parameters.h"
 #include "Constants.h"
-#include "DateTime.h"
 #include "Convertor.h"
 
 Types::DataRecorderPointer DataRecorder::mThis = 0;
@@ -26,7 +25,7 @@ DataRecorder::DataRecorder( ) {
 DataRecorder::~DataRecorder( ) {
 
     if( mThis != 0 ) {
-        for( unsigned int i = 0; i < mDatums.size( ); ++i ) {
+        for( unsigned i = 0; i < mDatums.size( ); ++i ) {
             delete mDatums[ i ];
         }
 
@@ -36,7 +35,7 @@ DataRecorder::~DataRecorder( ) {
     }
 }
 
-void DataRecorder::AddIntegerVectorData( const unsigned int enumIndex, const std::string datumName, const int data ) {
+void DataRecorder::AddIntegerVectorData( const unsigned enumIndex, const std::string datumName, const int data ) {
 
     int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eIntegerVector );
 
@@ -44,7 +43,7 @@ void DataRecorder::AddIntegerVectorData( const unsigned int enumIndex, const std
     vectorDatumPointer->AddData( data );
 }
 
-void DataRecorder::AddFloatVectorData( const unsigned int enumIndex, const std::string datumName, const float data ) {
+void DataRecorder::AddFloatVectorData( const unsigned enumIndex, const std::string datumName, const float data ) {
 
     int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatVector );
 
@@ -52,18 +51,18 @@ void DataRecorder::AddFloatVectorData( const unsigned int enumIndex, const std::
     vectorDatumPointer->AddData( data );
 }
 
-void DataRecorder::AddFloatVectorData( const unsigned int enumIndex, const std::string datumName, const Types::FloatVector data ) {
+void DataRecorder::AddFloatVectorData( const unsigned enumIndex, const std::string datumName, const Types::FloatVector data ) {
 
     int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatVector );
 
     Types::FloatVectorDatumPointer vectorDatumPointer = ( Types::FloatVectorDatumPointer )mDatums[ datumIndex ];
 
-    for( unsigned int vectorIndex = 0; vectorIndex < data.size( ); ++vectorIndex ) {
+    for( unsigned vectorIndex = 0; vectorIndex < data.size( ); ++vectorIndex ) {
         vectorDatumPointer->AddData( data[ vectorIndex ] );
     }
 }
 
-void DataRecorder::AddFloatMatrixData( const unsigned int enumIndex, const std::string datumName, const Types::FloatVector data ) {
+void DataRecorder::AddFloatMatrixData( const unsigned enumIndex, const std::string datumName, const Types::FloatVector data ) {
 
     int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatMatrix );
 
@@ -71,7 +70,7 @@ void DataRecorder::AddFloatMatrixData( const unsigned int enumIndex, const std::
     matrixDatumPointer->AddData( data );
 }
 
-void DataRecorder::AddIntegerMatrixData( const unsigned int enumIndex, const std::string datumName, const Types::IntegerVector data ) {
+void DataRecorder::AddIntegerMatrixData( const unsigned enumIndex, const std::string datumName, const Types::IntegerVector data ) {
 
     int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eIntegerMatrix );
 
@@ -79,19 +78,19 @@ void DataRecorder::AddIntegerMatrixData( const unsigned int enumIndex, const std
     matrixDatumPointer->AddData( data );
 }
 
-unsigned int DataRecorder::GetNumberOfDatums( ) const {
+unsigned DataRecorder::GetNumberOfDatums( ) const {
     return mDatums.size( );
 }
 
-Types::DatumPointer DataRecorder::GetDatumPointerFromIndex( const unsigned int index ) const {
+Types::DatumPointer DataRecorder::GetDatumPointerFromIndex( const unsigned index ) const {
     return mDatums[ index ];
 }
 
-int DataRecorder::GetDatumIndexFromName( const unsigned int enumIndex, const std::string name, const Constants::eDatumTypes type ) {
+int DataRecorder::GetDatumIndexFromName( const unsigned enumIndex, const std::string name, const Constants::eDatumTypes type ) {
 
     int index = -1;
 
-    for( unsigned int i = 0; i < mDatums.size( ); ++i ) {
+    for( unsigned i = 0; i < mDatums.size( ); ++i ) {
         if( name == mDatums[ i ]->GetName( ) ) {
             index = i;
             break;
@@ -122,4 +121,12 @@ int DataRecorder::GetDatumIndexFromName( const unsigned int enumIndex, const std
     }
 
     return index;
+}
+
+void DataRecorder::AddInputFilePath( const std::string& inputFilePath ) {
+    mInputFilePaths.push_back( inputFilePath );
+}
+
+Types::StringVector DataRecorder::GetInputFilePaths( ) const {
+    return mInputFilePaths;
 }

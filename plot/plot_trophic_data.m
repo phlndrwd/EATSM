@@ -101,7 +101,7 @@ if switchOnlyCountLevels ~= 1
         trophicMatrix = squeeze( trophicMatrices( trophicIndex, :, : ) );
         
         if trophicIndex == 1
-            trophicMatrix = LogMatrix( trophicMatrix );
+            trophicMatrix = LogMatrix( trophicMatrix, optionMissingValue );
         end
         
         set( gca,'FontSize', optionFontSize );

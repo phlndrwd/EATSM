@@ -7,18 +7,11 @@
 class Heterotrophs {
 public:
 
-    Heterotrophs( Types::NutrientPointer, Types::PhytoplanktonPointer );
+    Heterotrophs( Types::NutrientPointer, Types::AutotrophPointer );
     ~Heterotrophs( );
 
     void Update( );
     bool RecordData( );
-    void OutputSummaryData( );
-    
-    Types::HeterotrophDataPointer GetHeterotrophData( ) const;
-
-    // Public for restart
-    unsigned int GetSizeClassSize( const unsigned int ) const;
-    Types::IndividualPointer GetIndividual( const unsigned int, const unsigned int );
 
 private:
     void InitialiseSizeClasses( );
@@ -30,7 +23,7 @@ private:
 
     void CalculateFeedingProbabilities( );
     void FeedFromPhytoplankton( const Types::IndividualPointer );
-    void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned int );
+    void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
 
     void AddToSizeClass( const Types::IndividualPointer, const bool setSizeClassIndex = true );
     void RemoveFromSizeClass( const Types::IndividualPointer );
@@ -43,8 +36,9 @@ private:
 
     void MoveSizeClass( const Types::IndividualPointer );
     
-    unsigned int GetSizeClassDeadFrequency( const unsigned int ) const;
-    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned int, const Types::IndividualPointer individual = 0 ) const;
+    unsigned GetSizeClassPopulation( const unsigned ) const;
+    unsigned GetSizeClassDeadFrequency( const unsigned ) const;
+    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = 0 ) const;
 
     void AddChild( const Types::IndividualPointer );
     void AddChildren( );
@@ -53,7 +47,7 @@ private:
     Types::HeterotrophDataPointer mHeterotrophData;
     
     Types::NutrientPointer mNutrient;
-    Types::PhytoplanktonPointer mPhytoplankton;
+    Types::AutotrophPointer mPhytoplankton;
 
     Types::IndividualMatrix mSizeClasses;
     Types::IndividualMatrix mDeadFrequencies;

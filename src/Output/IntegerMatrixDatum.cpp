@@ -6,7 +6,7 @@ IntegerMatrixDatum::IntegerMatrixDatum( const std::string& name ) {
     SetType( );
 }
 
-IntegerMatrixDatum::IntegerMatrixDatum( const unsigned int enumIndex, const std::string& name ) {
+IntegerMatrixDatum::IntegerMatrixDatum( const unsigned enumIndex, const std::string& name ) {
     mEnumIndex = enumIndex;
     mName = name;
     SetType( );
@@ -15,7 +15,7 @@ IntegerMatrixDatum::IntegerMatrixDatum( const unsigned int enumIndex, const std:
 IntegerMatrixDatum::~IntegerMatrixDatum( ) {
 
     mName.clear( );
-    for( unsigned int column = 0; column < GetColumns( ); ++column ) {
+    for( unsigned column = 0; column < GetColumns( ); ++column ) {
         mData[ column ].clear( );
     }
     mData.clear( );
@@ -41,11 +41,11 @@ int IntegerMatrixDatum::GetData( const int row, const int column ) const {
     return mData[ column ][ row ];
 }
 
-unsigned int IntegerMatrixDatum::GetRows( ) const {
+unsigned IntegerMatrixDatum::GetRows( ) const {
     return mData[ GetColumns( ) - 1 ].size( );
 }
 
-unsigned int IntegerMatrixDatum::GetColumns( ) const {
+unsigned IntegerMatrixDatum::GetColumns( ) const {
     return mData.size( );
 }
 

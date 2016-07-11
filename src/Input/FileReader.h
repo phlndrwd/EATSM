@@ -9,22 +9,14 @@ public:
 
     FileReader( );
     ~FileReader( );
-
-    Constants::eReturnCodes ReadParametersFile( const std::string );
-    Constants::eReturnCodes Restart( const std::string );
-    Constants::eReturnCodes ReadStateFile( );
-
-    const std::string GetParametersFilePath( ) const;
+    
+    bool ReadParametersFile( );
 
 private:
+    bool ReadTextFile( const std::string& );
+    void ClearRawTextData( );
 
-    void SetParameter( const double );
-
-    std::string mParametersFilePath;
-    std::string mStateFilePath;
-    std::string mRestartPath;
-
-    unsigned int mParameterIndex;
+    Types::StringMatrix mRawTextData;
 };
 
 #endif

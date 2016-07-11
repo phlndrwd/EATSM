@@ -10,19 +10,11 @@
 #include "RandomInterface.h"
 
 HeterotrophData::HeterotrophData( ) {
-
-    mVegetarianFrequency = 0;
-    mCarnivoreFrequency = 0;
-    mFailedFeedingAttemptFrequency = 0;
-    mFailedVegetarianFrequency = 0;
-    mFailedCarnivoreFrequency = 0;
-    mStarvedFrequency = 0;
-    mBirthFrequency = 0;
-
+    
     mEffectiveSizeClassVolumeMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mSizeClassInteractionProbabilityMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
-    for( unsigned int sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         mEffectiveSizeClassVolumeMatrix[ sizeClassIndex ].resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
         mSizeClassInteractionProbabilityMatrix[ sizeClassIndex ].resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     }
@@ -32,7 +24,7 @@ HeterotrophData::HeterotrophData( ) {
 
 HeterotrophData::~HeterotrophData( ) {
 
-    for( unsigned int sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         mEffectiveSizeClassVolumeMatrix.clear( );
         mSizeClassInteractionProbabilityMatrix[ sizeClassIndex ].clear( );
     }
@@ -128,25 +120,15 @@ void HeterotrophData::RecordOutputData( ) {
     ResetDataStructures( );
 }
 
-void HeterotrophData::OutputSummary( ) {
-    Logger::Get( )->LogString( "Successful vegetarians = " + Convertor::Get( )->NumberToString( mVegetarianFrequency ) );
-    Logger::Get( )->LogString( "Successful carnivores  = " + Convertor::Get( )->NumberToString( mCarnivoreFrequency ) );
-    Logger::Get( )->LogString( "Number reproduced = " + Convertor::Get( )->NumberToString( mBirthFrequency ) );
-    Logger::Get( )->LogString( "Number starved = " + Convertor::Get( )->NumberToString( mStarvedFrequency ) );
-    Logger::Get( )->LogString( "Failed carnivores = " + Convertor::Get( )->NumberToString( mFailedCarnivoreFrequency ) );
-    Logger::Get( )->LogString( "Failed vegetarians = " + Convertor::Get( )->NumberToString( mFailedVegetarianFrequency ) );
-    Logger::Get( )->LogString( "Failed feeding attempts = " + Convertor::Get( )->NumberToString( mFailedFeedingAttemptFrequency ) );
-}
+unsigned HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned predatorIndex ) const {
 
-unsigned int HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned int predatorIndex ) const {
-
-    unsigned int randomPreySizeClassIndex = 0;
+    unsigned randomPreySizeClassIndex = 0;
 
     double randomValue = RandomInterface::Get( )->GetUniformDouble( );
 
     double probabilitySum = 0;
 
-    for( unsigned int preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
+    for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
 
         probabilitySum += mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ];
 
@@ -161,8 +143,8 @@ unsigned int HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned
 
 void HeterotrophData::CalculateSizeClassInteractionProbabilities( ) {
 
-    for( unsigned int predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
-        for( unsigned int preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
+    for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
+        for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
 
             if( mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] != 0 ) {
 
@@ -172,35 +154,35 @@ void HeterotrophData::CalculateSizeClassInteractionProbabilities( ) {
     }
 }
 
-double HeterotrophData::GetEffectiveSizeClassVolume( const unsigned int predatorIndex, const unsigned int preyIndex ) const {
+double HeterotrophData::GetEffectiveSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) const {
     return mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ];
 }
 
-void HeterotrophData::SetEffectiveSizeClassVolume( const unsigned int predatorIndex, const unsigned int preyIndex, const double effectiveSizeClassVolume ) {
+void HeterotrophData::SetEffectiveSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex, const double effectiveSizeClassVolume ) {
     mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] = effectiveSizeClassVolume;
 }
 
-unsigned int HeterotrophData::GetCoupledSizeClassIndex( const unsigned int sizeClassIndex ) {
+unsigned HeterotrophData::GetCoupledSizeClassIndex( const unsigned sizeClassIndex ) {
     return mSizeClassCouplings[ sizeClassIndex ];
 }
 
-double HeterotrophData::GetEffectivePreyVolume( const unsigned int sizeClassIndex ) {
+double HeterotrophData::GetEffectivePreyVolume( const unsigned sizeClassIndex ) {
     return mSizeClassEffectivePreyVolumes[ sizeClassIndex ];
 }
 
-double HeterotrophData::GetFeedingProbability( const unsigned int sizeClassIndex ) {
+double HeterotrophData::GetFeedingProbability( const unsigned sizeClassIndex ) {
     return mSizeClassFeedingProbabilities[ sizeClassIndex ];
 }
 
-void HeterotrophData::SetCoupledSizeClassIndex( const unsigned int sizeClassIndex, const unsigned int coupledIndex ) {
+void HeterotrophData::SetCoupledSizeClassIndex( const unsigned sizeClassIndex, const unsigned coupledIndex ) {
     mSizeClassCouplings[ sizeClassIndex ] = coupledIndex;
 }
 
-void HeterotrophData::SetEffectivePreyVolume( const unsigned int sizeClassIndex, const double effectivePreyVolume ) {
+void HeterotrophData::SetEffectivePreyVolume( const unsigned sizeClassIndex, const double effectivePreyVolume ) {
     mSizeClassEffectivePreyVolumes[ sizeClassIndex ] = effectivePreyVolume;
 }
 
-void HeterotrophData::SetFeedingProbability( const unsigned int sizeClassIndex, const double feedingProbability ) {
+void HeterotrophData::SetFeedingProbability( const unsigned sizeClassIndex, const double feedingProbability ) {
     mSizeClassFeedingProbabilities[ sizeClassIndex ] = feedingProbability;
 }
 
@@ -214,7 +196,7 @@ void HeterotrophData::AddIndividualData( const Types::IndividualPointer individu
     mSizeClassAges[ individual->GetSizeClassIndex( ) ] += individual->GetAge( );
 }
 
-void HeterotrophData::AddSizeClassData( const unsigned int sizeClassIndex, const unsigned int sizeClassSize ) {
+void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassSize ) {
 
     mFrequency += sizeClassSize;
 
@@ -230,19 +212,19 @@ void HeterotrophData::AddSizeClassData( const unsigned int sizeClassIndex, const
         mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] / ( double )sizeClassSize;
         mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] / ( double )sizeClassSize;
     } else {
-        mSizeClassGrowthRatios[ sizeClassIndex ] = Constants::cNaNValue;
-        mSizeClassTrophicClassifications[ sizeClassIndex ] = Constants::cNaNValue;
-        mSizeClassAges[ sizeClassIndex ] = Constants::cNaNValue;
+        mSizeClassGrowthRatios[ sizeClassIndex ] = Constants::cMissingValue;
+        mSizeClassTrophicClassifications[ sizeClassIndex ] = Constants::cMissingValue;
+        mSizeClassAges[ sizeClassIndex ] = Constants::cMissingValue;
     }
 }
 
-void HeterotrophData::AddTrophicLevel( const double trophicLevel, const double volumeActual, const unsigned int sizeClassIndex, const unsigned int age ) {
+void HeterotrophData::AddTrophicLevel( const double trophicLevel, const double volumeActual, const unsigned sizeClassIndex, const unsigned age ) {
 
-    for( unsigned int trophicIndex = 0; trophicIndex <= Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
+    for( unsigned trophicIndex = 0; trophicIndex <= Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
 
         if( trophicLevel < ( trophicIndex + 0.5 ) ) {
 
-            unsigned int discreteTrophicLevel = trophicIndex;
+            unsigned discreteTrophicLevel = trophicIndex;
 
             ++mTrophicFrequencies[ discreteTrophicLevel ];
             mTrophicVolumes[ discreteTrophicLevel ] += volumeActual;
@@ -256,15 +238,15 @@ void HeterotrophData::AddTrophicLevel( const double trophicLevel, const double v
 
 void HeterotrophData::NormaliseData( ) {
 
-    for( unsigned int sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         if( mSizeClassPreyVolumeRatios[ sizeClassIndex ] > 0 ) {
             mSizeClassPreyVolumeRatios[ sizeClassIndex ] = mSizeClassPreyVolumeRatios[ sizeClassIndex ] / ( mSizeClassCarnivoreFrequencies[ sizeClassIndex ] + mSizeClassVegetarianFrequencies[ sizeClassIndex ] );
         } else {
-            mSizeClassPreyVolumeRatios[ sizeClassIndex ] = Constants::cNaNValue;
+            mSizeClassPreyVolumeRatios[ sizeClassIndex ] = Constants::cMissingValue;
         }
     }
 
-    for( unsigned int trophicIndex = 0; trophicIndex < Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
+    for( unsigned trophicIndex = 0; trophicIndex < Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
         if( mTrophicFrequencies[ trophicIndex ] > 0 ) {
             mTrophicAges[ trophicIndex ] = mTrophicAges[ trophicIndex ] / ( double )mTrophicFrequencies[ trophicIndex ];
         }
@@ -305,8 +287,8 @@ void HeterotrophData::ResetDataStructures( ) {
     mSizeClassPreyVolumeRatios.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
 
     mSizeClassEffectivePreyVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-    mSizeClassFeedingProbabilities.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cNaNValue );
-    mSizeClassCouplings.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cNaNValue );
+    mSizeClassFeedingProbabilities.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
+    mSizeClassCouplings.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
 
     mEffectiveSizeClassVolumeMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mSizeClassInteractionProbabilityMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
@@ -319,8 +301,6 @@ void HeterotrophData::IncrementVegetarianFrequencies( const Types::IndividualPoi
 
     mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] = mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] + preyVolumeRatio;
 
-    ++mVegetarianFrequency;
-
     mToFlux += Parameters::Get( )->GetSmallestIndividualVolume( );
 }
 
@@ -332,65 +312,20 @@ void HeterotrophData::IncrementCarnivoreFrequencies( const Types::IndividualPoin
 
     mSizeClassPreyVolumeRatios[ predator->GetSizeClassIndex( ) ] = mSizeClassPreyVolumeRatios[ predator->GetSizeClassIndex( ) ] + preyVolumeRatio;
 
-    ++mCarnivoreFrequency;
-
     mInFlux += prey->GetVolumeActual( );
 }
 
-void HeterotrophData::IncrementFailedFeedingAttemptFrequency( ) {
-    ++mFailedFeedingAttemptFrequency;
-}
-
-void HeterotrophData::IncrementFailedVegetarianFrequency( ) {
-    ++mFailedVegetarianFrequency;
-}
-
-void HeterotrophData::IncrementFailedCarnivoreFrequency( ) {
-    ++mFailedCarnivoreFrequency;
-}
-
-void HeterotrophData::IncrementStarvedFrequencies( const unsigned int sizeClassIndex ) {
+void HeterotrophData::IncrementStarvedFrequencies( const unsigned sizeClassIndex ) {
     ++mSizeClassStarvedFrequencies[ sizeClassIndex ];
-    ++mStarvedFrequency;
 }
 
-void HeterotrophData::IncrementMutantFrequency( const unsigned int sizeClassIndex, const unsigned int geneIndex ) {
-
+void HeterotrophData::IncrementMutantFrequency( const unsigned sizeClassIndex, const unsigned geneIndex ) {
     if( geneIndex == Constants::eVolumeGene ) {
         ++mSizeClassVolumeMutantFrequencies[ sizeClassIndex ];
     }
 }
 
-void HeterotrophData::IncrementBirthFrequencies( const unsigned int parentIndex, const unsigned int childIndex ) {
+void HeterotrophData::IncrementBirthFrequencies( const unsigned parentIndex, const unsigned childIndex ) {
     ++mSizeClassParentFrequencies[ parentIndex ];
     ++mSizeClassChildFrequencies[ childIndex ];
-    ++mBirthFrequency;
-}
-
-unsigned int HeterotrophData::GetVegetarianFrequency( ) const {
-    return mVegetarianFrequency;
-}
-
-unsigned int HeterotrophData::GetCarnivoreFrequency( ) const {
-    return mCarnivoreFrequency;
-}
-
-unsigned int HeterotrophData::GetChildFrequency( ) const {
-    return mBirthFrequency;
-}
-
-unsigned int HeterotrophData::GetStarvedFrequency( ) const {
-    return mStarvedFrequency;
-}
-
-unsigned int HeterotrophData::GetFailedCarnivoreFrequency( ) const {
-    return mFailedCarnivoreFrequency;
-}
-
-unsigned int HeterotrophData::GeFailedVegetarianFrequency( ) const {
-    return mFailedVegetarianFrequency;
-}
-
-unsigned int HeterotrophData::GetFailedFeedingAttemptFrequency( ) const {
-    return mFailedFeedingAttemptFrequency;
 }

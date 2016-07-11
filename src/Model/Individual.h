@@ -6,9 +6,9 @@
 
 class Individual {
 public:
-    Individual( const double, const unsigned int );
+    Individual( const double, const unsigned );
     Individual( const Types::GenomePointer, const double, const double, const double, const double );
-    Individual( const Types::GenomePointer, const double, const double, const unsigned int, const unsigned int );
+    Individual( const Types::GenomePointer, const double, const double, const unsigned, const unsigned );
     ~Individual( );
 
     Types::IndividualPointer Reproduce( );
@@ -18,9 +18,9 @@ public:
 
     Types::GenomePointer GetGenome( ) const;
     double GetTrophicLevel( ) const;
-    unsigned int GetSizeClassIndex( ) const;
+    unsigned GetSizeClassIndex( ) const;
 
-    unsigned int GetAge( ) const;
+    unsigned GetAge( ) const;
 
     bool IsDead( ) const;
 
@@ -30,9 +30,9 @@ public:
     double GetVolumeReproduction( ) const;
 
     void SetTrophicLevel( const double );
-    void SetSizeClassIndex( const unsigned int );
+    void SetSizeClassIndex( const unsigned );
 
-    void SetAge( const unsigned int );
+    void SetAge( const unsigned );
     void Kill( );
     void SetTagNumber( const int );
 
@@ -44,11 +44,11 @@ private:
     double mVolumeMinimum;
     double mVolumeReproduction;
     
-    unsigned int mSizeClassIndex;
+    unsigned mSizeClassIndex;
 
     double mTrophicLevel;
 
-    unsigned int mAge;
+    unsigned mAge;
     bool mIsDead;
 };
 

@@ -5,7 +5,7 @@ FloatVectorDatum::FloatVectorDatum( const std::string& name ) {
     SetType( );
 }
 
-FloatVectorDatum::FloatVectorDatum( const unsigned int enumIndex, const std::string& name ) {
+FloatVectorDatum::FloatVectorDatum( const unsigned enumIndex, const std::string& name ) {
     mEnumIndex = enumIndex;
     mName = name;
     SetType( );
@@ -28,7 +28,7 @@ float FloatVectorDatum::GetData( const int index ) const {
     return mData[ index ];
 }
 
-unsigned int FloatVectorDatum::GetLength( ) const {
+unsigned FloatVectorDatum::GetLength( ) const {
     return mData.size( );
 }
 

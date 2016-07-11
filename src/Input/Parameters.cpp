@@ -1,7 +1,6 @@
 #include "Parameters.h"
 
 #include "Constants.h"
-#include "DateTime.h"
 #include "Maths.h"
 #include "Convertor.h"
 #include "HeterotrophProcessor.h"
@@ -11,12 +10,12 @@
 Types::ParametersPointer Parameters::mThis = 0;
 
 Parameters::Parameters( ) {
-    mParameterValuesVector.resize( Constants::cNumberOfParameters );
+
 }
 
 Parameters::~Parameters( ) {
     if( mThis != 0 ) {
-        for( unsigned int sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
+        for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
             mInterSizeClassPreferenceMatrix[ sizeClassIndex ].clear( );
             mInterSizeClassVolumeMatrix[ sizeClassIndex ].clear( );
         }
@@ -38,43 +37,46 @@ Types::ParametersPointer Parameters::Get( ) {
     return mThis;
 }
 
-void Parameters::SetConstants( ) {
+bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) {
+    if( rawInputParameterData.size( ) > 0 ) {
+        for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
 
-    mExperimentName = "Development";
-    mRandomSeed = 0;
-    mRunTimeInSeconds = 60;
-    mSamplingRate = 100;
-    mNumberOfSizeClasses = 100;
+            std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( Convertor::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
 
-    mHeterotrophInitialisationMethod = Constants::eMultiple;
-    mPreferenceFunctionType = Constants::eNormal;
-    mFunctionalResponseType = Constants::eType2;
-    mStarvationFunctionType = Constants::eLinear;
+            if( parameterName == "randomseed" ) SetRandomSeed( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "samplingrate" ) SetSamplingRate( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "initialisationmethod" ) SetInitialisationMethod( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
 
-    mInitialNutrientVolume = 0;
-    mInitialPhytoplanktonVolume = 1000000;
-    mInitialHeterotrophVolume = 1000000;
-    mMinimumHeterotrophVolume = 5000;
+            if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "preferencefunctionheight" ) SetPreferenceFunctionHeight( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
 
-    mSmallestIndividualVolume = 1;
-    mLargestIndividualVolume = 1e+10;
+            if( parameterName == "metabolicindex" ) SetMetabolicIndex( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "mutationprobability" ) SetMutationProbability( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+        }
 
-    mPreferredPreyVolumeRatio = 15;
-    mPreferenceFunctionWidth = 0.75;
-    mPreferenceFunctionHeight = 1;
+        CalculateParameters( );
 
-    mSizeClassSubsetFraction = 0.01;
-    mHalfSaturationConstantFraction = 0.15;
-
-    mAssimilationEfficiency = 0.5;
-    mFractionalMetabolicExpensePerTimeStep = 0.00001;
-    mMetabolicIndex = 0.67;
-
-    mMutationProbability = 0.001;
-    mMutationStandardDeviation = 0.01;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-void Parameters::CalculateSizeClassVectors( ) {
+void Parameters::CalculateParameters( ) {
 
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
@@ -84,21 +86,18 @@ void Parameters::CalculateSizeClassVectors( ) {
 
     double sizeClassExponentIncrement = ( mLargestVolumeExponent - mSmallestVolumeExponent ) / mNumberOfSizeClasses;
 
-    for( unsigned int sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
 
         double sizeClassMidPointExponent = mSmallestVolumeExponent + ( ( sizeClassIndex + 0.5 ) * sizeClassExponentIncrement );
         double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( sizeClassIndex * sizeClassExponentIncrement );
 
-        mSizeClassBoundaries[ sizeClassIndex ] = Maths::Get( )->ToThePower( 10, sizeClassBoundaryExponent );
-        mSizeClassMidPoints[ sizeClassIndex ] = Maths::Get( )->ToThePower( 10, sizeClassMidPointExponent );
+        mSizeClassBoundaries[ sizeClassIndex ] = Maths::Get( )->Pow( 10, sizeClassBoundaryExponent );
+        mSizeClassMidPoints[ sizeClassIndex ] = Maths::Get( )->Pow( 10, sizeClassMidPointExponent );
     }
 
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
 
-    mSizeClassBoundaries[ mNumberOfSizeClasses ] = Maths::Get( )->ToThePower( 10, sizeClassBoundaryExponent );
-}
-
-void Parameters::CalculateVariables( ) {
+    mSizeClassBoundaries[ mNumberOfSizeClasses ] = Maths::Get( )->Pow( 10, sizeClassBoundaryExponent );
 
     mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
     mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
@@ -107,15 +106,15 @@ void Parameters::CalculateVariables( ) {
 
     mPhytoplanktonSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
 
-    mTotalVolume = mInitialNutrientVolume + mInitialPhytoplanktonVolume + mInitialHeterotrophVolume;
+    mTotalVolume = mInitialNutrientVolume + mInitialAutotrophVolume + mInitialHeterotrophVolume;
     mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
 
-    for( unsigned int subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
+    for( unsigned subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
 
         double subjectVolumeMean = mSizeClassMidPoints[ subjectIndex ];
         double preferenceSum = 0;
 
-        for( unsigned int referenceIndex = 0; referenceIndex < mNumberOfSizeClasses; ++referenceIndex ) {
+        for( unsigned referenceIndex = 0; referenceIndex < mNumberOfSizeClasses; ++referenceIndex ) {
 
             double referenceVolumeMean = mSizeClassMidPoints[ referenceIndex ];
 
@@ -129,54 +128,37 @@ void Parameters::CalculateVariables( ) {
     }
 
     delete temporaryHeterotrophProcessor;
+
+    DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassBoundaryValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassBoundaryValues ], Parameters::Get( )->GetSizeClassBoundaries( ) );
+    DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassMidPointValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassMidPointValues ], Parameters::Get( )->GetSizeClassMidPoints( ) );
 }
 
-double Parameters::GetParameterValueFromIndex( const unsigned int index ) {
-    return mParameterValuesVector[ index ];
-}
-
-const std::string Parameters::GetExperimentName( ) const {
-    return mExperimentName;
-}
-
-unsigned int Parameters::GetRunTimeInSeconds( ) const {
+unsigned Parameters::GetRunTimeInSeconds( ) const {
     return mRunTimeInSeconds;
 }
 
-unsigned int Parameters::GetRandomSeed( ) const {
+unsigned Parameters::GetRandomSeed( ) const {
     return mRandomSeed;
 }
 
-unsigned int Parameters::GetSamplingRate( ) const {
+unsigned Parameters::GetSamplingRate( ) const {
     return mSamplingRate;
 }
 
-unsigned int Parameters::GetNumberOfSizeClasses( ) const {
+unsigned Parameters::GetNumberOfSizeClasses( ) const {
     return mNumberOfSizeClasses;
 }
 
-unsigned int Parameters::GetHeterotrophInitialisationMethod( ) const {
-    return mHeterotrophInitialisationMethod;
-}
-
-unsigned int Parameters::GetPreferenceFunctionType( ) const {
-    return mPreferenceFunctionType;
-}
-
-unsigned int Parameters::GetFunctionalResponseType( ) const {
-    return mFunctionalResponseType;
-}
-
-unsigned int Parameters::GetStarvationFunctionType( ) const {
-    return mStarvationFunctionType;
+unsigned Parameters::InitialisationMethod( ) const {
+    return mInitialisationMethod;
 }
 
 double Parameters::GetInitialNutrientVolume( ) const {
     return mInitialNutrientVolume;
 }
 
-double Parameters::GetInitialPhytoplanktonVolume( ) const {
-    return mInitialPhytoplanktonVolume;
+double Parameters::GetInitialAutotrophVolume( ) const {
+    return mInitialAutotrophVolume;
 }
 
 double Parameters::GetInitialHeterotrophVolume( ) const {
@@ -195,7 +177,7 @@ double Parameters::GetLargestIndividualVolume( ) const {
     return mLargestIndividualVolume;
 }
 
-unsigned int Parameters::GetPreferredPreyVolumeRatio( ) const {
+unsigned Parameters::GetPreferredPreyVolumeRatio( ) const {
     return mPreferredPreyVolumeRatio;
 }
 
@@ -219,8 +201,8 @@ double Parameters::GetAssimilationEfficiency( ) const {
     return mAssimilationEfficiency;
 }
 
-double Parameters::GetFractionalMetabolicExpensePerTimeStep( ) const {
-    return mFractionalMetabolicExpensePerTimeStep;
+double Parameters::GetFractionalMetabolicExpense( ) const {
+    return mFractionalMetabolicExpense;
 }
 
 double Parameters::GetMetabolicIndex( ) const {
@@ -235,7 +217,7 @@ double Parameters::GetMutationStandardDeviation( ) const {
     return mMutationStandardDeviation;
 }
 
-unsigned int Parameters::GetPhytoplanktonSizeClassIndex( ) const {
+unsigned Parameters::GetPhytoplanktonSizeClassIndex( ) const {
     return mPhytoplanktonSizeClassIndex;
 }
 
@@ -247,11 +229,11 @@ double Parameters::GetLargestVolumeExponent( ) const {
     return mLargestVolumeExponent;
 }
 
-double Parameters::GetSizeClassBoundary( const unsigned int index ) const {
+double Parameters::GetSizeClassBoundary( const unsigned index ) const {
     return mSizeClassBoundaries[ index ];
 }
 
-double Parameters::GetSizeClassMidPoint( const unsigned int index ) const {
+double Parameters::GetSizeClassMidPoint( const unsigned index ) const {
     return mSizeClassMidPoints[ index ];
 }
 
@@ -263,11 +245,11 @@ const Types::FloatVector Parameters::GetSizeClassMidPoints( ) const {
     return mSizeClassMidPoints;
 }
 
-double Parameters::GetInterSizeClassPreference( const unsigned int subjectIndex, const unsigned int referenceIndex ) const {
+double Parameters::GetInterSizeClassPreference( const unsigned subjectIndex, const unsigned referenceIndex ) const {
     return mInterSizeClassPreferenceMatrix[ subjectIndex ][ referenceIndex ];
 }
 
-double Parameters::GetInterSizeClassVolume( const unsigned int subjectIndex, const unsigned int referenceIndex ) const {
+double Parameters::GetInterSizeClassVolume( const unsigned subjectIndex, const unsigned referenceIndex ) const {
     return mInterSizeClassVolumeMatrix[ subjectIndex ][ referenceIndex ];
 }
 
@@ -279,136 +261,96 @@ double Parameters::GetHalfSaturationConstant( ) const {
     return mHalfSaturationConstant;
 }
 
-const Types::FloatVector Parameters::GetInterSizeClassPreferenceVector( const unsigned int index ) const {
+const Types::FloatVector Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {
     return mInterSizeClassPreferenceMatrix[ index ];
 }
 
-const Types::FloatVector Parameters::GetInterSizeClassVolumeVector( const unsigned int index ) const {
+const Types::FloatVector Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
     return mInterSizeClassVolumeMatrix[ index ];
 }
 
 // Setters
 
-void Parameters::SetExperimentName( const std::string experimentName ) {
-    mExperimentName = experimentName;
-}
-
-void Parameters::SetRandomSeed( const unsigned int randomNumberSeed ) {
+void Parameters::SetRandomSeed( const unsigned randomNumberSeed ) {
     mRandomSeed = randomNumberSeed;
-    mParameterValuesVector[ Constants::eRandomNumberSeed ] = randomNumberSeed;
 }
 
-void Parameters::SetRunTimeInSeconds( const unsigned int runTimeInSeconds ) {
+void Parameters::SetRunTimeInSeconds( const unsigned runTimeInSeconds ) {
     mRunTimeInSeconds = runTimeInSeconds;
-    mParameterValuesVector[ Constants::eRunTimeInSeconds ] = runTimeInSeconds;
 }
 
-void Parameters::SetSamplingRate( const unsigned int samplingRate ) {
+void Parameters::SetSamplingRate( const unsigned samplingRate ) {
     mSamplingRate = samplingRate;
-    mParameterValuesVector[ Constants::eSamplingRate ] = samplingRate;
 }
 
-void Parameters::SetNumberOfSizeClasses( const unsigned int numberOfSizeClasses ) {
+void Parameters::SetNumberOfSizeClasses( const unsigned numberOfSizeClasses ) {
     mNumberOfSizeClasses = numberOfSizeClasses;
-    mParameterValuesVector[ Constants::eNumberOfSizeClasses ] = numberOfSizeClasses;
 }
 
-void Parameters::SetHeterotrophInitialisationMethod( const unsigned int heterotrophInitialisationMethod ) {
-    mHeterotrophInitialisationMethod = heterotrophInitialisationMethod;
-    mParameterValuesVector[ Constants::eHeterotrophInitialisationMethod ] = heterotrophInitialisationMethod;
-}
-
-void Parameters::SetPreferenceFunctionType( const unsigned int preferenceFunctionType ) {
-    mPreferenceFunctionType = preferenceFunctionType;
-    mParameterValuesVector[ Constants::ePreferenceFunctionType ] = preferenceFunctionType;
-}
-
-void Parameters::SetFunctionalResponseType( const unsigned int functionalResponseType ) {
-    mFunctionalResponseType = functionalResponseType;
-    mParameterValuesVector[ Constants::eFunctionalResponseType ] = functionalResponseType;
-}
-
-void Parameters::SetStarvationFunctionType( const unsigned int starvationFunctionType ) {
-    mStarvationFunctionType = starvationFunctionType;
-    mParameterValuesVector[ Constants::eStarvationFunctionType ] = starvationFunctionType;
+void Parameters::SetInitialisationMethod( const unsigned initialisationMethod ) {
+    mInitialisationMethod = initialisationMethod;
 }
 
 void Parameters::SetInitialNutrientVolume( const double initialNutrientVolume ) {
     mInitialNutrientVolume = initialNutrientVolume;
-    mParameterValuesVector[ Constants::eInitialNutrientVolume ] = initialNutrientVolume;
 }
 
-void Parameters::SetInitialPhytoplanktonVolume( const double initialPhytoplanktonVolume ) {
-    mInitialPhytoplanktonVolume = initialPhytoplanktonVolume;
-    mParameterValuesVector[ Constants::eInitialPhytoplanktonVolume ] = initialPhytoplanktonVolume;
+void Parameters::SetInitialAutotrophVolume( const double initialAutotrophVolume ) {
+    mInitialAutotrophVolume = initialAutotrophVolume;
 }
 
 void Parameters::SetInitialHeterotrophVolume( const double initialHeterotrophVolume ) {
     mInitialHeterotrophVolume = initialHeterotrophVolume;
-    mParameterValuesVector[ Constants::eInitialHeterotrophVolume ] = initialHeterotrophVolume;
 }
 
 void Parameters::SetMinimumHeterotrophVolume( const double minimumHeterotrophVolume ) {
     mMinimumHeterotrophVolume = minimumHeterotrophVolume;
-    mParameterValuesVector[ Constants::eMinimumHeterotrophVolume ] = minimumHeterotrophVolume;
 }
 
 void Parameters::SetSmallestIndividualVolume( double smallestIndividualVolume ) {
     mSmallestIndividualVolume = smallestIndividualVolume;
-    mParameterValuesVector[ Constants::eSmallestIndividualVolume ] = smallestIndividualVolume;
 }
 
 void Parameters::SetLargestIndividualVolume( double largestIndividualVolume ) {
     mLargestIndividualVolume = largestIndividualVolume;
-    mParameterValuesVector[ Constants::eLargestIndividualVolume ] = largestIndividualVolume;
 }
 
-void Parameters::SetPreferredPreyVolumeRatio( const unsigned int preferredPreyVolumeRatio ) {
+void Parameters::SetPreferredPreyVolumeRatio( const unsigned preferredPreyVolumeRatio ) {
     mPreferredPreyVolumeRatio = preferredPreyVolumeRatio;
-    mParameterValuesVector[ Constants::ePreferredPreyVolumeRatio ] = preferredPreyVolumeRatio;
 }
 
 void Parameters::SetPreferenceFunctionWidth( const double preferenceFunctionWidth ) {
     mPreferenceFunctionWidth = preferenceFunctionWidth;
-    mParameterValuesVector[ Constants::ePreferenceFunctionWidth ] = preferenceFunctionWidth;
 }
 
 void Parameters::SetPreferenceFunctionHeight( const double preferenceFunctionHeight ) {
     mPreferenceFunctionHeight = preferenceFunctionHeight;
-    mParameterValuesVector[ Constants::ePreferenceFunctionHeight ] = preferenceFunctionHeight;
 }
 
 void Parameters::SetSizeClassSubsetFraction( const double sizeClassSubsetFraction ) {
     mSizeClassSubsetFraction = sizeClassSubsetFraction;
-    mParameterValuesVector[ Constants::eSizeClassSubsetFraction ] = sizeClassSubsetFraction;
 }
 
 void Parameters::SetHalfSaturationConstantFraction( const double halfSaturationConstantFraction ) {
     mHalfSaturationConstantFraction = halfSaturationConstantFraction;
-    mParameterValuesVector[ Constants::eHalfSaturationConstantFraction ] = halfSaturationConstantFraction;
 }
 
 void Parameters::SetAssimilationEfficiency( const double assimilationEfficiency ) {
     mAssimilationEfficiency = assimilationEfficiency;
-    mParameterValuesVector[ Constants::eAssimilationEfficiency ] = assimilationEfficiency;
 }
 
-void Parameters::SetFractionalMetabolicExpensePerTimeStep( const double fractionalMetabolicExpensePerTimeStep ) {
-    mFractionalMetabolicExpensePerTimeStep = fractionalMetabolicExpensePerTimeStep;
-    mParameterValuesVector[ Constants::eFractionalMetabolicExpensePerTimeStep ] = fractionalMetabolicExpensePerTimeStep;
+void Parameters::SetFractionalMetabolicExpense( const double fractionalMetabolicExpense ) {
+    mFractionalMetabolicExpense = fractionalMetabolicExpense;
 }
 
 void Parameters::SetMetabolicIndex( const double metabolicIndex ) {
     mMetabolicIndex = metabolicIndex;
-    mParameterValuesVector[ Constants::eMetabolicIndex ] = metabolicIndex;
 }
 
 void Parameters::SetMutationProbability( const double mutationProbability ) {
     mMutationProbability = mutationProbability;
-    mParameterValuesVector[ Constants::eMutationProbability ] = mutationProbability;
 }
 
 void Parameters::SetMutationStandardDeviation( const double mutationStandardDeviation ) {
     mMutationStandardDeviation = mutationStandardDeviation;
-    mParameterValuesVector[ Constants::eMutationStandardDeviation ] = mutationStandardDeviation;
 }
