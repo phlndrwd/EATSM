@@ -15,8 +15,8 @@ Nutrient::~Nutrient( ) {
 }
 
 void Nutrient::RecordData( ) {
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eNutrientVolume, Constants::cVectorDatumNames[ Constants::eNutrientVolume ], mVolume );
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eToNutrientFlux, Constants::cVectorDatumNames[ Constants::eToNutrientFlux ], mToFlux );
+    DataRecorder::Get( )->AddDataTo( "NutrientVolume", mVolume );
+    DataRecorder::Get( )->AddDataTo( "ToNutrientFlux", mToFlux );
     mToFlux = 0;
 }
 

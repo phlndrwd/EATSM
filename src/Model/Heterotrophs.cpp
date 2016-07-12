@@ -213,7 +213,7 @@ void Heterotrophs::Reproduction( ) {
                     MoveSizeClass( potentialParent );
                 }
 
-                Types::BooleanVector isMutantGenome = childIndividual->GetGenome( )->IsMutantGenome( );
+                Types::BoolVector isMutantGenome = childIndividual->GetGenome( )->IsMutantGenome( );
                 if( isMutantGenome[ Constants::eVolumeGene ] == false ) {
                     childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
                 } else if( isMutantGenome[ Constants::eVolumeGene ] == true ) {

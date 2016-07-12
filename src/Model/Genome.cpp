@@ -11,7 +11,7 @@ Genome::Genome( const Types::DoubleVector genomeValues ) {
     mGenomeValues = genomeValues;
 }
 
-Genome::Genome( const Types::DoubleVector genomeValues, const Types::BooleanVector isMutantGenome ) {
+Genome::Genome( const Types::DoubleVector genomeValues, const Types::BoolVector isMutantGenome ) {
     mGenomeValues = genomeValues;
     mIsMutantGenome = isMutantGenome;
 }
@@ -22,7 +22,7 @@ Genome::~Genome( ) {
 
 Types::GenomePointer Genome::GetChildGenome( ) {
 
-    Types::BooleanVector isMutantChildGenome;
+    Types::BoolVector isMutantChildGenome;
 
     unsigned numberOfGenes = mGenomeValues.size( );
 
@@ -58,7 +58,7 @@ Types::GenomePointer Genome::GetChildGenome( ) {
     return childGenome;
 }
 
-const Types::BooleanVector Genome::IsMutantGenome( ) const {
+const Types::BoolVector Genome::IsMutantGenome( ) const {
     return mIsMutantGenome;
 }
 

@@ -7,11 +7,11 @@
 class Genome {
 public:
     Genome( const Types::DoubleVector );
-    Genome( const Types::DoubleVector, const Types::BooleanVector );
+    Genome( const Types::DoubleVector, const Types::BoolVector );
     ~Genome( );
 
     Types::GenomePointer GetChildGenome( );
-    const Types::BooleanVector IsMutantGenome( ) const;
+    const Types::BoolVector IsMutantGenome( ) const;
     bool IsMutantGeneValue( const unsigned ) const;
 
     Types::DoubleVector GetGenomeValues( ) const;
@@ -21,7 +21,7 @@ public:
 
 private:
     Types::DoubleVector mGenomeValues;
-    Types::BooleanVector mIsMutantGenome;
+    Types::BoolVector mIsMutantGenome;
 };
 
 #endif

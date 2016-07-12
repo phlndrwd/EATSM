@@ -53,31 +53,31 @@ private:
     Types::FloatMatrix mEffectiveSizeClassVolumeMatrix;
     Types::FloatMatrix mSizeClassInteractionProbabilityMatrix;
     
-    Types::IntegerVector mSizeClassSizes;
-    Types::IntegerVector mSizeClassVegetarianFrequencies;
-    Types::IntegerVector mSizeClassCarnivoreFrequencies;
-    Types::IntegerVector mSizeClassPreyFrequencies;
-    Types::IntegerVector mSizeClassStarvedFrequencies;
-    Types::IntegerVector mSizeClassParentFrequencies;
-    Types::IntegerVector mSizeClassChildFrequencies;
-    Types::IntegerVector mSizeClassVolumeMutantFrequencies;
+    Types::FloatVector mSizeClassPopulation;
+    Types::FloatVector mSizeClassVegetarianFrequencies;
+    Types::FloatVector mSizeClassCarnivoreFrequencies;
+    Types::FloatVector mSizeClassPreyFrequencies;
+    Types::FloatVector mSizeClassStarvedFrequencies;
+    Types::FloatVector mSizeClassParentFrequencies;
+    Types::FloatVector mSizeClassChildFrequencies;
+    Types::FloatVector mSizeClassVolumeMutantFrequencies;
     Types::FloatVector mSizeClassVolumes;
-    Types::FloatVector mSizeClassApproximateVolumes;
+    Types::FloatVector mSizeClassApproxVolumes;
     Types::FloatVector mSizeClassEffectivePreyVolumes;
     Types::FloatVector mSizeClassGrowthRatios;
-    Types::IntegerVector mSizeClassCouplings;
+    Types::FloatVector mSizeClassCouplings;
     Types::FloatVector mSizeClassPreyVolumeRatios;
     Types::FloatVector mSizeClassFeedingProbabilities;
     Types::FloatVector mSizeClassTrophicClassifications;
     Types::FloatVector mSizeClassAges;
 
-    Types::IntegerVector mTrophicFrequencies;
+    Types::FloatVector mTrophicFrequencies;
     Types::FloatVector mTrophicVolumes;
     Types::FloatVector mTrophicAges;
     
     unsigned mFrequency;
     double mVolume;
-    double mApproximateVolume;
+    double mApproxVolume;
     double mToFlux;
     double mInFlux;
 };

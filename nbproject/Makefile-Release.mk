@@ -46,14 +46,11 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/Individual.o \
 	${OBJECTDIR}/src/Model/Nutrient.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
-	${OBJECTDIR}/src/Output/Datum.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
-	${OBJECTDIR}/src/Output/FloatMatrixDatum.o \
-	${OBJECTDIR}/src/Output/FloatVectorDatum.o \
 	${OBJECTDIR}/src/Output/HeterotrophData.o \
-	${OBJECTDIR}/src/Output/IntegerMatrixDatum.o \
-	${OBJECTDIR}/src/Output/IntegerVectorDatum.o \
 	${OBJECTDIR}/src/Output/Logger.o \
+	${OBJECTDIR}/src/Output/MatrixDatum.o \
+	${OBJECTDIR}/src/Output/VectorDatum.o \
 	${OBJECTDIR}/src/Tools/Convertor.o \
 	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/Maths.o \
@@ -141,45 +138,30 @@ ${OBJECTDIR}/src/Output/DataRecorder.o: src/Output/DataRecorder.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/DataRecorder.o src/Output/DataRecorder.cpp
 
-${OBJECTDIR}/src/Output/Datum.o: src/Output/Datum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Datum.o src/Output/Datum.cpp
-
 ${OBJECTDIR}/src/Output/FileWriter.o: src/Output/FileWriter.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
-
-${OBJECTDIR}/src/Output/FloatMatrixDatum.o: src/Output/FloatMatrixDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FloatMatrixDatum.o src/Output/FloatMatrixDatum.cpp
-
-${OBJECTDIR}/src/Output/FloatVectorDatum.o: src/Output/FloatVectorDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FloatVectorDatum.o src/Output/FloatVectorDatum.cpp
 
 ${OBJECTDIR}/src/Output/HeterotrophData.o: src/Output/HeterotrophData.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/HeterotrophData.o src/Output/HeterotrophData.cpp
 
-${OBJECTDIR}/src/Output/IntegerMatrixDatum.o: src/Output/IntegerMatrixDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/IntegerMatrixDatum.o src/Output/IntegerMatrixDatum.cpp
-
-${OBJECTDIR}/src/Output/IntegerVectorDatum.o: src/Output/IntegerVectorDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/IntegerVectorDatum.o src/Output/IntegerVectorDatum.cpp
-
 ${OBJECTDIR}/src/Output/Logger.o: src/Output/Logger.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Logger.o src/Output/Logger.cpp
+
+${OBJECTDIR}/src/Output/MatrixDatum.o: src/Output/MatrixDatum.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Output
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/MatrixDatum.o src/Output/MatrixDatum.cpp
+
+${OBJECTDIR}/src/Output/VectorDatum.o: src/Output/VectorDatum.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Output
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/VectorDatum.o src/Output/VectorDatum.cpp
 
 ${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

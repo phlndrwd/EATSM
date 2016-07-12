@@ -4,49 +4,20 @@ labelVolumeAxis = 'Equivalent Spherical Volume';
 labelTimeAxis = 'Time Steps';
 
 %% Load Meta Data
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaAxisVectorNames' optionFileExtension ], 'r' );
-CellAxisVectorNames = textscan( infile, '%s' );
-fclose( infile );
-CellAxisVectorNames = CellAxisVectorNames{ : };
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaTrophicDatumNames' optionFileExtension ], 'r' );
-CellTrophicDatumNames = textscan( infile, '%s' );
-fclose( infile );
-CellTrophicDatumNames = CellTrophicDatumNames{ : };
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaVectorDatumNames' optionFileExtension ], 'r' );
-CellVectorDatumNames = textscan( infile, '%s' );
-fclose( infile );
-CellVectorDatumNames = CellVectorDatumNames{ : };
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaMatrixDatumNames' optionFileExtension ], 'r' );
-CellMatrixDatumNames = textscan( infile, '%s' );
-fclose( infile );
-CellMatrixDatumNames = CellMatrixDatumNames{ : };
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaMatrixEnumIndicies' optionFileExtension ], 'r' );
-CellMatrixEnumIndicies = textscan( infile, '%d' );
-fclose( infile );
-CellMatrixEnumIndicies = CellMatrixEnumIndicies{ : };
-
-infile = fopen( [ optionOutputDirectory optionCurrentDataSet 'MetaVectorEnumIndicies' optionFileExtension ], 'r' );
-CellVectorEnumIndicies = textscan( infile, '%d' );
-fclose( infile );
-CellVectorEnumIndicies = CellVectorEnumIndicies{ : };
+OutputParameters = readtable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ] );
 
 %% Load Data
-for axisVectorIndex = 1:length( CellAxisVectorNames )
-    load( strcat( [ optionOutputDirectory optionCurrentDataSet ], CellAxisVectorNames{ axisVectorIndex }, optionFileExtension ) ); % Abstract time
+for datumIndex = 1:length( OutputParameters{ :, 1 } )
+     load( [ optionOutputDirectory optionCurrentDataSet OutputParameters{ datumIndex, 1 }{ : } optionFileExtension ] );
 end
 
-vectorVectorSizeAxis = eval( CellAxisVectorNames{ 2 } );
-vectorMatrixSizeAxis = eval( CellAxisVectorNames{ 3 } );
+vectorVectorSizeAxis = OutputParameters{ 2, 1 }{ : };
+vectorMatrixSizeAxis = OutputParameters{ 3, 1 }{ : };
 
 numberOfPopulations = length( vectorVectorSizeAxis );
 
 % Create an extended abstract time vector for matrix plots.
-axisAbstractTime = eval( CellAxisVectorNames{ 1 } );
+axisAbstractTime = OutputParameters{ 1, 1 }{ : };
 axisAbstractTimeExtended = ExtendVector( axisAbstractTime );
 
 lengthAxisAbstractTime = length( axisAbstractTime );

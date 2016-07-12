@@ -4,7 +4,7 @@ clear
 
 %% User Defined Parameters
 
-optionCurrentDataSet            = '2016-07-11_17-05-33';
+optionCurrentDataSet            = '2016-07-12_16-40-00';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 switchOnlyCountLevels           = 0;
@@ -17,7 +17,8 @@ optionTrophicThreshold          = 0.75;
 optionMinimumHeterotrophVolume  = 10000;
 optionLineWidth                 = 3;
 optionFontSize                  = 10; % 10 = normal, 16 = presentation/publication
-optionFileExtension             = '.dat';
+optionOutputParametersFile      = 'OutputControlParameters';
+optionFileExtension             = '.csv';
 
 optionImageWidth                = 16;
 optionImageHeight               = 12;

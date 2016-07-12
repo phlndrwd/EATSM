@@ -1,12 +1,9 @@
 #include "DataRecorder.h"
-
-#include "IntegerVectorDatum.h"
-#include "IntegerMatrixDatum.h"
-#include "FloatVectorDatum.h"
-#include "FloatMatrixDatum.h"
 #include "Parameters.h"
 #include "Constants.h"
 #include "Convertor.h"
+#include "VectorDatum.h"
+#include "MatrixDatum.h"
 
 Types::DataRecorderPointer DataRecorder::mThis = 0;
 
@@ -23,110 +20,115 @@ DataRecorder::DataRecorder( ) {
 }
 
 DataRecorder::~DataRecorder( ) {
-
-    if( mThis != 0 ) {
-        for( unsigned i = 0; i < mDatums.size( ); ++i ) {
-            delete mDatums[ i ];
-        }
-
-        mDatums.clear( );
-
+    if( mThis != NULL ) {
         delete mThis;
     }
-}
-
-void DataRecorder::AddIntegerVectorData( const unsigned enumIndex, const std::string datumName, const int data ) {
-
-    int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eIntegerVector );
-
-    Types::IntegerVectorDatumPointer vectorDatumPointer = ( Types::IntegerVectorDatumPointer )mDatums[ datumIndex ];
-    vectorDatumPointer->AddData( data );
-}
-
-void DataRecorder::AddFloatVectorData( const unsigned enumIndex, const std::string datumName, const float data ) {
-
-    int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatVector );
-
-    Types::FloatVectorDatumPointer vectorDatumPointer = ( Types::FloatVectorDatumPointer )mDatums[ datumIndex ];
-    vectorDatumPointer->AddData( data );
-}
-
-void DataRecorder::AddFloatVectorData( const unsigned enumIndex, const std::string datumName, const Types::FloatVector data ) {
-
-    int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatVector );
-
-    Types::FloatVectorDatumPointer vectorDatumPointer = ( Types::FloatVectorDatumPointer )mDatums[ datumIndex ];
-
-    for( unsigned vectorIndex = 0; vectorIndex < data.size( ); ++vectorIndex ) {
-        vectorDatumPointer->AddData( data[ vectorIndex ] );
+    for( Types::VectorDatumMap::iterator iter = mVectorDatumMap.begin( ); iter != mVectorDatumMap.end( ); ++iter ) {
+        delete iter->second;
+    }
+    for( Types::MatrixDatumMap::iterator iter = mMatrixDatumMap.begin( ); iter != mMatrixDatumMap.end( ); ++iter ) {
+        delete iter->second;
     }
 }
 
-void DataRecorder::AddFloatMatrixData( const unsigned enumIndex, const std::string datumName, const Types::FloatVector data ) {
+bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData ) {
+    if( rawOutputParameterData.size( ) > 0 ) {
+        for( unsigned rowIndex = 0; rowIndex < rawOutputParameterData.size( ); ++rowIndex ) {
+            std::string name = Convertor::Get( )->RemoveWhiteSpace( rawOutputParameterData[ rowIndex ][ Constants::eDatumName ] );
+            std::string type = Convertor::Get( )->RemoveWhiteSpace( Convertor::Get( )->ToLowercase( rawOutputParameterData[ rowIndex ][ Constants::eDatumType ] ) );
 
-    int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eFloatMatrix );
+            Types::StringVector datumMetadata;
+            datumMetadata.push_back( name );
+            datumMetadata.push_back( type );
 
-    Types::FloatMatrixDatumPointer matrixDatumPointer = ( Types::FloatMatrixDatumPointer )mDatums[ datumIndex ];
-    matrixDatumPointer->AddData( data );
-}
-
-void DataRecorder::AddIntegerMatrixData( const unsigned enumIndex, const std::string datumName, const Types::IntegerVector data ) {
-
-    int datumIndex = GetDatumIndexFromName( enumIndex, datumName, Constants::eIntegerMatrix );
-
-    Types::IntegerMatrixDatumPointer matrixDatumPointer = ( Types::IntegerMatrixDatumPointer )mDatums[ datumIndex ];
-    matrixDatumPointer->AddData( data );
-}
-
-unsigned DataRecorder::GetNumberOfDatums( ) const {
-    return mDatums.size( );
-}
-
-Types::DatumPointer DataRecorder::GetDatumPointerFromIndex( const unsigned index ) const {
-    return mDatums[ index ];
-}
-
-int DataRecorder::GetDatumIndexFromName( const unsigned enumIndex, const std::string name, const Constants::eDatumTypes type ) {
-
-    int index = -1;
-
-    for( unsigned i = 0; i < mDatums.size( ); ++i ) {
-        if( name == mDatums[ i ]->GetName( ) ) {
-            index = i;
-            break;
+            if( type == Constants::cVectorDatumTypeName ) {
+                mVectorDatumMetadata.push_back( datumMetadata );
+            } else if( type == Constants::cMatrixDatumTypeName ) {
+                mMatrixDatumMetadata.push_back( datumMetadata );
+            }
         }
+        return true;
+    } else {
+        return false;
     }
+}
 
-    if( index == -1 ) {
+void DataRecorder::AddDataTo( const std::string& name, const float& data ) {
+    Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
 
-        index = mDatums.size( );
-
-        switch( type ) {
-            case Constants::eIntegerVector:
-                mDatums.push_back( new IntegerVectorDatum( enumIndex, name ) );
-                break;
-
-            case Constants::eIntegerMatrix:
-                mDatums.push_back( new IntegerMatrixDatum( enumIndex, name ) );
-                break;
-
-            case Constants::eFloatVector:
-                mDatums.push_back( new FloatVectorDatum( enumIndex, name ) );
-                break;
-
-            case Constants::eFloatMatrix:
-                mDatums.push_back( new FloatMatrixDatum( enumIndex, name ) );
-                break;
-        }
+    if( vectorDatum != NULL ) {
+        vectorDatum->AddData( data );
     }
+}
 
-    return index;
+void DataRecorder::SetVectorDataOn( const std::string& name, const Types::FloatVector data ) {
+    Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
+
+    if( vectorDatum != NULL ) {
+        vectorDatum->SetData( data );
+    }
+}
+
+void DataRecorder::AddDataTo( const std::string& name, const Types::FloatVector data ) {
+    Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
+
+    if( matrixDatum != NULL ) {
+        matrixDatum->AddData( data );
+    }
 }
 
 void DataRecorder::AddInputFilePath( const std::string& inputFilePath ) {
     mInputFilePaths.push_back( inputFilePath );
 }
 
+Types::VectorDatumMap DataRecorder::GetVectorDatumMap( ) const {
+    return mVectorDatumMap;
+}
+
+Types::MatrixDatumMap DataRecorder::GetMatrixDatumMap( ) const {
+    return mMatrixDatumMap;
+}
+
 Types::StringVector DataRecorder::GetInputFilePaths( ) const {
     return mInputFilePaths;
+}
+
+Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::string& name ) {
+    Types::VectorDatumPointer vectorDatum = NULL;
+    Types::VectorDatumMap::iterator iter = mVectorDatumMap.find( name );
+
+    if( iter != mVectorDatumMap.end( ) ) {
+        vectorDatum = iter->second;
+    } else {
+        for( unsigned datumIndex = 0; datumIndex < mVectorDatumMetadata.size( ); ++datumIndex ) {
+            std::string datumName = mVectorDatumMetadata[ datumIndex ][ Constants::eDatumName ];
+
+            if( Convertor::Get( )->ToLowercase( datumName ) == Convertor::Get( )->ToLowercase( name ) ) {
+                vectorDatum = new VectorDatum( datumName );
+                mVectorDatumMap.insert( std::pair< std::string, Types::VectorDatumPointer >( datumName, vectorDatum ) );
+                break;
+            }
+        }
+    }
+    return vectorDatum;
+}
+
+Types::MatrixDatumPointer DataRecorder::GetMatrixDatumFromName( const std::string& name ) {
+    Types::MatrixDatumPointer matrixDatum = NULL;
+    Types::MatrixDatumMap::iterator iter = mMatrixDatumMap.find( name );
+
+    if( iter != mMatrixDatumMap.end( ) ) {
+        matrixDatum = iter->second;
+    } else {
+        for( unsigned datumIndex = 0; datumIndex < mMatrixDatumMetadata.size( ); ++datumIndex ) {
+            std::string datumName = mMatrixDatumMetadata[ datumIndex ][ Constants::eDatumName ];
+
+            if( Convertor::Get( )->ToLowercase( datumName ) == Convertor::Get( )->ToLowercase( name ) ) {
+                matrixDatum = new MatrixDatum( datumName );
+                mMatrixDatumMap.insert( std::pair< std::string, Types::MatrixDatumPointer >( datumName, matrixDatum ) );
+                break;
+            }
+        }
+    }
+    return matrixDatum;
 }

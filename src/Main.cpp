@@ -14,7 +14,7 @@ int main( ) {
     Logger::Get( )->LogMessage( "" );
 
     FileReader mFileReader;
-    mFileReader.ReadParametersFile( );
+    mFileReader.ReadInputFiles( );
 
     Types::EnvironmentPointer environment = new Environment( );
 
@@ -25,25 +25,7 @@ int main( ) {
     unsigned percentCount = 0;
     unsigned timeStep = 0;
     bool isAlive = true;
-
-//    HeterotrophProcessor hetProc;
-//    unsigned correct = 0;
-//    unsigned wrong = 0;
-//    for( unsigned int size = Parameters::Get( )->GetSmallestIndividualVolume( ); size < Parameters::Get( )->GetLargestIndividualVolume( ); ++size ) {
-//
-//        unsigned foundInd = hetProc.FindSizeClassIndexFromVolume( size );
-//        unsigned calcInd = hetProc.CalculateSizeClassIndexFromVolume( size );
-//
-//        if( foundInd != calcInd ) {
-//            //Logger::Get( )->LogMessage( "foundInd> " + Convertor::Get( )->ToString( foundInd ) + ", calcInd> " + Convertor::Get( )->ToString( calcInd ) );
-//            ++wrong;
-//        } else {
-//            ++correct;
-//        }
-//    }
-//    Logger::Get( )->LogMessage( "wrong> " + Convertor::Get( )->ToString( wrong ) + ", correct> " + Convertor::Get( )->ToString( correct ) );
-
-
+    
     Logger::Get( )->LogMessage( "" );
     Logger::Get( )->LogMessage( "Starting main time loop..." );
     timer.Start( );
@@ -62,7 +44,7 @@ int main( ) {
 
         // Data collection
         if( timeStep % Parameters::Get( )->GetSamplingRate( ) == 0 ) {
-            DataRecorder::Get( )->AddIntegerVectorData( Constants::eAxisAbstractTime, Constants::cAxisVectorNames[ Constants::eAxisAbstractTime ], timeStep );
+            DataRecorder::Get( )->AddDataTo( "AxisAbstractTime", timeStep );
             isAlive = environment->RecordData( );
         }
 

@@ -10,7 +10,7 @@ public:
     FileReader( );
     ~FileReader( );
     
-    bool ReadParametersFile( );
+    bool ReadInputFiles( );
 
 private:
     bool ReadTextFile( const std::string& );

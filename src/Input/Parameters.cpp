@@ -19,7 +19,6 @@ Parameters::~Parameters( ) {
             mInterSizeClassPreferenceMatrix[ sizeClassIndex ].clear( );
             mInterSizeClassVolumeMatrix[ sizeClassIndex ].clear( );
         }
-
         mInterSizeClassPreferenceMatrix.clear( );
         mInterSizeClassVolumeMatrix.clear( );
 
@@ -40,7 +39,6 @@ Types::ParametersPointer Parameters::Get( ) {
 bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) {
     if( rawInputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
-
             std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( Convertor::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
 
             if( parameterName == "randomseed" ) SetRandomSeed( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
@@ -67,7 +65,6 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             if( parameterName == "mutationprobability" ) SetMutationProbability( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
             if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
         }
-
         CalculateParameters( );
 
         return true;
@@ -126,11 +123,7 @@ void Parameters::CalculateParameters( ) {
             mInterSizeClassVolumeMatrix[ subjectIndex ].push_back( preferenceForReferenceSizeClass * referenceVolumeMean );
         }
     }
-
     delete temporaryHeterotrophProcessor;
-
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassBoundaryValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassBoundaryValues ], Parameters::Get( )->GetSizeClassBoundaries( ) );
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eAxisSizeClassMidPointValues, Constants::cAxisVectorNames[ Constants::eAxisSizeClassMidPointValues ], Parameters::Get( )->GetSizeClassMidPoints( ) );
 }
 
 unsigned Parameters::GetRunTimeInSeconds( ) const {
@@ -268,8 +261,6 @@ const Types::FloatVector Parameters::GetInterSizeClassPreferenceVector( const un
 const Types::FloatVector Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
     return mInterSizeClassVolumeMatrix[ index ];
 }
-
-// Setters
 
 void Parameters::SetRandomSeed( const unsigned randomNumberSeed ) {
     mRandomSeed = randomNumberSeed;

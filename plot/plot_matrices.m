@@ -43,7 +43,7 @@ if switchOnlyCountLevels ~= 1
     optionMatrixPlotFiles{ 17 } = 'size_class_ages';
     optionMatrixPlotFiles{ 18 } = 'line_size_class_frequency_end';
     
-    numberOfPlots = length( CellMatrixDatumNames );
+    numberOfPl ots = length( CellMatrixDatumNames );
     
     if switchQuickView == 1
         numberOfPlots = 2;

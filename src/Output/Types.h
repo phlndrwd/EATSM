@@ -7,79 +7,65 @@
 #include <sys/stat.h>   // For mkdir
 #include <map>          // For map
 
-class Environment;
-class Nutrient;
 class Autotroph;
-class Heterotrophs;
-class Individual;
+class Convertor;
+class DataRecorder;
+class Environment;
 class Genome;
-
+class Heterotrophs;
 class HeterotrophData;
 class HeterotrophProcessor;
-
+class Individual;
+class Logger;
+class Maths;
+class MatrixDatum;
+class Nutrient;
 class Parameters;
 class RandomDefault;
 class RandomInterface;
-class Logger;
-class Convertor;
-class Maths;
-class FileReader;
-class FileWriter;
-class DataRecorder;
-class Datum;
-class IntegerVectorDatum;
-class FloatVectorDatum;
-class IntegerMatrixDatum;
-class FloatMatrixDatum;
+class VectorDatum;
 
 namespace Types {
-
-    typedef Environment* EnvironmentPointer;
-    typedef Nutrient* NutrientPointer;
+    // Pointers
     typedef Autotroph* AutotrophPointer;
-    typedef Heterotrophs* HeterotrophsPointer;
-    typedef Individual* IndividualPointer;
+    typedef Convertor* ConvertorPointer;
+    typedef DataRecorder* DataRecorderPointer;
+    typedef Environment* EnvironmentPointer;
     typedef Genome* GenomePointer;
-    
-    typedef HeterotrophProcessor* HeterotrophProcessorPointer;
+    typedef Heterotrophs* HeterotrophsPointer;
     typedef HeterotrophData* HeterotrophDataPointer;
-
+    typedef HeterotrophProcessor* HeterotrophProcessorPointer;
+    typedef Individual* IndividualPointer;
+    typedef Logger* LoggerPointer;
+    typedef Maths* MathsPointer;
+    typedef MatrixDatum* MatrixDatumPointer;
+    typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
     typedef RandomDefault* RandomDefaultPointer;
     typedef RandomInterface* RandomInterfacePointer;
+    typedef VectorDatum* VectorDatumPointer;
 
-    typedef Logger* LoggerPointer;
-    typedef Convertor* ConvertorPointer;
-    typedef Maths* MathsPointer;
-
-    typedef DataRecorder* DataRecorderPointer;
-    typedef Datum* DatumPointer;
-
-    typedef IntegerVectorDatum* IntegerVectorDatumPointer;
-    typedef FloatVectorDatum* FloatVectorDatumPointer;
-    typedef IntegerMatrixDatum* IntegerMatrixDatumPointer;
-    typedef FloatMatrixDatum* FloatMatrixDatumPointer;
+    // Containers of pointers
+    typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
+    typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
     typedef std::vector< IndividualPointer > IndividualArray;
+    
+    // Containers of containers of pointers
     typedef std::vector< IndividualArray > IndividualMatrix;
 
-    typedef std::vector< DatumPointer > DatumArray;
-
-    typedef std::vector< bool > BooleanVector;
-    typedef std::vector< int > IntegerVector;
-    typedef std::vector< unsigned > UnsignedIntegerVector;
-    typedef std::vector< float > FloatVector;
+    // Containers of primitives
+    typedef std::vector< bool > BoolVector;
     typedef std::vector< double > DoubleVector;
-
-    typedef std::vector< IntegerVector > IntegerMatrix;
-    typedef std::vector< FloatVector > FloatMatrix;
-    
+    typedef std::vector< float > FloatVector;
+    typedef std::vector< int > IntVector;
     typedef std::vector< std::string > StringVector;
+    typedef std::vector< unsigned > UnsignedVector;
+
+    // Containers of containers of primitives
+    typedef std::vector< FloatVector > FloatMatrix;
+    typedef std::vector< IntVector > IntMatrix;
     typedef std::vector< StringVector > StringMatrix;
-
-
-    typedef time_t Time;
-    typedef timeval TimeStruct;
 }
 
 #endif

@@ -6,31 +6,35 @@
 
 class DataRecorder {
 public:
+    DataRecorder( );
     ~DataRecorder( );
+    
+    bool Initialise( const Types::StringMatrix& );
 
     static Types::DataRecorderPointer Get( );
 
-    void AddIntegerVectorData( const unsigned, const std::string, const int );
-    void AddIntegerMatrixData( const unsigned, const std::string, const Types::IntegerVector );
-
-    void AddFloatVectorData( const unsigned, const std::string, const float );
-    void AddFloatVectorData( const unsigned, const std::string, const Types::FloatVector );
-    void AddFloatMatrixData( const unsigned, const std::string, const Types::FloatVector );
-
-    unsigned GetNumberOfDatums( ) const;
-    Types::DatumPointer GetDatumPointerFromIndex( const unsigned ) const;
+    void AddDataTo( const std::string&, const float& );
+    void SetVectorDataOn( const std::string&, const Types::FloatVector );
+    void AddDataTo( const std::string&, const Types::FloatVector );
     
     void AddInputFilePath( const std::string& );
+    
+    Types::VectorDatumMap GetVectorDatumMap( ) const;
+    Types::MatrixDatumMap GetMatrixDatumMap( ) const;
+    
     Types::StringVector GetInputFilePaths( ) const;
 
 private:
-    DataRecorder( );
-
-    int GetDatumIndexFromName( const unsigned, const std::string, const Constants::eDatumTypes );
+    Types::VectorDatumPointer GetVectorDatumFromName( const std::string& );
+    Types::MatrixDatumPointer GetMatrixDatumFromName( const std::string& );
 
     static Types::DataRecorderPointer mThis;
 
-    Types::DatumArray mDatums;
+    Types::VectorDatumMap mVectorDatumMap;
+    Types::MatrixDatumMap mMatrixDatumMap;
+    
+    Types::StringMatrix mVectorDatumMetadata;
+    Types::StringMatrix mMatrixDatumMetadata;
     
     Types::StringVector mInputFilePaths;
 };

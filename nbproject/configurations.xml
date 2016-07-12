@@ -20,15 +20,12 @@
       </logicalFolder>
       <logicalFolder name="f4" displayName="Output" projectFiles="true">
         <itemPath>src/Output/DataRecorder.h</itemPath>
-        <itemPath>src/Output/Datum.h</itemPath>
         <itemPath>src/Output/FileWriter.h</itemPath>
-        <itemPath>src/Output/FloatMatrixDatum.h</itemPath>
-        <itemPath>src/Output/FloatVectorDatum.h</itemPath>
         <itemPath>src/Output/HeterotrophData.h</itemPath>
-        <itemPath>src/Output/IntegerMatrixDatum.h</itemPath>
-        <itemPath>src/Output/IntegerVectorDatum.h</itemPath>
         <itemPath>src/Output/Logger.h</itemPath>
+        <itemPath>src/Output/MatrixDatum.h</itemPath>
         <itemPath>src/Output/Types.h</itemPath>
+        <itemPath>src/Output/VectorDatum.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Convertor.h</itemPath>
@@ -61,14 +58,11 @@
       </logicalFolder>
       <logicalFolder name="f4" displayName="Output" projectFiles="true">
         <itemPath>src/Output/DataRecorder.cpp</itemPath>
-        <itemPath>src/Output/Datum.cpp</itemPath>
         <itemPath>src/Output/FileWriter.cpp</itemPath>
-        <itemPath>src/Output/FloatMatrixDatum.cpp</itemPath>
-        <itemPath>src/Output/FloatVectorDatum.cpp</itemPath>
         <itemPath>src/Output/HeterotrophData.cpp</itemPath>
-        <itemPath>src/Output/IntegerMatrixDatum.cpp</itemPath>
-        <itemPath>src/Output/IntegerVectorDatum.cpp</itemPath>
         <itemPath>src/Output/Logger.cpp</itemPath>
+        <itemPath>src/Output/MatrixDatum.cpp</itemPath>
+        <itemPath>src/Output/VectorDatum.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Convertor.cpp</itemPath>
@@ -158,39 +152,27 @@
       </item>
       <item path="src/Output/DataRecorder.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Output/Datum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/Datum.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Output/FileWriter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/FloatMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/FloatMatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/FloatVectorDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/FloatVectorDatum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Output/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/HeterotrophData.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Output/IntegerMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerMatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerVectorDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerVectorDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Output/Logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/Logger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Output/MatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/MatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Output/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/VectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/VectorDatum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -281,39 +263,27 @@
       </item>
       <item path="src/Output/DataRecorder.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Output/Datum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/Datum.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Output/FileWriter.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/FloatMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/FloatMatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/FloatVectorDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/FloatVectorDatum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Output/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/HeterotrophData.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Output/IntegerMatrixDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerMatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerVectorDatum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Output/IntegerVectorDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Output/Logger.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Output/Logger.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Output/MatrixDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/MatrixDatum.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Output/Types.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Output/VectorDatum.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Output/VectorDatum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
       </item>

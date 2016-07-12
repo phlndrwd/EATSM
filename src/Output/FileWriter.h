@@ -17,9 +17,6 @@ private:
     void WriteOutputData( );
     void WriteInputFiles( );
 
-    bool IsNameOfVectorDatum( const std::string ) const;
-    bool IsNameOfSizeClassDatum( const std::string ) const;
-
     std::string mOutputPath;
     std::string mDataSetDirectoryName;
 };

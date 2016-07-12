@@ -16,9 +16,8 @@ Autotroph::~Autotroph( ) {
 }
 
 void Autotroph::RecordData( ) {
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eAutotrophVolume, Constants::cVectorDatumNames[ Constants::eAutotrophVolume ], mVolume );
-    DataRecorder::Get( )->AddFloatVectorData( Constants::eToPhytoplanktonFlux, Constants::cVectorDatumNames[ Constants::eToPhytoplanktonFlux ], mToFlux );
-
+    DataRecorder::Get( )->AddDataTo( "AutotrophVolume", mVolume );
+    DataRecorder::Get( )->AddDataTo( "ToAutotrophFlux", mToFlux );
     mToFlux = 0;
 }
 

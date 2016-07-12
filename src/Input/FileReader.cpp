@@ -14,12 +14,18 @@ FileReader::FileReader( ) {
 FileReader::~FileReader( ) {
 }
 
-bool FileReader::ReadParametersFile( ) {
+bool FileReader::ReadInputFiles( ) {
 
-    bool success = false;
+    bool success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName );
 
-    if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName ) == true )
+    if( success == true )
         success = Parameters::Get( )->Initialise( mRawTextData );
+
+    if( success == true )
+        success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName );
+
+    if( success == true )
+        success == DataRecorder::Get( )->Initialise( mRawTextData );
 
     return success;
 }

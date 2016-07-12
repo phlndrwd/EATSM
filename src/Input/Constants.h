@@ -8,127 +8,28 @@
 namespace Constants {
 
     // Input data file enums
-    enum eParametersMetadata {
+    enum eInputParametersMetadata {
         eParameterName,
         eParameterValue
+    };
+    
+    enum eOutputControlParameters {
+        eDatumName,
+        eDatumType
     };
 
     enum eGenomeIndices {
         eVolumeGene
     };
 
-    enum eAxisVectors {
-        eAxisAbstractTime,
-        eAxisSizeClassMidPointValues,
-        eAxisSizeClassBoundaryValues
-    };
-
-    const unsigned cNumberOfAxisVectors = eAxisSizeClassBoundaryValues + 1;
-
-    const std::string cAxisVectorNames[ cNumberOfAxisVectors ] = {
-        "AxisAbstractTime",
-        "AxisSizeClassMidPointValues",
-        "AxisSizeClassBoundaryValues"
-    };
-
-    enum eSizeClassDatums {
-        // Frequency datums
-        eSizeClassSizes,
-        eSizeClassVegetarianFrequencies,
-        eSizeClassCarnivoreFrequencies,
-        eSizeClassPreyFrequencies,
-        eSizeClassStarvedFrequencies,
-        eSizeClassParentFrequencies,
-        eSizeClassChildFrequencies,
-        eSizeClassVolumeMutantFrequencies,
-        // Volume datums
-        eSizeClassVolumes,
-        eSizeClassApproximateVolumes,
-        eSizeClassEffectivePreyVolumes,
-        // Other
-        eSizeClassGrowthRatios,
-        eSizeClassCouplings,
-        eSizeClassPreyVolumeRatios,
-        eSizeClassFeedingProbabilities,
-        eSizeClassTrophicClassifications,
-        eSizeClassAges
-    };
-
-    const unsigned cNumberOfSizeClassDatums = eSizeClassAges + 1;
-
-    const std::string cSizeClassDatumNames[ cNumberOfSizeClassDatums ] = {
-        "SizeClassSizes",
-        "SizeClassVegetarianFrequencies",
-        "SizeClassCarnivoreFrequencies",
-        "SizeClassPreyFrequencies",
-        "SizeClassStarvedFrequencies",
-        "SizeClassParentFrequencies",
-        "SizeClassChildFrequencies",
-        "SizeClassVolumeMutantFrequencies",
-
-        "SizeClassVolumes",
-        "SizeClassApproximateVolumes",
-        "SizeClassEffectivePreyVolumes",
-
-        "SizeClassGrowthRatios",
-        "SizeClassCouplings",
-        "SizeClassPreyVolumeRatios",
-        "SizeClassFeedingProbabilities",
-        "SizeClassTrophicClassifications",
-        "SizeClassAges"
-    };
-
-    enum eTrophicDatums {
-        eTrophicFrequencies,
-        eTrophicVolumes,
-        eTrophicAges
-    };
-
-    const unsigned cNumberOfTrophicDatums = eTrophicAges + 1;
-
-    const std::string cTrophicDatumNames[ cNumberOfTrophicDatums ] = {
-        "TrophicFrequencies",
-        "TrophicVolumes",
-        "TrophicAges"
-    };
-
-    enum eVectorDatums {
-        eHeterotrophFrequency,
-        eHeterotrophVolume,
-        eHeterotrophApproximateVolume,
-        eToHeterotrophFlux,
-        eInHeterotrophFlux,
-        eAutotrophVolume,
-        eToPhytoplanktonFlux,
-        eNutrientVolume,
-        eToNutrientFlux
-    };
-
-    const unsigned cNumberOfVectorDatums = eToNutrientFlux + 1;
-
-    const std::string cVectorDatumNames[ cNumberOfVectorDatums ] = {
-        "HeterotrophFrequency",
-        "HeterotrophVolume",
-        "HeterotrophApproximateVolume",
-        "ToHeterotrophFlux",
-        "InHeterotrophFlux",
-        "AutotrophVolume",
-        "ToPhytoplanktonFlux",
-        "NutrientVolume",
-        "ToNutrientFlux"
-    };
-
-    enum eDatumTypes {
-        eIntegerVector,
-        eIntegerMatrix,
-        eFloatVector,
-        eFloatMatrix
-    };
-    
     
     const std::string cConfigurationDirectory = "./input/";
     const std::string cInputParametersFileName = "Parameters.csv";
-
+    const std::string cOutputParametersFileName = "OutputControlParameters.csv";
+    
+    const std::string cVectorDatumTypeName = "vector";
+    const std::string cMatrixDatumTypeName = "matrix";
+    
     const unsigned cMaximumNumberOfTrophicLevels = 11; // 0 = unclassified, 1 = primary, etc.
     const int cMissingValue = -9999;
 
@@ -144,7 +45,7 @@ namespace Constants {
     const std::string cCompleteDateFormat = "%c";
     const std::string cDataSetNameFormat = "%Y-%m-%d_%H-%M-%S";
     const std::string cOutputDirectoryName = "output";
-    const std::string cOutputFileExtension = ".dat";
+    const std::string cOutputFileExtension = ".csv";
     const std::string cTextFileExtension = ".txt";
 
     const std::string cParameterNameValueDelimiter = " = ";
