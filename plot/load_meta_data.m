@@ -7,8 +7,13 @@ labelTimeAxis = 'Time Steps';
 OutputParameters = readtable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ] );
 
 %% Load Data
+numberOfPlots = zeros( 1, length( OutputParameters{ :, 1 } ) );
 for datumIndex = 1:length( OutputParameters{ :, 1 } )
-     load( [ optionOutputDirectory optionCurrentDataSet OutputParameters{ datumIndex, 1 }{ : } optionFileExtension ] );
+    dataInputFile = [ optionOutputDirectory optionCurrentDataSet OutputParameters{ datumIndex, 1 }{ : } optionFileExtension ];
+    if exist( dataInputFile, 'file' ) == 2
+        load( dataInputFile );
+        numberOfPlots( datumIndex ) = 1;
+    end
 end
 
 vectorVectorSizeAxis = OutputParameters{ 2, 1 }{ : };

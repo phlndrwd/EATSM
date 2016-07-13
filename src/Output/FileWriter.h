@@ -10,12 +10,10 @@ public:
     
     void WriteFiles( );
 
-    const std::string GetOutputPath( );
-
 private:
     void InitialiseOutputDirectory( );
-    void WriteOutputData( );
     void WriteInputFiles( );
+    void WriteOutputData( );
 
     std::string mOutputPath;
     std::string mDataSetDirectoryName;

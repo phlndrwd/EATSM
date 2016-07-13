@@ -11,7 +11,6 @@ Types::DataRecorderPointer DataRecorder::Get( ) {
     if( mThis == 0 ) {
         mThis = new DataRecorder( );
     }
-
     return mThis;
 }
 
@@ -102,7 +101,7 @@ Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::strin
     } else {
         for( unsigned datumIndex = 0; datumIndex < mVectorDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mVectorDatumMetadata[ datumIndex ][ Constants::eDatumName ];
-
+            
             if( Convertor::Get( )->ToLowercase( datumName ) == Convertor::Get( )->ToLowercase( name ) ) {
                 vectorDatum = new VectorDatum( datumName );
                 mVectorDatumMap.insert( std::pair< std::string, Types::VectorDatumPointer >( datumName, vectorDatum ) );
