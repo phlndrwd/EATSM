@@ -67,20 +67,20 @@ void HeterotrophData::InitialiseDataStructures( ) {
     mSizeClassTrophicClassifications.clear( );
     mSizeClassAges.clear( );
 
-    mSizeClassPopulation.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-    mSizeClassVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-    mSizeClassApproxVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
+    mSizeClassPopulation.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
+    mSizeClassVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
+    mSizeClassApproxVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
     mSizeClassGrowthRatios.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassTrophicClassifications.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-    mSizeClassAges.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-
+    mSizeClassAges.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
+    
     mTrophicFrequencies.clear( );
     mTrophicVolumes.clear( );
     mTrophicAges.clear( );
 
-    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, 0 ); // 0 = unclassified, 1 = phytoplankton, 2 = secondary producer
-    mTrophicVolumes.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
-    mTrophicAges.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
+    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue ); // 0 = unclassified, 1 = phytoplankton, 2 = secondary producer
+    mTrophicVolumes.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue );
+    mTrophicAges.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue );
 
     mVolume = 0;
     mApproxVolume = 0;
@@ -89,15 +89,12 @@ void HeterotrophData::InitialiseDataStructures( ) {
 }
 
 void HeterotrophData::RecordOutputData( ) {
-
-    // Vector datums
     DataRecorder::Get( )->AddDataTo( "HeterotrophFrequency", mFrequency );
     DataRecorder::Get( )->AddDataTo( "HeterotrophVolume", mVolume );
     DataRecorder::Get( )->AddDataTo( "HeterotrophApproxVolume", mApproxVolume );
     DataRecorder::Get( )->AddDataTo( "ToHeterotrophFlux", mToFlux );
     DataRecorder::Get( )->AddDataTo( "InHeterotrophFlux", mInFlux );
 
-    // Matrix datums
     DataRecorder::Get( )->AddDataTo( "SizeClassPopulation", mSizeClassPopulation );
     DataRecorder::Get( )->AddDataTo( "SizeClassVegetarianFrequencies", mSizeClassVegetarianFrequencies );
     DataRecorder::Get( )->AddDataTo( "SizeClassCarnivoreFrequencies", mSizeClassCarnivoreFrequencies );
@@ -116,33 +113,10 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "SizeClassTrophicClassifications", mSizeClassTrophicClassifications );
     DataRecorder::Get( )->AddDataTo( "SizeClassAges", mSizeClassAges );
     
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassSizes, Constants::cSizeClassDatumNames[ Constants::eSizeClassSizes ], mSizeClassSizes );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassVegetarianFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassVegetarianFrequencies ], mSizeClassVegetarianFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassCarnivoreFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassCarnivoreFrequencies ], mSizeClassCarnivoreFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassPreyFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassPreyFrequencies ], mSizeClassPreyFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassStarvedFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassStarvedFrequencies ], mSizeClassStarvedFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassParentFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassParentFrequencies ], mSizeClassParentFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassChildFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassChildFrequencies ], mSizeClassChildFrequencies );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassVolumeMutantFrequencies, Constants::cSizeClassDatumNames[ Constants::eSizeClassVolumeMutantFrequencies ], mSizeClassVolumeMutantFrequencies );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassVolumes, Constants::cSizeClassDatumNames[ Constants::eSizeClassVolumes ], mSizeClassVolumes );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassApproximateVolumes, Constants::cSizeClassDatumNames[ Constants::eSizeClassApproximateVolumes ], mSizeClassApproximateVolumes );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassEffectivePreyVolumes, Constants::cSizeClassDatumNames[ Constants::eSizeClassEffectivePreyVolumes ], mSizeClassEffectivePreyVolumes );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassGrowthRatios, Constants::cSizeClassDatumNames[ Constants::eSizeClassGrowthRatios ], mSizeClassGrowthRatios );
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eSizeClassCouplings, Constants::cSizeClassDatumNames[ Constants::eSizeClassCouplings ], mSizeClassCouplings );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassPreyVolumeRatios, Constants::cSizeClassDatumNames[ Constants::eSizeClassPreyVolumeRatios ], mSizeClassPreyVolumeRatios );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassFeedingProbabilities, Constants::cSizeClassDatumNames[ Constants::eSizeClassFeedingProbabilities ], mSizeClassFeedingProbabilities );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassTrophicClassifications, Constants::cSizeClassDatumNames[ Constants::eSizeClassTrophicClassifications ], mSizeClassTrophicClassifications );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eSizeClassAges, Constants::cSizeClassDatumNames[ Constants::eSizeClassAges ], mSizeClassAges );
-    //
-    
     DataRecorder::Get( )->AddDataTo( "TrophicFrequencies", mTrophicFrequencies );
     DataRecorder::Get( )->AddDataTo( "TrophicVolumes", mTrophicVolumes );
     DataRecorder::Get( )->AddDataTo( "TrophicAges", mTrophicAges );
     
-    //    DataRecorder::Get( )->AddIntegerMatrixData( Constants::eTrophicFrequencies, Constants::cTrophicDatumNames[ Constants::eTrophicFrequencies ], mTrophicFrequencies );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eTrophicVolumes, Constants::cTrophicDatumNames[ Constants::eTrophicVolumes ], mTrophicVolumes );
-    //    DataRecorder::Get( )->AddFloatMatrixData( Constants::eTrophicAges, Constants::cTrophicDatumNames[ Constants::eTrophicAges ], mTrophicAges );
-
     ResetDataStructures( );
 }
 

@@ -5,14 +5,26 @@
 % model code.
 
 if switchOnlyCountLevels ~= 1
+
+    
+        
+        if optionResampleTimeTo > 0
+            if plotIndex == 1 || plotIndex > 9
+                matrix = ResampleMatrix( matrix, optionResampleTimeTo );
+            else
+                matrix = ResampleCumulativeMatrix( matrix, optionResampleTimeTo );
+            end
+        end
+    
+    
     optionMatrixTitles{ 1 } = [ optionCurrentDataSet( 1:end - 1 ) ' Size class sizes over time' ];
-    optionMatrixTitles{ 2 } = [ optionCurrentDataSet( 1:end - 1 )  ' Frequencies of vegetarians over time' ];
-    optionMatrixTitles{ 3 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of carnivores over time' ];
-    optionMatrixTitles{ 4 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of prey over time' ];
-    optionMatrixTitles{ 5 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of starved individuals over time' ];
-    optionMatrixTitles{ 6 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of parent organisms over time' ];
-    optionMatrixTitles{ 7 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of child organisms over time' ];
-    optionMatrixTitles{ 8 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of volume gene mutants over time' ];
+        optionMatrixTitles{ 2 } = [ optionCurrentDataSet( 1:end - 1 )  ' Frequencies of vegetarians over time' ];
+        optionMatrixTitles{ 3 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of carnivores over time' ];
+        optionMatrixTitles{ 4 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of prey over time' ];
+        optionMatrixTitles{ 5 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of starved individuals over time' ];
+        optionMatrixTitles{ 6 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of parent organisms over time' ];
+        optionMatrixTitles{ 7 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of child organisms over time' ];
+        optionMatrixTitles{ 8 } = [ optionCurrentDataSet( 1:end - 1 ) ' Frequencies of volume gene mutants over time' ];
     optionMatrixTitles{ 9 } = [ optionCurrentDataSet( 1:end - 1 ) ' Size class volumes over time' ];
     optionMatrixTitles{ 10 } = [ optionCurrentDataSet( 1:end - 1 ) ' Approximate size class volumes over time' ];
     optionMatrixTitles{ 11 } = [ optionCurrentDataSet( 1:end - 1 ) ' Size class effective prey volume over time' ];

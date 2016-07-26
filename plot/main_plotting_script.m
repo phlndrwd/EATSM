@@ -4,7 +4,7 @@ clear
 
 %% User Defined Parameters
 
-optionCurrentDataSet            = '2016-07-12_16-40-00';
+optionCurrentDataSet            = '2016-07-26_16-40-30';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 switchOnlyCountLevels           = 0;
@@ -40,11 +40,11 @@ end
 if exist( [ optionOutputDirectory optionCurrentDataSet ], 'dir' ) == 7
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    load_meta_data                   %
+    load_data                       %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    plot_data                       %
+    %plot_data                       %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
