@@ -1,33 +1,33 @@
-DatumName,DatumType
-AxisAbstractTime,vector
-AxisSizeClassMidPointValues,vector
-AxisSizeClassBoundaryValues,vector
-HeterotrophFrequency,vector
-HeterotrophVolume,vector
-HeterotrophApproxVolume,vector
-ToHeterotrophFlux,vector
-InHeterotrophFlux,vector
-AutotrophVolume,vector
-ToAutotrophFlux,vector
-NutrientVolume,vector
-ToNutrientFlux,vector
-SizeClassPopulation,matrix
-SizeClassVegetarianFrequencies,matrix
-SizeClassCarnivoreFrequencies,matrix
-SizeClassPreyFrequencies,matrix
-SizeClassStarvedFrequencies,matrix
-SizeClassParentFrequencies,matrix
-SizeClassChildFrequencies,matrix
-SizeClassVolumeMutantFrequencies,matrix
-SizeClassVolumes,matrix
-SizeClassApproxVolumes,matrix
-SizeClassEffectivePreyVolumes,matrix
-SizeClassGrowthRatios,matrix
-SizeClassCouplings,matrix
-SizeClassPreyVolumeRatios,matrix
-SizeClassFeedingProbabilities,matrix
-SizeClassTrophicClassifications,matrix
-SizeClassAges,matrix
-TrophicFrequencies,matrix
-TrophicVolumes,matrix
-TrophicAges,matrix
+DatumName,DatumType,DataLabel,ResamplingMethod
+AxisSizeClassMidPointValues,vector,Equivalent Spherical Volume,none
+AxisSizeClassBoundaryValues,vector,Equivalent Spherical Volume,none
+AxisTimeSteps,vector,Time Steps,standard
+HeterotrophFrequency,vector,Individual Frequency,standard
+HeterotrophVolume,vector,Volume,standard
+HeterotrophApproxVolume,vector,Volume,standard
+ToHeterotrophFlux,vector,Volume,standard
+InHeterotrophFlux,vector,Volume,standard
+AutotrophVolume,vector,Volume,standard
+ToAutotrophFlux,vector,Volume,standard
+NutrientVolume,vector,Volume,standard
+ToNutrientFlux,vector,Volume,standard
+SizeClassPopulation,matrix,log_{10}( Individual Frequency ),standard
+SizeClassVegetarianFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassCarnivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassPreyFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassStarvedFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassParentFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassChildFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
+SizeClassVolumes,matrix,log_{10}( Volume ),standard
+SizeClassApproxVolumes,matrix,log_{10}( Volume ),standard
+SizeClassEffectivePreyVolumes,matrix,log_{10}( Volume ),standard
+SizeClassPreyVolumeRatios,matrix,log_{10}( Prey Volume Ratio ),standard
+SizeClassVolumeMutantFrequencies,matrix,Individual Frequency,cumulative
+SizeClassGrowthRatios,matrix,Growth Ratio,standard
+SizeClassCouplings,matrix,Coupled Population Index,standard
+SizeClassFeedingProbabilities,matrix,Feeding Probability,standard
+SizeClassTrophicClassifications,matrix,Trophic Classification,standard
+SizeClassAges,matrix,Average Age,standard
+TrophicFrequencies,matrix,log_{10}( Individual Frequency ),standard
+TrophicVolumes,matrix,Volume,standard
+TrophicAges,matrix,Average Age,standard

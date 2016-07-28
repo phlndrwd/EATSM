@@ -44,7 +44,7 @@ int main( ) {
 
         // Data collection
         if( timeStep % Parameters::Get( )->GetSamplingRate( ) == 0 ) {
-            DataRecorder::Get( )->AddDataTo( "AxisAbstractTime", timeStep );
+            DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", timeStep );
             isAlive = environment->RecordData( );
         }
 

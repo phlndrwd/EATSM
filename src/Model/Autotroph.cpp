@@ -8,7 +8,7 @@
 Autotroph::Autotroph( Types::NutrientPointer nutrient ) {
     mNutrient = nutrient;
     mVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
-    Logger::Get( )->LogMessage( "Phytoplankton pool created." );
+    Logger::Get( )->LogMessage( "Autotroph pool created." );
 }
 
 Autotroph::~Autotroph( ) {

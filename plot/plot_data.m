@@ -1,89 +1,151 @@
-% Vector plots
-optionPlotTitles{ 1 } = 'Population size over time';
-optionPlotTitles{ 2 } = 'Volume of heterotrophic population over time';
-optionPlotTitles{ 3 } = 'Approximation for volume of heterotrophic population over time';
-optionPlotTitles{ 4 } = 'Flux from autotroph to animal population over time';
-optionPlotTitles{ 5 } = 'Intra-population flux from consumption by carnivores';
-optionPlotTitles{ 6 } = 'Volume of autotroph population over time';
-optionPlotTitles{ 7 } = 'Flux from nutrient to autotroph population over time';
-optionPlotTitles{ 8 } = 'Volume of nutrient pool over time';
-optionPlotTitles{ 9 } = 'Flux from animal to nutrient pool over time';
-optionPlotTitles{ 10 } = 'Matter pool volumes over time';
-% Matrix plots
-optionPlotTitles{ 11 } = 'Size class sizes over time';
-optionPlotTitles{ 12 } = 'Frequencies of vegetarians over time';
-optionPlotTitles{ 13 } = 'Frequencies of carnivores over time';
-optionPlotTitles{ 14 } = 'Frequencies of prey over time';
-optionPlotTitles{ 15 } = 'Frequencies of starved individuals over time';
-optionPlotTitles{ 16 } = 'Frequencies of parent organisms over time';
-optionPlotTitles{ 17 } = 'Frequencies of child organisms over time';
-optionPlotTitles{ 18 } = 'Frequencies of volume gene mutants over time';
-optionPlotTitles{ 19 } = 'Size class volumes over time';
-optionPlotTitles{ 20 } = 'Approximate size class volumes over time';
-optionPlotTitles{ 21 } = 'Size class effective prey volume over time';
-optionPlotTitles{ 22 } = 'Size class growth ratio over time';
-optionPlotTitles{ 23 } = 'Size class coupling over time';
-optionPlotTitles{ 24 } = 'Actual prey volume ratio over time';
-optionPlotTitles{ 25 } = 'Feeding probabilities over time';
-optionPlotTitles{ 26 } = 'Mean trophic classification over time';
-optionPlotTitles{ 27 } = 'Mean age of size class over time';
-optionPlotTitles{ 28 } = 'Frequencies of organisms'' ESV at end of model run';
-% Trophic plots
-optionPlotTitles{ 29 } = 'Frequencies of trophic levels over time';
-optionPlotTitles{ 30 } = 'Volumes of trophic levels over time';
-optionPlotTitles{ 31 } = 'Average age of trophic levels over time';
-% Size-spectra plots
-optionPlotTitles{ 32 } = 'Platt and Denman (1977) Size Spectra';
-optionPlotTitles{ 33 } = 'Jennings and Blanchard (2004) Size Spectra';
-optionPlotTitles{ 34 } = 'Rossberg (2012) Size Spectra';
+%% Create Meta Data
+labelVolumeAxis = 'Equivalent Spherical Volume';
+labelTimeAxis = 'Time Steps';
 
+%% Reserved Variable Names
+searchTermApproxVolume = 'approxvolume';
+searchTermCouplings = 'couplings';
+searchTermMidPoint = 'midpoint';
+searchTermPopulation = 'population';
+searchTermTimeAxis = 'time';
+searchTermTrophic = 'trophic';
+searchTermValues = 'values';
+searchTermVolume = 'volume';
 
-optionFileNames{ 1 } = 'line_population_size';
-optionFileNames{ 2 } = 'line_volume_population';
-optionFileNames{ 3 } = 'line_volume_population_approximation';
-optionFileNames{ 4 } = 'line_volume_flux_from_autotroph';
-optionFileNames{ 5 } = 'line_volume_flux_from_carnivores';
-optionFileNames{ 6 } = 'line_volume_autotroph';
-optionFileNames{ 7 } = 'line_volume_flux_from_nutrient';
-optionFileNames{ 8 } = 'line_volume_nutrient';
-optionFileNames{ 9 } = 'line_volume_flux_from_heterotrophs';
-optionFileNames{ 10 } = 'bar_volumes';
+%% Trophic Level Names
+trophicLevelNames{ 1 } = 'Secondary';
+trophicLevelNames{ 2 } = 'Tertiary';
+trophicLevelNames{ 3 } = 'Quaternary';
+trophicLevelNames{ 4 } = 'Quinary';
+trophicLevelNames{ 5 } = 'Senary';
+trophicLevelNames{ 6 } = 'Septenary';
+trophicLevelNames{ 7 } = 'Octonary';
+trophicLevelNames{ 8 } = 'Nonary';
+trophicLevelNames{ 9 } = 'Denary';
 
-optionFileNames{ 11 } = 'size_class_sizes';
-optionFileNames{ 12 } = 'size_class_frequencies_vegetarian';
-optionFileNames{ 13 } = 'size_class_frequencies_carnivore';
-optionFileNames{ 14 } = 'size_class_frequencies_prey';
-optionFileNames{ 15 } = 'size_class_frequencies_starved';
-optionFileNames{ 16 } = 'size_class_frequencies_parent';
-optionFileNames{ 17 } = 'size_class_frequencies_child';
-optionFileNames{ 18 } = 'size_class_frequencies_mutant_volume';
-optionFileNames{ 19 } = 'size_class_volumes';
-optionFileNames{ 20 } = 'size_class_volumes_approximate';
-optionFileNames{ 21 } = 'size_class_volumes_effective_prey';
-optionFileNames{ 22 } = 'size_class_growth_ratios';
-optionFileNames{ 23 } = 'size_class_couplings';
-optionFileNames{ 24 } = 'size_class_prey_volume_ratios';
-optionFileNames{ 25 } = 'size_class_feeding_probabilities';
-optionFileNames{ 26 } = 'size_class_trophic_classifications';
-optionFileNames{ 27 } = 'size_class_ages';
-optionFileNames{ 28 } = 'line_size_class_frequency_end';
+%% Load Meta Data
+OutputParameters = readtable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ] );
 
-optionFileNames{ 29 } = 'line_trophic_frequencies';
-optionFileNames{ 30 } = 'line_trophic_volumes';
-optionFileNames{ 31 } = 'line_trophic_ages';
+%% Load Data
+numberOfDatums = length( OutputParameters{ :, 1 } );
 
-optionFileNames{ 32 } = 'size_spectra_platt_denman';
-optionFileNames{ 33 } = 'size_spectra_jennings_blanchard';
-optionFileNames{ 34 } = 'size_spectra_rossberg';
+volumeMatrixIndex = 3;
 
-for datumIndex = 1:length( optionFileNames )
-    if datumIndex < 11
-        disp( [ 'datumIndex> ' num2str( datumIndex ) ' line plot...' ] );
-    elseif datumIndex < 29
-        disp( [ 'datumIndex> ' num2str( datumIndex ) ' matrix plot...' ] );
-    elseif datumIndex < 32
-        disp( [ 'datumIndex> ' num2str( datumIndex ) ' trophic plot...' ] );
-    elseif datumIndex < 35
-        disp( [ 'datumIndex> ' num2str( datumIndex ) ' spectra plot...' ] );
+for datumIndex = 1:numberOfDatums
+    dataSetName = OutputParameters{ datumIndex, 1 }{ : };
+    dataInputFile = [ optionOutputDirectory optionCurrentDataSet dataSetName optionFileExtension ];
+    
+    if exist( dataInputFile, 'file' ) == 2
+        %% Load data
+        load( dataInputFile, '-ascii' );
+        dataSet = eval( dataSetName );
+        %% Truncation and resampling
+        if isempty( strfind( lower( dataSetName ), searchTermValues ) ) % Data is not size class vectors
+            if optionTruncateTimeAt > 0 && optionTruncateTimeAt < length( dataSet )
+                if prod( size( dataSet ) ) == length( dataSet ) % Data is 1-dimensional
+                    dataSet = dataSet( 1:optionTruncateTimeAt );
+                else                                            % Data is n-dimensional
+                    dataSet = dataSet( :, 1:optionTruncateTimeAt );
+                end
+            end
+            if optionResampleTimeTo > 0
+                resamplingMethod = OutputParameters{ datumIndex, 4 }{ : };
+                if strcmpi( resamplingMethod, 'cumulative' ) == 1
+                    dataSet = ResampleCumulativeMatrix( dataSet, optionResampleTimeTo );
+                elseif strcmpi( resamplingMethod, 'standard' ) == 1
+                    dataSet = ResampleMatrix( dataSet, optionResampleTimeTo );
+                end
+            end
+            if ~isempty( strfind( lower( dataSetName ), searchTermTimeAxis ) ) % Is time axis
+                AxisTimeSteps = dataSet;
+                AxisTimeStepsExtended = ExtendVector( AxisTimeSteps );
+                maximumTime = max( AxisTimeSteps );
+                volumeMatrix = zeros( length( AxisTimeSteps ), volumeMatrixIndex );
+            else                                                               % Is data for plotting
+                %% Plotting
+                plotType = OutputParameters{ datumIndex, 2 }{ : };
+                dataLabel = OutputParameters{ datumIndex, 3 }{ : };
+                
+                handle = figure;
+                
+                if strcmp( plotType, 'vector' ) == 1
+                    %% Line plots
+                    plot( AxisTimeSteps, dataSet );
+                    ylabel( dataLabel );
+                    
+                    if ~isempty( strfind( lower( dataSetName ), searchTermVolume ) ) && isempty( strfind( lower( dataSetName ), searchTermApproxVolume ) )
+                        % Data collection for volume area plot
+                        volumeMatrix( :, volumeMatrixIndex ) = dataSet;
+                        volumeMatrixIndex = volumeMatrixIndex - 1;
+                    end
+                    
+                elseif strcmp( plotType, 'matrix' ) == 1
+                    dataSet( dataSet == optionMissingValue ) = NaN;
+                    
+                    if isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
+                        dataSet( dataSet == 0 ) = NaN;
+                    end
+                    if ~isempty( strfind( lower( dataLabel ), 'log' ) )
+                        dataSet = log10( dataSet );
+                    end
+                    
+                    if strfind( lower( dataSetName ), searchTermTrophic ) == 1
+                        %% Trophic plots
+                        dataSet( all( isnan( dataSet ), 2 ), : ) = []; % Remove rows where all data are missing
+                        sizeDataSet = size( dataSet );
+                        numberOfTrophicLevels = sizeDataSet( 1 ) - 1;
+                        dataSet = dataSet( 2:sizeDataSet( 1 ), : );
+                        plot( AxisTimeSteps, dataSet' ), shading flat;
+                        ylabel( dataLabel );
+                        legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
+                    else
+                        %% Size class plots
+                        dataSet = padarray( dataSet, [ 1, 1 ], NaN, 'post' ); % Extend matrix for pcolor plot
+                        pcolor( AxisTimeStepsExtended, AxisSizeClassBoundaryValues, dataSet ), shading flat;
+                        
+                        set( gca, 'YScale', 'log' );
+                        c = colorbar;
+                        
+                        minVal = min( min( dataSet ) );
+                        maxVal = max( max( dataSet ) );
+                        
+                        if ~isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
+                            caxis( [ 0, traitResolution ] )
+                        elseif minVal < maxVal
+                            caxis( [ minVal, maxVal ] )
+                        end
+                        ylabel( c, dataLabel );
+                        ylabel( labelVolumeAxis );
+                    end
+                end
+                xlim( [ 0 maximumTime ] );
+                title( dataSetName );
+                xlabel( labelTimeAxis );
+                if optionPrintPlotsToFile == 1
+                    printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
+                end
+            end
+            eval( [ dataSetName ' = dataSet;' ] ); % Necessary to overwrite original data.
+        elseif ~isempty( strfind( lower( dataSetName ), searchTermMidPoint ) ) % Data is mid-point values vector
+            traitResolution = length( AxisSizeClassMidPointValues );
+        end
+    end
+end
+
+%% Additional plots
+
+% Stock Volumes
+if volumeMatrixIndex == 0
+    dataSetName = 'StockVolumes';
+    handle = figure;
+    area( AxisTimeSteps, volumeMatrix );
+    legend( 'Nutrient', 'Autotrophs', 'Heterotrophs');
+    xlim( [ 0 maximumTime ] );
+    ylim( [ 0 max( sum( volumeMatrix, 2 ) ) ] );
+    title( dataSetName );
+    xlabel( labelTimeAxis );
+    ylabel( 'Volume' );
+    if optionPrintPlotsToFile == 1
+        printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
     end
 end

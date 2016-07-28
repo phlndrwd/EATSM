@@ -1,70 +1,33 @@
 tic
-
 clear
 
 %% User Defined Parameters
-
-optionCurrentDataSet            = '2016-07-26_16-40-30';
+optionCurrentDataSet            = '2016-07-28_15-07-45/';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
-switchOnlyCountLevels           = 0;
-switchQuickView                 = 1;
-switchUseTitles                 = 1;
-switchReverseColourMap          = 0;
-
-optionMissingValue              = -9999;
-optionTrophicThreshold          = 0.75;
-optionMinimumHeterotrophVolume  = 10000;
-optionLineWidth                 = 3;
-optionFontSize                  = 10; % 10 = normal, 16 = presentation/publication
 optionOutputParametersFile      = 'OutputControlParameters';
 optionFileExtension             = '.csv';
 
-optionImageWidth                = 16;
-optionImageHeight               = 12;
-optionColourMapName             = 'jet'; % 'jet', 'gray', 'bone', ...
+optionPrintPlotsToFile          = 0; % yes = 1, no = anything else
 optionOutputFileFormat          = 'png'; % EPS or PNG
-optionCloseAfterPlotting        = 1; % 1 is 'yes', anything else is 'no'.
+optionPlotImageWidth            = 12; % cm
+optionPlotImageHeight           = 10; % cm
 
+optionMissingValue              = -9999;
 optionTruncateTimeAt            = 0;
-optionResampleTimeTo            = 133;
+optionResampleTimeTo            = 0;
 
 if strcmp( optionOutputDirectory( end ), '/' ) == 0
     optionOutputDirectory = [ optionOutputDirectory '/' ];
 end
 
 if strcmp( optionCurrentDataSet( end ), '/' ) == 0
-   optionCurrentDataSet = [ optionCurrentDataSet '/' ]; 
+    optionCurrentDataSet = [ optionCurrentDataSet '/' ];
 end
 
 if exist( [ optionOutputDirectory optionCurrentDataSet ], 'dir' ) == 7
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    load_data                       %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %plot_data                       %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %plot_matrices                   %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %plot_size_spectra               %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %plot_trophic_data               %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %plot_vectors                    %
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+    plot_data
 else
     disp( 'ERROR> Input directories do not exist.' );
 end
-
 toc

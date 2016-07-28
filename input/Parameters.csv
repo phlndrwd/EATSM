@@ -1,7 +1,7 @@
 Name,Value
 RandomSeed,0
 RunTimeInSeconds,60
-SamplingRate,100
+SamplingRate,500
 NumberOfSizeClasses,100
 InitialisationMethod,0
 InitialNutrientVolume,0

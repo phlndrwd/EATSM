@@ -10,10 +10,9 @@
 #include "RandomInterface.h"
 
 HeterotrophData::HeterotrophData( ) {
-    
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", Parameters::Get( )->GetSizeClassMidPoints( ) );
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassBoundaryValues", Parameters::Get( )->GetSizeClassBoundaries( ) );
-    
+
     mEffectiveSizeClassVolumeMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mSizeClassInteractionProbabilityMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
@@ -21,12 +20,10 @@ HeterotrophData::HeterotrophData( ) {
         mEffectiveSizeClassVolumeMatrix[ sizeClassIndex ].resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
         mSizeClassInteractionProbabilityMatrix[ sizeClassIndex ].resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     }
-
     ResetDataStructures( );
 }
 
 HeterotrophData::~HeterotrophData( ) {
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         mEffectiveSizeClassVolumeMatrix.clear( );
         mSizeClassInteractionProbabilityMatrix[ sizeClassIndex ].clear( );
@@ -59,7 +56,6 @@ HeterotrophData::~HeterotrophData( ) {
 }
 
 void HeterotrophData::InitialiseDataStructures( ) {
-
     mSizeClassPopulation.clear( );
     mSizeClassVolumes.clear( );
     mSizeClassApproxVolumes.clear( );
@@ -68,23 +64,22 @@ void HeterotrophData::InitialiseDataStructures( ) {
     mSizeClassAges.clear( );
 
     mSizeClassPopulation.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
-    mSizeClassVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
+    mSizeClassVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassApproxVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
     mSizeClassGrowthRatios.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassTrophicClassifications.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-    mSizeClassAges.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
-    
+    mSizeClassAges.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
+
     mTrophicFrequencies.clear( );
     mTrophicVolumes.clear( );
     mTrophicAges.clear( );
 
-    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue ); // 0 = unclassified, 1 = phytoplankton, 2 = secondary producer
-    mTrophicVolumes.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue );
-    mTrophicAges.resize( Constants::cMaximumNumberOfTrophicLevels, Constants::cMissingValue );
+    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, 0 ); // 0 = unclassified, 1 = phytoplankton, 2 = secondary producer
+    mTrophicVolumes.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
+    mTrophicAges.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
 
     mVolume = 0;
     mApproxVolume = 0;
-
     mFrequency = 0;
 }
 
@@ -112,42 +107,32 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "SizeClassFeedingProbabilities", mSizeClassFeedingProbabilities );
     DataRecorder::Get( )->AddDataTo( "SizeClassTrophicClassifications", mSizeClassTrophicClassifications );
     DataRecorder::Get( )->AddDataTo( "SizeClassAges", mSizeClassAges );
-    
+
     DataRecorder::Get( )->AddDataTo( "TrophicFrequencies", mTrophicFrequencies );
     DataRecorder::Get( )->AddDataTo( "TrophicVolumes", mTrophicVolumes );
     DataRecorder::Get( )->AddDataTo( "TrophicAges", mTrophicAges );
-    
+
     ResetDataStructures( );
 }
 
 unsigned HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned predatorIndex ) const {
-
     unsigned randomPreySizeClassIndex = 0;
-
     double randomValue = RandomInterface::Get( )->GetUniformDouble( );
-
     double probabilitySum = 0;
-
     for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
-
         probabilitySum += mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ];
-
         if( randomValue <= probabilitySum ) {
             randomPreySizeClassIndex = preyIndex;
             break;
         }
     }
-
     return randomPreySizeClassIndex;
 }
 
 void HeterotrophData::CalculateSizeClassInteractionProbabilities( ) {
-
     for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
         for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
-
             if( mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] != 0 ) {
-
                 mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ] = mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] / mSizeClassEffectivePreyVolumes[ predatorIndex ];
             }
         }
@@ -187,9 +172,7 @@ void HeterotrophData::SetFeedingProbability( const unsigned sizeClassIndex, cons
 }
 
 void HeterotrophData::AddIndividualData( const Types::IndividualPointer individual ) {
-
     AddTrophicLevel( individual->GetTrophicLevel( ), individual->GetVolumeActual( ), individual->GetSizeClassIndex( ), individual->GetAge( ) );
-
     mSizeClassGrowthRatios[ individual->GetSizeClassIndex( ) ] += ( individual->GetVolumeActual( ) / individual->GetVolumeHeritable( ) );
     mSizeClassVolumes[ individual->GetSizeClassIndex( ) ] += individual->GetVolumeActual( );
     mVolume += individual->GetVolumeActual( );
@@ -197,21 +180,18 @@ void HeterotrophData::AddIndividualData( const Types::IndividualPointer individu
 }
 
 void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassSize ) {
-
     mFrequency += sizeClassSize;
-
-    double sizeClassVolumeApproximation = sizeClassSize * Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex );
-
-    mSizeClassApproxVolumes[ sizeClassIndex ] = sizeClassVolumeApproximation;
+    
+    double sizeClassVolumeApproximation = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex ) * sizeClassSize;
     mApproxVolume += sizeClassVolumeApproximation;
-
-    mSizeClassPopulation[ sizeClassIndex ] = sizeClassSize;
-
     if( sizeClassSize > 0 ) {
+        mSizeClassPopulation[ sizeClassIndex ] = sizeClassSize;
+        mSizeClassApproxVolumes[ sizeClassIndex ] = sizeClassVolumeApproximation;
         mSizeClassGrowthRatios[ sizeClassIndex ] = mSizeClassGrowthRatios[ sizeClassIndex ] / ( double )sizeClassSize;
         mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] / ( double )sizeClassSize;
         mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] / ( double )sizeClassSize;
     } else {
+        mSizeClassVolumes[ sizeClassIndex ] = Constants::cMissingValue;
         mSizeClassGrowthRatios[ sizeClassIndex ] = Constants::cMissingValue;
         mSizeClassTrophicClassifications[ sizeClassIndex ] = Constants::cMissingValue;
         mSizeClassAges[ sizeClassIndex ] = Constants::cMissingValue;
@@ -219,25 +199,19 @@ void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const uns
 }
 
 void HeterotrophData::AddTrophicLevel( const double trophicLevel, const double volumeActual, const unsigned sizeClassIndex, const unsigned age ) {
-
     for( unsigned trophicIndex = 0; trophicIndex <= Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
-
         if( trophicLevel < ( trophicIndex + 0.5 ) ) {
-
             unsigned discreteTrophicLevel = trophicIndex;
-
             ++mTrophicFrequencies[ discreteTrophicLevel ];
             mTrophicVolumes[ discreteTrophicLevel ] += volumeActual;
             mTrophicAges[ discreteTrophicLevel ] += age;
             break;
         }
     }
-
     mSizeClassTrophicClassifications[ sizeClassIndex ] += trophicLevel;
 }
 
 void HeterotrophData::NormaliseData( ) {
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         if( mSizeClassPreyVolumeRatios[ sizeClassIndex ] > 0 ) {
             mSizeClassPreyVolumeRatios[ sizeClassIndex ] = mSizeClassPreyVolumeRatios[ sizeClassIndex ] / ( mSizeClassCarnivoreFrequencies[ sizeClassIndex ] + mSizeClassVegetarianFrequencies[ sizeClassIndex ] );
@@ -245,7 +219,6 @@ void HeterotrophData::NormaliseData( ) {
             mSizeClassPreyVolumeRatios[ sizeClassIndex ] = Constants::cMissingValue;
         }
     }
-
     for( unsigned trophicIndex = 0; trophicIndex < Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
         if( mTrophicFrequencies[ trophicIndex ] > 0 ) {
             mTrophicAges[ trophicIndex ] = mTrophicAges[ trophicIndex ] / ( double )mTrophicFrequencies[ trophicIndex ];
@@ -258,7 +231,6 @@ bool HeterotrophData::AreHeterotrophsAlive( ) const {
 }
 
 void HeterotrophData::ResetDataStructures( ) {
-
     mToFlux = 0;
     mInFlux = 0;
 
@@ -286,7 +258,7 @@ void HeterotrophData::ResetDataStructures( ) {
 
     mSizeClassPreyVolumeRatios.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
 
-    mSizeClassEffectivePreyVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
+    mSizeClassEffectivePreyVolumes.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
     mSizeClassFeedingProbabilities.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
     mSizeClassCouplings.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), Constants::cMissingValue );
 
@@ -296,11 +268,9 @@ void HeterotrophData::ResetDataStructures( ) {
 
 void HeterotrophData::IncrementVegetarianFrequencies( const Types::IndividualPointer grazer ) {
     ++mSizeClassVegetarianFrequencies[ grazer->GetSizeClassIndex( ) ];
-
+    
     double preyVolumeRatio = grazer->GetVolumeActual( ) / Parameters::Get( )->GetSmallestIndividualVolume( );
-
     mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] = mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] + preyVolumeRatio;
-
     mToFlux += Parameters::Get( )->GetSmallestIndividualVolume( );
 }
 
@@ -309,9 +279,7 @@ void HeterotrophData::IncrementCarnivoreFrequencies( const Types::IndividualPoin
     ++mSizeClassPreyFrequencies[ prey->GetSizeClassIndex( ) ];
 
     double preyVolumeRatio = predator->GetVolumeActual( ) / prey->GetVolumeActual( );
-
     mSizeClassPreyVolumeRatios[ predator->GetSizeClassIndex( ) ] = mSizeClassPreyVolumeRatios[ predator->GetSizeClassIndex( ) ] + preyVolumeRatio;
-
     mInFlux += prey->GetVolumeActual( );
 }
 

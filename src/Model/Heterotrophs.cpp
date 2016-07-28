@@ -292,7 +292,7 @@ void Heterotrophs::FeedFromPhytoplankton( const Types::IndividualPointer grazer 
 void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator, unsigned coupledIndex ) {
     Types::IndividualPointer prey = GetRandomIndividualFromSizeClass( coupledIndex, predator );
 
-    if( prey != 0 ) {
+    if( prey != NULL ) {
         double preyVolume = prey->GetVolumeActual( );
         mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
 
@@ -383,13 +383,13 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
     unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
     unsigned sizeClassLivingFrequency = sizeClassPopulation - GetSizeClassDeadFrequency( sizeClassIndex );
 
-    if( individual != 0 ) {
+    if( individual != NULL ) {
         if( individual->GetSizeClassIndex( ) == sizeClassIndex ) {
             sizeClassLivingFrequency = sizeClassLivingFrequency - 1;
         }
     }
     
-    Types::IndividualPointer randomIndividual = 0;
+    Types::IndividualPointer randomIndividual = NULL;
 
     if( sizeClassLivingFrequency > 0 ) {
         unsigned randomIndividualIndex = RandomInterface::Get( )->GetUniformInt( 0, sizeClassPopulation - 1 );
