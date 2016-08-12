@@ -74,7 +74,6 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 }
 
 void Parameters::CalculateParameters( ) {
-
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
 
@@ -84,7 +83,6 @@ void Parameters::CalculateParameters( ) {
     double sizeClassExponentIncrement = ( mLargestVolumeExponent - mSmallestVolumeExponent ) / mNumberOfSizeClasses;
 
     for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
-
         double sizeClassMidPointExponent = mSmallestVolumeExponent + ( ( sizeClassIndex + 0.5 ) * sizeClassExponentIncrement );
         double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( sizeClassIndex * sizeClassExponentIncrement );
 
@@ -107,12 +105,10 @@ void Parameters::CalculateParameters( ) {
     mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
 
     for( unsigned subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
-
         double subjectVolumeMean = mSizeClassMidPoints[ subjectIndex ];
         double preferenceSum = 0;
 
         for( unsigned referenceIndex = 0; referenceIndex < mNumberOfSizeClasses; ++referenceIndex ) {
-
             double referenceVolumeMean = mSizeClassMidPoints[ referenceIndex ];
 
             double preferenceForReferenceSizeClass = temporaryHeterotrophProcessor->CalculatePreferenceForPrey( subjectVolumeMean, referenceVolumeMean );

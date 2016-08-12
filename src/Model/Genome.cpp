@@ -21,7 +21,6 @@ Genome::~Genome( ) {
 }
 
 Types::GenomePointer Genome::GetChildGenome( ) {
-
     Types::BoolVector isMutantChildGenome;
 
     unsigned numberOfGenes = mGenomeValues.size( );
@@ -36,7 +35,6 @@ Types::GenomePointer Genome::GetChildGenome( ) {
         for( unsigned geneIndex = 0; geneIndex < numberOfGenes; ++geneIndex ) {
 
             if( RandomInterface::Get( )->GetUniformDouble( ) <= mutationProbability ) {
-
                 isMutantChildGenome[ geneIndex ] = true;
 
                 double mutationValue = RandomInterface::Get( )->GetNormal( 0, Parameters::Get( )->GetMutationStandardDeviation( ) );

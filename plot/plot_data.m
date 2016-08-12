@@ -24,15 +24,16 @@ trophicLevelNames{ 8 } = 'Nonary';
 trophicLevelNames{ 9 } = 'Denary';
 
 %% Load Meta Data
-OutputParameters = readtable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ] );
+OutputParameters = ReadTable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ], ',' );
+
 
 %% Load Data
-numberOfDatums = length( OutputParameters{ :, 1 } );
+numberOfDatums = length( OutputParameters( :, 1 ) );
 
 volumeMatrixIndex = 3;
 
 for datumIndex = 1:numberOfDatums
-    dataSetName = OutputParameters{ datumIndex, 1 }{ : };
+    dataSetName = OutputParameters{ datumIndex, 1 };
     dataInputFile = [ optionOutputDirectory optionCurrentDataSet dataSetName optionFileExtension ];
     
     if exist( dataInputFile, 'file' ) == 2
@@ -49,7 +50,7 @@ for datumIndex = 1:numberOfDatums
                 end
             end
             if optionResampleTimeTo > 0
-                resamplingMethod = OutputParameters{ datumIndex, 4 }{ : };
+                resamplingMethod = OutputParameters{ datumIndex, 4 };
                 if strcmpi( resamplingMethod, 'cumulative' ) == 1
                     dataSet = ResampleCumulativeMatrix( dataSet, optionResampleTimeTo );
                 elseif strcmpi( resamplingMethod, 'standard' ) == 1
@@ -63,8 +64,8 @@ for datumIndex = 1:numberOfDatums
                 volumeMatrix = zeros( length( AxisTimeSteps ), volumeMatrixIndex );
             else                                                               % Is data for plotting
                 %% Plotting
-                plotType = OutputParameters{ datumIndex, 2 }{ : };
-                dataLabel = OutputParameters{ datumIndex, 3 }{ : };
+                plotType = OutputParameters{ datumIndex, 2 };
+                dataLabel = OutputParameters{ datumIndex, 3 };
                 
                 handle = figure;
                 
@@ -100,7 +101,8 @@ for datumIndex = 1:numberOfDatums
                         legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
                     else
                         %% Size class plots
-                        dataSet = padarray( dataSet, [ 1, 1 ], NaN, 'post' ); % Extend matrix for pcolor plot
+                        dataSet = PadMatrix( dataSet ); % Extend matrix for pcolor plot
+
                         pcolor( AxisTimeStepsExtended, AxisSizeClassBoundaryValues, dataSet ), shading flat;
                         
                         set( gca, 'YScale', 'log' );

@@ -2,7 +2,7 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-07-28_15-07-45/';
+optionCurrentDataSet            = '2016-08-02_14-55-33';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputParametersFile      = 'OutputControlParameters';
@@ -17,6 +17,7 @@ optionMissingValue              = -9999;
 optionTruncateTimeAt            = 0;
 optionResampleTimeTo            = 0;
 
+%% Input Formatting
 if strcmp( optionOutputDirectory( end ), '/' ) == 0
     optionOutputDirectory = [ optionOutputDirectory '/' ];
 end
@@ -25,6 +26,7 @@ if strcmp( optionCurrentDataSet( end ), '/' ) == 0
     optionCurrentDataSet = [ optionCurrentDataSet '/' ];
 end
 
+%% Plot Script Execution
 if exist( [ optionOutputDirectory optionCurrentDataSet ], 'dir' ) == 7
     plot_data
 else

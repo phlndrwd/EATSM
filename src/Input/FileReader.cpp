@@ -15,7 +15,6 @@ FileReader::~FileReader( ) {
 }
 
 bool FileReader::ReadInputFiles( ) {
-
     bool success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName );
 
     if( success == true )
@@ -31,7 +30,6 @@ bool FileReader::ReadInputFiles( ) {
 }
 
 bool FileReader::ReadTextFile( const std::string& filePath ) {
-
     Logger::Get( )->LogMessage( "Reading text file \"" + filePath + "\"..." );
 
     ClearRawTextData( );
@@ -44,9 +42,7 @@ bool FileReader::ReadTextFile( const std::string& filePath ) {
         while( std::getline( fileStream, readLine ) ) {
             if( lineCount > 0 && readLine[ 0 ] != Constants::cTextFileCommentCharacter ) {
                 mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
-            } //else if( lineCount == 0 ) {
-            //mMetadataHeadings = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-            //}
+            }
             ++lineCount;
         }
         fileStream.close( );
