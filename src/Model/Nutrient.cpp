@@ -33,9 +33,9 @@ void Nutrient::AddToVolume( const double volume ) {
     mToFlux += volume;
 }
 
-void Nutrient::AddToVolumeNoFlux( const double volume ) {
-    mVolume += volume;
-}
+//void Nutrient::AddToVolumeNoFlux( const double volume ) {
+//    mVolume += volume;
+//}
 
 void Nutrient::SubtractFromVolume( const double volume ) {
     mVolume -= volume;

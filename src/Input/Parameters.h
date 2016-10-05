@@ -32,7 +32,6 @@ public:
 
     unsigned GetPreferredPreyVolumeRatio( ) const;
     double GetPreferenceFunctionWidth( ) const;
-    double GetPreferenceFunctionHeight( ) const;
 
     double GetSizeClassSubsetFraction( ) const;
     double GetHalfSaturationConstantFraction( ) const;
@@ -61,7 +60,6 @@ public:
 
     void SetPreferredPreyVolumeRatio( const unsigned );
     void SetPreferenceFunctionWidth( const double );
-    void SetPreferenceFunctionHeight( const double );
 
     void SetSizeClassSubsetFraction( const double );
     void SetHalfSaturationConstantFraction( const double );
@@ -119,7 +117,6 @@ private:
 
     unsigned mPreferredPreyVolumeRatio;
     double mPreferenceFunctionWidth;
-    double mPreferenceFunctionHeight;
 
     double mAssimilationEfficiency;
     double mFractionalMetabolicExpense;

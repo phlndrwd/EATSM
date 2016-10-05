@@ -5,7 +5,7 @@
 
 class Environment {
 public:
-    Environment( );
+    Environment( Types::StringMatrix& );
     ~Environment( );
 
     void Update( );

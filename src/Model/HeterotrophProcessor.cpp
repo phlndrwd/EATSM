@@ -13,15 +13,7 @@ HeterotrophProcessor::~HeterotrophProcessor( ) {
 }
 
 double HeterotrophProcessor::CalculatePreferenceForPrey( const double grazerVolume, const double preyVolume ) const {
-    return CalculateNormalPreferenceForPrey( grazerVolume, preyVolume );
-}
-
-double HeterotrophProcessor::CalculateNormalPreferenceForPrey( const double grazerVolume, const double preyVolume ) const {
-    return Parameters::Get( )->GetPreferenceFunctionHeight( ) * Maths::Get( )->Exp( -Maths::Get( )->Pow( ( Maths::Get( )->Log( ( Parameters::Get( )->GetPreferredPreyVolumeRatio( ) * preyVolume ) / grazerVolume ) ), 2 ) / ( 2 * Maths::Get( )->Pow( Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) ) );
-}
-
-double HeterotrophProcessor::CalculateParabolicPreferenceForPrey( const double grazerVolume, const double preyVolume ) const {
-    return Maths::Get( )->Max( 0, Parameters::Get( )->GetPreferenceFunctionHeight( ) * 1 - Maths::Get( )->Pow( ( Maths::Get( )->Log10( ( grazerVolume / Parameters::Get( )->GetPreferredPreyVolumeRatio( ) ) / preyVolume ) ) / Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) );
+    return Maths::Get( )->Exp( -Maths::Get( )->Pow( ( Maths::Get( )->Log( ( Parameters::Get( )->GetPreferredPreyVolumeRatio( ) * preyVolume ) / grazerVolume ) ), 2 ) / ( 2 * Maths::Get( )->Pow( Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) ) );
 }
 
 double HeterotrophProcessor::CalculateFeedingProbability( const double effectivePreyVolume ) {
@@ -108,24 +100,9 @@ double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActua
     return starvationProbability;
 }
 
-double HeterotrophProcessor::CalculateBetaSigmoidStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
-
-    double starvationProbability = 1;
-
-    if( volumeActual <= volumeMinimum ) {
-        starvationProbability = 1;
-    } else if( volumeActual >= volumeHeritable ) {
-        starvationProbability = 0;
-    } else {
-        starvationProbability = 1 - ( 1 + ( ( volumeActual - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) / ( ( volumeActual - volumeMinimum ) - ( ( volumeActual - volumeMinimum ) / 2 ) ) ) * Maths::Get( )->Pow( ( ( volumeActual - volumeMinimum ) / ( volumeActual - volumeMinimum ) ), ( ( volumeActual - volumeMinimum ) / ( ( volumeActual - volumeMinimum ) - ( ( volumeActual - volumeMinimum ) / 2 ) ) ) );
-    }
-
-    return starvationProbability;
-}
-
 double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
 
-    double starvationProbability = -1;
+    double starvationProbability = 1;
 
     if( volumeActual <= volumeMinimum ) {
         starvationProbability = 1;

@@ -26,6 +26,7 @@ namespace Constants {
     const std::string cConfigurationDirectory = "./input/";
     const std::string cInputParametersFileName = "Parameters.csv";
     const std::string cOutputParametersFileName = "OutputControlParameters.csv";
+    const std::string cHeterotrophInitialisationFileName = "HeterotrophInitialisation.csv";
     
     const std::string cVectorDatumTypeName = "vector";
     const std::string cMatrixDatumTypeName = "matrix";

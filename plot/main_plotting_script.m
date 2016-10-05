@@ -2,20 +2,20 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-08-02_14-55-33';
+optionCurrentDataSet            = '2016-10-05_17-47-59';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputParametersFile      = 'OutputControlParameters';
 optionFileExtension             = '.csv';
 
-optionPrintPlotsToFile          = 0; % yes = 1, no = anything else
+optionPrintPlotsToFile          = 1; % yes = 1, no = anything else
 optionOutputFileFormat          = 'png'; % EPS or PNG
 optionPlotImageWidth            = 12; % cm
 optionPlotImageHeight           = 10; % cm
 
 optionMissingValue              = -9999;
-optionTruncateTimeAt            = 0;
-optionResampleTimeTo            = 0;
+optionTruncateTimeAt            = 0; % Index, not value
+optionResampleTimeTo            = 0; % Index, not value
 
 %% Input Formatting
 if strcmp( optionOutputDirectory( end ), '/' ) == 0
@@ -30,6 +30,6 @@ end
 if exist( [ optionOutputDirectory optionCurrentDataSet ], 'dir' ) == 7
     plot_data
 else
-    disp( 'ERROR> Input directories do not exist.' );
+    disp( [ 'ERROR> Input directory "' optionOutputDirectory optionCurrentDataSet '" does not exist.' ] );
 end
 toc

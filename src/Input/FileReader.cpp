@@ -26,7 +26,17 @@ bool FileReader::ReadInputFiles( ) {
     if( success == true )
         success == DataRecorder::Get( )->Initialise( mRawTextData );
 
+    // The last file to read is the heterotroph initialisation file. This is
+    // necessary so that the raw data can be retrieved and used for the
+    // initialisation of the Environment/Heterotroph classes.
+    if( success == true )
+        success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cHeterotrophInitialisationFileName );
+
     return success;
+}
+
+Types::StringMatrix& FileReader::GetRawTextData( ) {
+    return mRawTextData;
 }
 
 bool FileReader::ReadTextFile( const std::string& filePath ) {

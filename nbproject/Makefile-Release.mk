@@ -63,8 +63,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=
-CXXFLAGS=
+CCFLAGS=-O2 -std=c++11
+CXXFLAGS=-O2 -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -86,112 +86,112 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm: ${OBJECTFILES}
 ${OBJECTDIR}/src/Input/FileReader.o: src/Input/FileReader.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Input
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/FileReader.o src/Input/FileReader.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/FileReader.o src/Input/FileReader.cpp
 
 ${OBJECTDIR}/src/Input/Parameters.o: src/Input/Parameters.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Input
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/Parameters.o src/Input/Parameters.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/Parameters.o src/Input/Parameters.cpp
 
 ${OBJECTDIR}/src/Main.o: src/Main.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Main.o src/Main.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Main.o src/Main.cpp
 
 ${OBJECTDIR}/src/Model/Autotroph.o: src/Model/Autotroph.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Autotroph.o src/Model/Autotroph.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Autotroph.o src/Model/Autotroph.cpp
 
 ${OBJECTDIR}/src/Model/Environment.o: src/Model/Environment.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Environment.o src/Model/Environment.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Environment.o src/Model/Environment.cpp
 
 ${OBJECTDIR}/src/Model/Genome.o: src/Model/Genome.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Genome.o src/Model/Genome.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Genome.o src/Model/Genome.cpp
 
 ${OBJECTDIR}/src/Model/HeterotrophProcessor.o: src/Model/HeterotrophProcessor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/HeterotrophProcessor.o src/Model/HeterotrophProcessor.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/HeterotrophProcessor.o src/Model/HeterotrophProcessor.cpp
 
 ${OBJECTDIR}/src/Model/Heterotrophs.o: src/Model/Heterotrophs.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Heterotrophs.o src/Model/Heterotrophs.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Heterotrophs.o src/Model/Heterotrophs.cpp
 
 ${OBJECTDIR}/src/Model/Individual.o: src/Model/Individual.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Individual.o src/Model/Individual.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Individual.o src/Model/Individual.cpp
 
 ${OBJECTDIR}/src/Model/Nutrient.o: src/Model/Nutrient.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Nutrient.o src/Model/Nutrient.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Nutrient.o src/Model/Nutrient.cpp
 
 ${OBJECTDIR}/src/Output/DataRecorder.o: src/Output/DataRecorder.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/DataRecorder.o src/Output/DataRecorder.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/DataRecorder.o src/Output/DataRecorder.cpp
 
 ${OBJECTDIR}/src/Output/FileWriter.o: src/Output/FileWriter.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
 
 ${OBJECTDIR}/src/Output/HeterotrophData.o: src/Output/HeterotrophData.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/HeterotrophData.o src/Output/HeterotrophData.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/HeterotrophData.o src/Output/HeterotrophData.cpp
 
 ${OBJECTDIR}/src/Output/Logger.o: src/Output/Logger.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Logger.o src/Output/Logger.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Logger.o src/Output/Logger.cpp
 
 ${OBJECTDIR}/src/Output/MatrixDatum.o: src/Output/MatrixDatum.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/MatrixDatum.o src/Output/MatrixDatum.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/MatrixDatum.o src/Output/MatrixDatum.cpp
 
 ${OBJECTDIR}/src/Output/VectorDatum.o: src/Output/VectorDatum.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/VectorDatum.o src/Output/VectorDatum.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/VectorDatum.o src/Output/VectorDatum.cpp
 
 ${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Convertor.o src/Tools/Convertor.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Convertor.o src/Tools/Convertor.cpp
 
 ${OBJECTDIR}/src/Tools/Date.o: src/Tools/Date.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Date.o src/Tools/Date.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Date.o src/Tools/Date.cpp
 
 ${OBJECTDIR}/src/Tools/Maths.o: src/Tools/Maths.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Maths.o src/Tools/Maths.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Maths.o src/Tools/Maths.cpp
 
 ${OBJECTDIR}/src/Tools/RandomDefault.o: src/Tools/RandomDefault.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomDefault.o src/Tools/RandomDefault.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomDefault.o src/Tools/RandomDefault.cpp
 
 ${OBJECTDIR}/src/Tools/RandomInterface.o: src/Tools/RandomInterface.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomInterface.o src/Tools/RandomInterface.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomInterface.o src/Tools/RandomInterface.cpp
 
 ${OBJECTDIR}/src/Tools/Timer.o: src/Tools/Timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Timer.o src/Tools/Timer.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Timer.o src/Tools/Timer.cpp
 
 # Subprojects
 .build-subprojects:

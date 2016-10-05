@@ -9,8 +9,6 @@ public:
     ~HeterotrophProcessor( );
 
     double CalculatePreferenceForPrey( const double, const double ) const;
-    double CalculateNormalPreferenceForPrey( const double, const double ) const;
-    double CalculateParabolicPreferenceForPrey( const double, const double ) const;
 
     double CalculateFeedingProbability( const double );
 
@@ -27,7 +25,6 @@ private:
     double CalculateFeedingProbabilityType2( const double ) const;
 
     double CalculateLinearStarvation( const double, const double, const double ) const;
-    double CalculateBetaSigmoidStarvation( const double, const double, const double ) const;
     double CalculateBetaExponentialStarvation( const double, const double, const double ) const;
 };
 

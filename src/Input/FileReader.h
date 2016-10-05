@@ -11,6 +11,7 @@ public:
     ~FileReader( );
     
     bool ReadInputFiles( );
+    Types::StringMatrix& GetRawTextData( );
 
 private:
     bool ReadTextFile( const std::string& );

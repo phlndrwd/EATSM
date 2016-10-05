@@ -12,7 +12,6 @@ Autotroph::Autotroph( Types::NutrientPointer nutrient ) {
 }
 
 Autotroph::~Autotroph( ) {
-
 }
 
 void Autotroph::RecordData( ) {

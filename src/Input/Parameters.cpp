@@ -42,28 +42,27 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( Convertor::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
 
             if( parameterName == "randomseed" ) SetRandomSeed( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "samplingrate" ) SetSamplingRate( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "initialisationmethod" ) SetInitialisationMethod( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "samplingrate" ) SetSamplingRate( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialisationmethod" ) SetInitialisationMethod( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
 
-            if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "preferencefunctionheight" ) SetPreferenceFunctionHeight( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
 
-            if( parameterName == "metabolicindex" ) SetMetabolicIndex( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "mutationprobability" ) SetMutationProbability( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "metabolicindex" ) SetMetabolicIndex( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "mutationprobability" ) SetMutationProbability( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
         }
         CalculateParameters( );
 
@@ -172,10 +171,6 @@ unsigned Parameters::GetPreferredPreyVolumeRatio( ) const {
 
 double Parameters::GetPreferenceFunctionWidth( ) const {
     return mPreferenceFunctionWidth;
-}
-
-double Parameters::GetPreferenceFunctionHeight( ) const {
-    return mPreferenceFunctionHeight;
 }
 
 double Parameters::GetSizeClassSubsetFraction( ) const {
@@ -308,10 +303,6 @@ void Parameters::SetPreferredPreyVolumeRatio( const unsigned preferredPreyVolume
 
 void Parameters::SetPreferenceFunctionWidth( const double preferenceFunctionWidth ) {
     mPreferenceFunctionWidth = preferenceFunctionWidth;
-}
-
-void Parameters::SetPreferenceFunctionHeight( const double preferenceFunctionHeight ) {
-    mPreferenceFunctionHeight = preferenceFunctionHeight;
 }
 
 void Parameters::SetSizeClassSubsetFraction( const double sizeClassSubsetFraction ) {

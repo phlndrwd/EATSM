@@ -14,7 +14,7 @@ public:
     void SetVolume( const double );
     
     void AddToVolume( const double );
-    void AddToVolumeNoFlux( const double );
+    //void AddToVolumeNoFlux( const double );
     void SubtractFromVolume( const double );
     
 private:

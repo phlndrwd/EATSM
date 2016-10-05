@@ -13,10 +13,10 @@ int main( ) {
     Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
     Logger::Get( )->LogMessage( "" );
 
-    FileReader mFileReader;
-    mFileReader.ReadInputFiles( );
+    FileReader fileReader;
+    fileReader.ReadInputFiles( );
 
-    Types::EnvironmentPointer environment = new Environment( );
+    Types::EnvironmentPointer environment = new Environment( fileReader.GetRawTextData( ) );
 
     Timer timer;
     double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;

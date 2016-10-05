@@ -7,14 +7,14 @@
 class Heterotrophs {
 public:
 
-    Heterotrophs( Types::NutrientPointer, Types::AutotrophPointer );
+    Heterotrophs( Types::NutrientPointer, Types::AutotrophPointer, Types::StringMatrix& );
     ~Heterotrophs( );
 
     void Update( );
     bool RecordData( );
 
 private:
-    void InitialiseSizeClasses( );
+    void InitialiseSizeClasses( Types::StringMatrix& );
 
     void Feeding( );
     void Metabolisation( );

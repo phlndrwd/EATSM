@@ -211,6 +211,13 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>src/Input/</pElem>
+            <pElem>src/Model/</pElem>
+            <pElem>src/Output/</pElem>
+            <pElem>src/Tools/</pElem>
+          </incDir>
+          <commandLine>-O2 -std=c++11</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

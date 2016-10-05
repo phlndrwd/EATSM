@@ -13,14 +13,14 @@
 #include "RandomInterface.h"
 #include "Genome.h"
 
-Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophPointer phytoplankton ) {
+Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophPointer phytoplankton, Types::StringMatrix& heterotrophInitialisationData ) {
     mNutrient = nutrient;
     mPhytoplankton = phytoplankton;
+    InitialiseSizeClasses( heterotrophInitialisationData );
 
     mHeterotrophProcessor = new HeterotrophProcessor( );
     mHeterotrophData = new HeterotrophData( );
 
-    InitialiseSizeClasses( );
 
     unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
 
@@ -49,10 +49,9 @@ Heterotrophs::~Heterotrophs( ) {
 }
 
 void Heterotrophs::Update( ) {
-
     Feeding( );
     Metabolisation( );
-    Starvation( );
+    //Starvation( );
     Reproduction( );
 }
 
@@ -72,13 +71,27 @@ bool Heterotrophs::RecordData( ) {
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
-void Heterotrophs::InitialiseSizeClasses( ) {
+void Heterotrophs::InitialiseSizeClasses( Types::StringMatrix& heterotrophInitialisationData ) {
 
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
-
-    mSizeClasses.resize( numberOfSizeClasses );
-
+    mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     unsigned initialPopulationSize = 0;
+
+    //    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+    //        if( sizeClassIndex < heterotrophInitialisationData.size( ) ) {
+    //            Logger::Get( )->LogMessage( heterotrophInitialisationData[ sizeClassIndex ][ 0 ] );
+    //
+    //            unsigned sizeClassPopulation = Convertor::Get( )->StringToNumber( heterotrophInitialisationData[ sizeClassIndex ][ 0 ] );
+    //            double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex );
+    //
+    //            for( unsigned individualIndex = 0; individualIndex < sizeClassPopulation; ++individualIndex ) {
+    //                Types::IndividualPointer individual = new Individual( individualVolume, sizeClassIndex );
+    //
+    //                AddToSizeClass( individual, false );
+    //                ++initialPopulationSize;
+    //            }
+    //        }
+    //    }
+    //    Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
 
     double secondaryProducerVolume = Parameters::Get( )->GetSmallestIndividualVolume( ) * Parameters::Get( )->GetPreferredPreyVolumeRatio( );
     unsigned firstPopulatedIndex = mHeterotrophProcessor->FindSizeClassIndexFromVolume( secondaryProducerVolume ) - 1;
@@ -97,32 +110,32 @@ void Heterotrophs::InitialiseSizeClasses( ) {
         }
 
         Logger::Get( )->LogMessage( "A single heterotrophic size class initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
-
-    } else if( Parameters::Get( )->InitialisationMethod( ) == 0 ) {
-
-        double initialSizeClassVolume = initialHeterotrophVolume / ( numberOfSizeClasses - firstPopulatedIndex );
-        double sizeClassVolumeBudget = 0;
-
-        for( unsigned sizeClassIndex = numberOfSizeClasses - 1; sizeClassIndex >= firstPopulatedIndex; --sizeClassIndex ) {
-
-            sizeClassVolumeBudget += initialSizeClassVolume;
-
-            double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex );
-
-            while( individualVolume <= sizeClassVolumeBudget ) {
-                sizeClassVolumeBudget -= individualVolume;
-                initialHeterotrophVolume -= individualVolume;
-
-                Types::IndividualPointer individual = new Individual( individualVolume, sizeClassIndex );
-
-                AddToSizeClass( individual, false );
-                ++initialPopulationSize;
-            }
-        }
-        Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
     }
-    // Add unused heterotrophic volume to nutrient pool.
-    mNutrient->AddToVolumeNoFlux( initialHeterotrophVolume );
+    //    } else if( Parameters::Get( )->InitialisationMethod( ) == 0 ) {
+    //
+    //        double initialSizeClassVolume = initialHeterotrophVolume / ( numberOfSizeClasses - firstPopulatedIndex );
+    //        double sizeClassVolumeBudget = 0;
+    //
+    //        for( unsigned sizeClassIndex = numberOfSizeClasses - 1; sizeClassIndex >= firstPopulatedIndex; --sizeClassIndex ) {
+    //
+    //            sizeClassVolumeBudget += initialSizeClassVolume;
+    //
+    //            double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex );
+    //
+    //            while( individualVolume <= sizeClassVolumeBudget ) {
+    //                sizeClassVolumeBudget -= individualVolume;
+    //                initialHeterotrophVolume -= individualVolume;
+    //
+    //                Types::IndividualPointer individual = new Individual( individualVolume, sizeClassIndex );
+    //
+    //                AddToSizeClass( individual, false );
+    //                ++initialPopulationSize;
+    //            }
+    //        }
+    //        Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
+    //    }
+    //    // Add unused heterotrophic volume to nutrient pool.
+    //    mNutrient->AddToVolumeNoFlux( initialHeterotrophVolume );
 }
 
 void Heterotrophs::Feeding( ) {
@@ -137,10 +150,10 @@ void Heterotrophs::Feeding( ) {
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassSubsetSize; ++potentialEncounterIndex ) {
                 if( RandomInterface::Get( )->GetUniformDouble( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
-                    
+
                     if( individual != 0 ) {
                         unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
-                        
+
                         if( coupledIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) ) {
                             FeedFromPhytoplankton( individual );
                         } else {
@@ -388,7 +401,7 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
             sizeClassLivingFrequency = sizeClassLivingFrequency - 1;
         }
     }
-    
+
     Types::IndividualPointer randomIndividual = NULL;
 
     if( sizeClassLivingFrequency > 0 ) {
