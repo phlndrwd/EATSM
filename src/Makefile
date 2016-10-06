@@ -1,11 +1,11 @@
 # Source directories separated by space
 # Example ./ src1/ src2/
-SRCDIR=./ data/ io/ model/ param/ tools/
+SRCDIR=./ Input/ Model/ Output/ Tools/
 # Directory where object files will be placed
 OBJDIR=../build/
 # Include directories separated by space
 # Example: include1/ include2/
-INCDIR=./ data/ io/ model/ param/ tools/
+INCDIR=./ Input/ Model/ Output/ Tools/
 # Directory where binary file will be placed
 BINDIR=../dist/
 # Name of the result file
@@ -21,7 +21,7 @@ OBJ=$(addprefix $(OBJDIR), $(patsubst %.cpp, %.o, $(notdir $(SRC))))
 VPATH=$(SRCDIR)
 
 # Compilation flags
-CXXFLAGS=-Wall -g
+CXXFLAGS=-O2 -std=c++11
 
 $(TARGET) : $(OBJ)
 	@echo Linking...

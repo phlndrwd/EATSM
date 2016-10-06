@@ -2,7 +2,7 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-10-05_17-47-59';
+optionCurrentDataSet            = '2016-10-06_17-19-34';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputParametersFile      = 'OutputControlParameters';
