@@ -15,9 +15,7 @@ Types::MathsPointer Maths::Get( ) {
 }
 
 Maths::~Maths( ) {
-    if( mThis != NULL ) {
-        delete mThis;
-    }
+    if( mThis != NULL ) delete mThis;
 }
 
 Maths::Maths( ) {

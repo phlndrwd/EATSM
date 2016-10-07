@@ -19,15 +19,13 @@ DataRecorder::DataRecorder( ) {
 }
 
 DataRecorder::~DataRecorder( ) {
-    if( mThis != NULL ) {
-        delete mThis;
-    }
     for( Types::VectorDatumMap::iterator iter = mVectorDatumMap.begin( ); iter != mVectorDatumMap.end( ); ++iter ) {
         delete iter->second;
     }
     for( Types::MatrixDatumMap::iterator iter = mMatrixDatumMap.begin( ); iter != mMatrixDatumMap.end( ); ++iter ) {
         delete iter->second;
     }
+    if( mThis != NULL ) delete mThis;
 }
 
 bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData ) {

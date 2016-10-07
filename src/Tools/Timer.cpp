@@ -1,6 +1,7 @@
 #include "Timer.h"
 
-Timer::Timer( ) {
+Timer::Timer( bool start ) {
+    if( start ) Start( );
 }
 
 Timer::~Timer( ) {

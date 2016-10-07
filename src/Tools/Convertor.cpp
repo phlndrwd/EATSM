@@ -16,9 +16,7 @@ Types::ConvertorPointer Convertor::Get( ) {
 }
 
 Convertor::~Convertor( ) {
-    if( mThis != NULL ) {
-        delete mThis;
-    }
+    if( mThis != NULL ) delete mThis;
 }
 
 Convertor::Convertor( ) {

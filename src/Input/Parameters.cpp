@@ -7,14 +7,14 @@
 #include "Logger.h"
 #include "DataRecorder.h"
 
-Types::ParametersPointer Parameters::mThis = 0;
+Types::ParametersPointer Parameters::mThis = NULL;
 
 Parameters::Parameters( ) {
 
 }
 
 Parameters::~Parameters( ) {
-    if( mThis != 0 ) {
+    if( mThis != NULL ) {
         for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
             mInterSizeClassPreferenceMatrix[ sizeClassIndex ].clear( );
             mInterSizeClassVolumeMatrix[ sizeClassIndex ].clear( );
@@ -30,9 +30,8 @@ Parameters::~Parameters( ) {
 }
 
 Types::ParametersPointer Parameters::Get( ) {
-    if( mThis == 0 ) {
-        mThis = new Parameters;
-    }
+    if( mThis == NULL ) mThis = new Parameters;
+
     return mThis;
 }
 

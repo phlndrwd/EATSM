@@ -6,19 +6,15 @@
 #include "Date.h"
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
+#include <ios>
 
 FileWriter::FileWriter( ) {
+    InitialiseOutputDirectory( );
+    WriteInputFiles( );
 }
 
 FileWriter::~FileWriter( ) {
 
-}
-
-void FileWriter::WriteFiles( ) {
-    InitialiseOutputDirectory( );
-    WriteInputFiles( );
-    WriteOutputData( );
-    Logger::Get( )->LogMessage( "Output data written to \"" + mOutputPath + "\"." );
 }
 
 void FileWriter::InitialiseOutputDirectory( ) {
@@ -102,6 +98,8 @@ void FileWriter::WriteInputFiles( ) {
 }
 
 void FileWriter::WriteOutputData( ) {
+
+    bool success = false;
     Types::VectorDatumMap vectorDatumMap = DataRecorder::Get( )->GetVectorDatumMap( );
     for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
 
@@ -110,27 +108,41 @@ void FileWriter::WriteOutputData( ) {
         fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
         std::ofstream outputFileStream;
         outputFileStream.open( fileName.c_str( ), std::ios::out );
-        for( unsigned dataIndex = 0; dataIndex < vectorDatum->GetSize( ) - 1; ++dataIndex ) {
-            outputFileStream << vectorDatum->GetDataAtIndex( dataIndex ) << Constants::cDataDelimiterValue;
-        }
-        outputFileStream << vectorDatum->GetDataAtIndex( vectorDatum->GetSize( ) - 1 );
-        outputFileStream.close( );
-    }
-
-    Types::MatrixDatumMap matrixDatumMap = DataRecorder::Get( )->GetMatrixDatumMap( );
-    for( Types::MatrixDatumMap::iterator iter = matrixDatumMap.begin( ); iter != matrixDatumMap.end( ); ++iter ) {
-
-        std::string fileName = iter->first;
-        Types::MatrixDatumPointer matrixDatum = iter->second;
-        fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
-        std::ofstream outputFileStream;
-        outputFileStream.open( fileName.c_str( ), std::ios::out );
-        for( unsigned rowIndex = 0; rowIndex < matrixDatum->GetRows( ); ++rowIndex ) {
-            for( unsigned columnIndex = 0; columnIndex < matrixDatum->GetColumns( ) - 1; ++columnIndex ) {
-                outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, columnIndex ) << Constants::cDataDelimiterValue;
+        if( outputFileStream.is_open( ) == true ) {
+            for( unsigned dataIndex = 0; dataIndex < vectorDatum->GetSize( ) - 1; ++dataIndex ) {
+                outputFileStream << vectorDatum->GetDataAtIndex( dataIndex ) << Constants::cDataDelimiterValue;
             }
-            outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, matrixDatum->GetColumns( ) - 1 ) << std::endl;
+            outputFileStream << vectorDatum->GetDataAtIndex( vectorDatum->GetSize( ) - 1 );
+            outputFileStream.close( );
+            success = true;
         }
-        outputFileStream.close( );
     }
+
+    if( success == true ) {
+        Types::MatrixDatumMap matrixDatumMap = DataRecorder::Get( )->GetMatrixDatumMap( );
+        for( Types::MatrixDatumMap::iterator iter = matrixDatumMap.begin( ); iter != matrixDatumMap.end( ); ++iter ) {
+
+            std::string fileName = iter->first;
+            Types::MatrixDatumPointer matrixDatum = iter->second;
+            fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
+            std::ofstream outputFileStream;
+            outputFileStream.open( fileName.c_str( ), std::ios::out );
+            if( outputFileStream.is_open( ) == true ) {
+                for( unsigned rowIndex = 0; rowIndex < matrixDatum->GetRows( ); ++rowIndex ) {
+                    for( unsigned columnIndex = 0; columnIndex < matrixDatum->GetColumns( ) - 1; ++columnIndex ) {
+                        outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, columnIndex ) << Constants::cDataDelimiterValue;
+                    }
+                    outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, matrixDatum->GetColumns( ) - 1 ) << std::endl;
+                }
+                outputFileStream.close( );
+                success = true;
+            } else
+                success = false;
+        }
+    }
+
+    if( success == true )
+        Logger::Get( )->LogMessage( "Output data written to \"" + mOutputPath + "\"." );
+    else
+        Logger::Get( )->LogMessage( "File writing failed. Could not access \"" + mOutputPath + "\"." );
 }

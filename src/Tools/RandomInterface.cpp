@@ -17,7 +17,7 @@ RandomInterface::RandomInterface( unsigned seed ) {
 }
 
 RandomInterface::~RandomInterface( ) {
-    delete mRandomDefault;
+    if( mRandomDefault != NULL ) delete mRandomDefault;
 }
 
 int RandomInterface::GetUniformInt( const float minimum, const float maximum ) {

@@ -10,9 +10,7 @@ Types::LoggerPointer Logger::Get( ) {
 }
 
 Logger::~Logger( ) {
-    if( mThis != NULL ) {
-        delete mThis;
-    }
+    if( mThis != NULL ) delete mThis;
 }
 
 Logger::Logger( ) {

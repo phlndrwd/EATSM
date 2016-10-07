@@ -14,11 +14,12 @@ int main( ) {
     Logger::Get( )->LogMessage( "" );
 
     FileReader fileReader;
-    if( fileReader.ReadInputFiles( ) ) {
-
+    
+    if( fileReader.ReadInputFiles( ) == true ) {
+        Timer timer = Timer( true );
+        FileWriter fileWriter;
         Types::EnvironmentPointer environment = new Environment( fileReader.GetRawTextData( ) );
-
-        Timer timer;
+        
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
         double cumulativeTenthsOfRunTime = 0;
         unsigned cumulativeTimeInSeconds = 0;
@@ -28,7 +29,6 @@ int main( ) {
 
         Logger::Get( )->LogMessage( "" );
         Logger::Get( )->LogMessage( "Starting main time loop..." );
-        timer.Start( );
         do {
             cumulativeTimeInSeconds = timer.Split( );
 
@@ -57,8 +57,7 @@ int main( ) {
             Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );
         }
         Logger::Get( )->LogMessage( "" );
-        FileWriter fileWriter;
-        fileWriter.WriteFiles( );
+        fileWriter.WriteOutputData( );
         Logger::Get( )->LogMessage( "Total run time " + Convertor::Get( )->ToString( timer.Stop( ) ) + "s" );
 
         delete environment;

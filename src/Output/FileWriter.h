@@ -8,12 +8,11 @@ public:
     FileWriter( );
     ~FileWriter( );
     
-    void WriteFiles( );
+    void WriteOutputData( );
 
 private:
     void InitialiseOutputDirectory( );
     void WriteInputFiles( );
-    void WriteOutputData( );
 
     std::string mOutputPath;
     std::string mDataSetDirectoryName;
