@@ -5,12 +5,11 @@
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
 
-Types::DataRecorderPointer DataRecorder::mThis = 0;
+Types::DataRecorderPointer DataRecorder::mThis = NULL;
 
 Types::DataRecorderPointer DataRecorder::Get( ) {
-    if( mThis == 0 ) {
-        mThis = new DataRecorder( );
-    }
+    if( mThis == NULL ) mThis = new DataRecorder( );
+    
     return mThis;
 }
 

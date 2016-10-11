@@ -1,5 +1,4 @@
 #include "Parameters.h"
-
 #include "Constants.h"
 #include "Maths.h"
 #include "Convertor.h"
@@ -38,30 +37,37 @@ Types::ParametersPointer Parameters::Get( ) {
 bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) {
     if( rawInputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
+
             std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( Convertor::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
+            double parameterValue = Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] );
 
-            if( parameterName == "randomseed" ) SetRandomSeed( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "samplingrate" ) SetSamplingRate( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "initialisationmethod" ) SetInitialisationMethod( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            if( parameterName == "randomseed" ) SetRandomSeed( parameterValue );
+            else if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( parameterValue );
+            else if( parameterName == "samplingrate" ) SetSamplingRate( parameterValue );
+            else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( parameterValue );
 
-            else if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialisationmethod" ) SetInitialisationMethod( parameterValue );
+            else if( parameterName == "applystarvationfunction" ) SetApplyStarvationFunction( parameterValue );
+            else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
 
-            else if( parameterName == "metabolicindex" ) SetMetabolicIndex( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "mutationprobability" ) SetMutationProbability( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
-            else if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( Convertor::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] ) );
+            else if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( parameterValue );
+            else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( parameterValue );
+            else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( parameterValue );
+            else if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( parameterValue );
+
+            else if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( parameterValue );
+            else if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( parameterValue );
+            else if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( parameterValue );
+            else if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( parameterValue );
+            else if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( parameterValue );
+            else if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( parameterValue );
+
+            else if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( parameterValue );
+            else if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( parameterValue );
+
+            else if( parameterName == "metabolicindex" ) SetMetabolicIndex( parameterValue );
+            else if( parameterName == "mutationprobability" ) SetMutationProbability( parameterValue );
+            else if( parameterName == "mutationstandarddeviation" ) SetMutationStandardDeviation( parameterValue );
         }
         CalculateParameters( );
 
@@ -136,8 +142,16 @@ unsigned Parameters::GetNumberOfSizeClasses( ) const {
     return mNumberOfSizeClasses;
 }
 
-unsigned Parameters::InitialisationMethod( ) const {
+bool Parameters::GetInitialisationMethod( ) const {
     return mInitialisationMethod;
+}
+
+bool Parameters::GetApplyStarvationFunction( ) const {
+    return mApplyStarvationFunction;
+}
+
+bool Parameters::GetWriteModelState( ) const {
+    return mWriteModelState;
 }
 
 double Parameters::GetInitialNutrientVolume( ) const {
@@ -268,8 +282,16 @@ void Parameters::SetNumberOfSizeClasses( const unsigned numberOfSizeClasses ) {
     mNumberOfSizeClasses = numberOfSizeClasses;
 }
 
-void Parameters::SetInitialisationMethod( const unsigned initialisationMethod ) {
+void Parameters::SetInitialisationMethod( const bool initialisationMethod ) {
     mInitialisationMethod = initialisationMethod;
+}
+
+void Parameters::SetApplyStarvationFunction( const bool applyStarvationFunction ) {
+    mApplyStarvationFunction = applyStarvationFunction;
+}
+
+void Parameters::SetWriteModelState( const bool writeModelState ) {
+    mWriteModelState = writeModelState;
 }
 
 void Parameters::SetInitialNutrientVolume( const double initialNutrientVolume ) {

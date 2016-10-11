@@ -36,9 +36,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/src/Input/FileReader.o \
+	${OBJECTDIR}/src/Input/InitialState.o \
 	${OBJECTDIR}/src/Input/Parameters.o \
 	${OBJECTDIR}/src/Main.o \
-	${OBJECTDIR}/src/Model/Autotroph.o \
+	${OBJECTDIR}/src/Model/Autotrophs.o \
 	${OBJECTDIR}/src/Model/Environment.o \
 	${OBJECTDIR}/src/Model/Genome.o \
 	${OBJECTDIR}/src/Model/HeterotrophProcessor.o \
@@ -88,6 +89,11 @@ ${OBJECTDIR}/src/Input/FileReader.o: src/Input/FileReader.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/FileReader.o src/Input/FileReader.cpp
 
+${OBJECTDIR}/src/Input/InitialState.o: src/Input/InitialState.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Input
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Input/InitialState.o src/Input/InitialState.cpp
+
 ${OBJECTDIR}/src/Input/Parameters.o: src/Input/Parameters.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Input
 	${RM} "$@.d"
@@ -98,10 +104,10 @@ ${OBJECTDIR}/src/Main.o: src/Main.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Main.o src/Main.cpp
 
-${OBJECTDIR}/src/Model/Autotroph.o: src/Model/Autotroph.cpp 
+${OBJECTDIR}/src/Model/Autotrophs.o: src/Model/Autotrophs.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Autotroph.o src/Model/Autotroph.cpp
+	$(COMPILE.cc) -g -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Autotrophs.o src/Model/Autotrophs.cpp
 
 ${OBJECTDIR}/src/Model/Environment.o: src/Model/Environment.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model

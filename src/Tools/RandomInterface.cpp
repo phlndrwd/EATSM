@@ -5,9 +5,8 @@
 Types::RandomInterfacePointer RandomInterface::mThis = NULL;
 
 Types::RandomInterfacePointer RandomInterface::Get( ) {
-    if( mThis == NULL ) {
-        mThis = new RandomInterface( Parameters::Get( )->GetRandomSeed( ) );
-    }
+    if( mThis == NULL ) mThis = new RandomInterface( Parameters::Get( )->GetRandomSeed( ) );
+    
     return mThis;
 }
 

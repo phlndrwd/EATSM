@@ -7,10 +7,11 @@
       <logicalFolder name="f2" displayName="Input" projectFiles="true">
         <itemPath>src/Input/Constants.h</itemPath>
         <itemPath>src/Input/FileReader.h</itemPath>
+        <itemPath>src/Input/InitialState.h</itemPath>
         <itemPath>src/Input/Parameters.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Model" projectFiles="true">
-        <itemPath>src/Model/Autotroph.h</itemPath>
+        <itemPath>src/Model/Autotrophs.h</itemPath>
         <itemPath>src/Model/Environment.h</itemPath>
         <itemPath>src/Model/Genome.h</itemPath>
         <itemPath>src/Model/HeterotrophProcessor.h</itemPath>
@@ -45,10 +46,11 @@
                    projectFiles="true">
       <logicalFolder name="f2" displayName="Input" projectFiles="true">
         <itemPath>src/Input/FileReader.cpp</itemPath>
+        <itemPath>src/Input/InitialState.cpp</itemPath>
         <itemPath>src/Input/Parameters.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f3" displayName="Model" projectFiles="true">
-        <itemPath>src/Model/Autotroph.cpp</itemPath>
+        <itemPath>src/Model/Autotrophs.cpp</itemPath>
         <itemPath>src/Model/Environment.cpp</itemPath>
         <itemPath>src/Model/Genome.cpp</itemPath>
         <itemPath>src/Model/HeterotrophProcessor.cpp</itemPath>
@@ -114,15 +116,19 @@
       </item>
       <item path="src/Input/FileReader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Input/InitialState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/InitialState.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Input/Parameters.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Input/Parameters.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Main.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Autotroph.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Model/Autotrophs.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Autotroph.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Model/Autotrophs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Model/Environment.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -232,15 +238,19 @@
       </item>
       <item path="src/Input/FileReader.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Input/InitialState.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Input/InitialState.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Input/Parameters.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Input/Parameters.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Main.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Autotroph.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Model/Autotrophs.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Autotroph.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Model/Autotrophs.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Model/Environment.cpp" ex="false" tool="1" flavor2="0">
       </item>

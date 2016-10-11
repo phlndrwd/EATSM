@@ -26,7 +26,7 @@ namespace Constants {
     const std::string cConfigurationDirectory = "./input/";
     const std::string cInputParametersFileName = "Parameters.csv";
     const std::string cOutputParametersFileName = "OutputControlParameters.csv";
-    const std::string cHeterotrophInitialisationFileName = "HeterotrophInitialisation.csv";
+    const std::string cInitialisationFileName = "InitialModelState.csv";
     
     const std::string cVectorDatumTypeName = "vector";
     const std::string cMatrixDatumTypeName = "matrix";
@@ -59,6 +59,7 @@ namespace Constants {
     const std::string cMatrixDatumNamesFileName = "MetaMatrixDatumNames";
     const std::string cVectorEnumIndicesFileName = "MetaVectorEnumIndicies";
     const std::string cMatrixEnumIndicesFileName = "MetaMatrixEnumIndicies";
+    const std::string cModelStateFileName = "State";
 
     const std::string cWordDelimiter = " ";
     

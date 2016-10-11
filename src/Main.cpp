@@ -57,7 +57,7 @@ int main( ) {
             Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );
         }
         Logger::Get( )->LogMessage( "" );
-        fileWriter.WriteOutputData( );
+        fileWriter.WriteOutputData( environment );
         Logger::Get( )->LogMessage( "Total run time " + Convertor::Get( )->ToString( timer.Stop( ) ) + "s" );
 
         delete environment;

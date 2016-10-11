@@ -8,7 +8,7 @@ public:
     FileWriter( );
     ~FileWriter( );
     
-    void WriteOutputData( );
+    void WriteOutputData( Types::EnvironmentPointer );
 
 private:
     void InitialiseOutputDirectory( );

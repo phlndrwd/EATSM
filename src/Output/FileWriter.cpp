@@ -1,3 +1,6 @@
+#include <ios>
+#include <limits>
+
 #include "FileWriter.h"
 #include "DataRecorder.h"
 #include "Convertor.h"
@@ -6,7 +9,12 @@
 #include "Date.h"
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
-#include <ios>
+#include "Environment.h"
+#include "Nutrient.h"
+#include "Autotrophs.h"
+#include "Heterotrophs.h"
+#include "Individual.h"
+#include "Genome.h"
 
 FileWriter::FileWriter( ) {
     InitialiseOutputDirectory( );
@@ -35,7 +43,7 @@ void FileWriter::InitialiseOutputDirectory( ) {
     mOutputPath.append( mDataSetDirectoryName );
     int returnValue = mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
 
-    // The following code ensures the date are written into a unique subdirectory.
+    // The following code ensures the data are written into a unique subdirectory.
     if( returnValue == -1 ) {
         mOutputPath.append( "_" );
         int stringLength = mOutputPath.length( );
@@ -55,7 +63,6 @@ void FileWriter::WriteInputFiles( ) {
     Types::StringVector inputFilePaths = DataRecorder::Get( )->GetInputFilePaths( );
 
     for( unsigned stringIndex = 0; stringIndex < inputFilePaths.size( ); ++stringIndex ) {
-
         std::ifstream sourceFileStream( inputFilePaths[ stringIndex ].c_str( ), std::ios::in );
 
         std::string outputFilePath = mOutputPath;
@@ -77,7 +84,6 @@ void FileWriter::WriteInputFiles( ) {
                 while( std::getline( sourceFileStream, readLine ) ) {
                     if( lineCount > 0 ) {
                         Types::StringVector readWords = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-
                         std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( readWords[ Constants::eParameterName ] );
 
                         if( Convertor::Get( )->ToLowercase( parameterName ) != "randomseed" )
@@ -97,12 +103,12 @@ void FileWriter::WriteInputFiles( ) {
     }
 }
 
-void FileWriter::WriteOutputData( ) {
-
+void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
+    // Write vector datums
     bool success = false;
     Types::VectorDatumMap vectorDatumMap = DataRecorder::Get( )->GetVectorDatumMap( );
-    for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
 
+    for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
         std::string fileName = iter->first;
         Types::VectorDatumPointer vectorDatum = iter->second;
         fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
@@ -117,7 +123,7 @@ void FileWriter::WriteOutputData( ) {
             success = true;
         }
     }
-
+    // Write grid datums
     if( success == true ) {
         Types::MatrixDatumMap matrixDatumMap = DataRecorder::Get( )->GetMatrixDatumMap( );
         for( Types::MatrixDatumMap::iterator iter = matrixDatumMap.begin( ); iter != matrixDatumMap.end( ); ++iter ) {
@@ -140,9 +146,35 @@ void FileWriter::WriteOutputData( ) {
                 success = false;
         }
     }
+    if( Parameters::Get( )->GetWriteModelState( ) == true ) {
+        // Write state file
+        if( success == true ) {
+            std::string fileName = Constants::cModelStateFileName;
+            fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
+            std::ofstream modelStateFileStream;
+            modelStateFileStream.open( fileName.c_str( ), std::ios::out );
 
-    if( success == true )
-        Logger::Get( )->LogMessage( "Output data written to \"" + mOutputPath + "\"." );
-    else
-        Logger::Get( )->LogMessage( "File writing failed. Could not access \"" + mOutputPath + "\"." );
+            modelStateFileStream.flags( std::ios::scientific );
+            modelStateFileStream.precision( std::numeric_limits< double >::digits10 + 1 );
+
+            if( modelStateFileStream.is_open( ) == true ) {
+                modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
+                modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
+
+                Types::HeterotrophsPointer heterotrophs = environment->GetHeterotrophs( );
+
+                for( unsigned int populationIndex = 0; populationIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++populationIndex ) {
+                    for( unsigned int individualIndex = 0; individualIndex < heterotrophs->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
+                        Types::IndividualPointer individual = heterotrophs->GetIndividual( populationIndex, individualIndex );
+                        modelStateFileStream << individual->GetSizeClassIndex( ) << Constants::cDataDelimiterValue << individual->GetGenome( )->GetGeneValue( Constants::eVolumeGene ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << std::endl;
+                    }
+                }
+                modelStateFileStream.close( );
+                success = true;
+            } else
+                success = false;
+        }
+    }
+    if( success == true ) Logger::Get( )->LogMessage( "Output data written to \"" + mOutputPath + "\"." );
+    else Logger::Get( )->LogMessage( "ERROR> File writing failed. Could not access \"" + mOutputPath + "\"." );
 }

@@ -8,9 +8,8 @@
 Types::MathsPointer Maths::mThis = NULL;
 
 Types::MathsPointer Maths::Get( ) {
-    if( mThis == NULL ) {
-        mThis = new Maths( );
-    }
+    if( mThis == NULL ) mThis = new Maths( );
+    
     return mThis;
 }
 

@@ -7,7 +7,7 @@
 #include <sys/stat.h>   // For mkdir
 #include <map>          // For map
 
-class Autotroph;
+class Autotrophs;
 class Convertor;
 class DataRecorder;
 class Environment;
@@ -16,6 +16,7 @@ class Heterotrophs;
 class HeterotrophData;
 class HeterotrophProcessor;
 class Individual;
+class InitialState;
 class Logger;
 class Maths;
 class MatrixDatum;
@@ -27,7 +28,7 @@ class VectorDatum;
 
 namespace Types {
     // Pointers
-    typedef Autotroph* AutotrophPointer;
+    typedef Autotrophs* AutotrophsPointer;
     typedef Convertor* ConvertorPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef Environment* EnvironmentPointer;
@@ -36,6 +37,7 @@ namespace Types {
     typedef HeterotrophData* HeterotrophDataPointer;
     typedef HeterotrophProcessor* HeterotrophProcessorPointer;
     typedef Individual* IndividualPointer;
+    typedef InitialState* InitialStatePointer;
     typedef Logger* LoggerPointer;
     typedef Maths* MathsPointer;
     typedef MatrixDatum* MatrixDatumPointer;
@@ -50,7 +52,7 @@ namespace Types {
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
     typedef std::vector< IndividualPointer > IndividualArray;
-    
+
     // Containers of containers of pointers
     typedef std::vector< IndividualArray > IndividualMatrix;
 

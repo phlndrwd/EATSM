@@ -14,7 +14,7 @@ public:
     Types::StringMatrix& GetRawTextData( );
 
 private:
-    bool ReadTextFile( const std::string& );
+    bool ReadTextFile( const std::string&, bool usesHeader = true );
     void ClearRawTextData( );
 
     Types::StringMatrix mRawTextData;

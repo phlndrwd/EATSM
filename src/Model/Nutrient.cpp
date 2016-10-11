@@ -1,12 +1,16 @@
 #include "Nutrient.h"
-
+#include "InitialState.h"
 #include "DataRecorder.h"
 #include "Parameters.h"
 #include "Constants.h"
 #include "Logger.h"
 
 Nutrient::Nutrient( ) {
-    mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
+    if( Parameters::Get( )->GetInitialisationMethod( ) == false )
+        mVolume = InitialState::Get( )->GetNutrientVolume( );
+    else
+        mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
+    
     Logger::Get( )->LogMessage( "Nutrient pool created." );
 }
 

@@ -10,10 +10,14 @@ public:
 
     void Update( );
     bool RecordData( );
+    
+    Types::NutrientPointer GetNutrient( ) const;
+    Types::AutotrophsPointer GetAutotrophs( ) const;
+    Types::HeterotrophsPointer GetHeterotrophs( ) const;
 
 private:
     Types::NutrientPointer mNutrient;
-    Types::AutotrophPointer mPhytoplankton;
+    Types::AutotrophsPointer mAutotrophs;
     Types::HeterotrophsPointer mHeterotrophs;
 };
 

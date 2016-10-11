@@ -6,6 +6,7 @@
 #include "Genome.h"
 #include "Convertor.h"
 #include "DataRecorder.h"
+#include "InitialState.h"
 
 FileReader::FileReader( ) {
 
@@ -26,11 +27,15 @@ bool FileReader::ReadInputFiles( ) {
     if( success == true )
         success == DataRecorder::Get( )->Initialise( mRawTextData );
 
-    // The last file to read is the heterotroph initialisation file. This is
-    // necessary so that the raw data can be retrieved and used for the
-    // initialisation of the Environment/Heterotroph classes.
-    if( success == true )
-        success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cHeterotrophInitialisationFileName );
+    if( Parameters::Get( )->GetInitialisationMethod( ) == false ) {
+        if( success == true )
+            success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInitialisationFileName, false );
+
+        if( success == true )
+            success = InitialState::Get( )->Initialise( mRawTextData );
+    }
+
+    ClearRawTextData( );
 
     return success;
 }
@@ -39,7 +44,7 @@ Types::StringMatrix& FileReader::GetRawTextData( ) {
     return mRawTextData;
 }
 
-bool FileReader::ReadTextFile( const std::string& filePath ) {
+bool FileReader::ReadTextFile( const std::string& filePath, bool usesHeader ) {
     Logger::Get( )->LogMessage( "Reading text file \"" + filePath + "\"..." );
 
     ClearRawTextData( );
@@ -50,8 +55,14 @@ bool FileReader::ReadTextFile( const std::string& filePath ) {
         unsigned lineCount = 0;
 
         while( std::getline( fileStream, readLine ) ) {
-            if( lineCount > 0 && readLine[ 0 ] != Constants::cTextFileCommentCharacter ) {
-                mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+            if( readLine[ 0 ] != Constants::cTextFileCommentCharacter ) {
+                if( usesHeader == true ) {
+                    if( lineCount > 0 ) {
+                        mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+                    }
+                } else {
+                    mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+                }
             }
             ++lineCount;
         }

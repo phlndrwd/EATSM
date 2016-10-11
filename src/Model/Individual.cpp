@@ -24,7 +24,6 @@ Individual::Individual( const double volumeHeritable, const unsigned sizeClassIn
     genomeValues.push_back( Convertor::Get( )->VolumeToGeneValue( mVolumeHeritable ) );
     genomeValues.push_back( RandomInterface::Get( )->GetUniformDouble( ) );
     mGenome = new Genome( genomeValues );
-    
 
     mVolumeActual = mVolumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
@@ -46,25 +45,27 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
     mTrophicLevel = trophicLevel;
 
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-    
+
     mAge = 0;
     mIsDead = false;
 }
 
 // For model restart.
 
-Individual::Individual( const Types::GenomePointer genome, const double volumeActual, const double trophicLevel, const unsigned sizeClassIndex, const unsigned age ) {
+Individual::Individual( const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
 
-    mGenome = genome;
+    Types::DoubleVector geneValues;
+    geneValues.push_back( geneValue );
+    mGenome = new Genome( geneValues );
     mVolumeActual = volumeActual;
-    mTrophicLevel = trophicLevel;
     mSizeClassIndex = sizeClassIndex;
-    mAge = age;
 
     mVolumeHeritable = Convertor::Get( )->GeneValueToVolume( mGenome->GetGeneValue( Constants::eVolumeGene ) );
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
 
+    mAge = 0;
+    mTrophicLevel = 0;
     mIsDead = false;
 }
 
@@ -72,7 +73,7 @@ Individual::~Individual( ) {
     delete mGenome;
 }
 
- Types::IndividualPointer Individual::Reproduce( ) {
+Types::IndividualPointer Individual::Reproduce( ) {
 
     Types::GenomePointer childGenome = mGenome->GetChildGenome( );
     Types::IndividualPointer childIndividual = 0;
@@ -88,7 +89,7 @@ Individual::~Individual( ) {
     } else {
         childVolumeHeritable = Convertor::Get( )->GeneValueToVolume( childGenome->GetGeneValue( Constants::eVolumeGene ) );
         childVolumeMinimum = childVolumeHeritable * Constants::cMinimumFractionalVolume;
-        
+
         if( childVolumeHeritable < mVolumeActual ) {
             childVolumeActual = childVolumeHeritable;
         } else {
@@ -103,7 +104,7 @@ Individual::~Individual( ) {
     return childIndividual;
 }
 
- double Individual::ConsumePreyVolume( const double preyVolume ) {
+double Individual::ConsumePreyVolume( const double preyVolume ) {
 
     double volumeAssimilated = preyVolume * Parameters::Get( )->GetAssimilationEfficiency( );
 
@@ -112,7 +113,7 @@ Individual::~Individual( ) {
     return preyVolume - volumeAssimilated;
 }
 
- double Individual::Metabolise( const double metabolicDeduction ) {
+double Individual::Metabolise( const double metabolicDeduction ) {
 
     ++mAge;
 
@@ -125,39 +126,39 @@ Individual::~Individual( ) {
  * Getters
  */
 
- Types::GenomePointer Individual::GetGenome( ) const {
+Types::GenomePointer Individual::GetGenome( ) const {
     return mGenome;
 }
 
- double Individual::GetTrophicLevel( ) const {
+double Individual::GetTrophicLevel( ) const {
     return mTrophicLevel;
 }
 
- unsigned Individual::GetSizeClassIndex( ) const {
+unsigned Individual::GetSizeClassIndex( ) const {
     return mSizeClassIndex;
 }
 
- unsigned Individual::GetAge( ) const {
+unsigned Individual::GetAge( ) const {
     return mAge;
 }
 
- bool Individual::IsDead( ) const {
+bool Individual::IsDead( ) const {
     return mIsDead;
 }
 
- double Individual::GetVolumeActual( ) const {
+double Individual::GetVolumeActual( ) const {
     return mVolumeActual;
 }
 
- double Individual::GetVolumeHeritable( ) const {
+double Individual::GetVolumeHeritable( ) const {
     return mVolumeHeritable;
 }
 
- double Individual::GetVolumeMinimum( ) const {
+double Individual::GetVolumeMinimum( ) const {
     return mVolumeMinimum;
 }
 
- double Individual::GetVolumeReproduction( ) const {
+double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
 }
 

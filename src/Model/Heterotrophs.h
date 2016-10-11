@@ -7,11 +7,14 @@
 class Heterotrophs {
 public:
 
-    Heterotrophs( Types::NutrientPointer, Types::AutotrophPointer, Types::StringMatrix& );
+    Heterotrophs( Types::NutrientPointer, Types::AutotrophsPointer, Types::StringMatrix& );
     ~Heterotrophs( );
 
     void Update( );
     bool RecordData( );
+
+    unsigned GetSizeClassPopulation( const unsigned ) const;
+    Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
 
 private:
     void InitialiseSizeClasses( Types::StringMatrix& );
@@ -35,19 +38,18 @@ private:
     void StarveToDeath( const Types::IndividualPointer );
 
     void MoveSizeClass( const Types::IndividualPointer );
-    
-    unsigned GetSizeClassPopulation( const unsigned ) const;
+
     unsigned GetSizeClassDeadFrequency( const unsigned ) const;
-    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = 0 ) const;
+    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
 
     void AddChild( const Types::IndividualPointer );
     void AddChildren( );
 
     Types::HeterotrophProcessorPointer mHeterotrophProcessor;
     Types::HeterotrophDataPointer mHeterotrophData;
-    
+
     Types::NutrientPointer mNutrient;
-    Types::AutotrophPointer mPhytoplankton;
+    Types::AutotrophsPointer mPhytoplankton;
 
     Types::IndividualMatrix mSizeClasses;
     Types::IndividualMatrix mDeadFrequencies;

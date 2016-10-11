@@ -20,7 +20,9 @@ public:
     unsigned GetSamplingRate( ) const;
     unsigned GetNumberOfSizeClasses( ) const;
 
-    unsigned InitialisationMethod( ) const;
+    bool GetInitialisationMethod( ) const;
+    bool GetApplyStarvationFunction( ) const;
+    bool GetWriteModelState( ) const;
 
     double GetInitialNutrientVolume( ) const;
     double GetInitialAutotrophVolume( ) const;
@@ -35,6 +37,7 @@ public:
 
     double GetSizeClassSubsetFraction( ) const;
     double GetHalfSaturationConstantFraction( ) const;
+
     double GetAssimilationEfficiency( ) const;
     double GetFractionalMetabolicExpense( ) const;
     double GetMetabolicIndex( ) const;
@@ -48,7 +51,9 @@ public:
     void SetSamplingRate( const unsigned );
     void SetNumberOfSizeClasses( const unsigned );
 
-    void SetInitialisationMethod( const unsigned );
+    void SetInitialisationMethod( const bool );
+    void SetApplyStarvationFunction( const bool );
+    void SetWriteModelState( const bool );
 
     void SetInitialNutrientVolume( const double );
     void SetInitialAutotrophVolume( const double );
@@ -63,6 +68,7 @@ public:
 
     void SetSizeClassSubsetFraction( const double );
     void SetHalfSaturationConstantFraction( const double );
+
     void SetAssimilationEfficiency( const double );
     void SetFractionalMetabolicExpense( const double );
     void SetMetabolicIndex( const double );
@@ -103,7 +109,9 @@ private:
     unsigned mSamplingRate;
     unsigned mNumberOfSizeClasses;
 
-    unsigned mInitialisationMethod;
+    bool mInitialisationMethod;
+    bool mApplyStarvationFunction;
+    bool mWriteModelState;
 
     double mInitialNutrientVolume;
     double mInitialAutotrophVolume;
@@ -126,7 +134,6 @@ private:
     double mMutationStandardDeviation;
 
     // Calculated variables
-
     unsigned mPhytoplanktonSizeClassIndex;
 
     double mSmallestVolumeExponent;

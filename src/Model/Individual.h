@@ -8,7 +8,7 @@ class Individual {
 public:
     Individual( const double, const unsigned );
     Individual( const Types::GenomePointer, const double, const double, const double, const double );
-    Individual( const Types::GenomePointer, const double, const double, const unsigned, const unsigned );
+    Individual( const double, const double, const unsigned );
     ~Individual( );
 
     Types::IndividualPointer Reproduce( );
@@ -34,7 +34,6 @@ public:
 
     void SetAge( const unsigned );
     void Kill( );
-    void SetTagNumber( const int );
 
 private:
     Types::GenomePointer mGenome;

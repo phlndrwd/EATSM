@@ -3,9 +3,8 @@
 Types::LoggerPointer Logger::mThis = NULL;
 
 Types::LoggerPointer Logger::Get( ) {
-    if( mThis == NULL ) {
-        mThis = new Logger( );
-    }
+    if( mThis == NULL ) mThis = new Logger( );
+
     return mThis;
 }
 

@@ -9,9 +9,8 @@
 Types::ConvertorPointer Convertor::mThis = NULL;
 
 Types::ConvertorPointer Convertor::Get( ) {
-    if( mThis == NULL ) {
-        mThis = new Convertor( );
-    }
+    if( mThis == NULL ) mThis = new Convertor( );
+    
     return mThis;
 }
 
