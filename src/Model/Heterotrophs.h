@@ -7,7 +7,7 @@
 class Heterotrophs {
 public:
 
-    Heterotrophs( Types::NutrientPointer, Types::AutotrophsPointer, Types::StringMatrix& );
+    Heterotrophs( Types::NutrientPointer, Types::AutotrophsPointer );
     ~Heterotrophs( );
 
     void Update( );
@@ -17,7 +17,7 @@ public:
     Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
 
 private:
-    void InitialiseSizeClasses( Types::StringMatrix& );
+    void InitialiseSizeClasses( );
 
     void Feeding( );
     void Metabolisation( );

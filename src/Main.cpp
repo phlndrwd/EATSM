@@ -14,12 +14,12 @@ int main( ) {
     Logger::Get( )->LogMessage( "" );
 
     FileReader fileReader;
-    
+
     if( fileReader.ReadInputFiles( ) == true ) {
         Timer timer = Timer( true );
         FileWriter fileWriter;
-        Types::EnvironmentPointer environment = new Environment( fileReader.GetRawTextData( ) );
-        
+        Types::EnvironmentPointer environment = new Environment( );
+
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
         double cumulativeTenthsOfRunTime = 0;
         unsigned cumulativeTimeInSeconds = 0;
@@ -30,7 +30,7 @@ int main( ) {
         Logger::Get( )->LogMessage( "" );
         Logger::Get( )->LogMessage( "Starting main time loop..." );
         do {
-            cumulativeTimeInSeconds = timer.Split( );
+            cumulativeTimeInSeconds = timer.Elapsed( );
 
             // Update before data collection; calculates essential variables for encounter rates.
             environment->Update( );
@@ -45,6 +45,7 @@ int main( ) {
             // Data collection
             if( timeStep % Parameters::Get( )->GetSamplingRate( ) == 0 ) {
                 DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", timeStep );
+                DataRecorder::Get( )->AddDataTo( "SamplingTime", timer.Split( ) );
                 isAlive = environment->RecordData( );
             }
 

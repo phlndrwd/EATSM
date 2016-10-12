@@ -11,6 +11,7 @@ AutotrophVolume,vector,Volume,standard
 ToAutotrophFlux,vector,Volume,standard
 NutrientVolume,vector,Volume,standard
 ToNutrientFlux,vector,Volume,standard
+SamplingTime,vector,Seconds,standard
 SizeClassPopulation,matrix,log_{10}( Individual Frequency ),standard
 SizeClassVegetarianFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
 SizeClassCarnivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative

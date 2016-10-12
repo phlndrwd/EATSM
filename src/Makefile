@@ -27,6 +27,7 @@ $(TARGET) : $(OBJ)
 	@echo Linking...
 	@mkdir -p $(BINDIR)
 	@$(CXX) $(CXXFLAGS) -o $(BINDIR)$@ $(OBJ)
+	@cp -R ../input $(BINDIR)
 	@echo EATSM compilation complete.
 
 $(OBJDIR)%.o : %.cpp

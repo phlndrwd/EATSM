@@ -14,18 +14,15 @@
 #include "Genome.h"
 #include "InitialState.h"
 
-Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton, Types::StringMatrix& heterotrophInitialisationData ) {
+Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
     mNutrient = nutrient;
     mPhytoplankton = phytoplankton;
-    InitialiseSizeClasses( heterotrophInitialisationData );
+    InitialiseSizeClasses( );
 
     mHeterotrophProcessor = new HeterotrophProcessor( );
     mHeterotrophData = new HeterotrophData( );
 
-
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
-
-    mDeadFrequencies.resize( numberOfSizeClasses );
+    mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 }
 
 Heterotrophs::~Heterotrophs( ) {
@@ -72,7 +69,7 @@ bool Heterotrophs::RecordData( ) {
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
-void Heterotrophs::InitialiseSizeClasses( Types::StringMatrix& heterotrophInitialisationData ) {
+void Heterotrophs::InitialiseSizeClasses( ) {
     if( Parameters::Get( )->GetInitialisationMethod( ) == true ) {
         mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
         unsigned initialPopulationSize = 0;
@@ -95,7 +92,6 @@ void Heterotrophs::InitialiseSizeClasses( Types::StringMatrix& heterotrophInitia
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
         Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( InitialState::Get( )->GetInitialPopulationSize( ) ) + " individuals." );
-
     }
 }
 
@@ -175,10 +171,8 @@ void Heterotrophs::Starvation( ) {
 }
 
 void Heterotrophs::Reproduction( ) {
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
     // Build list of potential parents
-    for( unsigned sizeClassIndex = 0; sizeClassIndex < numberOfSizeClasses; ++sizeClassIndex ) {
-
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         for( unsigned individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
             Types::IndividualPointer potentialParent = mSizeClasses[ sizeClassIndex ][ individualIndex ];
 
@@ -300,9 +294,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
 }
 
 void Heterotrophs::AddToSizeClass( const Types::IndividualPointer individual, const bool setSizeClassIndex ) {
-    if( setSizeClassIndex == true ) {
-        mHeterotrophProcessor->FindAndSetSizeClassIndex( individual );
-    }
+    if( setSizeClassIndex == true ) mHeterotrophProcessor->FindAndSetSizeClassIndex( individual );
     mSizeClasses[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 

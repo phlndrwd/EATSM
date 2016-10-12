@@ -10,6 +10,7 @@ public:
     
     void Start( );
     double Split( );
+    double Elapsed( );
     double Stop( );
     
 private:

@@ -8,10 +8,10 @@
 #include "Logger.h"
 #include "Convertor.h"
 
-Environment::Environment( Types::StringMatrix& heterotrophInitialisationData ) {
+Environment::Environment( ) {
     mNutrient = new Nutrient( );
     mAutotrophs = new Autotrophs( mNutrient );
-    mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs, heterotrophInitialisationData );
+    mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
     Logger::Get( )->LogMessage( "Environment created." );
 }
 

@@ -1,11 +1,11 @@
 Name,Value
-RandomSeed,0
-RunTimeInSeconds,60
-SamplingRate,20
+RandomSeed,1
+RunTimeInSeconds,79200
+SamplingRate,1000
 NumberOfSizeClasses,100
-InitialisationMethod,0
-ApplyStarvationFunction,1
-WriteModelState,0
+InitialisationMethod,1
+ApplyStarvationFunction,0
+WriteModelState,1
 InitialNutrientVolume,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
