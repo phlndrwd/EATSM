@@ -44,7 +44,7 @@ Types::StringMatrix& FileReader::GetRawTextData( ) {
     return mRawTextData;
 }
 
-bool FileReader::ReadTextFile( const std::string& filePath, bool usesHeader ) {
+bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) {
     Logger::Get( )->LogMessage( "Reading text file \"" + filePath + "\"..." );
 
     ClearRawTextData( );
@@ -55,14 +55,8 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool usesHeader ) {
         unsigned lineCount = 0;
 
         while( std::getline( fileStream, readLine ) ) {
-            if( readLine[ 0 ] != Constants::cTextFileCommentCharacter ) {
-                if( usesHeader == true ) {
-                    if( lineCount > 0 ) {
-                        mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
-                    }
-                } else {
-                    mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
-                }
+            if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
+                mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
             }
             ++lineCount;
         }
@@ -70,7 +64,7 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool usesHeader ) {
     } else {
         Logger::Get( )->LogMessage( "File path \"" + filePath + "\" is invalid." );
     }
-    DataRecorder::Get( )->AddInputFilePath( filePath );
+    if( copyToOutput == true ) DataRecorder::Get( )->AddInputFilePath( filePath );
 
     return mRawTextData.size( ) > 0;
 }

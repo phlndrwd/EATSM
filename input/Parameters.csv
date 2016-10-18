@@ -1,6 +1,6 @@
 Name,Value
 RandomSeed,1
-RunTimeInSeconds,360
+RunTimeInSeconds,60
 SamplingRate,10
 NumberOfSizeClasses,100
 InitialisationMethod,0
