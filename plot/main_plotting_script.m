@@ -2,7 +2,7 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-10-14_11-09-32';
+optionCurrentDataSet            = '2016-10-18_12-30-37';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputParametersFile      = 'OutputControlParameters';
@@ -15,7 +15,7 @@ optionPlotImageHeight           = 10; % cm
 
 optionMissingValue              = -9999;
 optionTruncateTimeAt            = 0; % Index, not value
-optionResampleTimeTo            = 133; % Index, not value
+optionResampleTimeTo            = 0; % Index, not value
 
 %% Input Formatting
 if strcmp( optionOutputDirectory( end ), '/' ) == 0

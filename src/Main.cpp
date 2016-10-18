@@ -29,6 +29,8 @@ int main( ) {
 
         Logger::Get( )->LogMessage( "" );
         Logger::Get( )->LogMessage( "Starting main time loop..." );
+        double maxVal = .5;
+        double minVal = .5;
         do {
             cumulativeTimeInSeconds = timer.Elapsed( );
 

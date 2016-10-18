@@ -7,7 +7,7 @@
 #include "Individual.h"
 #include "Maths.h"
 #include "Genome.h"
-#include "RandomInterface.h"
+#include "RandomSFMT.h"
 
 HeterotrophData::HeterotrophData( ) {
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", Parameters::Get( )->GetSizeClassMidPoints( ) );
@@ -117,7 +117,7 @@ void HeterotrophData::RecordOutputData( ) {
 
 unsigned HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned predatorIndex ) const {
     unsigned randomPreySizeClassIndex = 0;
-    double randomValue = RandomInterface::Get( )->GetUniformDouble( );
+    double randomValue = RandomSFMT::Get( )->GetUniform( );
     double probabilitySum = 0;
     for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
         probabilitySum += mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ];

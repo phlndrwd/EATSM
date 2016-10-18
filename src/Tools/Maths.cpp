@@ -1,6 +1,6 @@
 #include "Maths.h"
 
-#include "RandomInterface.h"
+#include "RandomSFMT.h"
 
 #include <math.h>
 #include <cmath> 
@@ -26,7 +26,7 @@ Maths::Maths( ) {
 
     double probability = value - flooredValue;
 
-    if( RandomInterface::Get( )->GetUniformDouble( ) < probability ) {
+    if( RandomSFMT::Get( )->GetUniform( ) < probability ) {
         return flooredValue + 1;
     } else {
         return flooredValue;

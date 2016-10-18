@@ -10,9 +10,9 @@
 #include "Convertor.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
-#include "RandomInterface.h"
 #include "Genome.h"
 #include "InitialState.h"
+#include "RandomSFMT.h"
 
 Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
     mNutrient = nutrient;
@@ -88,7 +88,7 @@ void Heterotrophs::InitialiseSizeClasses( ) {
             ++initialPopulationSize;
         }
         Logger::Get( )->LogMessage( "A single heterotrophic size class initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
-    
+
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
         Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( InitialState::Get( )->GetInitialPopulationSize( ) ) + " individuals." );
@@ -105,7 +105,7 @@ void Heterotrophs::Feeding( ) {
             unsigned sizeClassSubsetSize = Maths::Get( )->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassSubsetSize; ++potentialEncounterIndex ) {
-                if( RandomInterface::Get( )->GetUniformDouble( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
+                if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
                     if( individual != 0 ) {
@@ -159,7 +159,7 @@ void Heterotrophs::Starvation( ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
                     if( individual != 0 ) {
-                        if( RandomInterface::Get( )->GetUniformDouble( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) ) {
+                        if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) ) {
                             StarveToDeath( individual );
                         }
                     }
@@ -364,12 +364,12 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
     Types::IndividualPointer randomIndividual = NULL;
 
     if( sizeClassLivingFrequency > 0 ) {
-        unsigned randomIndividualIndex = RandomInterface::Get( )->GetUniformInt( 0, sizeClassPopulation - 1 );
+        unsigned randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
         randomIndividual = mSizeClasses[ sizeClassIndex ][ randomIndividualIndex ];
 
         while( randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
 
-            randomIndividualIndex = RandomInterface::Get( )->GetUniformInt( 0, sizeClassPopulation - 1 );
+            randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
             randomIndividual = mSizeClasses[ sizeClassIndex ][ randomIndividualIndex ];
         }
     }

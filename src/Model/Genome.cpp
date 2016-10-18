@@ -1,11 +1,8 @@
 #include "Genome.h"
-
-#include "RandomInterface.h"
+#include "RandomSFMT.h"
 #include "Parameters.h"
 #include "Convertor.h"
 #include "Logger.h"
-
-// For restart
 
 Genome::Genome( const Types::DoubleVector genomeValues ) {
     mGenomeValues = genomeValues;
@@ -34,10 +31,10 @@ Types::GenomePointer Genome::GetChildGenome( ) {
     if( mutationProbability > 0 ) {
         for( unsigned geneIndex = 0; geneIndex < numberOfGenes; ++geneIndex ) {
 
-            if( RandomInterface::Get( )->GetUniformDouble( ) <= mutationProbability ) {
+            if( RandomSFMT::Get( )->GetUniform( ) <= mutationProbability ) {
                 isMutantChildGenome[ geneIndex ] = true;
 
-                double mutationValue = RandomInterface::Get( )->GetNormal( 0, Parameters::Get( )->GetMutationStandardDeviation( ) );
+                double mutationValue = RandomSFMT::Get( )->GetNormal( 0.0, Parameters::Get( )->GetMutationStandardDeviation( ) );
 
                 childGenomeValues[ geneIndex ] += mutationValue;
 

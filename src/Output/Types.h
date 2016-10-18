@@ -22,8 +22,7 @@ class Maths;
 class MatrixDatum;
 class Nutrient;
 class Parameters;
-class RandomDefault;
-class RandomInterface;
+class RandomSFMT;
 class VectorDatum;
 
 namespace Types {
@@ -43,8 +42,7 @@ namespace Types {
     typedef MatrixDatum* MatrixDatumPointer;
     typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
-    typedef RandomDefault* RandomDefaultPointer;
-    typedef RandomInterface* RandomInterfacePointer;
+    typedef RandomSFMT* RandomSFMTPointer;
     typedef VectorDatum* VectorDatumPointer;
 
     // Containers of pointers

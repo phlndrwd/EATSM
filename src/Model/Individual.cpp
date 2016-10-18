@@ -6,14 +6,13 @@
 #include "Parameters.h"
 #include "Convertor.h"
 #include "Logger.h"
-#include "RandomInterface.h"
+#include "RandomSFMT.h"
 
 /*
  * Construction and destruction
  */
 
 // For model initialisation.
-
 Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
 
     mVolumeHeritable = volumeHeritable;
@@ -22,7 +21,7 @@ Individual::Individual( const double volumeHeritable, const unsigned sizeClassIn
     // Initialise genome
     Types::DoubleVector genomeValues;
     genomeValues.push_back( Convertor::Get( )->VolumeToGeneValue( mVolumeHeritable ) );
-    genomeValues.push_back( RandomInterface::Get( )->GetUniformDouble( ) );
+    genomeValues.push_back( RandomSFMT::Get( )->GetUniform( ) );
     mGenome = new Genome( genomeValues );
 
     mVolumeActual = mVolumeHeritable;

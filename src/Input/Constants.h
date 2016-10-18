@@ -71,16 +71,6 @@ namespace Constants {
 
     const unsigned cReproductionFactor = 2;
 
-    // Pseudo-Random Number Generator constants
-    const int cUniformIntMin = -2147483647;
-    const int cUniformIntMax = 2147483647;
-
-    const float cUniformDoubleMin = 0.0;
-    const float cUniformDoubleMax = 1.0;
-
-    const float cNormalMean = 0.0;
-    const float cNormalStdDev = 1.0;
-
     const std::string cSystemName = "EATSM";
     const std::string cSystemVersion = "0.1";
     const std::string cSystemDate = "06/07/2016";
