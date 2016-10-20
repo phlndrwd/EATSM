@@ -35,6 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/Data/HeterotrophData.o \
+	${OBJECTDIR}/src/Data/MatrixDatum.o \
+	${OBJECTDIR}/src/Data/VectorDatum.o \
 	${OBJECTDIR}/src/Input/FileReader.o \
 	${OBJECTDIR}/src/Input/InitialState.o \
 	${OBJECTDIR}/src/Input/Parameters.o \
@@ -48,10 +51,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/Nutrient.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
-	${OBJECTDIR}/src/Output/HeterotrophData.o \
 	${OBJECTDIR}/src/Output/Logger.o \
-	${OBJECTDIR}/src/Output/MatrixDatum.o \
-	${OBJECTDIR}/src/Output/VectorDatum.o \
 	${OBJECTDIR}/src/Tools/Convertor.o \
 	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/Maths.o \
@@ -82,6 +82,21 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/src/Data/HeterotrophData.o: src/Data/HeterotrophData.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/HeterotrophData.o src/Data/HeterotrophData.cpp
+
+${OBJECTDIR}/src/Data/MatrixDatum.o: src/Data/MatrixDatum.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/MatrixDatum.o src/Data/MatrixDatum.cpp
+
+${OBJECTDIR}/src/Data/VectorDatum.o: src/Data/VectorDatum.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/VectorDatum.o src/Data/VectorDatum.cpp
 
 ${OBJECTDIR}/src/Input/FileReader.o: src/Input/FileReader.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Input
@@ -148,25 +163,10 @@ ${OBJECTDIR}/src/Output/FileWriter.o: src/Output/FileWriter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
 
-${OBJECTDIR}/src/Output/HeterotrophData.o: src/Output/HeterotrophData.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/HeterotrophData.o src/Output/HeterotrophData.cpp
-
 ${OBJECTDIR}/src/Output/Logger.o: src/Output/Logger.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Logger.o src/Output/Logger.cpp
-
-${OBJECTDIR}/src/Output/MatrixDatum.o: src/Output/MatrixDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/MatrixDatum.o src/Output/MatrixDatum.cpp
-
-${OBJECTDIR}/src/Output/VectorDatum.o: src/Output/VectorDatum.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/VectorDatum.o src/Output/VectorDatum.cpp
 
 ${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
