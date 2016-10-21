@@ -10,6 +10,7 @@
 class Autotrophs;
 class Convertor;
 class DataRecorder;
+class DataTag;
 class Environment;
 class Genome;
 class Heterotrophs;
@@ -23,6 +24,8 @@ class MatrixDatum;
 class Nutrient;
 class Parameters;
 class RandomSFMT;
+class Tagger;
+class Time;
 class VectorDatum;
 
 namespace Types {
@@ -30,6 +33,7 @@ namespace Types {
     typedef Autotrophs* AutotrophsPointer;
     typedef Convertor* ConvertorPointer;
     typedef DataRecorder* DataRecorderPointer;
+    typedef DataTag* DataTagPointer;
     typedef Environment* EnvironmentPointer;
     typedef Genome* GenomePointer;
     typedef Heterotrophs* HeterotrophsPointer;
@@ -43,16 +47,19 @@ namespace Types {
     typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
     typedef RandomSFMT* RandomSFMTPointer;
+    typedef Tagger* TaggerPointer;
+    typedef Time* TimePointer;
     typedef VectorDatum* VectorDatumPointer;
 
     // Containers of pointers
     typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
-    typedef std::vector< IndividualPointer > IndividualArray;
+    typedef std::vector< DataTagPointer > DataTagVector;
+    typedef std::vector< IndividualPointer > IndividualVector;
 
     // Containers of containers of pointers
-    typedef std::vector< IndividualArray > IndividualMatrix;
+    typedef std::vector< IndividualVector > IndividualMatrix;
 
     // Containers of primitives
     typedef std::vector< bool > BoolVector;

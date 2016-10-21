@@ -23,6 +23,8 @@ public:
     bool GetInitialisationMethod( ) const;
     bool GetApplyStarvationFunction( ) const;
     bool GetWriteModelState( ) const;
+    
+    double GetPopulationTagPercentage( ) const;
 
     double GetInitialNutrientVolume( ) const;
     double GetInitialAutotrophVolume( ) const;
@@ -54,6 +56,8 @@ public:
     void SetInitialisationMethod( const bool );
     void SetApplyStarvationFunction( const bool );
     void SetWriteModelState( const bool );
+    
+    void SetPopulationTagPercentage( const double );
 
     void SetInitialNutrientVolume( const double );
     void SetInitialAutotrophVolume( const double );
@@ -112,6 +116,8 @@ private:
     bool mInitialisationMethod;
     bool mApplyStarvationFunction;
     bool mWriteModelState;
+    
+    double mPopulationTagPercentage;
 
     double mInitialNutrientVolume;
     double mInitialAutotrophVolume;

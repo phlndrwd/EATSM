@@ -35,8 +35,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/Data/DataTag.o \
 	${OBJECTDIR}/src/Data/HeterotrophData.o \
 	${OBJECTDIR}/src/Data/MatrixDatum.o \
+	${OBJECTDIR}/src/Data/Tagger.o \
 	${OBJECTDIR}/src/Data/VectorDatum.o \
 	${OBJECTDIR}/src/Input/FileReader.o \
 	${OBJECTDIR}/src/Input/InitialState.o \
@@ -49,6 +51,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/Heterotrophs.o \
 	${OBJECTDIR}/src/Model/Individual.o \
 	${OBJECTDIR}/src/Model/Nutrient.o \
+	${OBJECTDIR}/src/Model/Time.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
 	${OBJECTDIR}/src/Output/Logger.o \
@@ -83,6 +86,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/src/Data/DataTag.o: src/Data/DataTag.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/DataTag.o src/Data/DataTag.cpp
+
 ${OBJECTDIR}/src/Data/HeterotrophData.o: src/Data/HeterotrophData.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Data
 	${RM} "$@.d"
@@ -92,6 +100,11 @@ ${OBJECTDIR}/src/Data/MatrixDatum.o: src/Data/MatrixDatum.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Data
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/MatrixDatum.o src/Data/MatrixDatum.cpp
+
+${OBJECTDIR}/src/Data/Tagger.o: src/Data/Tagger.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/Tagger.o src/Data/Tagger.cpp
 
 ${OBJECTDIR}/src/Data/VectorDatum.o: src/Data/VectorDatum.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Data
@@ -152,6 +165,11 @@ ${OBJECTDIR}/src/Model/Nutrient.o: src/Model/Nutrient.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Nutrient.o src/Model/Nutrient.cpp
+
+${OBJECTDIR}/src/Model/Time.o: src/Model/Time.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Model
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Time.o src/Model/Time.cpp
 
 ${OBJECTDIR}/src/Output/DataRecorder.o: src/Output/DataRecorder.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output

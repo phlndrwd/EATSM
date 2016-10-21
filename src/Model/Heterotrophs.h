@@ -15,6 +15,7 @@ public:
 
     unsigned GetSizeClassPopulation( const unsigned ) const;
     Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
+    Types::TaggerPointer GetTagger( ) const;
 
 private:
     void InitialiseSizeClasses( );
@@ -47,6 +48,7 @@ private:
 
     Types::HeterotrophProcessorPointer mHeterotrophProcessor;
     Types::HeterotrophDataPointer mHeterotrophData;
+    Types::TaggerPointer mTagger;
 
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mPhytoplankton;
@@ -54,7 +56,7 @@ private:
     Types::IndividualMatrix mSizeClasses;
     Types::IndividualMatrix mDeadFrequencies;
 
-    Types::IndividualArray mChildren;
+    Types::IndividualVector mChildren;
 };
 
 #endif

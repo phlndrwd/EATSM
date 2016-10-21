@@ -7,12 +7,14 @@
 #include "Convertor.h"
 #include "Logger.h"
 #include "RandomSFMT.h"
+#include "DataTag.h"
 
 /*
  * Construction and destruction
  */
 
 // For model initialisation.
+
 Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
 
     mVolumeHeritable = volumeHeritable;

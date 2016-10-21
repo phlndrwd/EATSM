@@ -8,6 +8,7 @@
 #include "FileWriter.h"
 #include "Timer.h"
 #include "HeterotrophProcessor.h"
+#include "Time.h"
 
 int main( ) {
     Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
@@ -22,39 +23,33 @@ int main( ) {
 
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
         double cumulativeTenthsOfRunTime = 0;
-        unsigned cumulativeTimeInSeconds = 0;
         unsigned percentCount = 0;
-        unsigned timeStep = 0;
         bool isAlive = true;
 
         Logger::Get( )->LogMessage( "" );
         Logger::Get( )->LogMessage( "Starting main time loop..." );
-        double maxVal = .5;
-        double minVal = .5;
         do {
-            cumulativeTimeInSeconds = timer.Elapsed( );
-
             // Update before data collection; calculates essential variables for encounter rates.
             environment->Update( );
 
-            // Text output for the completion of each ten percent of the run 
-            if( cumulativeTimeInSeconds >= ( unsigned )cumulativeTenthsOfRunTime ) {
+            // Text output at the completion of each ten percent of the run 
+            if( timer.Elapsed( ) >= ( unsigned )cumulativeTenthsOfRunTime ) {
                 cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( timeStep ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
+                Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( Time::Get( )->GetTimeStep( ) ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
                 percentCount += 10;
             }
 
             // Data collection
-            if( timeStep % Parameters::Get( )->GetSamplingRate( ) == 0 ) {
-                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", timeStep );
+            if( Time::Get( )->DoRecordData( ) == true ) {
+                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", Time::Get( )->GetTimeStep( ) );
                 DataRecorder::Get( )->AddDataTo( "SamplingTime", timer.Split( ) );
                 isAlive = environment->RecordData( );
             }
+            Time::Get( )->IncrementTimeStep( );
 
-            timeStep = timeStep + 1;
-        } while( cumulativeTimeInSeconds < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
+        } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
 
-        if( cumulativeTimeInSeconds >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
+        if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
             Logger::Get( )->LogMessage( "Main time loop complete." );
         } else {
             Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );

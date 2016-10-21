@@ -15,6 +15,8 @@
 #include "Heterotrophs.h"
 #include "Individual.h"
 #include "Genome.h"
+#include "Tagger.h"
+#include "DataTag.h"
 
 FileWriter::FileWriter( ) {
     InitialiseOutputDirectory( );
@@ -146,9 +148,46 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 success = false;
         }
     }
-    if( Parameters::Get( )->GetWriteModelState( ) == true ) {
-        // Write state file
-        if( success == true ) {
+
+    if( success == true ) {
+        success = true;
+
+        if( Parameters::Get( )->GetPopulationTagPercentage( ) ) {
+            Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
+
+            for( unsigned int tagIndex = 0; tagIndex < tagger->GetNumberOfTags( ); ++tagIndex ) {
+
+                Types::DataTagPointer tag = tagger->GetTag( tagIndex );
+
+                std::string outputSubdirectory = mOutputPath;
+                outputSubdirectory.append( "Tag_" + Convertor::Get( )->ToString( tag->GetID( ) ) );
+                mkdir( outputSubdirectory.c_str( ), Constants::cOutputFolderPermissions );
+                outputSubdirectory.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
+
+                std::string fileName = outputSubdirectory;
+                fileName.append( "Volume" );
+                fileName.append( Constants::cOutputFileExtension );
+
+                std::ofstream volumeFileStream;
+                volumeFileStream.open( fileName.c_str( ), std::ios::out );
+
+                if( volumeFileStream.is_open( ) == true ) {
+
+                    for( unsigned dataIndex = 0; dataIndex < tag->GetSize( ) - 1; ++dataIndex ) {
+                        volumeFileStream << tag->GetVolume( dataIndex ) << Constants::cDataDelimiterValue;
+                    }
+                    volumeFileStream << tag->GetVolume( tag->GetSize( ) - 1 ) << std::endl;
+                    volumeFileStream.close( );
+
+                } else
+                    success = false;
+            }
+        }
+    }
+
+    // Write state file
+    if( success == true ) {
+        if( Parameters::Get( )->GetWriteModelState( ) == true ) {
             std::string fileName = Constants::cModelStateFileName;
             fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
             std::ofstream modelStateFileStream;

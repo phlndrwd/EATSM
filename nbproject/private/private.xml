@@ -9,6 +9,14 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Time.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Tagger.h</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Tagger.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Time.h</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Output/Logger.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Output/Logger.h</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Types.h</file>
+        </group>
     </open-files>
 </project-private>

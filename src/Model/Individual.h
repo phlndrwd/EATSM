@@ -15,7 +15,7 @@ public:
 
     double ConsumePreyVolume( const double );
     double Metabolise( const double );
-
+    
     Types::GenomePointer GetGenome( ) const;
     double GetTrophicLevel( ) const;
     unsigned GetSizeClassIndex( ) const;
@@ -28,7 +28,7 @@ public:
     double GetVolumeHeritable( ) const;
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
-
+    
     void SetTrophicLevel( const double );
     void SetSizeClassIndex( const unsigned );
 

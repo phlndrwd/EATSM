@@ -34,7 +34,8 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
         double geneValue = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
         double volumeActual = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
 
-        mHeterotrophs[ sizeClassIndex ].push_back( new Individual( geneValue, volumeActual, sizeClassIndex ) );
+        Types::IndividualPointer individual = new Individual( geneValue, volumeActual, sizeClassIndex );
+        mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }
 

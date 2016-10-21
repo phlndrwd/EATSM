@@ -1,7 +1,6 @@
 #include "Heterotrophs.h"
 
 #include "Individual.h"
-
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
 #include "Parameters.h"
@@ -13,21 +12,22 @@
 #include "Genome.h"
 #include "InitialState.h"
 #include "RandomSFMT.h"
+#include "Tagger.h"
 
 Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
     mNutrient = nutrient;
     mPhytoplankton = phytoplankton;
-    InitialiseSizeClasses( );
-
     mHeterotrophProcessor = new HeterotrophProcessor( );
     mHeterotrophData = new HeterotrophData( );
+    mTagger = new Tagger( );
 
-    mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    InitialiseSizeClasses( );
 }
 
 Heterotrophs::~Heterotrophs( ) {
     delete mHeterotrophProcessor;
     delete mHeterotrophData;
+    delete mTagger;
 
     delete mPhytoplankton;
     delete mNutrient;
@@ -55,8 +55,7 @@ void Heterotrophs::Update( ) {
 
 bool Heterotrophs::RecordData( ) {
     mHeterotrophData->InitialiseDataStructures( );
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
-    for( unsigned sizeClassIndex = 0; sizeClassIndex < numberOfSizeClasses; ++sizeClassIndex ) {
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
         for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
             mHeterotrophData->AddIndividualData( mSizeClasses[ sizeClassIndex ][ individualIndex ] );
@@ -66,10 +65,13 @@ bool Heterotrophs::RecordData( ) {
     mHeterotrophData->NormaliseData( );
     mHeterotrophData->RecordOutputData( );
 
+    mTagger->RecordData( );
+
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
 void Heterotrophs::InitialiseSizeClasses( ) {
+    mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     if( Parameters::Get( )->GetInitialisationMethod( ) == true ) {
         mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
         unsigned initialPopulationSize = 0;
@@ -92,6 +94,26 @@ void Heterotrophs::InitialiseSizeClasses( ) {
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
         Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( InitialState::Get( )->GetInitialPopulationSize( ) ) + " individuals." );
+    }
+
+    /////////////////////////////// APPLY TAGS
+    if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
+        unsigned totalTagged = 0;
+        for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+
+            unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
+            unsigned numberToTagInThisSizeClass = Maths::Get( )->Round( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) );
+
+            if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
+
+            Types::IndividualPointer individual;
+            for( unsigned tagIndex = 0; tagIndex < numberToTagInThisSizeClass; ++tagIndex ) {
+                individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
+                mTagger->AllocateTag( individual );
+            }
+            totalTagged += numberToTagInThisSizeClass;
+        }
+        Logger::Get( )->LogMessage( "Tagging applied to " + Convertor::Get( )->ToString( totalTagged ) + " individuals." );
     }
 }
 
@@ -349,6 +371,10 @@ unsigned Heterotrophs::GetSizeClassDeadFrequency( const unsigned sizeClassIndex 
 
 Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned sizeClassIndex, const unsigned individualIndex ) const {
     return mSizeClasses[ sizeClassIndex ][ individualIndex ];
+}
+
+Types::TaggerPointer Heterotrophs::GetTagger( ) const {
+    return mTagger;
 }
 
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer individual ) const {

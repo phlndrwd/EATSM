@@ -6,6 +6,7 @@ NumberOfSizeClasses,100
 InitialisationMethod,0
 ApplyStarvationFunction,1
 WriteModelState,1
+PopulationTagPercentage,0.01
 InitialNutrientVolume,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
