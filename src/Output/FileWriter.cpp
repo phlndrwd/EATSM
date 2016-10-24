@@ -152,11 +152,10 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     if( success == true ) {
         success = true;
 
-        if( Parameters::Get( )->GetPopulationTagPercentage( ) ) {
+        if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
             Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
-
+            
             for( unsigned int tagIndex = 0; tagIndex < tagger->GetNumberOfTags( ); ++tagIndex ) {
-
                 Types::DataTagPointer tag = tagger->GetTag( tagIndex );
 
                 std::string outputSubdirectory = mOutputPath;
