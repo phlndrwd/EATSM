@@ -9,6 +9,7 @@ public:
     static Types::TimePointer Get( );
     
     unsigned GetTimeStep( ) const;
+    double* GetTimeStepPointer( );
     bool DoRecordData( ) const;
     void IncrementTimeStep( );
     
@@ -17,6 +18,7 @@ private:
     
     static Types::TimePointer mThis;
     unsigned mTimeStep;
+    double mFloatTimeStep;
 };
 
 #endif

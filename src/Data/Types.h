@@ -51,17 +51,20 @@ namespace Types {
     typedef Time* TimePointer;
     typedef VectorDatum* VectorDatumPointer;
 
-    // Containers of pointers
+    // Containers of class pointers
     typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
     typedef std::vector< DataTagPointer > DataTagVector;
     typedef std::vector< IndividualPointer > IndividualVector;
 
-    // Containers of containers of pointers
+    // Containers of containers of class pointers
     typedef std::vector< IndividualVector > IndividualMatrix;
 
     // Containers of primitives
+    typedef std::map< std::string, double* > DoublePointerMap;
+    typedef std::map< std::string, float > FloatMap;
+
     typedef std::vector< bool > BoolVector;
     typedef std::vector< double > DoubleVector;
     typedef std::vector< float > FloatVector;
@@ -70,6 +73,8 @@ namespace Types {
     typedef std::vector< unsigned > UnsignedVector;
 
     // Containers of containers of primitives
+    typedef std::map< std::string, FloatVector > FloatVectorMap;
+
     typedef std::vector< FloatVector > FloatMatrix;
     typedef std::vector< IntVector > IntMatrix;
     typedef std::vector< StringVector > StringMatrix;

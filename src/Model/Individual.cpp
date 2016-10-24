@@ -163,6 +163,14 @@ double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
 }
 
+double* Individual::GetVolumeActualPointer( ) {
+    return &mVolumeActual;
+}
+
+double* Individual::GetTrophicLevelPointer( ) {
+    return &mTrophicLevel;
+}
+
 /*
  * Setters
  */

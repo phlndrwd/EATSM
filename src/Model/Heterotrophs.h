@@ -19,6 +19,8 @@ public:
 
 private:
     void InitialiseSizeClasses( );
+    void CreateInitialPopulation( );
+    void TagInitialPopulation( );
 
     void Feeding( );
     void Metabolisation( );

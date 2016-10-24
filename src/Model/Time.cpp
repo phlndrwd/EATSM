@@ -6,6 +6,7 @@ Types::TimePointer Time::mThis = NULL;
 
 Time::Time( ) {
     mTimeStep = 0;
+    mFloatTimeStep = mTimeStep;
 }
 
 Time::~Time( ) {
@@ -22,10 +23,15 @@ unsigned Time::GetTimeStep( ) const {
     return mTimeStep;
 }
 
+double* Time::GetTimeStepPointer( ) {
+    return &mFloatTimeStep;
+}
+
 bool Time::DoRecordData( ) const {
     return ( mTimeStep % Parameters::Get( )->GetSamplingRate( ) == 0 );
 }
 
 void Time::IncrementTimeStep( ) {
     ++mTimeStep;
+    mFloatTimeStep = mTimeStep;
 }

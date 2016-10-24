@@ -107,7 +107,7 @@ void FileWriter::WriteInputFiles( ) {
 
 void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     // Write vector datums
-    bool success = false;
+    bool success = true;
     Types::VectorDatumMap vectorDatumMap = DataRecorder::Get( )->GetVectorDatumMap( );
 
     for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
@@ -122,11 +122,13 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
             }
             outputFileStream << vectorDatum->GetDataAtIndex( vectorDatum->GetSize( ) - 1 );
             outputFileStream.close( );
-            success = true;
+        } else {
+            success = false;
         }
     }
     // Write grid datums
     if( success == true ) {
+        success = true;
         Types::MatrixDatumMap matrixDatumMap = DataRecorder::Get( )->GetMatrixDatumMap( );
         for( Types::MatrixDatumMap::iterator iter = matrixDatumMap.begin( ); iter != matrixDatumMap.end( ); ++iter ) {
 
@@ -143,18 +145,16 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                     outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, matrixDatum->GetColumns( ) - 1 ) << std::endl;
                 }
                 outputFileStream.close( );
-                success = true;
             } else
                 success = false;
         }
     }
-
+    // Write tag data
     if( success == true ) {
         success = true;
-
         if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
             Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
-            
+
             for( unsigned int tagIndex = 0; tagIndex < tagger->GetNumberOfTags( ); ++tagIndex ) {
                 Types::DataTagPointer tag = tagger->GetTag( tagIndex );
 
@@ -162,30 +162,52 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 outputSubdirectory.append( "Tag_" + Convertor::Get( )->ToString( tag->GetID( ) ) );
                 mkdir( outputSubdirectory.c_str( ), Constants::cOutputFolderPermissions );
                 outputSubdirectory.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
-
+                
+                // Write tag attributes
                 std::string fileName = outputSubdirectory;
-                fileName.append( "Volume" );
+                fileName.append( "Attributes" );
                 fileName.append( Constants::cOutputFileExtension );
+                std::ofstream outputFileStream;
+                outputFileStream.open( fileName.c_str( ), std::ios::out );
 
-                std::ofstream volumeFileStream;
-                volumeFileStream.open( fileName.c_str( ), std::ios::out );
-
-                if( volumeFileStream.is_open( ) == true ) {
-
-                    for( unsigned dataIndex = 0; dataIndex < tag->GetSize( ) - 1; ++dataIndex ) {
-                        volumeFileStream << tag->GetVolume( dataIndex ) << Constants::cDataDelimiterValue;
+                if( outputFileStream.is_open( ) == true ) {
+                    Types::FloatMap attributeMap = tag->GetAttributes( );
+                    
+                    for( Types::FloatMap::iterator iter = attributeMap.begin( ); iter != attributeMap.end( ); ++iter ) {
+                        outputFileStream << iter->first << Constants::cDataDelimiterValue << iter->second << std::endl;
                     }
-                    volumeFileStream << tag->GetVolume( tag->GetSize( ) - 1 ) << std::endl;
-                    volumeFileStream.close( );
-
+                    outputFileStream.close( );
                 } else
                     success = false;
+                
+                // Write tag time series
+                Types::FloatVectorMap dataMap = tag->GetData( );
+
+                for( Types::FloatVectorMap::iterator iter = dataMap.begin( ); iter != dataMap.end( ); ++iter ) {
+                    std::string fileName = outputSubdirectory;
+
+                    fileName.append( iter->first );
+                    fileName.append( Constants::cOutputFileExtension );
+                    std::ofstream outputFileStream;
+                    outputFileStream.open( fileName.c_str( ), std::ios::out );
+
+                    if( outputFileStream.is_open( ) == true ) {
+                        Types::FloatVector data = iter->second;
+
+                        for( unsigned index = 0; index < data.size( ) - 1; ++index ) {
+                            outputFileStream << data[ index ] << Constants::cDataDelimiterValue;
+                        }
+                        outputFileStream << data[ data.size( ) - 1 ] << std::endl;
+                        outputFileStream.close( );
+                    } else
+                        success = false;
+                }
             }
         }
     }
-
     // Write state file
     if( success == true ) {
+        success = true;
         if( Parameters::Get( )->GetWriteModelState( ) == true ) {
             std::string fileName = Constants::cModelStateFileName;
             fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
@@ -208,7 +230,6 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                     }
                 }
                 modelStateFileStream.close( );
-                success = true;
             } else
                 success = false;
         }

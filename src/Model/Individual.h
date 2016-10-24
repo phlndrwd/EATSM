@@ -29,6 +29,9 @@ public:
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
     
+    double* GetVolumeActualPointer( );
+    double* GetTrophicLevelPointer( );
+    
     void SetTrophicLevel( const double );
     void SetSizeClassIndex( const unsigned );
 

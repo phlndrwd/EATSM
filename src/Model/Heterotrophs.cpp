@@ -71,7 +71,13 @@ bool Heterotrophs::RecordData( ) {
 }
 
 void Heterotrophs::InitialiseSizeClasses( ) {
+    CreateInitialPopulation( );
+    TagInitialPopulation( );
+}
+
+void Heterotrophs::CreateInitialPopulation( ) {
     mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+
     if( Parameters::Get( )->GetInitialisationMethod( ) == true ) {
         mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
         unsigned initialPopulationSize = 0;
@@ -95,8 +101,9 @@ void Heterotrophs::InitialiseSizeClasses( ) {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
         Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( InitialState::Get( )->GetInitialPopulationSize( ) ) + " individuals." );
     }
+}
 
-    /////////////////////////////// APPLY TAGS
+void Heterotrophs::TagInitialPopulation( ) {
     if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
         unsigned totalTagged = 0;
         for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
@@ -105,15 +112,16 @@ void Heterotrophs::InitialiseSizeClasses( ) {
             unsigned numberToTagInThisSizeClass = Maths::Get( )->Round( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) );
 
             if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
-
-            Types::IndividualPointer individual;
+            
             for( unsigned tagIndex = 0; tagIndex < numberToTagInThisSizeClass; ++tagIndex ) {
-                individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
+                Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
                 mTagger->AllocateTag( individual );
             }
             totalTagged += numberToTagInThisSizeClass;
         }
         Logger::Get( )->LogMessage( "Tagging applied to " + Convertor::Get( )->ToString( totalTagged ) + " individuals." );
+    } else {
+        Logger::Get( )->LogMessage( "No individuals tagged." );
     }
 }
 

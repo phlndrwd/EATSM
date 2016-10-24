@@ -9,14 +9,14 @@ public:
     ~DataTag( );
 
     long GetID( ) const;
-    unsigned GetSize( ) const;
-    float GetVolume( const unsigned ) const;
+    Types::FloatMap& GetAttributes( );
+    Types::FloatVectorMap& GetData( );
     void SetData( );
 
 private:
-    Types::IndividualPointer mIndividual;
-    Types::UnsignedVector mTime;
-    Types::FloatVector mVolume;
+    Types::FloatMap mAttributes;
+    Types::DoublePointerMap mDataPointers;
+    Types::FloatVectorMap mData;
     long mID;
 };
 
