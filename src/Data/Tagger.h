@@ -10,8 +10,7 @@ public:
 
     unsigned GetNumberOfTags( );
     Types::DataTagPointer GetTag( const unsigned );
-    void AllocateTag( Types::IndividualPointer );
-    void RecordData( );
+    Types::DataTagPointer GetNextTag( Types::IndividualPointer );
 
 private:
     long mNextID;

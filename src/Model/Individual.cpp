@@ -8,6 +8,7 @@
 #include "Logger.h"
 #include "RandomSFMT.h"
 #include "DataTag.h"
+#include "Time.h"
 
 /*
  * Construction and destruction
@@ -33,6 +34,7 @@ Individual::Individual( const double volumeHeritable, const unsigned sizeClassIn
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
+    mTag = NULL;
 }
 
 // For reproduction.
@@ -49,6 +51,7 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 
     mAge = 0;
     mIsDead = false;
+    mTag = NULL;
 }
 
 // For model restart.
@@ -68,6 +71,7 @@ Individual::Individual( const double geneValue, const double volumeActual, const
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
+    mTag = NULL;
 }
 
 Individual::~Individual( ) {
@@ -163,12 +167,12 @@ double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
 }
 
-double* Individual::GetVolumeActualPointer( ) {
-    return &mVolumeActual;
+double* Individual::GetVolumeActualPointer( ) const {
+    &mVolumeActual;
 }
 
-double* Individual::GetTrophicLevelPointer( ) {
-    return &mTrophicLevel;
+double* Individual::GetTrophicLevelPointer( ) const {
+    &mTrophicLevel;
 }
 
 /*
@@ -189,4 +193,12 @@ void Individual::SetAge( const unsigned age ) {
 
 void Individual::Kill( ) {
     mIsDead = true;
+}
+
+void Individual::SetTag( Types::DataTagPointer tag ) {
+    mTag = tag;
+}
+
+void Individual::RecordTagData( ) {
+    if( mTag != NULL ) mTag->RecordData( );
 }

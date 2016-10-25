@@ -58,14 +58,13 @@ bool Heterotrophs::RecordData( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
         for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
+            mSizeClasses[ sizeClassIndex ][ individualIndex ]->RecordTagData( );
             mHeterotrophData->AddIndividualData( mSizeClasses[ sizeClassIndex ][ individualIndex ] );
         }
         mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassSize );
     }
     mHeterotrophData->NormaliseData( );
     mHeterotrophData->RecordOutputData( );
-
-    mTagger->RecordData( );
 
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
@@ -112,10 +111,10 @@ void Heterotrophs::TagInitialPopulation( ) {
             unsigned numberToTagInThisSizeClass = Maths::Get( )->Round( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) );
 
             if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
-            
+
             for( unsigned tagIndex = 0; tagIndex < numberToTagInThisSizeClass; ++tagIndex ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
-                mTagger->AllocateTag( individual );
+                individual->SetTag( mTagger->GetNextTag( individual ) );
             }
             totalTagged += numberToTagInThisSizeClass;
         }

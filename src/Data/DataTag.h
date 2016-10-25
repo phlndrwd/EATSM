@@ -5,14 +5,15 @@
 
 class DataTag {
 public:
-    DataTag( const Types::IndividualPointer, const long );
+    DataTag( const long, Types::IndividualPointer );
     ~DataTag( );
+    
+    void RecordData( );
 
     long GetID( ) const;
     Types::FloatMap& GetAttributes( );
     Types::FloatVectorMap& GetData( );
-    void SetData( );
-
+    
 private:
     Types::FloatMap mAttributes;
     Types::DoublePointerMap mDataPointers;

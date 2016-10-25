@@ -3,9 +3,9 @@
 #include "Individual.h"
 #include "Time.h"
 
-DataTag::DataTag( const Types::IndividualPointer individual, const long id ) {
+DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
     mID = id;
-    
+
     mAttributes.insert( std::pair< std::string, float >( "VolumeHeritable", individual->GetVolumeHeritable( ) ) );
     mAttributes.insert( std::pair< std::string, float >( "VolumeMinimum", individual->GetVolumeMinimum( ) ) );
     mAttributes.insert( std::pair< std::string, float >( "VolumeReproduction", individual->GetVolumeReproduction( ) ) );
@@ -31,7 +31,7 @@ Types::FloatVectorMap& DataTag::GetData( ) {
     return mData;
 }
 
-void DataTag::SetData( ) {
+void DataTag::RecordData( ) {
     for( Types::DoublePointerMap::iterator pointerIter = mDataPointers.begin( ); pointerIter != mDataPointers.end( ); ++pointerIter ) {
         std::string name = pointerIter->first;
         double* dataPointer = pointerIter->second;

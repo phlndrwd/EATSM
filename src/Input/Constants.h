@@ -21,7 +21,6 @@ namespace Constants {
     enum eGenomeIndices {
         eVolumeGene
     };
-
     
     const std::string cConfigurationDirectory = "./input/";
     const std::string cInputParametersFileName = "Parameters.csv";

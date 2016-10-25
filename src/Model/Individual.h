@@ -29,17 +29,21 @@ public:
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
     
-    double* GetVolumeActualPointer( );
-    double* GetTrophicLevelPointer( );
+    double* GetVolumeActualPointer( ) const;
+    double* GetTrophicLevelPointer( ) const;
     
     void SetTrophicLevel( const double );
     void SetSizeClassIndex( const unsigned );
 
     void SetAge( const unsigned );
     void Kill( );
+    
+    void SetTag( Types::DataTagPointer );
+    void RecordTagData( );
 
 private:
     Types::GenomePointer mGenome;
+    Types::DataTagPointer mTag;
 
     double mVolumeActual;
     double mVolumeHeritable;

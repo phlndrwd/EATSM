@@ -23,14 +23,9 @@ Types::DataTagPointer Tagger::GetTag( const unsigned index ) {
     return mTags[ index ];
 }
 
-void Tagger::AllocateTag( Types::IndividualPointer individual ) {
-    Types::DataTagPointer tag = new DataTag( individual, mNextID );
+Types::DataTagPointer Tagger::GetNextTag( Types::IndividualPointer individual  ) {
+    Types::DataTagPointer tag = new DataTag( mNextID, individual );
     mTags.push_back( tag );
     ++mNextID;
-}
-
-void Tagger::RecordData( ) {
-    for( unsigned index = 0; index < mTags.size( ); ++index ) {
-        mTags[ index ]->SetData( );
-    }
+    return tag;
 }

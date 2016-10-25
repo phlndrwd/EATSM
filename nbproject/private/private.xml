@@ -10,18 +10,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Time.cpp</file>
             <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/DataTag.cpp</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Main.cpp</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Time.h</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Output/FileWriter.h</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Heterotrophs.cpp</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/DataTag.h</file>
             <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Tagger.h</file>
             <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Tagger.cpp</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Environment.h</file>
-            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Environment.cpp</file>
             <file>file:/home/philju/Dropbox/Development/EATSM/src/Output/FileWriter.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Individual.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/Types.h</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Individual.h</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Heterotrophs.cpp</file>
+            <file>file:/home/philju/Dropbox/Development/EATSM/src/Data/DataTag.h</file>
             <file>file:/home/philju/Dropbox/Development/EATSM/src/Model/Heterotrophs.h</file>
         </group>
     </open-files>
