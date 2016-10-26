@@ -8,6 +8,7 @@
 #include <map>          // For map
 
 class Autotrophs;
+class ConsumptionEvent;
 class Convertor;
 class DataRecorder;
 class DataTag;
@@ -31,6 +32,7 @@ class VectorDatum;
 namespace Types {
     // Pointers
     typedef Autotrophs* AutotrophsPointer;
+    typedef ConsumptionEvent* ConsumptionEventPointer;
     typedef Convertor* ConvertorPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef DataTag* DataTagPointer;
@@ -55,6 +57,7 @@ namespace Types {
     typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
+    typedef std::vector< ConsumptionEventPointer > ConsumptionEventVector;
     typedef std::vector< DataTagPointer > DataTagVector;
     typedef std::vector< IndividualPointer > IndividualVector;
 

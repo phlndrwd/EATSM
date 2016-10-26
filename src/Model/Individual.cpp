@@ -109,13 +109,15 @@ Types::IndividualPointer Individual::Reproduce( ) {
     return childIndividual;
 }
 
-double Individual::ConsumePreyVolume( const double preyVolume ) {
-
+double Individual::ConsumePreyVolume( const double preyVolume, const bool isHerbivory ) {
     double volumeAssimilated = preyVolume * Parameters::Get( )->GetAssimilationEfficiency( );
-
+    double wasteVolume = preyVolume - volumeAssimilated;
+    
     mVolumeActual += volumeAssimilated;
+    
+    if( mTag != NULL ) mTag->AddConsumptionEvent( preyVolume, volumeAssimilated, wasteVolume, isHerbivory );
 
-    return preyVolume - volumeAssimilated;
+    return wasteVolume;
 }
 
 double Individual::Metabolise( const double metabolicDeduction ) {
@@ -200,5 +202,5 @@ void Individual::SetTag( Types::DataTagPointer tag ) {
 }
 
 void Individual::RecordTagData( ) {
-    if( mTag != NULL ) mTag->RecordData( );
+    if( mTag != NULL ) mTag->RecordTimeSeriesData( );
 }

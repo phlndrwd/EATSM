@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/src/Data/ConsumptionEvent.o \
 	${OBJECTDIR}/src/Data/DataTag.o \
 	${OBJECTDIR}/src/Data/HeterotrophData.o \
 	${OBJECTDIR}/src/Data/MatrixDatum.o \
@@ -85,6 +86,11 @@ LDLIBSOPTIONS=
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/src/Data/ConsumptionEvent.o: src/Data/ConsumptionEvent.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Data
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/ConsumptionEvent.o src/Data/ConsumptionEvent.cpp
 
 ${OBJECTDIR}/src/Data/DataTag.o: src/Data/DataTag.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Data

@@ -13,7 +13,7 @@ public:
 
     Types::IndividualPointer Reproduce( );
 
-    double ConsumePreyVolume( const double );
+    double ConsumePreyVolume( const double, bool isHerbivory = true );
     double Metabolise( const double );
     
     Types::GenomePointer GetGenome( ) const;

@@ -2,6 +2,7 @@
 #include "Types.h"
 #include "Individual.h"
 #include "Time.h"
+#include "ConsumptionEvent.h"
 
 DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
     mID = id;
@@ -31,7 +32,7 @@ Types::FloatVectorMap& DataTag::GetData( ) {
     return mData;
 }
 
-void DataTag::RecordData( ) {
+void DataTag::RecordTimeSeriesData( ) {
     for( Types::DoublePointerMap::iterator pointerIter = mDataPointers.begin( ); pointerIter != mDataPointers.end( ); ++pointerIter ) {
         std::string name = pointerIter->first;
         double* dataPointer = pointerIter->second;
@@ -46,4 +47,10 @@ void DataTag::RecordData( ) {
             mData.insert( std::pair< std::string, Types::FloatVector >( name, dataVector ) );
         }
     }
+}
+
+void DataTag::AddConsumptionEvent( const double preyVolume, const double volumeAssimilated, const double wasteVolume, const bool isHerbivory ) {
+    Types::ConsumptionEventPointer consumption = new ConsumptionEvent( Time::Get( )->GetTimeStep( ), preyVolume, volumeAssimilated, wasteVolume );
+    if( isHerbivory == true ) mHerbivoryEvents.push_back( consumption );
+    else mCarnivoryEvents.push_back( consumption );
 }
