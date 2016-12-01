@@ -52,7 +52,7 @@
 
 #include "RandomSFMT.h"
 #include "Parameters.h"
-#include <math.h>
+#include <cmath>
 
 Types::RandomSFMTPointer RandomSFMT::mThis = NULL;
 
@@ -378,7 +378,7 @@ const double RandomSFMT::GetNormal( const double mean, const double standardDevi
             sumSquare = uniformValue1 * uniformValue1 + uniformValue2 * uniformValue2;
         } while( sumSquare >= 1.0 );
 
-        sumSquare = sqrt( ( -2.0 * log( sumSquare ) ) / sumSquare );
+        sumSquare = std::sqrt( ( -2.0 * std::log( sumSquare ) ) / sumSquare );
         normalValue = uniformValue1 * sumSquare;
         normalValue2 = uniformValue2 * sumSquare;
         mIsCalculated = true;

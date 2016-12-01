@@ -58,8 +58,9 @@ bool Heterotrophs::RecordData( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
         for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
-            mSizeClasses[ sizeClassIndex ][ individualIndex ]->RecordTagData( );
-            mHeterotrophData->AddIndividualData( mSizeClasses[ sizeClassIndex ][ individualIndex ] );
+            Types::IndividualPointer individual = mSizeClasses[ sizeClassIndex ][ individualIndex ];
+            individual->RecordTagData( );
+            mHeterotrophData->AddIndividualData( individual );
         }
         mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassSize );
     }
@@ -114,9 +115,12 @@ void Heterotrophs::TagInitialPopulation( ) {
 
             for( unsigned tagIndex = 0; tagIndex < numberToTagInThisSizeClass; ++tagIndex ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
-                individual->SetTag( mTagger->GetNextTag( individual ) );
+                if( individual != NULL ) {
+                    individual->SetTag( mTagger->GetNextTag( individual ) );
+                    ++totalTagged;
+                }
             }
-            totalTagged += numberToTagInThisSizeClass;
+            //totalTagged += numberToTagInThisSizeClass;
         }
         Logger::Get( )->LogMessage( "Tagging applied to " + Convertor::Get( )->ToString( totalTagged ) + " individuals." );
     } else {

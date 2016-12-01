@@ -159,13 +159,13 @@ private:
     void Generate( );           // Fill state array with new random numbers
     static Types::RandomSFMTPointer mThis;
 
-    unsigned RandomBits( );        // Output random bits
+    unsigned RandomBits( );     // Output random bits
     unsigned MotherBits( );     // Get random bits from Mother-Of-All generator
     unsigned mIndex;            // Index into state array
     unsigned mLastInterval;     // Last interval length for IRandom
     unsigned mRLimit;           // Rejection limit used by IRandom
     bool mUseMother;            // Combine with Mother-Of-All generator
-    __m128i mMask;             // AND mask
+    __m128i mMask;              // AND mask
     __m128i mState[ SFMT_N ];   // State vector for SFMT generator
     unsigned mMotherState[ 5 ]; // State vector for Mother-Of-All generator
 };

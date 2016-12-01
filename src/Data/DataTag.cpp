@@ -3,17 +3,30 @@
 #include "Individual.h"
 #include "Time.h"
 #include "ConsumptionEvent.h"
+#include "Logger.h"
+#include "Convertor.h"
 
 DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
     mID = id;
 
-    mAttributes.insert( std::pair< std::string, float >( "VolumeHeritable", individual->GetVolumeHeritable( ) ) );
-    mAttributes.insert( std::pair< std::string, float >( "VolumeMinimum", individual->GetVolumeMinimum( ) ) );
-    mAttributes.insert( std::pair< std::string, float >( "VolumeReproduction", individual->GetVolumeReproduction( ) ) );
+    //    mAttributes.insert( std::pair< std::string, float >( "VolumeHeritable", individual->GetVolumeHeritable( ) ) );
+    //    mAttributes.insert( std::pair< std::string, float >( "VolumeMinimum", individual->GetVolumeMinimum( ) ) );
+    //    mAttributes.insert( std::pair< std::string, float >( "VolumeReproduction", individual->GetVolumeReproduction( ) ) );
+    //
+    //    mDataPointers.insert( std::pair< std::string, double* >( "TimeSteps", Time::Get( )->GetTimeStepPointer( ) ) );
+    //    mDataPointers.insert( std::pair< std::string, double* >( "VolumeActual", individual->GetVolumeActualPointer( ) ) );
+    //    mDataPointers.insert( std::pair< std::string, double* >( "TrophicLevel", individual->GetTrophicLevelPointer( ) ) );
+    
+    
+    // CHANGE DATA COLLECTION TO WORK WITH A POINTER TO THE INDIVIDUAL!
+    
+    mAttributes.insert( std::make_pair( "VolumeHeritable", individual->GetVolumeHeritable( ) ) );
+    mAttributes.insert( std::make_pair( "VolumeMinimum", individual->GetVolumeMinimum( ) ) );
+    mAttributes.insert( std::make_pair( "VolumeReproduction", individual->GetVolumeReproduction( ) ) );
 
-    mDataPointers.insert( std::pair< std::string, double* >( "TimeSteps", Time::Get( )->GetTimeStepPointer( ) ) );
-    mDataPointers.insert( std::pair< std::string, double* >( "VolumeActual", individual->GetVolumeActualPointer( ) ) );
-    mDataPointers.insert( std::pair< std::string, double* >( "TrophicLevel", individual->GetTrophicLevelPointer( ) ) );
+    mDataPointers.insert( std::make_pair( "TimeSteps", Time::Get( )->GetTimeStepPointer( ) ) );
+    mDataPointers.insert( std::make_pair( "VolumeActual", individual->GetVolumeActualPointer( ) ) );
+    mDataPointers.insert( std::make_pair( "TrophicLevel", individual->GetTrophicLevelPointer( ) ) );
 }
 
 DataTag::~DataTag( ) {
@@ -37,15 +50,7 @@ void DataTag::RecordTimeSeriesData( ) {
         std::string name = pointerIter->first;
         double* dataPointer = pointerIter->second;
 
-        Types::FloatVectorMap::iterator dataIter = mData.find( name );
-
-        if( dataIter != mData.end( ) ) {
-            dataIter->second.push_back( *dataPointer );
-        } else {
-            Types::FloatVector dataVector;
-            dataVector.push_back( *dataPointer );
-            mData.insert( std::pair< std::string, Types::FloatVector >( name, dataVector ) );
-        }
+        mData[ name ].push_back( *dataPointer );
     }
 }
 

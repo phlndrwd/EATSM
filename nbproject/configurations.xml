@@ -111,7 +111,6 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>src</Elem>
-    <Elem>src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -254,11 +253,12 @@
           <developmentMode>5</developmentMode>
           <incDir>
             <pElem>src/Input/</pElem>
+            <pElem>src/Data/</pElem>
             <pElem>src/Model/</pElem>
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-O2 -std=c++11 -march=core2 -mfpmath=sse</commandLine>
+          <commandLine>-O1 -std=c++11 -march=core2 -mfpmath=sse</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

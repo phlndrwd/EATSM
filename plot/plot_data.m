@@ -125,6 +125,7 @@ for datumIndex = 1:numberOfDatums
                 xlabel( labelTimeAxis );
                 if optionPrintPlotsToFile == 1
                     printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
+                    close( handle );
                 end
             end
             eval( [ dataSetName ' = dataSet;' ] ); % Necessary to overwrite original data.
@@ -149,5 +150,6 @@ if volumeMatrixIndex == 0
     ylabel( 'Volume' );
     if optionPrintPlotsToFile == 1
         printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
+        close( handle );
     end
 end

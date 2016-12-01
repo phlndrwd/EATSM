@@ -2,7 +2,6 @@
 
 #include "RandomSFMT.h"
 
-#include <math.h>
 #include <cmath> 
 
 Types::MathsPointer Maths::mThis = NULL;
@@ -58,23 +57,23 @@ double Maths::Max( const double& a, const double& b ) const {
 }
 
 double Maths::Log( const double& value ) const {
-    return log( value );
+    return std::log( value );
 }
 
 double Maths::Log10( const double& value ) const {
-    return log10( value );
+    return std::log10( value );
 }
 
 double Maths::Exp( const double& exponent ) const {
-    return exp( exponent );
+    return std::exp( exponent );
 }
 
 double Maths::Pow( const double& base, const double& exponent ) const {
-    return pow( base, exponent );
+    return std::pow( base, exponent );
 }
 
 double Maths::NthRoot( const double& root, const double& degree ) const {
-    return pow( root, 1.0 / degree );
+    return std::pow( root, 1.0 / degree );
 }
 
 unsigned Maths::Mod( const unsigned& dividend, const unsigned& divisor ) const {

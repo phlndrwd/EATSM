@@ -45,16 +45,15 @@ private:
     Types::GenomePointer mGenome;
     Types::DataTagPointer mTag;
 
-    double mVolumeActual;
     double mVolumeHeritable;
     double mVolumeMinimum;
     double mVolumeReproduction;
     
+    double mVolumeActual;
     unsigned mSizeClassIndex;
-
     double mTrophicLevel;
-
     unsigned mAge;
+    
     bool mIsDead;
 };
 

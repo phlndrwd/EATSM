@@ -19,6 +19,7 @@ private:
     Types::FloatMap mAttributes;
     Types::DoublePointerMap mDataPointers;
     Types::FloatVectorMap mData;
+    
     Types::ConsumptionEventVector mHerbivoryEvents;
     Types::ConsumptionEventVector mCarnivoryEvents;
     long mID;

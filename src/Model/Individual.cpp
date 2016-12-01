@@ -17,7 +17,6 @@
 // For model initialisation.
 
 Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
-
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
 
@@ -40,7 +39,6 @@ Individual::Individual( const double volumeHeritable, const unsigned sizeClassIn
 // For reproduction.
 
 Individual::Individual( const Types::GenomePointer genome, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel ) {
-
     mGenome = genome;
     mVolumeHeritable = volumeHeritable;
     mVolumeActual = volumeActual;
@@ -57,7 +55,6 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 // For model restart.
 
 Individual::Individual( const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
-
     Types::DoubleVector geneValues;
     geneValues.push_back( geneValue );
     mGenome = new Genome( geneValues );
@@ -79,7 +76,6 @@ Individual::~Individual( ) {
 }
 
 Types::IndividualPointer Individual::Reproduce( ) {
-
     Types::GenomePointer childGenome = mGenome->GetChildGenome( );
     Types::IndividualPointer childIndividual = 0;
 
@@ -101,9 +97,7 @@ Types::IndividualPointer Individual::Reproduce( ) {
             childVolumeActual = mVolumeActual / 2;
         }
     }
-
     mVolumeActual = mVolumeActual - childVolumeActual;
-
     childIndividual = new Individual( childGenome, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
 
     return childIndividual;
@@ -112,20 +106,16 @@ Types::IndividualPointer Individual::Reproduce( ) {
 double Individual::ConsumePreyVolume( const double preyVolume, const bool isHerbivory ) {
     double volumeAssimilated = preyVolume * Parameters::Get( )->GetAssimilationEfficiency( );
     double wasteVolume = preyVolume - volumeAssimilated;
-    
+
     mVolumeActual += volumeAssimilated;
-    
     if( mTag != NULL ) mTag->AddConsumptionEvent( preyVolume, volumeAssimilated, wasteVolume, isHerbivory );
 
     return wasteVolume;
 }
 
 double Individual::Metabolise( const double metabolicDeduction ) {
-
     ++mAge;
-
     mVolumeActual -= metabolicDeduction;
-
     return metabolicDeduction;
 }
 

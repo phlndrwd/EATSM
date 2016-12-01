@@ -65,6 +65,7 @@ namespace Types {
     typedef std::vector< IndividualVector > IndividualMatrix;
 
     // Containers of primitives
+    typedef std::map< std::string, double > DoubleMap;
     typedef std::map< std::string, double* > DoublePointerMap;
     typedef std::map< std::string, float > FloatMap;
 
