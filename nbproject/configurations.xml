@@ -27,7 +27,7 @@
         <itemPath>src/Model/Heterotrophs.h</itemPath>
         <itemPath>src/Model/Individual.h</itemPath>
         <itemPath>src/Model/Nutrient.h</itemPath>
-        <itemPath>src/Model/Time.h</itemPath>
+        <itemPath>src/Model/TimeStep.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="Output" projectFiles="true">
         <itemPath>src/Output/DataRecorder.h</itemPath>
@@ -70,7 +70,7 @@
         <itemPath>src/Model/Heterotrophs.cpp</itemPath>
         <itemPath>src/Model/Individual.cpp</itemPath>
         <itemPath>src/Model/Nutrient.cpp</itemPath>
-        <itemPath>src/Model/Time.cpp</itemPath>
+        <itemPath>src/Model/TimeStep.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f4" displayName="Output" projectFiles="true">
         <itemPath>src/Output/DataRecorder.cpp</itemPath>
@@ -202,9 +202,9 @@
       </item>
       <item path="src/Model/Nutrient.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Model/Time.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Model/TimeStep.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Time.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Model/TimeStep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Output/DataRecorder.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -337,9 +337,9 @@
       </item>
       <item path="src/Model/Nutrient.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Model/Time.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Model/TimeStep.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Model/Time.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Model/TimeStep.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Output/DataRecorder.cpp" ex="false" tool="1" flavor2="0">
       </item>

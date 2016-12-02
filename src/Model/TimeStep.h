@@ -1,24 +1,23 @@
-#ifndef TIME
-#define	TIME
+#ifndef TIMESTEP
+#define	TIMESTEP
 
 #include "Types.h"
 
-class Time {
+class TimeStep {
 public:
-    ~Time( );
+    ~TimeStep( );
     static Types::TimePointer Get( );
-    
+
     unsigned GetTimeStep( ) const;
-    double* GetTimeStepPointer( );
+    
     bool DoRecordData( ) const;
     void IncrementTimeStep( );
-    
+
 private:
-    Time( );
-    
+    TimeStep( );
+
     static Types::TimePointer mThis;
     unsigned mTimeStep;
-    double mFloatTimeStep;
 };
 
 #endif

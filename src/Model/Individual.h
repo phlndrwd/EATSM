@@ -15,7 +15,7 @@ public:
 
     double ConsumePreyVolume( const double, bool isHerbivory = true );
     double Metabolise( const double );
-    
+
     Types::GenomePointer GetGenome( ) const;
     double GetTrophicLevel( ) const;
     unsigned GetSizeClassIndex( ) const;
@@ -28,16 +28,13 @@ public:
     double GetVolumeHeritable( ) const;
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
-    
-    double* GetVolumeActualPointer( ) const;
-    double* GetTrophicLevelPointer( ) const;
-    
+
     void SetTrophicLevel( const double );
     void SetSizeClassIndex( const unsigned );
 
     void SetAge( const unsigned );
     void Kill( );
-    
+
     void SetTag( Types::DataTagPointer );
     void RecordTagData( );
 
@@ -48,12 +45,12 @@ private:
     double mVolumeHeritable;
     double mVolumeMinimum;
     double mVolumeReproduction;
-    
+
     double mVolumeActual;
     unsigned mSizeClassIndex;
     double mTrophicLevel;
     unsigned mAge;
-    
+
     bool mIsDead;
 };
 

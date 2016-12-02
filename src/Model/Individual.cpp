@@ -8,7 +8,7 @@
 #include "Logger.h"
 #include "RandomSFMT.h"
 #include "DataTag.h"
-#include "Time.h"
+#include "TimeStep.h"
 
 /*
  * Construction and destruction
@@ -157,14 +157,6 @@ double Individual::GetVolumeMinimum( ) const {
 
 double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
-}
-
-double* Individual::GetVolumeActualPointer( ) const {
-    &mVolumeActual;
-}
-
-double* Individual::GetTrophicLevelPointer( ) const {
-    &mTrophicLevel;
 }
 
 /*

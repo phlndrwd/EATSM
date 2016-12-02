@@ -8,7 +8,7 @@
 #include "FileWriter.h"
 #include "Timer.h"
 #include "HeterotrophProcessor.h"
-#include "Time.h"
+#include "TimeStep.h"
 
 int main( ) {
     Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
@@ -35,17 +35,17 @@ int main( ) {
             // Text output at the completion of each ten percent of the run 
             if( timer.Elapsed( ) >= ( unsigned )cumulativeTenthsOfRunTime ) {
                 cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( Time::Get( )->GetTimeStep( ) ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
+                Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( TimeStep::Get( )->GetTimeStep( ) ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
                 percentCount += 10;
             }
 
             // Data collection
-            if( Time::Get( )->DoRecordData( ) == true ) {
-                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", Time::Get( )->GetTimeStep( ) );
+            if( TimeStep::Get( )->DoRecordData( ) == true ) {
+                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
                 DataRecorder::Get( )->AddDataTo( "SamplingTime", timer.Split( ) );
                 isAlive = environment->RecordData( );
             }
-            Time::Get( )->IncrementTimeStep( );
+            TimeStep::Get( )->IncrementTimeStep( );
 
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
 

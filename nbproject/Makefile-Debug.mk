@@ -52,7 +52,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/Heterotrophs.o \
 	${OBJECTDIR}/src/Model/Individual.o \
 	${OBJECTDIR}/src/Model/Nutrient.o \
-	${OBJECTDIR}/src/Model/Time.o \
+	${OBJECTDIR}/src/Model/TimeStep.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
 	${OBJECTDIR}/src/Output/Logger.o \
@@ -172,10 +172,10 @@ ${OBJECTDIR}/src/Model/Nutrient.o: src/Model/Nutrient.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Nutrient.o src/Model/Nutrient.cpp
 
-${OBJECTDIR}/src/Model/Time.o: src/Model/Time.cpp 
+${OBJECTDIR}/src/Model/TimeStep.o: src/Model/TimeStep.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Time.o src/Model/Time.cpp
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/TimeStep.o src/Model/TimeStep.cpp
 
 ${OBJECTDIR}/src/Output/DataRecorder.o: src/Output/DataRecorder.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Output

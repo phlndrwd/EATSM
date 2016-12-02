@@ -26,7 +26,7 @@ class Nutrient;
 class Parameters;
 class RandomSFMT;
 class Tagger;
-class Time;
+class TimeStep;
 class VectorDatum;
 
 namespace Types {
@@ -50,7 +50,7 @@ namespace Types {
     typedef Parameters* ParametersPointer;
     typedef RandomSFMT* RandomSFMTPointer;
     typedef Tagger* TaggerPointer;
-    typedef Time* TimePointer;
+    typedef TimeStep* TimePointer;
     typedef VectorDatum* VectorDatumPointer;
 
     // Containers of class pointers
