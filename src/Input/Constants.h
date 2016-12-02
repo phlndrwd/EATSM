@@ -8,11 +8,12 @@
 namespace Constants {
 
     // Input data file enums
+
     enum eInputParametersMetadata {
         eParameterName,
         eParameterValue
     };
-    
+
     enum eOutputControlParameters {
         eDatumName,
         eDatumType
@@ -21,15 +22,21 @@ namespace Constants {
     enum eGenomeIndices {
         eVolumeGene
     };
-    
+
     const std::string cConfigurationDirectory = "./input/";
     const std::string cInputParametersFileName = "Parameters.csv";
     const std::string cOutputParametersFileName = "OutputControlParameters.csv";
     const std::string cInitialisationFileName = "InitialModelState.csv";
+    const std::string cModelStateFileName = "State.csv";
     
+    const std::string cTagFileName = "Tag_";
+    const std::string cAttributesFileName = "Attributes.csv";
+    const std::string cHerbivoryEventsFileName = "HerbivoryEvents.csv";
+    const std::string cCarnivoryEventsFileName = "CarnivoryEvents.csv";
+
     const std::string cVectorDatumTypeName = "vector";
     const std::string cMatrixDatumTypeName = "matrix";
-    
+
     const unsigned cMaximumNumberOfTrophicLevels = 11; // 0 = unclassified, 1 = primary, etc.
     const int cMissingValue = -9999;
 
@@ -37,8 +44,7 @@ namespace Constants {
     const int cOutputFolderPermissions = 0777;
     const int cMinimumParameterNameValueSpacing = 3;
 
-
-    const double cReproductionScalingFactor = 2;
+    const unsigned cReproductionFactor = 2;
     const double cMinimumFractionalVolume = 0.5;
     const int cNumberOfIndividualRestartParameters = 5;
 
@@ -48,27 +54,11 @@ namespace Constants {
     const std::string cOutputFileExtension = ".csv";
     const std::string cTextFileExtension = ".txt";
 
-    const std::string cParameterNameValueDelimiter = " = ";
-
-    const char cParameterNameValueSpacer = '.';
-
-    const std::string cAxisVectorNamesFileName = "MetaAxisVectorNames";
-    const std::string cTrophicDatumNamesFileName = "MetaTrophicDatumNames";
-    const std::string cVectorDatumNamesFileName = "MetaVectorDatumNames";
-    const std::string cMatrixDatumNamesFileName = "MetaMatrixDatumNames";
-    const std::string cVectorEnumIndicesFileName = "MetaVectorEnumIndicies";
-    const std::string cMatrixEnumIndicesFileName = "MetaMatrixEnumIndicies";
-    const std::string cModelStateFileName = "State";
-
-    const std::string cWordDelimiter = " ";
-    
     const char cFolderDelimiter = '/';
-    const char cStringSplitCharacter = '_';
     const char cWhiteSpaceCharacter = ' ';
     const char cDataDelimiterValue = ',';
     const char cTextFileCommentCharacter = '#';
 
-    const unsigned cReproductionFactor = 2;
 
     const std::string cSystemName = "EATSM";
     const std::string cSystemVersion = "0.1";

@@ -299,7 +299,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
         double preyVolume = prey->GetVolumeActual( );
         mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
 
-        double waste = predator->ConsumePreyVolume( preyVolume );
+        double waste = predator->ConsumePreyVolume( preyVolume, false );
 
         double predatorTrophicLevel = predator->GetTrophicLevel( );
         double preyTrophicLevel = prey->GetTrophicLevel( );

@@ -11,9 +11,9 @@ DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
 
     mIndividual = individual;
 
-    mData[ "TimeSteps" ] = Types::FloatVector( );
-    mData[ "VolumeActual" ] = Types::FloatVector( );
-    mData[ "TrophicLevel" ] = Types::FloatVector( );
+    mTimeSeriesData[ "TimeSteps" ] = Types::FloatVector( );
+    mTimeSeriesData[ "VolumeActual" ] = Types::FloatVector( );
+    mTimeSeriesData[ "TrophicLevel" ] = Types::FloatVector( );
 
     RecordTimeSeriesData( );
 
@@ -26,6 +26,18 @@ DataTag::~DataTag( ) {
 
 }
 
+void DataTag::RecordTimeSeriesData( ) {
+    mTimeSeriesData[ "TimeSteps" ].push_back( TimeStep::Get( )->GetTimeStep( ) );
+    mTimeSeriesData[ "VolumeActual" ].push_back( mIndividual->GetVolumeActual( ) );
+    mTimeSeriesData[ "TrophicLevel" ].push_back( mIndividual->GetTrophicLevel( ) );
+}
+
+void DataTag::AddConsumptionEvent( const double preyVolume, const double volumeAssimilated, const double wasteVolume, const bool isHerbivory ) {
+    Types::ConsumptionEventPointer consumption = new ConsumptionEvent( TimeStep::Get( )->GetTimeStep( ), preyVolume, volumeAssimilated, wasteVolume );
+    if( isHerbivory == true ) mHerbivoryEvents.push_back( consumption );
+    else mCarnivoryEvents.push_back( consumption );
+}
+
 long DataTag::GetID( ) const {
     return mID;
 }
@@ -34,18 +46,14 @@ Types::FloatMap& DataTag::GetAttributes( ) {
     return mAttributes;
 }
 
-Types::FloatVectorMap& DataTag::GetData( ) {
-    return mData;
+Types::FloatVectorMap& DataTag::GetTimeSeriesData( ) {
+    return mTimeSeriesData;
 }
 
-void DataTag::RecordTimeSeriesData( ) {
-    mData[ "TimeSteps" ].push_back( TimeStep::Get( )->GetTimeStep( ) );
-    mData[ "VolumeActual" ].push_back( mIndividual->GetVolumeActual( ) );
-    mData[ "TrophicLevel" ].push_back( mIndividual->GetTrophicLevel( ) );
+Types::ConsumptionEventVector& DataTag::GetHerbivoryEvents( ) {
+    return mHerbivoryEvents;
 }
 
-void DataTag::AddConsumptionEvent( const double preyVolume, const double volumeAssimilated, const double wasteVolume, const bool isHerbivory ) {
-    Types::ConsumptionEventPointer consumption = new ConsumptionEvent( TimeStep::Get( )->GetTimeStep( ), preyVolume, volumeAssimilated, wasteVolume );
-    if( isHerbivory == true ) mHerbivoryEvents.push_back( consumption );
-    else mCarnivoryEvents.push_back( consumption );
+Types::ConsumptionEventVector& DataTag::GetCarnivoryEvents( ) {
+    return mCarnivoryEvents;
 }

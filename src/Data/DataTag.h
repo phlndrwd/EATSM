@@ -13,12 +13,14 @@ public:
 
     long GetID( ) const;
     Types::FloatMap& GetAttributes( );
-    Types::FloatVectorMap& GetData( );
+    Types::FloatVectorMap& GetTimeSeriesData( );
+    Types::ConsumptionEventVector& GetHerbivoryEvents( );
+    Types::ConsumptionEventVector& GetCarnivoryEvents( );
 
 private:
     Types::IndividualPointer mIndividual;
     Types::FloatMap mAttributes;
-    Types::FloatVectorMap mData;
+    Types::FloatVectorMap mTimeSeriesData;
 
     Types::ConsumptionEventVector mHerbivoryEvents;
     Types::ConsumptionEventVector mCarnivoryEvents;
