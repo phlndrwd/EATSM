@@ -10,13 +10,16 @@
 #include "HeterotrophProcessor.h"
 #include "TimeStep.h"
 
-int main( ) {
+int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
     Logger::Get( )->LogMessage( "" );
 
     FileReader fileReader;
-
-    if( fileReader.ReadInputFiles( ) == true ) {
+    
+    std::string stateFile = "";
+    if( numberOfArguments > 1 ) stateFile = commandlineArguments[ 1 ];
+    
+    if( fileReader.ReadInputFiles( stateFile ) == true ) {
         Timer timer = Timer( true );
         FileWriter fileWriter;
         Types::EnvironmentPointer environment = new Environment( );

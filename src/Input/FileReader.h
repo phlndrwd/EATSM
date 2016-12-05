@@ -10,7 +10,7 @@ public:
     FileReader( );
     ~FileReader( );
     
-    bool ReadInputFiles( );
+    bool ReadInputFiles( std::string& );
     Types::StringMatrix& GetRawTextData( );
 
 private:

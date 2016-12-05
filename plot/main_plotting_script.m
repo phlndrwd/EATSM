@@ -2,13 +2,13 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-12-01_15-18-44';
+optionCurrentDataSet            = '2016-12-05_17-26-28_6_min';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputParametersFile      = 'OutputControlParameters';
 optionFileExtension             = '.csv';
 
-optionPrintPlotsToFile          = 1; % yes = 1, no = anything else
+optionPrintPlotsToFile          = 0; % yes = 1, no = anything else
 optionOutputFileFormat          = 'png'; % EPS or PNG
 optionPlotImageWidth            = 12; % cm
 optionPlotImageHeight           = 10; % cm

@@ -15,7 +15,7 @@ FileReader::FileReader( ) {
 FileReader::~FileReader( ) {
 }
 
-bool FileReader::ReadInputFiles( ) {
+bool FileReader::ReadInputFiles( std::string& stateFile ) {
     bool success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName );
 
     if( success == true )
@@ -28,8 +28,10 @@ bool FileReader::ReadInputFiles( ) {
         success == DataRecorder::Get( )->Initialise( mRawTextData );
 
     if( Parameters::Get( )->GetInitialisationMethod( ) == false ) {
-        if( success == true )
-            success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInitialisationFileName, false );
+        if( success == true ) {
+            if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialisationFileName;
+            success = ReadTextFile( stateFile, false );
+        }
 
         if( success == true )
             success = InitialState::Get( )->Initialise( mRawTextData );
