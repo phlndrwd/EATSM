@@ -29,7 +29,7 @@ bool FileReader::ReadInputFiles( std::string& stateFile ) {
 
     if( Parameters::Get( )->GetInitialisationMethod( ) == false ) {
         if( success == true ) {
-            if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialisationFileName;
+            if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
             success = ReadTextFile( stateFile, false );
         }
 
@@ -58,6 +58,11 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
 
         while( std::getline( fileStream, readLine ) ) {
             if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
+
+                Types::StringVector stringVec = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
+
+                //for( unsigned i = 0; i < stringVec.size( ); ++i ) Logger::Get( )->LogMessage( stringVec[ i ] );
+
                 mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
             }
             ++lineCount;

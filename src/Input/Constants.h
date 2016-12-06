@@ -24,10 +24,13 @@ namespace Constants {
     };
 
     const std::string cConfigurationDirectory = "./input/";
+    const std::string cOutputDirectoryName = "output";
+    
     const std::string cInputParametersFileName = "Parameters.csv";
     const std::string cOutputParametersFileName = "OutputControlParameters.csv";
-    const std::string cInitialisationFileName = "InitialModelState.csv";
+    const std::string cInitialStateFileName = "InitialModelState.csv";
     const std::string cModelStateFileName = "State.csv";
+    const std::string cFileNameExtension = ".csv";
     
     const std::string cTagFileName = "Tag_";
     const std::string cAttributesFileName = "Attributes.csv";
@@ -50,9 +53,6 @@ namespace Constants {
 
     const std::string cCompleteDateFormat = "%c";
     const std::string cDataSetNameFormat = "%Y-%m-%d_%H-%M-%S";
-    const std::string cOutputDirectoryName = "output";
-    const std::string cOutputFileExtension = ".csv";
-    const std::string cTextFileExtension = ".txt";
 
     const char cFolderDelimiter = '/';
     const char cWhiteSpaceCharacter = ' ';

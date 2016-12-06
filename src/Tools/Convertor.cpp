@@ -5,12 +5,13 @@
 #include "Maths.h"
 
 #include <algorithm>
+#include <string>
 
 Types::ConvertorPointer Convertor::mThis = NULL;
 
 Types::ConvertorPointer Convertor::Get( ) {
     if( mThis == NULL ) mThis = new Convertor( );
-    
+
     return mThis;
 }
 
@@ -23,14 +24,12 @@ Convertor::Convertor( ) {
 }
 
 double Convertor::StringToNumber( const std::string& string ) const {
-
-    double number = strtod( string.c_str( ), NULL );
-
+    double number = std::stod( string.c_str( ), NULL );
+    
     return number;
 }
 
 const Types::StringVector Convertor::StringToWords( const std::string& inputString, const char wordTerminationCharacter ) const {
-
     std::stringstream stringStream( inputString );
 
     std::string word = "";
@@ -39,12 +38,10 @@ const Types::StringVector Convertor::StringToWords( const std::string& inputStri
     while( std::getline( stringStream, word, wordTerminationCharacter ) ) {
         wordList.push_back( word );
     }
-
     return wordList;
 }
 
 const std::string Convertor::DoubleToPrecisionString( const double& value, const unsigned& decimals ) const {
-
     std::ostringstream outputStringStream;
     outputStringStream << std::fixed << std::setprecision( decimals ) << value;
 
@@ -68,7 +65,6 @@ std::string Convertor::RemoveWhiteSpace( const std::string inString ) const {
 }
 
 const double Convertor::GeneValueToVolume( double geneValue ) const {
-
     double volumeExponent = geneValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
     double volume = Maths::Get( )->Pow( 10, volumeExponent );
 
@@ -76,7 +72,6 @@ const double Convertor::GeneValueToVolume( double geneValue ) const {
 }
 
 const double Convertor::VolumeToGeneValue( double volume ) const {
-
     double geneValue = ( Maths::Get( )->Log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
 
     return geneValue;

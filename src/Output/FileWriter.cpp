@@ -114,7 +114,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
         std::string fileName = iter->first;
         Types::VectorDatumPointer vectorDatum = iter->second;
-        fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
+        fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
         std::ofstream outputFileStream;
         outputFileStream.open( fileName.c_str( ), std::ios::out );
         if( outputFileStream.is_open( ) == true ) {
@@ -135,7 +135,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
 
             std::string fileName = iter->first;
             Types::MatrixDatumPointer matrixDatum = iter->second;
-            fileName.insert( 0, mOutputPath ).append( Constants::cOutputFileExtension );
+            fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
             std::ofstream outputFileStream;
             outputFileStream.open( fileName.c_str( ), std::ios::out );
             if( outputFileStream.is_open( ) == true ) {
@@ -187,7 +187,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                     std::string fileName = outputSubdirectory;
 
                     fileName.append( iter->first );
-                    fileName.append( Constants::cOutputFileExtension );
+                    fileName.append( Constants::cFileNameExtension );
                     std::ofstream outputFileStream;
                     outputFileStream.open( fileName.c_str( ), std::ios::out );
 
@@ -239,20 +239,22 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
             }
         }
     }
-    
     // Write state file
     if( success == true ) {
         success = true;
         if( Parameters::Get( )->GetWriteModelState( ) == true ) {
-            std::string fileName = Constants::cModelStateFileName;
-            fileName.insert( 0, mOutputPath );
+            
+            std::string fileName = mOutputPath;
+            fileName.append( Constants::cModelStateFileName );
+
             std::ofstream modelStateFileStream;
             modelStateFileStream.open( fileName.c_str( ), std::ios::out );
 
             modelStateFileStream.flags( std::ios::scientific );
-            modelStateFileStream.precision( std::numeric_limits< double >::digits10 + 1 );
+            modelStateFileStream.precision( std::numeric_limits< double >::digits );
 
             if( modelStateFileStream.is_open( ) == true ) {
+                modelStateFileStream << Constants::cModelStateFileName << std::endl;
                 modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
                 modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
 
