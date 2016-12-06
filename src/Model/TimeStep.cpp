@@ -5,7 +5,7 @@
 Types::TimePointer TimeStep::mThis = NULL;
 
 TimeStep::TimeStep( ) {
-    mTimeStep = 1;
+    mTimeStep = 0;
 }
 
 TimeStep::~TimeStep( ) {

@@ -120,7 +120,6 @@ void Heterotrophs::TagInitialPopulation( ) {
                     ++totalTagged;
                 }
             }
-            //totalTagged += numberToTagInThisSizeClass;
         }
         Logger::Get( )->LogMessage( "Tagging applied to " + Convertor::Get( )->ToString( totalTagged ) + " individuals." );
     } else {

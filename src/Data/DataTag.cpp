@@ -15,8 +15,6 @@ DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
     mTimeSeriesData[ "VolumeActual" ] = Types::FloatVector( );
     mTimeSeriesData[ "TrophicLevel" ] = Types::FloatVector( );
 
-    RecordTimeSeriesData( );
-
     mAttributes.insert( std::pair< std::string, float >( "VolumeHeritable", individual->GetVolumeHeritable( ) ) );
     mAttributes.insert( std::pair< std::string, float >( "VolumeMinimum", individual->GetVolumeMinimum( ) ) );
     mAttributes.insert( std::pair< std::string, float >( "VolumeReproduction", individual->GetVolumeReproduction( ) ) );
