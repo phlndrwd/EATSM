@@ -24,7 +24,7 @@ bool FileReader::ReadInputFiles( std::string& stateFile ) {
         success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName );
 
     if( success == true )
-        success == DataRecorder::Get( )->Initialise( mRawTextData );
+        success = DataRecorder::Get( )->Initialise( mRawTextData );
 
     if( Parameters::Get( )->GetCreateNewPopulation( ) == false ) {
         if( success == true ) {

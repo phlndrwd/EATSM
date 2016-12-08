@@ -125,7 +125,7 @@
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-std=c++11 -march=core2 -mfpmath=sse</commandLine>
+          <commandLine>-Wall -Wextra -Wpedantic -std=c++11 -march=core2 -mfpmath=sse</commandLine>
         </ccTool>
       </compileType>
       <item path="src/Data/ConsumptionEvent.cpp" ex="false" tool="1" flavor2="0">

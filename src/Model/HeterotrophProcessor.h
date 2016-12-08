@@ -20,8 +20,8 @@ public:
     
     bool ShouldIndividualMoveSizeClass( const Types::IndividualPointer ) const;
     
-    const double GeneValueToVolume( double ) const;
-    const double VolumeToGeneValue( double ) const;
+    double GeneValueToVolume( double ) const;
+    double VolumeToGeneValue( double ) const;
     
     int RoundWithProbability( const double& ) const;
 

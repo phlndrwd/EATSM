@@ -278,7 +278,7 @@ unsigned RandomSFMT::MotherBits( ) {
     return mMotherState[ 0 ];
 }
 
-const int RandomSFMT::GetUniformInt( const int maximum ) {
+int RandomSFMT::GetUniformInt( const int maximum ) {
     // Output random integer in the interval min <= x <= max
     // Slightly inaccurate if (max-min+1) is not a power of 2
     if( maximum <= 0 ) {
@@ -300,7 +300,7 @@ const int RandomSFMT::GetUniformInt( const int maximum ) {
     return ( int32_t )iran;
 }
 
-const int RandomSFMT::GetExactUniformInt( const int maximum ) {
+int RandomSFMT::GetExactUniformInt( const int maximum ) {
 
     // Output random integer in the interval min <= x <= max
     // Each output value has exactly the same probability.
@@ -336,7 +336,7 @@ const int RandomSFMT::GetExactUniformInt( const int maximum ) {
     return ( int32_t )iran;
 }
 
-const double RandomSFMT::GetUniform( ) {
+double RandomSFMT::GetUniform( ) {
     // Output random floating point number
     if( mStateIndex >= SFMT_N * 4 - 1 ) {
         // Make sure we have at least two 32-bit numbers
@@ -362,7 +362,7 @@ const double RandomSFMT::GetUniform( ) {
 // Algorithm optimization achieved by returning result from one uniform random
 // and caching result from second for use on the second call.
 // ftp://ftp.taygeta.com/pub/c/boxmuller.c
-const double RandomSFMT::GetNormal( const double mean, const double standardDeviation ) {
+double RandomSFMT::GetNormal( const double mean, const double standardDeviation ) {
     double uniformValue1;
     double uniformValue2;
     double sumSquare;

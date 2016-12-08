@@ -153,11 +153,11 @@ public:
     void SetSeed( const unsigned int ); // Re-seed
     void SetSeedByArray( const int[ ], const unsigned int ); // Seed by more than 32 bits
 
-    const int GetUniformInt( const int ); // Output random integer from 0 up to and including the defined maximum
-    const int GetExactUniformInt( const int ); // Output random integer, exact
+    int GetUniformInt( const int ); // Output random integer from 0 up to and including the defined maximum
+    int GetExactUniformInt( const int ); // Output random integer, exact
 
-    const double GetUniform( ); // Output random floating point number on the interval 0 < x <= 1
-    const double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );
+    double GetUniform( ); // Output random floating point number on the interval 0 < x <= 1
+    double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );
     
     __m128i GetState( const unsigned ) const;
     unsigned GetMotherState( const unsigned ) const;
