@@ -3,7 +3,6 @@
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
 #include "Parameters.h"
-#include "Logger.h"
 #include "Convertor.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
@@ -95,11 +94,11 @@ void Heterotrophs::CreateInitialPopulation( ) {
             AddToSizeClass( individual, false );
             ++initialPopulationSize;
         }
-        Logger::Get( )->LogMessage( "A single heterotrophic size class initialised with " + Convertor::Get( )->ToString( initialPopulationSize ) + " individuals." );
+        std::cout << "A single heterotrophic size class initialised with " << initialPopulationSize << " individuals." << std::endl;
 
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
-        Logger::Get( )->LogMessage( "Multiple heterotrophic size classes initialised with " + Convertor::Get( )->ToString( InitialState::Get( )->GetInitialPopulationSize( ) ) + " individuals." );
+        std::cout << "Multiple heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
     }
 }
 
@@ -122,9 +121,9 @@ void Heterotrophs::TagInitialPopulation( ) {
                 }
             }
         }
-        Logger::Get( )->LogMessage( "Tagging applied to " + Convertor::Get( )->ToString( totalTagged ) + " individuals." );
+        std::cout << "Tagging applied to " << totalTagged << " individuals." << std::endl;
     } else {
-        Logger::Get( )->LogMessage( "No individuals tagged." );
+        std::cout << "No individuals tagged." << std::endl;
     }
 }
 

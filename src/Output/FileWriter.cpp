@@ -5,7 +5,6 @@
 #include "DataRecorder.h"
 #include "Convertor.h"
 #include "Parameters.h"
-#include "Logger.h"
 #include "Date.h"
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
@@ -287,6 +286,6 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 success = false;
         }
     }
-    if( success == true ) Logger::Get( )->LogMessage( "Output data written to \"" + mOutputPath + "\"." );
-    else Logger::Get( )->LogMessage( "ERROR> File writing failed. Could not access \"" + mOutputPath + "\"." );
+    if( success == true ) std::cout << "Output data written to \"" << mOutputPath << "\"." << std::endl;
+    else std::cout << "ERROR> File writing failed. Could not access \"" << mOutputPath << "\"." << std::endl;
 }

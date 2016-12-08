@@ -2,7 +2,6 @@
 #include "RandomSFMT.h"
 #include "Parameters.h"
 #include "Convertor.h"
-#include "Logger.h"
 
 Genome::Genome( const Types::DoubleVector genomeValues ) {
     mGenomeValues = genomeValues;

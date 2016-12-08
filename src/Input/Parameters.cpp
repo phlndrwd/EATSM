@@ -2,7 +2,6 @@
 #include "Constants.h"
 #include "Convertor.h"
 #include "HeterotrophProcessor.h"
-#include "Logger.h"
 #include "DataRecorder.h"
 
 #include <cmath>

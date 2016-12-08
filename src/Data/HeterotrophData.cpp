@@ -2,7 +2,6 @@
 
 #include "DataRecorder.h"
 #include "Parameters.h"
-#include "Logger.h"
 #include "Convertor.h"
 #include "Individual.h"
 #include "Genome.h"

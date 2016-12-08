@@ -1,5 +1,4 @@
 #include "InitialState.h"
-#include "Logger.h"
 #include "Convertor.h"
 #include "Individual.h"
 #include "Parameters.h"

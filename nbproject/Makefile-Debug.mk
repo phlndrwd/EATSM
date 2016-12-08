@@ -55,7 +55,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/TimeStep.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
-	${OBJECTDIR}/src/Output/Logger.o \
 	${OBJECTDIR}/src/Tools/Convertor.o \
 	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/RandomSFMT.o \
@@ -185,11 +184,6 @@ ${OBJECTDIR}/src/Output/FileWriter.o: src/Output/FileWriter.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Output
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
-
-${OBJECTDIR}/src/Output/Logger.o: src/Output/Logger.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Output
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/Logger.o src/Output/Logger.cpp
 
 ${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

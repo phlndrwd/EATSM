@@ -1,4 +1,3 @@
-#include "Logger.h"
 #include "Constants.h"
 #include "Parameters.h"
 #include "FileReader.h"
@@ -13,8 +12,7 @@
 #include "RandomSFMT.h"
 
 int main( int numberOfArguments, char* commandlineArguments[ ] ) {
-    Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
-    Logger::Get( )->LogMessage( "" );
+    std:: cout << Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." << std::endl << std::endl;
 
     FileReader fileReader;
 
@@ -22,17 +20,19 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     if( numberOfArguments > 1 ) stateFile = commandlineArguments[ 1 ];
 
     if( fileReader.ReadInputFiles( stateFile ) == true ) {
+        std::cout << std::endl;
+        
         Timer timer = Timer( true );
         FileWriter fileWriter;
         Types::EnvironmentPointer environment = new Environment( );
+        std::cout << std::endl;
 
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
         double cumulativeTenthsOfRunTime = 0;
         unsigned percentCount = 0;
         bool isAlive = true;
 
-        Logger::Get( )->LogMessage( "" );
-        Logger::Get( )->LogMessage( "Starting main time loop..." );
+        std::cout << "Starting main time loop..." << std::endl;
         do {
             // Update before data collection; calculates essential variables for encounter rates.
             environment->Update( );
@@ -40,7 +40,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             // Text output at the completion of each ten percent of the run 
             if( timer.Elapsed( ) >= ( unsigned )cumulativeTenthsOfRunTime ) {
                 cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                Logger::Get( )->LogMessage( "t = " + Convertor::Get( )->ToString( TimeStep::Get( )->GetTimeStep( ) ) + Constants::cDataDelimiterValue + Constants::cWhiteSpaceCharacter + Convertor::Get( )->ToString( percentCount ) + "% completed." );
+                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << percentCount << "% completed." << std::endl;
                 percentCount += 10;
             }
 
@@ -54,18 +54,17 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
 
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
         if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
-            Logger::Get( )->LogMessage( "Main time loop complete." );
+            std::cout << "Main time loop complete." << std::endl << std::endl;
         } else {
-            Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );
+            std::cout << "Heterotroph population crashed. Main time loop aborted." << std::endl << std::endl;
         }
-        Logger::Get( )->LogMessage( "" );
 
         fileWriter.WriteOutputData( environment );
-        Logger::Get( )->LogMessage( "Total run time " + Convertor::Get( )->ToString( timer.Stop( ) ) + "s" );
+        std::cout << "Total run time " << timer.Stop( ) << "s" << std::endl;
 
         delete environment;
     } else {
-        Logger::Get( )->LogMessage( "ERROR> File reading failed. System exiting..." );
+        std::cout << "ERROR> File reading failed. System exiting..." << std::endl;
     }
 
     return 0;

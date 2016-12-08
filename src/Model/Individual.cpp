@@ -4,7 +4,6 @@
 #include "Types.h"
 #include "Parameters.h"
 #include "Convertor.h"
-#include "Logger.h"
 #include "RandomSFMT.h"
 #include "DataTag.h"
 #include "TimeStep.h"

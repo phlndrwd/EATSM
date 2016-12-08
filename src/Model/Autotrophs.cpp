@@ -3,7 +3,8 @@
 #include "Nutrient.h"
 #include "DataRecorder.h"
 #include "Parameters.h"
-#include "Logger.h"
+
+#include <iostream>
 
 Autotrophs::Autotrophs( Types::NutrientPointer nutrient ) {
     mNutrient = nutrient;
@@ -11,7 +12,8 @@ Autotrophs::Autotrophs( Types::NutrientPointer nutrient ) {
         mVolume = InitialState::Get( )->GetAutotrophVolume( );
     else
         mVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
-    Logger::Get( )->LogMessage( "Autotroph pool created." );
+    
+    std::cout << "Autotroph pool created." << std::endl;
 }
 
 Autotrophs::~Autotrophs( ) {

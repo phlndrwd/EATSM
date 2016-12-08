@@ -5,14 +5,13 @@
 #include "Heterotrophs.h"
 #include "DataRecorder.h"
 #include "Parameters.h"
-#include "Logger.h"
 #include "Convertor.h"
 
 Environment::Environment( ) {
     mNutrient = new Nutrient( );
     mAutotrophs = new Autotrophs( mNutrient );
     mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
-    Logger::Get( )->LogMessage( "Environment created." );
+    std::cout << "Environment created." << std::endl;
 }
 
 Environment::~Environment( ) {

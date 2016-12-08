@@ -3,7 +3,8 @@
 #include "DataRecorder.h"
 #include "Parameters.h"
 #include "Constants.h"
-#include "Logger.h"
+
+#include <iostream>
 
 Nutrient::Nutrient( ) {
     if( Parameters::Get( )->GetCreateNewPopulation( ) == false )
@@ -11,7 +12,7 @@ Nutrient::Nutrient( ) {
     else
         mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
     
-    Logger::Get( )->LogMessage( "Nutrient pool created." );
+    std::cout << "Nutrient pool created." << std::endl;
 }
 
 Nutrient::~Nutrient( ) {
@@ -36,10 +37,6 @@ void Nutrient::AddToVolume( const double volume ) {
     mVolume += volume;
     mToFlux += volume;
 }
-
-//void Nutrient::AddToVolumeNoFlux( const double volume ) {
-//    mVolume += volume;
-//}
 
 void Nutrient::SubtractFromVolume( const double volume ) {
     mVolume -= volume;

@@ -2,7 +2,6 @@
 
 #include "Parameters.h"
 #include "Individual.h"
-#include "Logger.h"
 #include "Genome.h"
 #include "Convertor.h"
 #include "DataRecorder.h"
@@ -47,8 +46,7 @@ Types::StringMatrix& FileReader::GetRawTextData( ) {
 }
 
 bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) {
-    Logger::Get( )->LogMessage( "Reading text file \"" + filePath + "\"..." );
-
+    std::cout << "Reading text file \"" << filePath << "\"..." << std::endl;
     ClearRawTextData( );
     std::ifstream fileStream( filePath.c_str( ), std::ios::in );
 
@@ -58,18 +56,14 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
 
         while( std::getline( fileStream, readLine ) ) {
             if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
-
                 Types::StringVector stringVec = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-
-                //for( unsigned i = 0; i < stringVec.size( ); ++i ) Logger::Get( )->LogMessage( stringVec[ i ] );
-
                 mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
             }
             ++lineCount;
         }
         fileStream.close( );
     } else {
-        Logger::Get( )->LogMessage( "File path \"" + filePath + "\" is invalid." );
+        std::cout << "File path \"" << filePath << "\" is invalid." << std::endl;
     }
     if( copyToOutput == true ) DataRecorder::Get( )->AddInputFilePath( filePath );
 
