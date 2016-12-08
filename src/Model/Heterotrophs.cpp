@@ -1,11 +1,9 @@
 #include "Heterotrophs.h"
-
 #include "Individual.h"
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
 #include "Parameters.h"
 #include "Logger.h"
-#include "Maths.h"
 #include "Convertor.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
@@ -13,6 +11,8 @@
 #include "InitialState.h"
 #include "RandomSFMT.h"
 #include "Tagger.h"
+
+#include <cmath>
 
 Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
     mNutrient = nutrient;
@@ -109,7 +109,8 @@ void Heterotrophs::TagInitialPopulation( ) {
         for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
 
             unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
-            unsigned numberToTagInThisSizeClass = Maths::Get( )->Round( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) );
+            
+            unsigned numberToTagInThisSizeClass = static_cast < int >( ::floor( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) + 0.5 ) );
 
             if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
 
@@ -134,7 +135,7 @@ void Heterotrophs::Feeding( ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
 
         if( sizeClassSize != 0 ) {
-            unsigned sizeClassSubsetSize = Maths::Get( )->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
+            unsigned sizeClassSubsetSize = mHeterotrophProcessor->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassSubsetSize; ++potentialEncounterIndex ) {
                 if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
@@ -185,7 +186,7 @@ void Heterotrophs::Starvation( ) {
             unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
 
             if( sizeClassSize != 0 ) {
-                unsigned sizeClassSubsetSize = Maths::Get( )->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
+                unsigned sizeClassSubsetSize = mHeterotrophProcessor->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
                 for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );

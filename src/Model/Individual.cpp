@@ -2,7 +2,6 @@
 
 #include "Genome.h"
 #include "Types.h"
-#include "Maths.h"
 #include "Parameters.h"
 #include "Convertor.h"
 #include "Logger.h"

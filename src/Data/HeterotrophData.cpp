@@ -5,7 +5,6 @@
 #include "Logger.h"
 #include "Convertor.h"
 #include "Individual.h"
-#include "Maths.h"
 #include "Genome.h"
 #include "RandomSFMT.h"
 

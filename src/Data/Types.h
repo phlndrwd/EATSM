@@ -20,7 +20,6 @@ class HeterotrophProcessor;
 class Individual;
 class InitialState;
 class Logger;
-class Maths;
 class MatrixDatum;
 class Nutrient;
 class Parameters;
@@ -44,7 +43,6 @@ namespace Types {
     typedef Individual* IndividualPointer;
     typedef InitialState* InitialStatePointer;
     typedef Logger* LoggerPointer;
-    typedef Maths* MathsPointer;
     typedef MatrixDatum* MatrixDatumPointer;
     typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;

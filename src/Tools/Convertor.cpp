@@ -2,7 +2,6 @@
 
 #include "Constants.h"
 #include "Parameters.h"
-#include "Maths.h"
 
 #include <algorithm>
 #include <string>
@@ -66,13 +65,13 @@ std::string Convertor::RemoveWhiteSpace( const std::string inString ) const {
 
 const double Convertor::GeneValueToVolume( double geneValue ) const {
     double volumeExponent = geneValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
-    double volume = Maths::Get( )->Pow( 10, volumeExponent );
+    double volume = std::pow( 10, volumeExponent );
 
     return volume;
 }
 
 const double Convertor::VolumeToGeneValue( double volume ) const {
-    double geneValue = ( Maths::Get( )->Log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
+    double geneValue = ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
 
     return geneValue;
 }

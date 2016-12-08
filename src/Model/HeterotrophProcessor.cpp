@@ -1,8 +1,9 @@
 #include "HeterotrophProcessor.h"
-
 #include "Parameters.h"
 #include "Individual.h"
-#include "Maths.h"
+#include "RandomSFMT.h"
+
+#include <cmath>
 
 HeterotrophProcessor::HeterotrophProcessor( ) {
 
@@ -13,7 +14,7 @@ HeterotrophProcessor::~HeterotrophProcessor( ) {
 }
 
 double HeterotrophProcessor::CalculatePreferenceForPrey( const double grazerVolume, const double preyVolume ) const {
-    return Maths::Get( )->Exp( -Maths::Get( )->Pow( ( Maths::Get( )->Log( ( Parameters::Get( )->GetPreferredPreyVolumeRatio( ) * preyVolume ) / grazerVolume ) ), 2 ) / ( 2 * Maths::Get( )->Pow( Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) ) );
+    return std::exp( -std::pow( ( std::log( ( Parameters::Get( )->GetPreferredPreyVolumeRatio( ) * preyVolume ) / grazerVolume ) ), 2 ) / ( 2 * std::pow( Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) ) );
 }
 
 double HeterotrophProcessor::CalculateFeedingProbability( const double effectivePreyVolume ) {
@@ -21,7 +22,7 @@ double HeterotrophProcessor::CalculateFeedingProbability( const double effective
 }
 
 double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::IndividualPointer individual ) const {
-    return Parameters::Get( )->GetFractionalMetabolicExpense( ) * Maths::Get( )->Pow( individual->GetVolumeActual( ), Parameters::Get( )->GetMetabolicIndex( ) );
+    return Parameters::Get( )->GetFractionalMetabolicExpense( ) * std::pow( individual->GetVolumeActual( ), Parameters::Get( )->GetMetabolicIndex( ) );
 }
 
 double HeterotrophProcessor::CalculateStarvationProbability( const Types::IndividualPointer individual ) const {
@@ -113,4 +114,15 @@ double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double vo
     }
 
     return starvationProbability;
+}
+
+int HeterotrophProcessor::RoundWithProbability( const double& value ) const {
+    int flooredValue = static_cast < int >( ::floor( value ) );
+    double probability = value - flooredValue;
+
+    if( RandomSFMT::Get( )->GetUniform( ) < probability ) {
+        return flooredValue + 1;
+    } else {
+        return flooredValue;
+    }
 }

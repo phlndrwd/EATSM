@@ -58,7 +58,6 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Output/Logger.o \
 	${OBJECTDIR}/src/Tools/Convertor.o \
 	${OBJECTDIR}/src/Tools/Date.o \
-	${OBJECTDIR}/src/Tools/Maths.o \
 	${OBJECTDIR}/src/Tools/RandomSFMT.o \
 	${OBJECTDIR}/src/Tools/Timer.o
 
@@ -201,11 +200,6 @@ ${OBJECTDIR}/src/Tools/Date.o: src/Tools/Date.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Date.o src/Tools/Date.cpp
-
-${OBJECTDIR}/src/Tools/Maths.o: src/Tools/Maths.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Tools
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Maths.o src/Tools/Maths.cpp
 
 ${OBJECTDIR}/src/Tools/RandomSFMT.o: src/Tools/RandomSFMT.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

@@ -1,10 +1,11 @@
 #include "Parameters.h"
 #include "Constants.h"
-#include "Maths.h"
 #include "Convertor.h"
 #include "HeterotrophProcessor.h"
 #include "Logger.h"
 #include "DataRecorder.h"
+
+#include <cmath>
 
 Types::ParametersPointer Parameters::mThis = NULL;
 
@@ -83,8 +84,8 @@ void Parameters::CalculateParameters( ) {
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
 
-    mSmallestVolumeExponent = Maths::Get( )->Log10( mSmallestIndividualVolume );
-    mLargestVolumeExponent = Maths::Get( )->Log10( mLargestIndividualVolume );
+    mSmallestVolumeExponent = std::log10( mSmallestIndividualVolume );
+    mLargestVolumeExponent = std::log10( mLargestIndividualVolume );
 
     double sizeClassExponentIncrement = ( mLargestVolumeExponent - mSmallestVolumeExponent ) / mNumberOfSizeClasses;
 
@@ -92,13 +93,13 @@ void Parameters::CalculateParameters( ) {
         double sizeClassMidPointExponent = mSmallestVolumeExponent + ( ( sizeClassIndex + 0.5 ) * sizeClassExponentIncrement );
         double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( sizeClassIndex * sizeClassExponentIncrement );
 
-        mSizeClassBoundaries[ sizeClassIndex ] = Maths::Get( )->Pow( 10, sizeClassBoundaryExponent );
-        mSizeClassMidPoints[ sizeClassIndex ] = Maths::Get( )->Pow( 10, sizeClassMidPointExponent );
+        mSizeClassBoundaries[ sizeClassIndex ] = std::pow( 10, sizeClassBoundaryExponent );
+        mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
     }
 
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
 
-    mSizeClassBoundaries[ mNumberOfSizeClasses ] = Maths::Get( )->Pow( 10, sizeClassBoundaryExponent );
+    mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
 
     mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
     mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );

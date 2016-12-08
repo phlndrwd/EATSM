@@ -19,6 +19,8 @@ public:
     unsigned FindSizeClassIndexFromVolume( const double ) const;
     
     bool ShouldIndividualMoveSizeClass( const Types::IndividualPointer ) const;
+    
+    int RoundWithProbability( const double& ) const;
 
 private:
     double CalculateFeedingProbabilityType1( const double ) const;
