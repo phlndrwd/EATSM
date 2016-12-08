@@ -6,12 +6,12 @@
 
 class Individual {
 public:
-    Individual( const double, const unsigned );
+    Individual( Types::HeterotrophProcessorPointer, const double, const unsigned );
     Individual( const Types::GenomePointer, const double, const double, const double, const double );
-    Individual( const double, const double, const unsigned );
+    Individual( Types::HeterotrophProcessorPointer, const double, const double, const unsigned );
     ~Individual( );
 
-    Types::IndividualPointer Reproduce( );
+    Types::IndividualPointer Reproduce( Types::HeterotrophProcessorPointer );
 
     double ConsumePreyVolume( const double, bool isHerbivory = true );
     double Metabolise( const double );

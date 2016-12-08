@@ -9,7 +9,6 @@
 
 class Autotrophs;
 class ConsumptionEvent;
-class Convertor;
 class DataRecorder;
 class DataTag;
 class Environment;
@@ -23,6 +22,7 @@ class MatrixDatum;
 class Nutrient;
 class Parameters;
 class RandomSFMT;
+class StringManip;
 class Tagger;
 class TimeStep;
 class VectorDatum;
@@ -31,7 +31,7 @@ namespace Types {
     // Pointers
     typedef Autotrophs* AutotrophsPointer;
     typedef ConsumptionEvent* ConsumptionEventPointer;
-    typedef Convertor* ConvertorPointer;
+    typedef StringManip* StringManipPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef DataTag* DataTagPointer;
     typedef Environment* EnvironmentPointer;

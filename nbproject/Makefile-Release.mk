@@ -55,9 +55,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/TimeStep.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
-	${OBJECTDIR}/src/Tools/Convertor.o \
 	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/RandomSFMT.o \
+	${OBJECTDIR}/src/Tools/StringManip.o \
 	${OBJECTDIR}/src/Tools/Timer.o
 
 
@@ -185,11 +185,6 @@ ${OBJECTDIR}/src/Output/FileWriter.o: src/Output/FileWriter.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Output/FileWriter.o src/Output/FileWriter.cpp
 
-${OBJECTDIR}/src/Tools/Convertor.o: src/Tools/Convertor.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src/Tools
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Convertor.o src/Tools/Convertor.cpp
-
 ${OBJECTDIR}/src/Tools/Date.o: src/Tools/Date.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
@@ -199,6 +194,11 @@ ${OBJECTDIR}/src/Tools/RandomSFMT.o: src/Tools/RandomSFMT.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomSFMT.o src/Tools/RandomSFMT.cpp
+
+${OBJECTDIR}/src/Tools/StringManip.o: src/Tools/StringManip.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src/Tools
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/StringManip.o src/Tools/StringManip.cpp
 
 ${OBJECTDIR}/src/Tools/Timer.o: src/Tools/Timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

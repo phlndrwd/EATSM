@@ -3,19 +3,19 @@
 #include "Genome.h"
 #include "Types.h"
 #include "Parameters.h"
-#include "Convertor.h"
 #include "RandomSFMT.h"
 #include "DataTag.h"
 #include "TimeStep.h"
+#include "HeterotrophProcessor.h"
 
 // For model initialisation.
-Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
+Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor, const double volumeHeritable, const unsigned sizeClassIndex ) {
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
 
     // Initialise genome
     Types::DoubleVector genomeValues;
-    genomeValues.push_back( Convertor::Get( )->VolumeToGeneValue( mVolumeHeritable ) );
+    genomeValues.push_back( heterotrophProcessor->VolumeToGeneValue( mVolumeHeritable ) );
     genomeValues.push_back( RandomSFMT::Get( )->GetUniform( ) );
     mGenome = new Genome( genomeValues );
 
@@ -45,14 +45,14 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 }
 
 // For model restart.
-Individual::Individual( const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
+Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor, const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
     Types::DoubleVector geneValues;
     geneValues.push_back( geneValue );
     mGenome = new Genome( geneValues );
     mVolumeActual = volumeActual;
     mSizeClassIndex = sizeClassIndex;
 
-    mVolumeHeritable = Convertor::Get( )->GeneValueToVolume( mGenome->GetGeneValue( Constants::eVolumeGene ) );
+    mVolumeHeritable = heterotrophProcessor->GeneValueToVolume( mGenome->GetGeneValue( Constants::eVolumeGene ) );
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
 
@@ -66,7 +66,7 @@ Individual::~Individual( ) {
     delete mGenome;
 }
 
-Types::IndividualPointer Individual::Reproduce( ) {
+Types::IndividualPointer Individual::Reproduce( Types::HeterotrophProcessorPointer heterotrophProcessor ) {
     Types::GenomePointer childGenome = mGenome->GetChildGenome( );
     Types::IndividualPointer childIndividual = 0;
 
@@ -79,7 +79,7 @@ Types::IndividualPointer Individual::Reproduce( ) {
         childVolumeHeritable = mVolumeHeritable;
         childVolumeMinimum = mVolumeMinimum;
     } else {
-        childVolumeHeritable = Convertor::Get( )->GeneValueToVolume( childGenome->GetGeneValue( Constants::eVolumeGene ) );
+        childVolumeHeritable = heterotrophProcessor->GeneValueToVolume( childGenome->GetGeneValue( Constants::eVolumeGene ) );
         childVolumeMinimum = childVolumeHeritable * Constants::cMinimumFractionalVolume;
 
         if( childVolumeHeritable < mVolumeActual ) {

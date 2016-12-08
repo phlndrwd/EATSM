@@ -3,7 +3,7 @@
 #include "Parameters.h"
 #include "Individual.h"
 #include "Genome.h"
-#include "Convertor.h"
+#include "StringManip.h"
 #include "DataRecorder.h"
 #include "InitialState.h"
 
@@ -56,8 +56,8 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
 
         while( std::getline( fileStream, readLine ) ) {
             if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
-                Types::StringVector stringVec = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-                mRawTextData.push_back( Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+                Types::StringVector stringVec = StringManip::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
+                mRawTextData.push_back( StringManip::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
             }
             ++lineCount;
         }

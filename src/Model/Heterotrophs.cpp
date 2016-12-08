@@ -3,7 +3,7 @@
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
 #include "Parameters.h"
-#include "Convertor.h"
+#include "StringManip.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
 #include "Genome.h"
@@ -90,7 +90,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
 
         while( individualVolume <= initialHeterotrophVolume ) {
             initialHeterotrophVolume -= individualVolume;
-            Types::IndividualPointer individual = new Individual( individualVolume, firstPopulatedIndex );
+            Types::IndividualPointer individual = new Individual( mHeterotrophProcessor, individualVolume, firstPopulatedIndex );
             AddToSizeClass( individual, false );
             ++initialPopulationSize;
         }
@@ -209,7 +209,7 @@ void Heterotrophs::Reproduction( ) {
             Types::IndividualPointer potentialParent = mSizeClasses[ sizeClassIndex ][ individualIndex ];
 
             if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
-                Types::IndividualPointer childIndividual = potentialParent->Reproduce( );
+                Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
 
                 if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( potentialParent ) == true ) {
                     MoveSizeClass( potentialParent );

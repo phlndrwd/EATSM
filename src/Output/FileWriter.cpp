@@ -3,7 +3,7 @@
 
 #include "FileWriter.h"
 #include "DataRecorder.h"
-#include "Convertor.h"
+#include "StringManip.h"
 #include "Parameters.h"
 #include "Date.h"
 #include "VectorDatum.h"
@@ -32,12 +32,12 @@ void FileWriter::InitialiseOutputDirectory( ) {
     // output/
     mOutputPath = Constants::cOutputDirectoryName;
     mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
-    mOutputPath.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( StringManip::Get( )->ToString( Constants::cFolderDelimiter ) );
 
     // output/[version]/
     mOutputPath.append( Constants::cSystemVersion );
     mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
-    mOutputPath.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( StringManip::Get( )->ToString( Constants::cFolderDelimiter ) );
 
     // output/[version]/[experiment]/[date and time]
     Date date;
@@ -53,13 +53,13 @@ void FileWriter::InitialiseOutputDirectory( ) {
 
         int count = 1;
         while( returnValue == -1 ) {
-            mOutputPath.replace( stringLength, 1, Convertor::Get( )->ToString( count ) );
+            mOutputPath.replace( stringLength, 1, StringManip::Get( )->ToString( count ) );
             returnValue = mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
             ++count;
         }
     }
 
-    mOutputPath.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( StringManip::Get( )->ToString( Constants::cFolderDelimiter ) );
 }
 
 void FileWriter::WriteInputFiles( ) {
@@ -69,7 +69,7 @@ void FileWriter::WriteInputFiles( ) {
         std::ifstream sourceFileStream( inputFilePaths[ stringIndex ].c_str( ), std::ios::in );
 
         std::string outputFilePath = mOutputPath;
-        Types::StringVector inputFilePathComponents = Convertor::Get( )->StringToWords( inputFilePaths[ stringIndex ], Constants::cFolderDelimiter );
+        Types::StringVector inputFilePathComponents = StringManip::Get( )->StringToWords( inputFilePaths[ stringIndex ], Constants::cFolderDelimiter );
 
         std::string fileName = inputFilePathComponents[ inputFilePathComponents.size( ) - 1 ];
         outputFilePath.append( fileName );
@@ -86,10 +86,10 @@ void FileWriter::WriteInputFiles( ) {
 
                 while( std::getline( sourceFileStream, readLine ) ) {
                     if( lineCount > 0 ) {
-                        Types::StringVector readWords = Convertor::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-                        std::string parameterName = Convertor::Get( )->RemoveWhiteSpace( readWords[ Constants::eParameterName ] );
+                        Types::StringVector readWords = StringManip::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
+                        std::string parameterName = StringManip::Get( )->RemoveWhiteSpace( readWords[ Constants::eParameterName ] );
 
-                        if( Convertor::Get( )->ToLowercase( parameterName ) != "randomseed" )
+                        if( StringManip::Get( )->ToLowercase( parameterName ) != "randomseed" )
                             destinationFileStream << readLine << std::endl;
                         else
                             destinationFileStream << parameterName << Constants::cDataDelimiterValue << Parameters::Get( )->GetRandomSeed( ) << std::endl;
@@ -160,9 +160,9 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 Types::DataTagPointer tag = tagger->GetTag( tagIndex );
 
                 std::string outputSubdirectory = mOutputPath;
-                outputSubdirectory.append( Constants::cTagFileName + Convertor::Get( )->ToString( tag->GetID( ) ) );
+                outputSubdirectory.append( Constants::cTagFileName + StringManip::Get( )->ToString( tag->GetID( ) ) );
                 mkdir( outputSubdirectory.c_str( ), Constants::cOutputFolderPermissions );
-                outputSubdirectory.append( Convertor::Get( )->ToString( Constants::cFolderDelimiter ) );
+                outputSubdirectory.append( StringManip::Get( )->ToString( Constants::cFolderDelimiter ) );
 
                 // Write tag attributes
                 std::string fileName = outputSubdirectory;
@@ -267,7 +267,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 modelStateFileStream << RandomSFMT::Get( )->GetMotherState( MOA_N - 1 ) << std::endl;
                 // Random (SFMT) state
                 for( unsigned index = 0; index < SFMT_N; ++index ) {
-                    modelStateFileStream << Convertor::Get( )->M128iToString< unsigned >( RandomSFMT::Get( )->GetState( index ) ) << std::endl;
+                    modelStateFileStream << StringManip::Get( )->M128iToString< unsigned >( RandomSFMT::Get( )->GetState( index ) ) << std::endl;
                 }
                 // Model variables
                 modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;

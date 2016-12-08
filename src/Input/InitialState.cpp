@@ -1,7 +1,8 @@
 #include "InitialState.h"
-#include "Convertor.h"
+#include "StringManip.h"
 #include "Individual.h"
 #include "Parameters.h"
+#include "HeterotrophProcessor.h"
 
 Types::InitialStatePointer InitialState::mThis = NULL;
 
@@ -26,17 +27,17 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     bool success = true;
 
     // Random mother-of-all flag
-    bool useMother = Convertor::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMotherFlag ][ 0 ] );
+    bool useMother = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMotherFlag ][ 0 ] );
     RandomSFMT::Get( )->SetUseMother( useMother );
 
     // Random state index
-    unsigned stateIndex = Convertor::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineRandomIndex ][ 0 ] );
+    unsigned stateIndex = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineRandomIndex ][ 0 ] );
     RandomSFMT::Get( )->SetStateIndex( stateIndex );
 
     // Random (mother-of-all) state
     unsigned randomMotherState[ MOA_N ];
     for( unsigned columnIndex = 0; columnIndex < MOA_N; ++columnIndex ) {
-        randomMotherState[ columnIndex ] = Convertor::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMOAState ][ columnIndex ] );
+        randomMotherState[ columnIndex ] = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMOAState ][ columnIndex ] );
     }
     RandomSFMT::Get( )->SetMotherState( randomMotherState );
 
@@ -46,7 +47,7 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     for( unsigned lineIndex = Constants::cStateLineSFMTState; lineIndex < SFMT_N + Constants::cStateLineSFMTState; ++lineIndex ) {
         unsigned values[ 4 ];
         for( unsigned columnIndex = 0; columnIndex < 4; ++columnIndex ) {
-            values[ columnIndex ] = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ columnIndex ] );
+            values[ columnIndex ] = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ columnIndex ] );
         }
         randomSFMTState[ arrayCounter ] = _mm_loadu_si128( ( __m128i* )values );
         ++arrayCounter;
@@ -54,17 +55,19 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     RandomSFMT::Get( )->SetState( randomSFMTState );
     
     // Model variables
-    mNutrientVolume = Convertor::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
-    mAutotrophVolume = Convertor::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
+    mNutrientVolume = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
+    mAutotrophVolume = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
     mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    
+    HeterotrophProcessor heterotrophProcessor;
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
-        unsigned sizeClassIndex = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
-        double geneValue = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
-        double volumeActual = Convertor::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
+        unsigned sizeClassIndex = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
+        double geneValue = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
+        double volumeActual = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
 
-        Types::IndividualPointer individual = new Individual( geneValue, volumeActual, sizeClassIndex );
+        Types::IndividualPointer individual = new Individual( &heterotrophProcessor, geneValue, volumeActual, sizeClassIndex );
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }

@@ -5,7 +5,7 @@
 #include "Heterotrophs.h"
 #include "DataRecorder.h"
 #include "Parameters.h"
-#include "Convertor.h"
+#include "StringManip.h"
 
 Environment::Environment( ) {
     mNutrient = new Nutrient( );

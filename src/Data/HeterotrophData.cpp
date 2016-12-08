@@ -2,7 +2,7 @@
 
 #include "DataRecorder.h"
 #include "Parameters.h"
-#include "Convertor.h"
+#include "StringManip.h"
 #include "Individual.h"
 #include "Genome.h"
 #include "RandomSFMT.h"

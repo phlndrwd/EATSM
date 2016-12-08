@@ -34,9 +34,9 @@
         <itemPath>src/Output/FileWriter.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
-        <itemPath>src/Tools/Convertor.h</itemPath>
         <itemPath>src/Tools/Date.h</itemPath>
         <itemPath>src/Tools/RandomSFMT.h</itemPath>
+        <itemPath>src/Tools/StringManip.h</itemPath>
         <itemPath>src/Tools/Timer.h</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -75,9 +75,9 @@
         <itemPath>src/Output/FileWriter.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
-        <itemPath>src/Tools/Convertor.cpp</itemPath>
         <itemPath>src/Tools/Date.cpp</itemPath>
         <itemPath>src/Tools/RandomSFMT.cpp</itemPath>
+        <itemPath>src/Tools/StringManip.cpp</itemPath>
         <itemPath>src/Tools/Timer.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/Main.cpp</itemPath>
@@ -210,10 +210,6 @@
       </item>
       <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Tools/Convertor.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Tools/Date.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Tools/Date.h" ex="false" tool="3" flavor2="0">
@@ -221,6 +217,10 @@
       <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/StringManip.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/StringManip.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Timer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -337,10 +337,6 @@
       </item>
       <item path="src/Output/FileWriter.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/Convertor.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Tools/Convertor.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Tools/Date.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Tools/Date.h" ex="false" tool="3" flavor2="0">
@@ -348,6 +344,10 @@
       <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/Tools/StringManip.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Tools/StringManip.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Timer.cpp" ex="false" tool="1" flavor2="0">
       </item>

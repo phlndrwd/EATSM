@@ -116,6 +116,19 @@ double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double vo
     return starvationProbability;
 }
 
+const double HeterotrophProcessor::GeneValueToVolume( double geneValue ) const {
+    double volumeExponent = geneValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
+    double volume = std::pow( 10, volumeExponent );
+
+    return volume;
+}
+
+const double HeterotrophProcessor::VolumeToGeneValue( double volume ) const {
+    double geneValue = ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
+
+    return geneValue;
+}
+
 int HeterotrophProcessor::RoundWithProbability( const double& value ) const {
     int flooredValue = static_cast < int >( ::floor( value ) );
     double probability = value - flooredValue;
