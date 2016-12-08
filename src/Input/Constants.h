@@ -22,6 +22,14 @@ namespace Constants {
     enum eGenomeIndices {
         eVolumeGene
     };
+    
+    const unsigned cStateLineMotherFlag = 0;
+    const unsigned cStateLineRandomIndex = 1;
+    const unsigned cStateLineMOAState = 2;
+    const unsigned cStateLineSFMTState = 3;
+    const unsigned cStateLineNutrientVol = 91;
+    const unsigned cStateLineAutotrophVol = 92;
+    const unsigned cStateLineFirstHeterotroph = 93;
 
     const std::string cConfigurationDirectory = "./input/";
     const std::string cOutputDirectoryName = "output";
@@ -43,13 +51,11 @@ namespace Constants {
     const unsigned cMaximumNumberOfTrophicLevels = 11; // 0 = unclassified, 1 = primary, etc.
     const int cMissingValue = -9999;
 
-    const int cDateTimeBufferSize = 25;
-    const int cOutputFolderPermissions = 0777;
-    const int cMinimumParameterNameValueSpacing = 3;
+    const unsigned cDateTimeBufferSize = 25;
+    const unsigned cOutputFolderPermissions = 0777;
 
     const unsigned cReproductionFactor = 2;
     const double cMinimumFractionalVolume = 0.5;
-    const int cNumberOfIndividualRestartParameters = 5;
 
     const std::string cCompleteDateFormat = "%c";
     const std::string cDataSetNameFormat = "%Y-%m-%d_%H-%M-%S";

@@ -6,7 +6,7 @@
 #include "Logger.h"
 
 Nutrient::Nutrient( ) {
-    if( Parameters::Get( )->GetInitialisationMethod( ) == false )
+    if( Parameters::Get( )->GetCreateNewPopulation( ) == false )
         mVolume = InitialState::Get( )->GetNutrientVolume( );
     else
         mVolume = Parameters::Get( )->GetInitialNutrientVolume( );

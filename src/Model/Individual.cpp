@@ -10,12 +10,7 @@
 #include "DataTag.h"
 #include "TimeStep.h"
 
-/*
- * Construction and destruction
- */
-
 // For model initialisation.
-
 Individual::Individual( const double volumeHeritable, const unsigned sizeClassIndex ) {
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
@@ -37,7 +32,6 @@ Individual::Individual( const double volumeHeritable, const unsigned sizeClassIn
 }
 
 // For reproduction.
-
 Individual::Individual( const Types::GenomePointer genome, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel ) {
     mGenome = genome;
     mVolumeHeritable = volumeHeritable;
@@ -53,7 +47,6 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 }
 
 // For model restart.
-
 Individual::Individual( const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
     Types::DoubleVector geneValues;
     geneValues.push_back( geneValue );
@@ -119,10 +112,6 @@ double Individual::Metabolise( const double metabolicDeduction ) {
     return metabolicDeduction;
 }
 
-/*
- * Getters
- */
-
 Types::GenomePointer Individual::GetGenome( ) const {
     return mGenome;
 }
@@ -158,10 +147,6 @@ double Individual::GetVolumeMinimum( ) const {
 double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
 }
-
-/*
- * Setters
- */
 
 void Individual::SetTrophicLevel( const double trophicLevel ) {
     mTrophicLevel = trophicLevel;

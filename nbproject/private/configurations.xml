@@ -13,6 +13,8 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -24,18 +26,18 @@
       </nativedebugger>
       <runprofile version="9">
         <runcommandpicklist>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-05_17-41-24/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-05_17-42-41/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-05_17-26-28_6_min/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-06_10-26-20/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-06_10-28-39/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-05_17-37-44/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-06_10-30-02/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-06_10-32-04/State.csv</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-06_10-33-48/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_12-33-36/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_12-51-09/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_12-32-32/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_13-04-39/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_13-07-07/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_13-08-24/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_13-13-37/State.csv</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_13-10-59/State.csv</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_16-20-51/State.csv</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}"</runcommand>
+        <runcommand>"${OUTPUT_PATH}" ./output/0.1/2016-12-08_16-20-51/State.csv</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>

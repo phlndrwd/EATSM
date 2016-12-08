@@ -78,7 +78,7 @@ void Heterotrophs::InitialiseSizeClasses( ) {
 void Heterotrophs::CreateInitialPopulation( ) {
     mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
-    if( Parameters::Get( )->GetInitialisationMethod( ) == true ) {
+    if( Parameters::Get( )->GetCreateNewPopulation( ) == true ) {
         mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
         unsigned initialPopulationSize = 0;
 

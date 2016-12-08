@@ -23,14 +23,14 @@ Convertor::Convertor( ) {
 
 }
 
-double Convertor::StringToNumber( const std::string& string ) const {
-    double number = std::stod( string.c_str( ), NULL );
-    
+double Convertor::StringToNumber( const std::string& inString ) const {
+    double number = std::stod( inString.c_str( ), NULL );
+
     return number;
 }
 
-const Types::StringVector Convertor::StringToWords( const std::string& inputString, const char wordTerminationCharacter ) const {
-    std::stringstream stringStream( inputString );
+const Types::StringVector Convertor::StringToWords( const std::string& inString, const char wordTerminationCharacter ) const {
+    std::stringstream stringStream( inString );
 
     std::string word = "";
     Types::StringVector wordList;

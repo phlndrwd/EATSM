@@ -7,7 +7,7 @@
 
 Autotrophs::Autotrophs( Types::NutrientPointer nutrient ) {
     mNutrient = nutrient;
-    if( Parameters::Get( )->GetInitialisationMethod( ) == false )
+    if( Parameters::Get( )->GetCreateNewPopulation( ) == false )
         mVolume = InitialState::Get( )->GetAutotrophVolume( );
     else
         mVolume = Parameters::Get( )->GetInitialAutotrophVolume( );

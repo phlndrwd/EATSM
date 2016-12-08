@@ -18,6 +18,7 @@
 #include "Tagger.h"
 #include "DataTag.h"
 #include "ConsumptionEvent.h"
+#include "RandomSFMT.h"
 
 FileWriter::FileWriter( ) {
     InitialiseOutputDirectory( );
@@ -243,18 +244,33 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     if( success == true ) {
         success = true;
         if( Parameters::Get( )->GetWriteModelState( ) == true ) {
-            
+
             std::string fileName = mOutputPath;
             fileName.append( Constants::cModelStateFileName );
 
             std::ofstream modelStateFileStream;
             modelStateFileStream.open( fileName.c_str( ), std::ios::out );
 
-            modelStateFileStream.flags( std::ios::scientific );
+            //modelStateFileStream.flags( std::ios::scientific );
             modelStateFileStream.precision( std::numeric_limits< double >::digits );
 
             if( modelStateFileStream.is_open( ) == true ) {
+                // Header (for consistency with general file reading function)
                 modelStateFileStream << Constants::cModelStateFileName << std::endl;
+                // Use mother-of-all flag
+                modelStateFileStream << RandomSFMT::Get( )->GetUseMother( ) << std::endl;
+                // Random state index
+                modelStateFileStream << RandomSFMT::Get( )->GetStateIndex( ) << std::endl;
+                // Random (mother-of-all) state
+                for( unsigned index = 0; index < MOA_N - 1; ++index ) {
+                    modelStateFileStream << RandomSFMT::Get( )->GetMotherState( index ) << Constants::cDataDelimiterValue;
+                }
+                modelStateFileStream << RandomSFMT::Get( )->GetMotherState( MOA_N - 1 ) << std::endl;
+                // Random (SFMT) state
+                for( unsigned index = 0; index < SFMT_N; ++index ) {
+                    modelStateFileStream << Convertor::Get( )->M128iToString< unsigned >( RandomSFMT::Get( )->GetState( index ) ) << std::endl;
+                }
+                // Model variables
                 modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
                 modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
 

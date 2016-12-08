@@ -4,7 +4,10 @@
  *   The SFMT random number generator is a modification of the Mersenne Twister
  *   with improved randomness and speed, adapted to the SSE2 instruction set.
  *   The SFMT was invented by Mutsuo Saito and Makoto Matsumoto.
- *   The present C++ implementation is by Agner Fog.
+ *   The present C++ implementation is by Agner Fog. This has been modified by 
+ *   Philip J. Underwood to include functions for getting and setting the state
+ *   of the object, as well as the inclusion of a function for drawing values 
+ *   from a normal distribution.
  * 
  *   Copyright notice
  *   ================
@@ -55,6 +58,8 @@
 #include <emmintrin.h>                 // Define SSE2 intrinsics
 
 #include "Types.h"
+
+#define MOA_N 5 // Size of Mother-of-All state vector
 
 // Choose one of the possible Mersenne exponents.
 // Higher values give longer cycle length and use more memory:
@@ -153,21 +158,33 @@ public:
 
     const double GetUniform( ); // Output random floating point number on the interval 0 < x <= 1
     const double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );
+    
+    __m128i GetState( const unsigned ) const;
+    unsigned GetMotherState( const unsigned ) const;
+    unsigned GetStateIndex( ) const;
+    bool GetUseMother( ) const;
+    
+    void SetState( const __m128i[ ] );
+    void SetMotherState( const unsigned[ ] );
+    void SetStateIndex( const unsigned& );
+    void SetUseMother( const bool );
 
 private:
-    void Initialise( );         // Various initializations and period certification
-    void Generate( );           // Fill state array with new random numbers
+    void Initialise( ); // Various initializations and period certification
+    void Generate( ); // Fill state array with new random numbers
     static Types::RandomSFMTPointer mThis;
 
-    unsigned RandomBits( );     // Output random bits
-    unsigned MotherBits( );     // Get random bits from Mother-Of-All generator
-    unsigned mIndex;            // Index into state array
-    unsigned mLastInterval;     // Last interval length for IRandom
-    unsigned mRLimit;           // Rejection limit used by IRandom
-    bool mUseMother;            // Combine with Mother-Of-All generator
-    __m128i mMask;              // AND mask
-    __m128i mState[ SFMT_N ];   // State vector for SFMT generator
-    unsigned mMotherState[ 5 ]; // State vector for Mother-Of-All generator
+    unsigned RandomBits( ); // Output random bits
+    unsigned MotherBits( ); // Get random bits from Mother-Of-All generator
+    
+    __m128i mState[ SFMT_N ]; // State vector for SFMT generator
+    unsigned mMotherState[ MOA_N ]; // State vector for Mother-Of-All generator
+    
+    __m128i mMask; // AND mask
+    unsigned mStateIndex; // Index into state array
+    unsigned mLastInterval; // Last interval length for IRandom
+    unsigned mRejectionLimit; // Rejection limit used by IRandom
+    bool mUseMother; // Combine with Mother-Of-All generator
 };
 
 #endif

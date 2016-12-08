@@ -20,7 +20,7 @@ Maths::Maths( ) {
 
 }
 
- int Maths::RoundWithProbability( const double value ) const {
+int Maths::RoundWithProbability( const double& value ) const {
     int flooredValue = Floor( value );
 
     double probability = value - flooredValue;

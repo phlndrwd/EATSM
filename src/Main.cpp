@@ -10,15 +10,17 @@
 #include "HeterotrophProcessor.h"
 #include "TimeStep.h"
 
+#include "RandomSFMT.h"
+
 int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     Logger::Get( )->LogMessage( Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." );
     Logger::Get( )->LogMessage( "" );
 
     FileReader fileReader;
-    
+
     std::string stateFile = "";
     if( numberOfArguments > 1 ) stateFile = commandlineArguments[ 1 ];
-    
+
     if( fileReader.ReadInputFiles( stateFile ) == true ) {
         Timer timer = Timer( true );
         FileWriter fileWriter;
@@ -51,13 +53,13 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             TimeStep::Get( )->IncrementTimeStep( );
 
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
-
         if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
             Logger::Get( )->LogMessage( "Main time loop complete." );
         } else {
             Logger::Get( )->LogMessage( "Heterotroph population crashed. Main time loop aborted." );
         }
         Logger::Get( )->LogMessage( "" );
+
         fileWriter.WriteOutputData( environment );
         Logger::Get( )->LogMessage( "Total run time " + Convertor::Get( )->ToString( timer.Stop( ) ) + "s" );
 

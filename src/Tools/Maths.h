@@ -10,7 +10,7 @@ public:
     ~Maths( );
     static Types::MathsPointer Get( );
 
-    int RoundWithProbability( double ) const;
+    int RoundWithProbability( const double& ) const;
 
     int Floor( const double& ) const;
     int Ceil( const double& ) const;

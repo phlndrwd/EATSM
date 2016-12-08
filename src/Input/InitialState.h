@@ -2,6 +2,7 @@
 #define	INITIALSTATE
 
 #include "Types.h"
+#include "RandomSFMT.h"
 
 class InitialState {
 public:
@@ -20,8 +21,10 @@ private:
     static Types::InitialStatePointer mThis;
 
     Types::IndividualMatrix mHeterotrophs;
+    
     double mNutrientVolume;
     double mAutotrophVolume;
+    
     unsigned mInitialPopulationSize;
 };
 

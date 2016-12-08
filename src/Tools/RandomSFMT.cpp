@@ -4,8 +4,10 @@
  *   The SFMT random number generator is a modification of the Mersenne Twister
  *   with improved randomness and speed, adapted to the SSE2 instruction set.
  *   The SFMT was invented by Mutsuo Saito and Makoto Matsumoto.
- *   The present C++ implementation is by Agner Fog, and has been modified by 
- *   Philip J. Underwood.
+ *   The present C++ implementation is by Agner Fog. This has been modified by 
+ *   Philip J. Underwood to include functions for getting and setting the state
+ *   of the object, as well as the inclusion of a function for drawing values 
+ *   from a normal distribution.
  * 
  *   Copyright notice
  *   ================
@@ -76,12 +78,12 @@ void RandomSFMT::SetSeed( const unsigned int seed ) {
     unsigned i; // Loop counter
     unsigned y = seed; // Temporary
     unsigned statesize = SFMT_N * 4; // Size of state vector
-    if( mUseMother ) statesize += 5; // Add states for Mother-Of-All generator
+    if( mUseMother ) statesize += MOA_N; // Add states for Mother-Of-All generator
     // Fill state vector with random numbers from seed
     ( ( unsigned* )mState )[0] = y;
     const unsigned factor = 1812433253U; // Multiplication factor
 
-    for( i = 1; i < statesize; i++ ) { 
+    for( i = 1; i < statesize; i++ ) {
         y = factor * ( y ^ ( y >> 30 ) ) + i;
         ( ( unsigned* )mState )[ i ] = y;
     }
@@ -90,6 +92,7 @@ void RandomSFMT::SetSeed( const unsigned int seed ) {
 }
 
 // Functions used by SetSeedByArray
+
 static unsigned Function1( unsigned x ) {
     return ( x ^ ( x >> 27 ) ) * 1664525U;
 }
@@ -161,7 +164,7 @@ void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds
     }
     if( mUseMother == true ) {
         // 4. loop: Initialize MotherState
-        for( j = 0; j < 5; j++ ) {
+        for( j = 0; j < MOA_N; j++ ) {
             r = Function2( r ) + j;
             mMotherState[ j ] = r + sta[ 2 * j ];
         }
@@ -244,17 +247,17 @@ void RandomSFMT::Generate( ) {
         r1 = r2;
         r2 = r;
     }
-    mIndex = 0;
+    mStateIndex = 0;
 }
 
 unsigned RandomSFMT::RandomBits( ) {
     // Output 32 random bits
     unsigned y;
 
-    if( mIndex >= SFMT_N * 4 ) {
+    if( mStateIndex >= SFMT_N * 4 ) {
         Generate( );
     }
-    y = ( ( unsigned* )mState )[mIndex++];
+    y = ( ( unsigned* )mState )[mStateIndex++];
     if( mUseMother ) y += MotherBits( );
     return y;
 }
@@ -263,10 +266,10 @@ unsigned RandomSFMT::MotherBits( ) {
     // Get random bits from Mother-Of-All generator
     unsigned long sum;
     sum = ( unsigned long )2111111111U * ( unsigned long )mMotherState[ 3 ] +
-          ( unsigned long )1492 * ( unsigned long )mMotherState[ 2 ] +
-          ( unsigned long )1776 * ( unsigned long )mMotherState[ 1 ] +
-          ( unsigned long )5115 * ( unsigned long )mMotherState[ 0 ] +
-          ( unsigned long )mMotherState[ 4 ];
+            ( unsigned long )1492 * ( unsigned long )mMotherState[ 2 ] +
+            ( unsigned long )1776 * ( unsigned long )mMotherState[ 1 ] +
+            ( unsigned long )5115 * ( unsigned long )mMotherState[ 0 ] +
+            ( unsigned long )mMotherState[ 4 ];
     mMotherState[ 3 ] = mMotherState[ 2 ];
     mMotherState[ 2 ] = mMotherState[ 1 ];
     mMotherState[ 1 ] = mMotherState[ 0 ];
@@ -321,26 +324,26 @@ const int RandomSFMT::GetExactUniformInt( const int maximum ) {
         // Interval length has changed. Must calculate rejection limit
         // Reject when remainder = 2^32 / interval * interval
         // RLimit will be 0 if interval is a power of 2. No rejection then.
-        mRLimit = ( unsigned )( ( ( unsigned long )1 << 32 ) / interval ) * interval - 1;
+        mRejectionLimit = ( unsigned )( ( ( unsigned long )1 << 32 ) / interval ) * interval - 1;
         mLastInterval = interval;
     }
     do { // Rejection loop
         longran = ( unsigned long )RandomBits( ) * interval;
         iran = ( unsigned )( longran >> 32 );
         remainder = ( unsigned )longran;
-    } while( remainder > mRLimit );
+    } while( remainder > mRejectionLimit );
     // Convert back to signed and return result
     return ( int32_t )iran;
 }
 
 const double RandomSFMT::GetUniform( ) {
     // Output random floating point number
-    if( mIndex >= SFMT_N * 4 - 1 ) {
+    if( mStateIndex >= SFMT_N * 4 - 1 ) {
         // Make sure we have at least two 32-bit numbers
         Generate( );
     }
-    unsigned long r = *( unsigned long* )( ( unsigned* )mState + mIndex );
-    mIndex += 2;
+    unsigned long r = *( unsigned long* )( ( unsigned* )mState + mStateIndex );
+    mStateIndex += 2;
     if( mUseMother ) {
         // We need 53 bits from Mother-Of-All generator
         // Use the regular 32 bits and the the carry bits rotated
@@ -384,4 +387,38 @@ const double RandomSFMT::GetNormal( const double mean, const double standardDevi
         mIsCalculated = true;
     }
     return ( mean + normalValue * standardDeviation );
+}
+
+__m128i RandomSFMT::GetState( const unsigned index ) const {
+    return mState[ index ];
+}
+
+unsigned RandomSFMT::GetMotherState( const unsigned index ) const {
+    return mMotherState[ index ];
+}
+
+unsigned RandomSFMT::GetStateIndex( ) const {
+    return mStateIndex;
+}
+
+bool RandomSFMT::GetUseMother( ) const {
+    return mUseMother;
+}
+
+void RandomSFMT::SetState( const __m128i state[ ] ) {
+    for( unsigned index = 0; index < SFMT_N; ++index )
+        mState[ index ] = state[ index ];
+}
+
+void RandomSFMT::SetMotherState( const unsigned motherState[ ] ) {
+    for( unsigned index = 0; index < MOA_N; ++index )
+        mMotherState[ index ] = motherState[ index ];
+}
+
+void RandomSFMT::SetStateIndex( const unsigned& index ) {
+    mStateIndex = index;
+}
+
+void RandomSFMT::SetUseMother( const bool useMother ) {
+    mUseMother = useMother;
 }

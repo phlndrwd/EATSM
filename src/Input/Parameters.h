@@ -20,7 +20,7 @@ public:
     unsigned GetSamplingRate( ) const;
     unsigned GetNumberOfSizeClasses( ) const;
 
-    bool GetInitialisationMethod( ) const;
+    bool GetCreateNewPopulation( ) const;
     bool GetApplyStarvationFunction( ) const;
     bool GetWriteModelState( ) const;
     
@@ -53,7 +53,7 @@ public:
     void SetSamplingRate( const unsigned );
     void SetNumberOfSizeClasses( const unsigned );
 
-    void SetInitialisationMethod( const bool );
+    void SetCreateNewPopulation( const bool );
     void SetApplyStarvationFunction( const bool );
     void SetWriteModelState( const bool );
     
@@ -113,7 +113,7 @@ private:
     unsigned mSamplingRate;
     unsigned mNumberOfSizeClasses;
 
-    bool mInitialisationMethod;
+    bool mCreateNewPopulation;
     bool mApplyStarvationFunction;
     bool mWriteModelState;
     
