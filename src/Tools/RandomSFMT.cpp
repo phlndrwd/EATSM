@@ -75,38 +75,38 @@ RandomSFMT::~RandomSFMT( ) {
 }
 
 void RandomSFMT::SetSeed( const unsigned int seed ) {
-    unsigned i; // Loop counter
-    unsigned y = seed; // Temporary
-    unsigned statesize = SFMT_N * 4; // Size of state vector
+    uint32_t i; // Loop counter
+    uint32_t y = seed; // Temporary
+    uint32_t statesize = SFMT_N * 4; // Size of state vector
     if( mUseMother ) statesize += MOA_N; // Add states for Mother-Of-All generator
     // Fill state vector with random numbers from seed
-    ( ( unsigned* )mState )[0] = y;
-    const unsigned factor = 1812433253U; // Multiplication factor
+    ( ( uint32_t* )mState )[0] = y;
+    const uint32_t factor = 1812433253U; // Multiplication factor
 
     for( i = 1; i < statesize; i++ ) {
         y = factor * ( y ^ ( y >> 30 ) ) + i;
-        ( ( unsigned* )mState )[ i ] = y;
+        ( ( uint32_t* )mState )[ i ] = y;
     }
     // Further initialization and period certification
     Initialise( );
 }
 
 /* Functions used by SetSeedByArray */
-static unsigned Function1( unsigned x ) {
+static uint32_t Function1( uint32_t x ) {
     return ( x ^ ( x >> 27 ) ) * 1664525U;
 }
 
-static unsigned Function2( unsigned x ) {
+static uint32_t Function2( uint32_t x ) {
     return ( x ^ ( x >> 27 ) ) * 1566083941U;
 }
 
-void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds ) {
+void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int numberOfSeeds ) {
     // Seed by more than 32 bits
-    unsigned i, j, count, r, lag;
+    uint32_t i, j, count, r, lag;
 
-    const unsigned size = SFMT_N * 4; // number of 32-bit integers in state
-    // Typecast state to unsigned *
-    unsigned * sta = ( unsigned* )mState;
+    const uint32_t size = SFMT_N * 4; // number of 32-bit integers in state
+    // Typecast state to uint32_t *
+    uint32_t * sta = ( uint32_t* )mState;
 
     if( size >= 623 ) {
         lag = 11;
@@ -117,10 +117,10 @@ void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds
     } else {
         lag = 3;
     }
-    const unsigned mid = ( size - lag ) / 2;
+    const uint32_t mid = ( size - lag ) / 2;
 
-    if( NumSeeds + 1 > size ) {
-        count = NumSeeds;
+    if( numberOfSeeds + 1 > size ) {
+        count = numberOfSeeds;
     } else {
         count = size - 1;
     }
@@ -129,13 +129,13 @@ void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds
     for( i = 0; i < size; i++ ) sta[i] = 0x8B8B8B8B;
     r = Function1( sta[ 0 ] ^ sta[mid] ^ sta[ size - 1 ] );
     sta[ mid ] += r;
-    r += NumSeeds;
+    r += numberOfSeeds;
     sta[ mid + lag ] += r;
     sta[ 0 ] = r;
 #else
     // 1. loop: Fill state vector with random numbers from NumSeeds
-    const unsigned factor = 1812433253U; // Multiplication factor
-    r = NumSeeds;
+    const uint32_t factor = 1812433253U; // Multiplication factor
+    r = numberOfSeeds;
     for( i = 0; i < SFMT_N * 4; i++ ) {
         r = factor * ( r ^ ( r >> 30 ) ) + i;
         sta[ i ] = r;
@@ -146,7 +146,7 @@ void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds
     for( i = 1, j = 0; j < count; j++ ) {
         r = Function1( sta[ i ] ^ sta[ ( i + mid ) % size ] ^ sta[ ( i + size - 1 ) % size ] );
         sta[( i + mid ) % size] += r;
-        if( j < ( unsigned )NumSeeds ) r += ( unsigned )seeds[ j ];
+        if( j < ( uint32_t )numberOfSeeds ) r += ( uint32_t )seeds[ j ];
         r += i;
         sta[( i + mid + lag ) % size] += r;
         sta[ i ] = r;
@@ -174,20 +174,20 @@ void RandomSFMT::SetSeedByArray( const int seeds[ ], const unsigned int NumSeeds
 
 void RandomSFMT::Initialise( ) {
     // Various initializations and period certification
-    unsigned i, j, temp;
+    uint32_t i, j, temp;
 
     // Initialize mask
-    static const unsigned maskinit[4] = { SFMT_MASK };
+    static const uint32_t maskinit[ 4 ] = { SFMT_MASK };
     mMask = _mm_loadu_si128( ( __m128i* )maskinit );
 
     // Period certification
     // Define period certification vector
-    static const unsigned parityvec[ 4 ] = { SFMT_PARITY };
+    static const uint32_t parityvec[ 4 ] = { SFMT_PARITY };
 
     // Check if parityvec & state[0] has odd parity
     temp = 0;
     for( i = 0; i < 4; i++ ) {
-        temp ^= parityvec[ i ] & ( ( unsigned* )mState )[i];
+        temp ^= parityvec[ i ] & ( ( uint32_t* )mState )[i];
     }
     for( i = 16; i > 0; i >>= 1 ) temp ^= temp >> i;
     if( !( temp & 1 ) ) {
@@ -198,7 +198,7 @@ void RandomSFMT::Initialise( ) {
                 for( j = 1; j; j <<= 1 ) {
                     if( parityvec[ i ] & j ) {
                         // Flip the corresponding bit in state[0] to change parity
-                        ( ( unsigned* )mState )[ i ] ^= j;
+                        ( ( uint32_t* )mState )[ i ] ^= j;
                         // Done. Exit i and j loops
                         i = 5;
                         break;
@@ -212,7 +212,7 @@ void RandomSFMT::Initialise( ) {
 }
 
 /* Subfunction for the sfmt algorithm */
-static inline __m128i sfmt_recursion( __m128i const &a, __m128i const &b, __m128i const &c, __m128i const &d, __m128i const &mask ) {
+static inline __m128i SFMTRecursion( __m128i const &a, __m128i const &b, __m128i const &c, __m128i const &d, __m128i const &mask ) {
     __m128i a1, b1, c1, d1, z1, z2;
     b1 = _mm_srli_epi32( b, SFMT_SR1 );
     a1 = _mm_slli_si128( a, SFMT_SL2 );
@@ -234,13 +234,13 @@ void RandomSFMT::Generate( ) {
     r1 = mState[ SFMT_N - 2 ];
     r2 = mState[ SFMT_N - 1 ];
     for( i = 0; i < SFMT_N - SFMT_M; i++ ) {
-        r = sfmt_recursion( mState[ i ], mState[ i + SFMT_M ], r1, r2, mMask );
+        r = SFMTRecursion( mState[ i ], mState[ i + SFMT_M ], r1, r2, mMask );
         mState[i] = r;
         r1 = r2;
         r2 = r;
     }
     for(; i < SFMT_N; i++ ) {
-        r = sfmt_recursion( mState[ i ], mState[ i + SFMT_M - SFMT_N ], r1, r2, mMask );
+        r = SFMTRecursion( mState[ i ], mState[ i + SFMT_M - SFMT_N ], r1, r2, mMask );
         mState[ i ] = r;
         r1 = r2;
         r2 = r;
@@ -248,31 +248,30 @@ void RandomSFMT::Generate( ) {
     mStateIndex = 0;
 }
 
-unsigned RandomSFMT::RandomBits( ) {
+uint32_t RandomSFMT::RandomBits( ) {
     // Output 32 random bits
-    unsigned y;
+    uint32_t y;
 
     if( mStateIndex >= SFMT_N * 4 ) {
         Generate( );
     }
-    y = ( ( unsigned* )mState )[mStateIndex++];
+    y = ( ( uint32_t* )mState )[ mStateIndex++ ];
     if( mUseMother ) y += MotherBits( );
     return y;
 }
 
-unsigned RandomSFMT::MotherBits( ) {
+uint32_t RandomSFMT::MotherBits( ) {
     // Get random bits from Mother-Of-All generator
-    unsigned long sum;
-    sum = ( unsigned long )2111111111U * ( unsigned long )mMotherState[ 3 ] +
-            ( unsigned long )1492 * ( unsigned long )mMotherState[ 2 ] +
-            ( unsigned long )1776 * ( unsigned long )mMotherState[ 1 ] +
-            ( unsigned long )5115 * ( unsigned long )mMotherState[ 0 ] +
-            ( unsigned long )mMotherState[ 4 ];
+    uint64_t sum = ( uint64_t )2111111111U * ( uint64_t )mMotherState[ 3 ] +
+            ( uint64_t )1492 * ( uint64_t )mMotherState[ 2 ] +
+            ( uint64_t )1776 * ( uint64_t )mMotherState[ 1 ] +
+            ( uint64_t )5115 * ( uint64_t )mMotherState[ 0 ] +
+            ( uint64_t )mMotherState[ 4 ];
     mMotherState[ 3 ] = mMotherState[ 2 ];
     mMotherState[ 2 ] = mMotherState[ 1 ];
     mMotherState[ 1 ] = mMotherState[ 0 ];
-    mMotherState[ 4 ] = ( unsigned )( sum >> 32 ); // Carry
-    mMotherState[ 0 ] = ( unsigned )sum; // Low 32 bits of sum
+    mMotherState[ 4 ] = ( uint32_t )( sum >> 32 ); // Carry
+    mMotherState[ 0 ] = ( uint32_t )sum; // Low 32 bits of sum
     return mMotherState[ 0 ];
 }
 
@@ -287,13 +286,13 @@ int RandomSFMT::GetUniformInt( const int maximum ) {
         }
     }
     // Assume 64 bit integers supported. Use multiply and shift method
-    unsigned interval; // Length of interval
-    unsigned long longran; // Random bits * interval
-    unsigned iran; // Longran / 2^32
+    uint32_t interval; // Length of interval
+    uint64_t longran; // Random bits * interval
+    uint32_t iran; // Longran / 2^32
 
-    interval = ( unsigned )( maximum + 1 );
-    longran = ( unsigned long )RandomBits( ) * interval;
-    iran = ( unsigned )( longran >> 32 );
+    interval = ( uint32_t )( maximum + 1 );
+    longran = ( uint64_t )RandomBits( ) * interval;
+    iran = ( uint32_t )( longran >> 32 );
     // Convert back to signed and return result
     return ( int32_t )iran;
 }
@@ -311,23 +310,23 @@ int RandomSFMT::GetExactUniformInt( const int maximum ) {
         }
     }
     // Assume 64 bit integers supported. Use multiply and shift method
-    unsigned interval; // Length of interval
-    unsigned long longran; // Random bits * interval
-    unsigned iran; // Longran / 2^32
-    unsigned remainder; // Longran % 2^32
+    uint32_t interval; // Length of interval
+    uint64_t longran; // Random bits * interval
+    uint32_t iran; // Longran / 2^32
+    uint32_t remainder; // Longran % 2^32
 
-    interval = ( unsigned )( maximum + 1 );
+    interval = ( uint32_t )( maximum + 1 );
     if( interval != mLastInterval ) {
         // Interval length has changed. Must calculate rejection limit
         // Reject when remainder = 2^32 / interval * interval
         // RLimit will be 0 if interval is a power of 2. No rejection then.
-        mRejectionLimit = ( unsigned )( ( ( unsigned long )1 << 32 ) / interval ) * interval - 1;
+        mRejectionLimit = ( uint32_t )( ( ( uint64_t )1 << 32 ) / interval ) * interval - 1;
         mLastInterval = interval;
     }
     do { // Rejection loop
-        longran = ( unsigned long )RandomBits( ) * interval;
-        iran = ( unsigned )( longran >> 32 );
-        remainder = ( unsigned )longran;
+        longran = ( uint64_t )RandomBits( ) * interval;
+        iran = ( uint32_t )( longran >> 32 );
+        remainder = ( uint32_t )longran;
     } while( remainder > mRejectionLimit );
     // Convert back to signed and return result
     return ( int32_t )iran;
@@ -339,19 +338,19 @@ double RandomSFMT::GetUniform( ) {
         // Make sure we have at least two 32-bit numbers
         Generate( );
     }
-    unsigned long r = *( unsigned long* )( ( unsigned* )mState + mStateIndex );
+    uint64_t r = *( uint64_t* )( ( uint32_t* )mState + mStateIndex );
     mStateIndex += 2;
     if( mUseMother ) {
         // We need 53 bits from Mother-Of-All generator
         // Use the regular 32 bits and the the carry bits rotated
-        unsigned long r2 = ( unsigned long )MotherBits( ) << 32;
+        uint64_t r2 = ( uint64_t )MotherBits( ) << 32;
         r2 |= ( mMotherState[4] << 16 ) | ( mMotherState[4] >> 16 );
         r += r2;
     }
     // 53 bits resolution:
     // return (int64_t)(r >> 11) * (1./(67108864.0*134217728.0)); // (r >> 11)*2^(-53)
     // 52 bits resolution for compatibility with assembly version:
-    return ( long int )( r >> 12 ) * ( 1. / ( 67108864.0 * 67108864.0 ) ); // (r >> 12)*2^(-52)
+    return ( uint64_t )( r >> 12 ) * ( 1. / ( 67108864.0 * 67108864.0 ) ); // (r >> 12)*2^(-52)
 }
 
 /* 
@@ -390,11 +389,11 @@ __m128i RandomSFMT::GetState( const unsigned index ) const {
     return mState[ index ];
 }
 
-unsigned RandomSFMT::GetMotherState( const unsigned index ) const {
+uint32_t RandomSFMT::GetMotherState( const unsigned index ) const {
     return mMotherState[ index ];
 }
 
-unsigned RandomSFMT::GetStateIndex( ) const {
+uint32_t RandomSFMT::GetStateIndex( ) const {
     return mStateIndex;
 }
 
@@ -411,12 +410,12 @@ void RandomSFMT::SetState( const __m128i state[ ] ) {
         mState[ index ] = state[ index ];
 }
 
-void RandomSFMT::SetMotherState( const unsigned motherState[ ] ) {
+void RandomSFMT::SetMotherState( const uint32_t motherState[ ] ) {
     for( unsigned index = 0; index < MOA_N; ++index )
         mMotherState[ index ] = motherState[ index ];
 }
 
-void RandomSFMT::SetStateIndex( const unsigned& index ) {
+void RandomSFMT::SetStateIndex( const uint32_t& index ) {
     mStateIndex = index;
 }
 

@@ -55,6 +55,7 @@
 #ifndef RANDOMSFMT
 #define RANDOMSFMT
 
+#include <stdint.h>                    // Variable type definitions
 #include <emmintrin.h>                 // Define SSE2 intrinsics
 
 #include "Types.h"
@@ -162,14 +163,14 @@ public:
     double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );
     
     __m128i GetState( const unsigned ) const;
-    unsigned GetMotherState( const unsigned ) const;
-    unsigned GetStateIndex( ) const;
+    uint32_t GetMotherState( const unsigned ) const;
+    uint32_t GetStateIndex( ) const;
     bool GetIsNormalCalculated( ) const;
     double GetCalculatedNormalValue( ) const;
     
     void SetState( const __m128i[ ] );
-    void SetMotherState( const unsigned[ ] );
-    void SetStateIndex( const unsigned& );
+    void SetMotherState( const uint32_t[ ] );
+    void SetStateIndex( const uint32_t& );
     void SetIsNormalCalculated( const bool );
     void SetCalculatedNormalValue( const double& );
 
@@ -178,20 +179,20 @@ private:
     void Generate( ); // Fill state array with new random numbers
     static Types::RandomSFMTPointer mThis;
 
-    unsigned RandomBits( ); // Output random bits
-    unsigned MotherBits( ); // Get random bits from Mother-Of-All generator
+    uint32_t RandomBits( ); // Output random bits
+    uint32_t MotherBits( ); // Get random bits from Mother-Of-All generator
     
     __m128i mState[ SFMT_N ]; // State vector for SFMT generator
-    unsigned mMotherState[ MOA_N ]; // State vector for Mother-Of-All generator
+    uint32_t mMotherState[ MOA_N ]; // State vector for Mother-Of-All generator
     
     __m128i mMask; // AND mask
-    unsigned mStateIndex; // Index into state array
-    unsigned mLastInterval; // Last interval length for IRandom
-    unsigned mRejectionLimit; // Rejection limit used by IRandom
+    uint32_t mLastInterval; // Last interval length for IRandom
+    uint32_t mRejectionLimit; // Rejection limit used by IRandom
+    uint32_t mStateIndex; // Index into state array
     bool mUseMother; // Combine with Mother-Of-All generator
     
-    double mCalculatedNormalValue;
     bool mIsNormalCalculated = false;
+    double mCalculatedNormalValue;
 };
 
 #endif
