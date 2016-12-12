@@ -91,8 +91,7 @@ void RandomSFMT::SetSeed( const unsigned int seed ) {
     Initialise( );
 }
 
-// Functions used by SetSeedByArray
-
+/* Functions used by SetSeedByArray */
 static unsigned Function1( unsigned x ) {
     return ( x ^ ( x >> 27 ) ) * 1664525U;
 }
@@ -212,8 +211,7 @@ void RandomSFMT::Initialise( ) {
     Generate( );
 }
 
-// Subfunction for the sfmt algorithm
-
+/* Subfunction for the sfmt algorithm */
 static inline __m128i sfmt_recursion( __m128i const &a, __m128i const &b, __m128i const &c, __m128i const &d, __m128i const &mask ) {
     __m128i a1, b1, c1, d1, z1, z2;
     b1 = _mm_srli_epi32( b, SFMT_SR1 );
@@ -301,7 +299,6 @@ int RandomSFMT::GetUniformInt( const int maximum ) {
 }
 
 int RandomSFMT::GetExactUniformInt( const int maximum ) {
-
     // Output random integer in the interval min <= x <= max
     // Each output value has exactly the same probability.
     // This is obtained by rejecting certain bit values so that the number
@@ -354,38 +351,38 @@ double RandomSFMT::GetUniform( ) {
     // 53 bits resolution:
     // return (int64_t)(r >> 11) * (1./(67108864.0*134217728.0)); // (r >> 11)*2^(-53)
     // 52 bits resolution for compatibility with assembly version:
-    return ( int64_t )( r >> 12 ) * ( 1. / ( 67108864.0 * 67108864.0 ) ); // (r >> 12)*2^(-52)
+    return ( long int )( r >> 12 ) * ( 1. / ( 67108864.0 * 67108864.0 ) ); // (r >> 12)*2^(-52)
 }
 
-// Polar form of the Box-Muller transformation.
-// Mean and standard deviation default to 0.0 and 1.0, see header.
-// Algorithm optimization achieved by returning result from one uniform random
-// and caching result from second for use on the second call.
-// ftp://ftp.taygeta.com/pub/c/boxmuller.c
+/* 
+ * Polar form of the Box-Muller transformation.
+ * Mean and standard deviation default to 0.0 and 1.0, see header.
+ * Algorithm optimization achieved by returning result from one uniform random
+ * and caching result from second for use on the second call.
+ * ftp://ftp.taygeta.com/pub/c/boxmuller.c
+ */
 double RandomSFMT::GetNormal( const double mean, const double standardDeviation ) {
-    double uniformValue1;
-    double uniformValue2;
-    double sumSquare;
+    double uniformValueA;
+    double uniformValueB;
     double normalValue;
 
-    static double normalValue2;
-    static bool mIsCalculated = false;
-
-    if( mIsCalculated == true ) { // Use value from previous call
-        normalValue = normalValue2;
-        mIsCalculated = false;
+    if( mIsNormalCalculated == true ) { // Use value from previous call
+        normalValue = mCalculatedNormalValue;
+        mIsNormalCalculated = false;
     } else {
+        double sumSquare;
         do {
-            uniformValue1 = 2.0 * GetUniform( ) - 1.0;
-            uniformValue2 = 2.0 * GetUniform( ) - 1.0;
-            sumSquare = uniformValue1 * uniformValue1 + uniformValue2 * uniformValue2;
+            uniformValueA = 2.0 * GetUniform( ) - 1.0;
+            uniformValueB = 2.0 * GetUniform( ) - 1.0;
+            sumSquare = uniformValueA * uniformValueA + uniformValueB * uniformValueB;
         } while( sumSquare >= 1.0 );
 
         sumSquare = std::sqrt( ( -2.0 * std::log( sumSquare ) ) / sumSquare );
-        normalValue = uniformValue1 * sumSquare;
-        normalValue2 = uniformValue2 * sumSquare;
-        mIsCalculated = true;
+        normalValue = uniformValueA * sumSquare;
+        mCalculatedNormalValue = uniformValueB * sumSquare;
+        mIsNormalCalculated = true;
     }
+
     return ( mean + normalValue * standardDeviation );
 }
 
@@ -401,8 +398,12 @@ unsigned RandomSFMT::GetStateIndex( ) const {
     return mStateIndex;
 }
 
-bool RandomSFMT::GetUseMother( ) const {
-    return mUseMother;
+bool RandomSFMT::GetIsNormalCalculated( ) const {
+    return mIsNormalCalculated;
+}
+
+double RandomSFMT::GetCalculatedNormalValue( ) const {
+    return mCalculatedNormalValue;
 }
 
 void RandomSFMT::SetState( const __m128i state[ ] ) {
@@ -419,6 +420,10 @@ void RandomSFMT::SetStateIndex( const unsigned& index ) {
     mStateIndex = index;
 }
 
-void RandomSFMT::SetUseMother( const bool useMother ) {
-    mUseMother = useMother;
+void RandomSFMT::SetIsNormalCalculated( const bool isNormalCalculated ) {
+    mIsNormalCalculated = isNormalCalculated;
+}
+
+void RandomSFMT::SetCalculatedNormalValue( const double& normalValue ) {
+    mCalculatedNormalValue = normalValue;
 }

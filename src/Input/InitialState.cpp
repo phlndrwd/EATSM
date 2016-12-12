@@ -1,5 +1,5 @@
 #include "InitialState.h"
-#include "StringManip.h"
+#include "StringTools.h"
 #include "Individual.h"
 #include "Parameters.h"
 #include "HeterotrophProcessor.h"
@@ -26,18 +26,21 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
 
     bool success = true;
 
-    // Random mother-of-all flag
-    bool useMother = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMotherFlag ][ 0 ] );
-    RandomSFMT::Get( )->SetUseMother( useMother );
+    // Calculated normal data
+    bool isNormalValueCalculated = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineIsNormalCalculated ][ 0 ] );
+    RandomSFMT::Get( )->SetIsNormalCalculated( isNormalValueCalculated );
+
+    double calculatedNormalValue = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNormalValue ][ 0 ] );
+    RandomSFMT::Get( )->SetCalculatedNormalValue( calculatedNormalValue );
 
     // Random state index
-    unsigned stateIndex = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineRandomIndex ][ 0 ] );
+    unsigned stateIndex = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineRandomIndex ][ 0 ] );
     RandomSFMT::Get( )->SetStateIndex( stateIndex );
 
     // Random (mother-of-all) state
     unsigned randomMotherState[ MOA_N ];
     for( unsigned columnIndex = 0; columnIndex < MOA_N; ++columnIndex ) {
-        randomMotherState[ columnIndex ] = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMOAState ][ columnIndex ] );
+        randomMotherState[ columnIndex ] = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMOAState ][ columnIndex ] );
     }
     RandomSFMT::Get( )->SetMotherState( randomMotherState );
 
@@ -47,25 +50,25 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     for( unsigned lineIndex = Constants::cStateLineSFMTState; lineIndex < SFMT_N + Constants::cStateLineSFMTState; ++lineIndex ) {
         unsigned values[ 4 ];
         for( unsigned columnIndex = 0; columnIndex < 4; ++columnIndex ) {
-            values[ columnIndex ] = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ columnIndex ] );
+            values[ columnIndex ] = StringTools::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ columnIndex ] );
         }
         randomSFMTState[ arrayCounter ] = _mm_loadu_si128( ( __m128i* )values );
         ++arrayCounter;
     }
     RandomSFMT::Get( )->SetState( randomSFMTState );
-    
+
     // Model variables
-    mNutrientVolume = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
-    mAutotrophVolume = StringManip::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
+    mNutrientVolume = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
+    mAutotrophVolume = StringTools::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
     mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
-    
+
     HeterotrophProcessor heterotrophProcessor;
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
-        unsigned sizeClassIndex = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
-        double geneValue = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
-        double volumeActual = StringManip::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
+        unsigned sizeClassIndex = StringTools::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
+        double geneValue = StringTools::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
+        double volumeActual = StringTools::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
 
         Types::IndividualPointer individual = new Individual( &heterotrophProcessor, geneValue, volumeActual, sizeClassIndex );
         mHeterotrophs[ sizeClassIndex ].push_back( individual );

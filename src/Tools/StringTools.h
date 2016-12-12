@@ -11,9 +11,9 @@
 #include <iomanip>
 #include <emmintrin.h> 
 
-class StringManip {
+class StringTools {
 public:
-    ~StringManip( );
+    ~StringTools( );
     static Types::StringManipPointer Get( );
 
     template< class T >
@@ -51,7 +51,7 @@ public:
     std::string RemoveWhiteSpace( const std::string ) const;
 
 private:
-    StringManip( );
+    StringTools( );
 
     static Types::StringManipPointer mThis;
 };

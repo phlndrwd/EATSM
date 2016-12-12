@@ -57,7 +57,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Output/FileWriter.o \
 	${OBJECTDIR}/src/Tools/Date.o \
 	${OBJECTDIR}/src/Tools/RandomSFMT.o \
-	${OBJECTDIR}/src/Tools/StringManip.o \
+	${OBJECTDIR}/src/Tools/StringTools.o \
 	${OBJECTDIR}/src/Tools/Timer.o
 
 
@@ -195,10 +195,10 @@ ${OBJECTDIR}/src/Tools/RandomSFMT.o: src/Tools/RandomSFMT.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomSFMT.o src/Tools/RandomSFMT.cpp
 
-${OBJECTDIR}/src/Tools/StringManip.o: src/Tools/StringManip.cpp 
+${OBJECTDIR}/src/Tools/StringTools.o: src/Tools/StringTools.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/StringManip.o src/Tools/StringManip.cpp
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/StringTools.o src/Tools/StringTools.cpp
 
 ${OBJECTDIR}/src/Tools/Timer.o: src/Tools/Timer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

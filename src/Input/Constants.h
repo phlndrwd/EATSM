@@ -23,13 +23,14 @@ namespace Constants {
         eVolumeGene
     };
     
-    const unsigned cStateLineMotherFlag = 0;
-    const unsigned cStateLineRandomIndex = 1;
-    const unsigned cStateLineMOAState = 2;
-    const unsigned cStateLineSFMTState = 3;
-    const unsigned cStateLineNutrientVol = 91;
-    const unsigned cStateLineAutotrophVol = 92;
-    const unsigned cStateLineFirstHeterotroph = 93;
+    const unsigned cStateLineIsNormalCalculated = 0;
+    const unsigned cStateLineNormalValue = 1;
+    const unsigned cStateLineRandomIndex = 2;
+    const unsigned cStateLineMOAState = 3;
+    const unsigned cStateLineSFMTState = 4;
+    const unsigned cStateLineNutrientVol = 92;
+    const unsigned cStateLineAutotrophVol = 93;
+    const unsigned cStateLineFirstHeterotroph = 94;
 
     const std::string cConfigurationDirectory = "./input/";
     const std::string cOutputDirectoryName = "output";

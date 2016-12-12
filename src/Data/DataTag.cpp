@@ -3,7 +3,7 @@
 #include "Individual.h"
 #include "TimeStep.h"
 #include "ConsumptionEvent.h"
-#include "StringManip.h"
+#include "StringTools.h"
 
 DataTag::DataTag( const long id, Types::IndividualPointer individual ) {
     mID = id;

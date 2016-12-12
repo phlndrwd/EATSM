@@ -61,8 +61,10 @@
 
 #define MOA_N 5 // Size of Mother-of-All state vector
 
-// Choose one of the possible Mersenne exponents.
-// Higher values give longer cycle length and use more memory:
+/*
+ * Choose one of the possible Mersenne exponents.
+ * Higher values give longer cycle length and use more memory:
+ */
 //#define MEXP   607
 //#define MEXP  1279
 //#define MEXP  2281
@@ -71,7 +73,7 @@
 //#define MEXP 19937
 //#define MEXP 44497
 
-// Define constants for the selected Mersenne exponent:
+/* Define constants for the selected Mersenne exponent: */
 #if MEXP == 44497
 #define SFMT_N    348                  // Size of state vector
 #define SFMT_M    330                  // Position of intermediate feedback
@@ -162,12 +164,14 @@ public:
     __m128i GetState( const unsigned ) const;
     unsigned GetMotherState( const unsigned ) const;
     unsigned GetStateIndex( ) const;
-    bool GetUseMother( ) const;
+    bool GetIsNormalCalculated( ) const;
+    double GetCalculatedNormalValue( ) const;
     
     void SetState( const __m128i[ ] );
     void SetMotherState( const unsigned[ ] );
     void SetStateIndex( const unsigned& );
-    void SetUseMother( const bool );
+    void SetIsNormalCalculated( const bool );
+    void SetCalculatedNormalValue( const double& );
 
 private:
     void Initialise( ); // Various initializations and period certification
@@ -185,6 +189,9 @@ private:
     unsigned mLastInterval; // Last interval length for IRandom
     unsigned mRejectionLimit; // Rejection limit used by IRandom
     bool mUseMother; // Combine with Mother-Of-All generator
+    
+    double mCalculatedNormalValue;
+    bool mIsNormalCalculated = false;
 };
 
 #endif

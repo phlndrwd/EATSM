@@ -1,7 +1,7 @@
 #include "DataRecorder.h"
 #include "Parameters.h"
 #include "Constants.h"
-#include "StringManip.h"
+#include "StringTools.h"
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
 
@@ -30,8 +30,8 @@ DataRecorder::~DataRecorder( ) {
 bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData ) {
     if( rawOutputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawOutputParameterData.size( ); ++rowIndex ) {
-            std::string name = StringManip::Get( )->RemoveWhiteSpace( rawOutputParameterData[ rowIndex ][ Constants::eDatumName ] );
-            std::string type = StringManip::Get( )->RemoveWhiteSpace( StringManip::Get( )->ToLowercase( rawOutputParameterData[ rowIndex ][ Constants::eDatumType ] ) );
+            std::string name = StringTools::Get( )->RemoveWhiteSpace( rawOutputParameterData[ rowIndex ][ Constants::eDatumName ] );
+            std::string type = StringTools::Get( )->RemoveWhiteSpace( StringTools::Get( )->ToLowercase( rawOutputParameterData[ rowIndex ][ Constants::eDatumType ] ) );
 
             Types::StringVector datumMetadata;
             datumMetadata.push_back( name );
@@ -99,7 +99,7 @@ Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::strin
         for( unsigned datumIndex = 0; datumIndex < mVectorDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mVectorDatumMetadata[ datumIndex ][ Constants::eDatumName ];
             
-            if( StringManip::Get( )->ToLowercase( datumName ) == StringManip::Get( )->ToLowercase( name ) ) {
+            if( StringTools::Get( )->ToLowercase( datumName ) == StringTools::Get( )->ToLowercase( name ) ) {
                 vectorDatum = new VectorDatum( datumName );
                 mVectorDatumMap.insert( std::pair< std::string, Types::VectorDatumPointer >( datumName, vectorDatum ) );
                 break;
@@ -119,7 +119,7 @@ Types::MatrixDatumPointer DataRecorder::GetMatrixDatumFromName( const std::strin
         for( unsigned datumIndex = 0; datumIndex < mMatrixDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mMatrixDatumMetadata[ datumIndex ][ Constants::eDatumName ];
 
-            if( StringManip::Get( )->ToLowercase( datumName ) == StringManip::Get( )->ToLowercase( name ) ) {
+            if( StringTools::Get( )->ToLowercase( datumName ) == StringTools::Get( )->ToLowercase( name ) ) {
                 matrixDatum = new MatrixDatum( datumName );
                 mMatrixDatumMap.insert( std::pair< std::string, Types::MatrixDatumPointer >( datumName, matrixDatum ) );
                 break;
