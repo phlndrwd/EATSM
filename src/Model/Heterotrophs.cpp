@@ -3,7 +3,7 @@
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
 #include "Parameters.h"
-#include "StringTools.h"
+#include "Strings.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
 #include "Genome.h"

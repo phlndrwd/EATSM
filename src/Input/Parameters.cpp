@@ -1,6 +1,6 @@
 #include "Parameters.h"
 #include "Constants.h"
-#include "StringTools.h"
+#include "Strings.h"
 #include "HeterotrophProcessor.h"
 #include "DataRecorder.h"
 
@@ -38,8 +38,8 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
     if( rawInputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
 
-            std::string parameterName = StringTools::Get( )->RemoveWhiteSpace( StringTools::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
-            double parameterValue = StringTools::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] );
+            std::string parameterName = Strings::Get( )->RemoveWhiteSpace( Strings::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
+            double parameterValue = Strings::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] );
 
             if( parameterName == "randomseed" ) SetRandomSeed( parameterValue );
             else if( parameterName == "runtimeinseconds" ) SetRunTimeInSeconds( parameterValue );

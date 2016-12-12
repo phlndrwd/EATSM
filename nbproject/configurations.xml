@@ -36,7 +36,7 @@
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Date.h</itemPath>
         <itemPath>src/Tools/RandomSFMT.h</itemPath>
-        <itemPath>src/Tools/StringTools.h</itemPath>
+        <itemPath>src/Tools/Strings.h</itemPath>
         <itemPath>src/Tools/Timer.h</itemPath>
       </logicalFolder>
     </logicalFolder>
@@ -77,7 +77,7 @@
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Date.cpp</itemPath>
         <itemPath>src/Tools/RandomSFMT.cpp</itemPath>
-        <itemPath>src/Tools/StringTools.cpp</itemPath>
+        <itemPath>src/Tools/Strings.cpp</itemPath>
         <itemPath>src/Tools/Timer.cpp</itemPath>
       </logicalFolder>
       <itemPath>src/Main.cpp</itemPath>
@@ -218,9 +218,9 @@
       </item>
       <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/StringTools.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Tools/Strings.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Tools/StringTools.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Tools/Strings.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Timer.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -345,9 +345,9 @@
       </item>
       <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/StringTools.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Tools/Strings.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Tools/StringTools.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Tools/Strings.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Timer.cpp" ex="false" tool="1" flavor2="0">
       </item>

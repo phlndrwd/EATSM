@@ -1,5 +1,5 @@
-#ifndef STRINGMANIP
-#define	STRINGMANIP
+#ifndef STRINGS
+#define	STRINGS
 
 #include "Types.h"
 #include "Constants.h"
@@ -9,12 +9,14 @@
 #include <iostream>
 #include <stdlib.h>
 #include <iomanip>
-#include <emmintrin.h> 
+#include <emmintrin.h>
+#include <algorithm>
 
-class StringTools {
+
+class Strings {
 public:
-    ~StringTools( );
-    static Types::StringManipPointer Get( );
+    ~Strings( );
+    static Types::StringsPointer Get( );
 
     template< class T >
     const std::string ToString( const T& input ) const {
@@ -28,7 +30,7 @@ public:
     std::string M128iToString( __m128i value ) {
         std::stringstream stringStream;
         const T* values = ( const T* ) &value;
-        if( sizeof( T ) == 1 ) {
+        if( sizeof ( T ) == 1 ) {
             for( unsigned int index = 0; index < sizeof( __m128i ) - 1; ++index ) {
                 stringStream << ( int ) values[ index ] << Constants::cDataDelimiterValue;
             }
@@ -51,9 +53,9 @@ public:
     std::string RemoveWhiteSpace( const std::string ) const;
 
 private:
-    StringTools( );
+    Strings( );
 
-    static Types::StringManipPointer mThis;
+    static Types::StringsPointer mThis;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "Constants.h"
 #include "Parameters.h"
 #include "FileReader.h"
-#include "StringTools.h"
+#include "Strings.h"
 #include "Environment.h"
 #include "DataRecorder.h"
 #include "FileWriter.h"

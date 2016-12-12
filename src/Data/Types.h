@@ -22,7 +22,7 @@ class MatrixDatum;
 class Nutrient;
 class Parameters;
 class RandomSFMT;
-class StringTools;
+class Strings;
 class Tagger;
 class TimeStep;
 class VectorDatum;
@@ -31,7 +31,7 @@ namespace Types {
     // Pointers
     typedef Autotrophs* AutotrophsPointer;
     typedef ConsumptionEvent* ConsumptionEventPointer;
-    typedef StringTools* StringManipPointer;
+    typedef Strings* StringsPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef DataTag* DataTagPointer;
     typedef Environment* EnvironmentPointer;

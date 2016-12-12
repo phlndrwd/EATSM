@@ -1,7 +1,7 @@
 #include "Genome.h"
 #include "RandomSFMT.h"
 #include "Parameters.h"
-#include "StringTools.h"
+#include "Strings.h"
 
 Genome::Genome( const Types::DoubleVector genomeValues ) {
     mGenomeValues = genomeValues;
