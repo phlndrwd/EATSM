@@ -60,6 +60,9 @@
 
 #include "Types.h"
 
+#define SIGNED_MAX 2147483646;
+#define USIGNED_MAX 4294967294
+
 #define MOA_N 5 // Size of Mother-of-All state vector
 
 /*
@@ -156,8 +159,8 @@ public:
     void SetSeed( const unsigned int ); // Re-seed
     void SetSeedByArray( const int[ ], const unsigned int ); // Seed by more than 32 bits
 
-    int GetUniformInt( const int ); // Output random integer from 0 up to and including the defined maximum
-    int GetExactUniformInt( const int ); // Output random integer, exact
+    unsigned GetUniformInt( const unsigned maximum = 4294967294 ); // Output random integer from 0 up to and including the defined maximum
+    unsigned GetExactUniformInt( const unsigned maximum = 4294967294 ); // Output random integer, exact
 
     double GetUniform( ); // Output random floating point number on the interval 0 < x <= 1
     double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );

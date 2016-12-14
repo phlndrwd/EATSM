@@ -275,7 +275,7 @@ uint32_t RandomSFMT::MotherBits( ) {
     return mMotherState[ 0 ];
 }
 
-int RandomSFMT::GetUniformInt( const int maximum ) {
+unsigned RandomSFMT::GetUniformInt( const unsigned maximum ) {
     // Output random integer in the interval min <= x <= max
     // Slightly inaccurate if (max-min+1) is not a power of 2
     if( maximum <= 0 ) {
@@ -293,11 +293,11 @@ int RandomSFMT::GetUniformInt( const int maximum ) {
     interval = ( uint32_t )( maximum + 1 );
     longran = ( uint64_t )RandomBits( ) * interval;
     iran = ( uint32_t )( longran >> 32 );
-    // Convert back to signed and return result
-    return ( int32_t )iran;
+    
+    return iran;
 }
 
-int RandomSFMT::GetExactUniformInt( const int maximum ) {
+unsigned RandomSFMT::GetExactUniformInt( const unsigned maximum ) {
     // Output random integer in the interval min <= x <= max
     // Each output value has exactly the same probability.
     // This is obtained by rejecting certain bit values so that the number
@@ -328,8 +328,8 @@ int RandomSFMT::GetExactUniformInt( const int maximum ) {
         iran = ( uint32_t )( longran >> 32 );
         remainder = ( uint32_t )longran;
     } while( remainder > mRejectionLimit );
-    // Convert back to signed and return result
-    return ( int32_t )iran;
+    
+    return iran;
 }
 
 double RandomSFMT::GetUniform( ) {
