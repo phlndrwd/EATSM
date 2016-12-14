@@ -152,7 +152,7 @@ public:
 
     ~RandomSFMT( );
 
-    RandomSFMT( const unsigned int useMother = true );
+    RandomSFMT( const unsigned, const bool useMother = true );
     void SetSeed( const unsigned int ); // Re-seed
     void SetSeedByArray( const int[ ], const unsigned int ); // Seed by more than 32 bits
 

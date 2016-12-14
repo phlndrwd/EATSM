@@ -59,15 +59,15 @@
 Types::RandomSFMTPointer RandomSFMT::mThis = NULL;
 
 Types::RandomSFMTPointer RandomSFMT::Get( ) {
-    if( mThis == NULL ) mThis = new RandomSFMT( );
+    if( mThis == NULL ) mThis = new RandomSFMT( Parameters::Get( )->GetRandomSeed( ) );
 
     return mThis;
 }
 
-RandomSFMT::RandomSFMT( const unsigned int useMother ) {
+RandomSFMT::RandomSFMT( const unsigned seed, const bool useMother ) {
     mUseMother = useMother;
     mLastInterval = 0;
-    SetSeed( Parameters::Get( )->GetRandomSeed( ) );
+    SetSeed( seed );
 }
 
 RandomSFMT::~RandomSFMT( ) {
