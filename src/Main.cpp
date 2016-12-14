@@ -21,16 +21,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
 
     if( fileReader.ReadInputFiles( stateFile ) == true ) {
         std::cout << std::endl;
-        // 2147483646
-        unsigned max = 0;
-        unsigned min = 10000;
-        for( unsigned i = 0; i < 499999999; ++i ) {
-            unsigned rand = RandomSFMT::Get( )->GetExactUniformInt( 4294967295 );
-            if( rand > max ) max = rand;
-            else if( rand < min ) min = rand;
-        }
-        std::cout << "min> " << min << ", max> " << max << std::endl;
-
+        
         Timer timer = Timer( true );
         FileWriter fileWriter;
         Types::EnvironmentPointer environment = new Environment( );
