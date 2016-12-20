@@ -1,11 +1,15 @@
+
+########################################################
+# MANUAL MAKEFILE                                      #
+# USE THIS FOR COMPILATION ON A COMMAND LINE INTERFACE #
+########################################################
+
 # Source directories separated by space
-# Example ./ src1/ src2/
 SRCDIR=./ Input/ Data/ Model/ Output/ Tools/
+# Include directories separated by space
+INCDIR=./ Input/ Data/ Model/ Output/ Tools/
 # Directory where object files will be placed
 OBJDIR=../build/
-# Include directories separated by space
-# Example: include1/ include2/
-INCDIR=./ Input/ Data/ Model/ Output/ Tools/
 # Directory where binary file will be placed
 BINDIR=../dist/
 # Name of the result file

@@ -2,7 +2,7 @@
 
 #include "Parameters.h"
 #include "Individual.h"
-#include "Genome.h"
+#include "HeritableTraits.h"
 #include "Strings.h"
 #include "DataRecorder.h"
 #include "InitialState.h"

@@ -7,7 +7,7 @@
 class Individual {
 public:
     Individual( Types::HeterotrophProcessorPointer, const double, const unsigned );
-    Individual( const Types::GenomePointer, const double, const double, const double, const double );
+    Individual( const Types::HeritableTraitsPointer, const double, const double, const double, const double );
     Individual( Types::HeterotrophProcessorPointer, const double, const double, const unsigned );
     ~Individual( );
 
@@ -16,7 +16,7 @@ public:
     double ConsumePreyVolume( const double, bool isHerbivory = true );
     double Metabolise( const double );
 
-    Types::GenomePointer GetGenome( ) const;
+    Types::HeritableTraitsPointer GetHeritableTraits( ) const;
     double GetTrophicLevel( ) const;
     unsigned GetSizeClassIndex( ) const;
 
@@ -39,7 +39,7 @@ public:
     void RecordTagData( );
 
 private:
-    Types::GenomePointer mGenome;
+    Types::HeritableTraitsPointer mHeritableTraits;
     Types::DataTagPointer mTag;
 
     double mVolumeHeritable;

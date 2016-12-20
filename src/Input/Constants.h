@@ -19,8 +19,8 @@ namespace Constants {
         eDatumType
     };
 
-    enum eGenomeIndices {
-        eVolumeGene
+    enum eHeritableTraitIndices {
+        eVolume
     };
     
     const unsigned cStateLineIsNormalCalculated = 0;

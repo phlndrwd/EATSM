@@ -47,7 +47,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Main.o \
 	${OBJECTDIR}/src/Model/Autotrophs.o \
 	${OBJECTDIR}/src/Model/Environment.o \
-	${OBJECTDIR}/src/Model/Genome.o \
+	${OBJECTDIR}/src/Model/HeritableTraits.o \
 	${OBJECTDIR}/src/Model/HeterotrophProcessor.o \
 	${OBJECTDIR}/src/Model/Heterotrophs.o \
 	${OBJECTDIR}/src/Model/Individual.o \
@@ -145,10 +145,10 @@ ${OBJECTDIR}/src/Model/Environment.o: src/Model/Environment.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Environment.o src/Model/Environment.cpp
 
-${OBJECTDIR}/src/Model/Genome.o: src/Model/Genome.cpp 
+${OBJECTDIR}/src/Model/HeritableTraits.o: src/Model/HeritableTraits.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Genome.o src/Model/Genome.cpp
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/HeritableTraits.o src/Model/HeritableTraits.cpp
 
 ${OBJECTDIR}/src/Model/HeterotrophProcessor.o: src/Model/HeterotrophProcessor.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src/Model

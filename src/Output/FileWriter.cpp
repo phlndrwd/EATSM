@@ -13,7 +13,7 @@
 #include "Autotrophs.h"
 #include "Heterotrophs.h"
 #include "Individual.h"
-#include "Genome.h"
+#include "HeritableTraits.h"
 #include "Tagger.h"
 #include "DataTag.h"
 #include "ConsumptionEvent.h"
@@ -279,7 +279,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                 for( unsigned int populationIndex = 0; populationIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++populationIndex ) {
                     for( unsigned int individualIndex = 0; individualIndex < heterotrophs->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
                         Types::IndividualPointer individual = heterotrophs->GetIndividual( populationIndex, individualIndex );
-                        modelStateFileStream << individual->GetSizeClassIndex( ) << Constants::cDataDelimiterValue << individual->GetGenome( )->GetGeneValue( Constants::eVolumeGene ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << std::endl;
+                        modelStateFileStream << individual->GetSizeClassIndex( ) << Constants::cDataDelimiterValue << individual->GetHeritableTraits( )->GetValue( Constants::eVolume ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << std::endl;
                     }
                 }
                 modelStateFileStream.close( );

@@ -46,7 +46,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "samplingrate" ) SetSamplingRate( parameterValue );
             else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( parameterValue );
 
-            else if( parameterName == "initialisationmethod" ) SetCreateNewPopulation( parameterValue );
+            else if( parameterName == "createnewpopulation" ) SetCreateNewPopulation( parameterValue );
             else if( parameterName == "applystarvationfunction" ) SetApplyStarvationFunction( parameterValue );
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
 
@@ -62,7 +62,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "preferredpreyvolumeratio" ) SetPreferredPreyVolumeRatio( parameterValue );
             else if( parameterName == "preferencefunctionwidth" ) SetPreferenceFunctionWidth( parameterValue );
             else if( parameterName == "sizeclasssubsetfraction" ) SetSizeClassSubsetFraction( parameterValue );
-            else if( parameterName == "halfsaturationconstant" ) SetHalfSaturationConstantFraction( parameterValue );
+            else if( parameterName == "halfsaturationconstantfraction" ) SetHalfSaturationConstantFraction( parameterValue );
 
             else if( parameterName == "assimilationefficiency" ) SetAssimilationEfficiency( parameterValue );
             else if( parameterName == "fractionalmetabolicexpense" ) SetFractionalMetabolicExpense( parameterValue );

@@ -1,6 +1,6 @@
 #include "Individual.h"
 
-#include "Genome.h"
+#include "HeritableTraits.h"
 #include "Types.h"
 #include "Parameters.h"
 #include "RandomSFMT.h"
@@ -13,11 +13,10 @@ Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor,
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
 
-    // Initialise genome
-    Types::DoubleVector genomeValues;
-    genomeValues.push_back( heterotrophProcessor->VolumeToGeneValue( mVolumeHeritable ) );
-    genomeValues.push_back( RandomSFMT::Get( )->GetUniform( ) );
-    mGenome = new Genome( genomeValues );
+    Types::DoubleVector heritableTraitValues;
+    heritableTraitValues.push_back( heterotrophProcessor->VolumeToGeneValue( mVolumeHeritable ) );
+    heritableTraitValues.push_back( RandomSFMT::Get( )->GetUniform( ) );
+    mHeritableTraits = new HeritableTraits( heritableTraitValues );
 
     mVolumeActual = mVolumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
@@ -30,8 +29,8 @@ Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor,
 }
 
 // For reproduction.
-Individual::Individual( const Types::GenomePointer genome, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel ) {
-    mGenome = genome;
+Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel ) {
+    mHeritableTraits = heritableTraits;
     mVolumeHeritable = volumeHeritable;
     mVolumeActual = volumeActual;
     mVolumeMinimum = volumeMinimum;
@@ -48,11 +47,11 @@ Individual::Individual( const Types::GenomePointer genome, const double volumeHe
 Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor, const double geneValue, const double volumeActual, const unsigned sizeClassIndex ) {
     Types::DoubleVector geneValues;
     geneValues.push_back( geneValue );
-    mGenome = new Genome( geneValues );
+    mHeritableTraits = new HeritableTraits( geneValues );
     mVolumeActual = volumeActual;
     mSizeClassIndex = sizeClassIndex;
 
-    mVolumeHeritable = heterotrophProcessor->GeneValueToVolume( mGenome->GetGeneValue( Constants::eVolumeGene ) );
+    mVolumeHeritable = heterotrophProcessor->GeneValueToVolume( mHeritableTraits->GetValue( Constants::eVolume ) );
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
 
@@ -63,23 +62,23 @@ Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor,
 }
 
 Individual::~Individual( ) {
-    delete mGenome;
+    delete mHeritableTraits;
 }
 
 Types::IndividualPointer Individual::Reproduce( Types::HeterotrophProcessorPointer heterotrophProcessor ) {
-    Types::GenomePointer childGenome = mGenome->GetChildGenome( );
+    Types::HeritableTraitsPointer childHeritableTraits = mHeritableTraits->GetChildTraits( );
     Types::IndividualPointer childIndividual = 0;
 
     double childVolumeHeritable = 0;
     double childVolumeActual = 0;
     double childVolumeMinimum = 0;
 
-    if( childGenome->IsMutantGeneValue( Constants::eVolumeGene ) == false ) {
+    if( childHeritableTraits->IsValueMutant( Constants::eVolume ) == false ) {
         childVolumeActual = mVolumeActual / 2;
         childVolumeHeritable = mVolumeHeritable;
         childVolumeMinimum = mVolumeMinimum;
     } else {
-        childVolumeHeritable = heterotrophProcessor->GeneValueToVolume( childGenome->GetGeneValue( Constants::eVolumeGene ) );
+        childVolumeHeritable = heterotrophProcessor->GeneValueToVolume( childHeritableTraits->GetValue( Constants::eVolume ) );
         childVolumeMinimum = childVolumeHeritable * Constants::cMinimumFractionalVolume;
 
         if( childVolumeHeritable < mVolumeActual ) {
@@ -89,7 +88,7 @@ Types::IndividualPointer Individual::Reproduce( Types::HeterotrophProcessorPoint
         }
     }
     mVolumeActual = mVolumeActual - childVolumeActual;
-    childIndividual = new Individual( childGenome, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
+    childIndividual = new Individual( childHeritableTraits, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
 
     return childIndividual;
 }
@@ -110,8 +109,8 @@ double Individual::Metabolise( const double metabolicDeduction ) {
     return metabolicDeduction;
 }
 
-Types::GenomePointer Individual::GetGenome( ) const {
-    return mGenome;
+Types::HeritableTraitsPointer Individual::GetHeritableTraits( ) const {
+    return mHeritableTraits;
 }
 
 double Individual::GetTrophicLevel( ) const {

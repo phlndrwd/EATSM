@@ -6,7 +6,7 @@
 #include "Strings.h"
 #include "Nutrient.h"
 #include "Autotrophs.h"
-#include "Genome.h"
+#include "HeritableTraits.h"
 #include "InitialState.h"
 #include "RandomSFMT.h"
 #include "Tagger.h"
@@ -94,6 +94,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
             AddToSizeClass( individual, false );
             ++initialPopulationSize;
         }
+        if( initialHeterotrophVolume > 0 ) mNutrient->AddToVolume( initialHeterotrophVolume );
         std::cout << "A single heterotrophic size class initialised with " << initialPopulationSize << " individuals." << std::endl;
 
     } else {
@@ -215,16 +216,16 @@ void Heterotrophs::Reproduction( ) {
                     MoveSizeClass( potentialParent );
                 }
 
-                Types::BoolVector isMutantGenome = childIndividual->GetGenome( )->IsMutantGenome( );
-                if( isMutantGenome[ Constants::eVolumeGene ] == false ) {
+                Types::BoolVector isMutant = childIndividual->GetHeritableTraits( )->IsMutant( );
+                if( isMutant[ Constants::eVolume ] == false ) {
                     childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
-                } else if( isMutantGenome[ Constants::eVolumeGene ] == true ) {
+                } else if( isMutant[ Constants::eVolume ] == true ) {
                     mHeterotrophProcessor->FindAndSetSizeClassIndex( childIndividual );
                 }
 
                 mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
-                for( unsigned geneIndex = 0; geneIndex < isMutantGenome.size( ); ++geneIndex ) {
-                    if( isMutantGenome[ geneIndex ] == true ) {
+                for( unsigned geneIndex = 0; geneIndex < isMutant.size( ); ++geneIndex ) {
+                    if( isMutant[ geneIndex ] == true ) {
                         mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), geneIndex );
                     }
                 }

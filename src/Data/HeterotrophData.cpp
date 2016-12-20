@@ -4,7 +4,7 @@
 #include "Parameters.h"
 #include "Strings.h"
 #include "Individual.h"
-#include "Genome.h"
+#include "HeritableTraits.h"
 #include "RandomSFMT.h"
 
 HeterotrophData::HeterotrophData( ) {
@@ -286,7 +286,7 @@ void HeterotrophData::IncrementStarvedFrequencies( const unsigned sizeClassIndex
 }
 
 void HeterotrophData::IncrementMutantFrequency( const unsigned sizeClassIndex, const unsigned geneIndex ) {
-    if( geneIndex == Constants::eVolumeGene ) {
+    if( geneIndex == Constants::eVolume ) {
         ++mSizeClassVolumeMutantFrequencies[ sizeClassIndex ];
     }
 }

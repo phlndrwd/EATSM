@@ -3,7 +3,7 @@ RandomSeed,1
 RunTimeInSeconds,60
 SamplingRate,20
 NumberOfSizeClasses,100
-InitialisationMethod,0
+CreateNewPopulation,0
 ApplyStarvationFunction,1
 WriteModelState,1
 PopulationTagPercentage,0
@@ -16,7 +16,7 @@ LargestIndividualVolume,1e+10
 PreferredPreyVolumeRatio,15
 PreferenceFunctionWidth,0.75
 SizeClassSubsetFraction,0.01
-HalfSaturationConstant,0.15
+HalfSaturationConstantFraction,0.15
 AssimilationEfficiency,0.5
 FractionalMetabolicExpense,1e-5
 MetabolicIndex,0.67
