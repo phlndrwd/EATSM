@@ -7,7 +7,6 @@ CreateNewPopulation,0
 ApplyStarvationFunction,1
 WriteModelState,1
 PopulationTagPercentage,0
-InitialNutrientVolume,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
 MinimumHeterotrophVolume,5000

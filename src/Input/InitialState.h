@@ -24,7 +24,6 @@ private:
     
     double mNutrientVolume;
     double mAutotrophVolume;
-    
     unsigned mInitialPopulationSize;
 };
 

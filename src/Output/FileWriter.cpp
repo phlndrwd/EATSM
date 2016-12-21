@@ -250,8 +250,8 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
             std::ofstream modelStateFileStream;
             modelStateFileStream.open( fileName.c_str( ), std::ios::out );
 
-            //modelStateFileStream.flags( std::ios::scientific );
-            modelStateFileStream.precision( std::numeric_limits< double >::digits );
+            modelStateFileStream.flags( std::ios::scientific );
+            modelStateFileStream.precision( std::numeric_limits< double >::digits10 );
 
             if( modelStateFileStream.is_open( ) == true ) {
                 // Header (for consistency with general file reading function)

@@ -26,7 +26,6 @@ public:
     
     double GetPopulationTagPercentage( ) const;
 
-    double GetInitialNutrientVolume( ) const;
     double GetInitialAutotrophVolume( ) const;
     double GetInitialHeterotrophVolume( ) const;
     double GetMinimumHeterotrophVolume( ) const;
@@ -59,7 +58,6 @@ public:
     
     void SetPopulationTagPercentage( const double );
 
-    void SetInitialNutrientVolume( const double );
     void SetInitialAutotrophVolume( const double );
     void SetInitialHeterotrophVolume( const double );
     void SetMinimumHeterotrophVolume( const double );
@@ -119,7 +117,6 @@ private:
     
     double mPopulationTagPercentage;
 
-    double mInitialNutrientVolume;
     double mInitialAutotrophVolume;
     double mInitialHeterotrophVolume;
     double mMinimumHeterotrophVolume;

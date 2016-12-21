@@ -52,7 +52,6 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 
             else if( parameterName == "populationtagpercentage" ) SetPopulationTagPercentage( parameterValue );
 
-            else if( parameterName == "initialnutrientvolume" ) SetInitialNutrientVolume( parameterValue );
             else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( parameterValue );
             else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( parameterValue );
             else if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( parameterValue );
@@ -107,7 +106,7 @@ void Parameters::CalculateParameters( ) {
 
     mPhytoplanktonSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
 
-    mTotalVolume = mInitialNutrientVolume + mInitialAutotrophVolume + mInitialHeterotrophVolume;
+    mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
     mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
 
     for( unsigned subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
@@ -158,10 +157,6 @@ bool Parameters::GetWriteModelState( ) const {
 
 double Parameters::GetPopulationTagPercentage( ) const {
     return mPopulationTagPercentage;
-}
-
-double Parameters::GetInitialNutrientVolume( ) const {
-    return mInitialNutrientVolume;
 }
 
 double Parameters::GetInitialAutotrophVolume( ) const {
@@ -302,10 +297,6 @@ void Parameters::SetWriteModelState( const bool writeModelState ) {
 
 void Parameters::SetPopulationTagPercentage( const double populationTagPercentage ) {
     mPopulationTagPercentage = populationTagPercentage;
-}
-
-void Parameters::SetInitialNutrientVolume( const double initialNutrientVolume ) {
-    mInitialNutrientVolume = initialNutrientVolume;
 }
 
 void Parameters::SetInitialAutotrophVolume( const double initialAutotrophVolume ) {

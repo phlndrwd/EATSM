@@ -55,9 +55,11 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
         unsigned lineCount = 0;
 
         while( std::getline( fileStream, readLine ) ) {
-            if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
-                Types::StringVector stringVec = Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-                mRawTextData.push_back( Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+            if( readLine.length( ) > 0 ) {
+                if( readLine[ 0 ] != Constants::cTextFileCommentCharacter && lineCount > 0 ) {
+                    Types::StringVector stringVec = Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
+                    mRawTextData.push_back( Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+                }
             }
             ++lineCount;
         }

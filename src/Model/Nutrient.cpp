@@ -10,7 +10,7 @@ Nutrient::Nutrient( ) {
     if( Parameters::Get( )->GetCreateNewPopulation( ) == false )
         mVolume = InitialState::Get( )->GetNutrientVolume( );
     else
-        mVolume = Parameters::Get( )->GetInitialNutrientVolume( );
+        mVolume = 0;
     
     std::cout << "Nutrient pool created." << std::endl;
 }
