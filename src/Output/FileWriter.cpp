@@ -153,10 +153,13 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     // Write tag data
     if( success == true ) {
         success = true;
-        if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
-            Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
 
-            for( unsigned int tagIndex = 0; tagIndex < tagger->GetNumberOfTags( ); ++tagIndex ) {
+        Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
+        unsigned numberOfTags = tagger->GetNumberOfTags( );
+
+        if( tagger->GetNumberOfTags( ) > 0 ) {
+
+            for( unsigned int tagIndex = 0; tagIndex < numberOfTags; ++tagIndex ) {
                 Types::DataTagPointer tag = tagger->GetTag( tagIndex );
 
                 std::string outputSubdirectory = mOutputPath;
@@ -179,7 +182,6 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                     outputFileStream.close( );
                 } else
                     success = false;
-
                 // Write tag time series
                 Types::FloatVectorMap timeSeriesDataMap = tag->GetTimeSeriesData( );
 
@@ -192,7 +194,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
                     outputFileStream.open( fileName.c_str( ), std::ios::out );
 
                     if( outputFileStream.is_open( ) == true ) {
-                        Types::FloatVector& data = iter->second;
+                        Types::FloatVector data = iter->second;
 
                         for( unsigned index = 0; index < data.size( ) - 1; ++index ) {
                             outputFileStream << data[ index ] << Constants::cDataDelimiterValue;

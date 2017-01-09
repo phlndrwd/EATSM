@@ -104,13 +104,13 @@ void Heterotrophs::CreateInitialPopulation( ) {
 }
 
 void Heterotrophs::TagInitialPopulation( ) {
-    if( Parameters::Get( )->GetPopulationTagPercentage( ) > 0 ) {
+    if( Parameters::Get( )->GetPopulationTagFraction( ) > 0 ) {
         unsigned totalTagged = 0;
         for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
 
             unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
             
-            unsigned numberToTagInThisSizeClass = static_cast < int >( ::floor( sizeClassPopulation * Parameters::Get( )->GetPopulationTagPercentage( ) + 0.5 ) );
+            unsigned numberToTagInThisSizeClass = static_cast < unsigned >( ::floor( sizeClassPopulation * Parameters::Get( )->GetPopulationTagFraction( ) + 0.5 ) );
 
             if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
 

@@ -50,7 +50,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "applystarvationfunction" ) SetApplyStarvationFunction( parameterValue );
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
 
-            else if( parameterName == "populationtagpercentage" ) SetPopulationTagPercentage( parameterValue );
+            else if( parameterName == "populationtagfraction" ) SetPopulationTagFraction( parameterValue );
 
             else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( parameterValue );
             else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( parameterValue );
@@ -155,8 +155,8 @@ bool Parameters::GetWriteModelState( ) const {
     return mWriteModelState;
 }
 
-double Parameters::GetPopulationTagPercentage( ) const {
-    return mPopulationTagPercentage;
+double Parameters::GetPopulationTagFraction( ) const {
+    return mPopulationTagFraction;
 }
 
 double Parameters::GetInitialAutotrophVolume( ) const {
@@ -295,8 +295,8 @@ void Parameters::SetWriteModelState( const bool writeModelState ) {
     mWriteModelState = writeModelState;
 }
 
-void Parameters::SetPopulationTagPercentage( const double populationTagPercentage ) {
-    mPopulationTagPercentage = populationTagPercentage;
+void Parameters::SetPopulationTagFraction( const double populationTagPercentage ) {
+    mPopulationTagFraction = populationTagPercentage;
 }
 
 void Parameters::SetInitialAutotrophVolume( const double initialAutotrophVolume ) {

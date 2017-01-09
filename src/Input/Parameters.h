@@ -23,8 +23,8 @@ public:
     bool GetCreateNewPopulation( ) const;
     bool GetApplyStarvationFunction( ) const;
     bool GetWriteModelState( ) const;
-    
-    double GetPopulationTagPercentage( ) const;
+
+    double GetPopulationTagFraction( ) const;
 
     double GetInitialAutotrophVolume( ) const;
     double GetInitialHeterotrophVolume( ) const;
@@ -55,8 +55,8 @@ public:
     void SetCreateNewPopulation( const bool );
     void SetApplyStarvationFunction( const bool );
     void SetWriteModelState( const bool );
-    
-    void SetPopulationTagPercentage( const double );
+
+    void SetPopulationTagFraction( const double );
 
     void SetInitialAutotrophVolume( const double );
     void SetInitialHeterotrophVolume( const double );
@@ -114,8 +114,8 @@ private:
     bool mCreateNewPopulation;
     bool mApplyStarvationFunction;
     bool mWriteModelState;
-    
-    double mPopulationTagPercentage;
+
+    double mPopulationTagFraction;
 
     double mInitialAutotrophVolume;
     double mInitialHeterotrophVolume;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="95">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -246,7 +246,7 @@
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-O1 -std=c++11 -march=core2 -mfpmath=sse</commandLine>
+          <commandLine>-O2 -std=c++11 -march=core2 -mfpmath=sse</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
