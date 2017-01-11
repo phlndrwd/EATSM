@@ -6,7 +6,7 @@ NumberOfSizeClasses,100
 CreateNewPopulation,0
 ApplyStarvationFunction,1
 WriteModelState,1
-PopulationTagFraction,0.001
+PopulationTagFraction,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
 MinimumHeterotrophVolume,5000
@@ -19,5 +19,5 @@ HalfSaturationConstantFraction,0.15
 AssimilationEfficiency,0.5
 FractionalMetabolicExpense,1e-5
 MetabolicIndex,0.67
-MutationProbability,0.1
+MutationProbability,0.01
 MutationStandardDeviation,0.01

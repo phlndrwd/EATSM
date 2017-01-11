@@ -132,12 +132,12 @@ void Heterotrophs::Feeding( ) {
     CalculateFeedingProbabilities( );
 
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-        unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
+        unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
 
-        if( sizeClassSize != 0 ) {
-            unsigned sizeClassSubsetSize = mHeterotrophProcessor->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
+        if( sizeClassPopulation != 0 ) {
+            unsigned sizeClassPopulationSubset = mHeterotrophProcessor->RoundWithProbability( sizeClassPopulation * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
-            for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassSubsetSize; ++potentialEncounterIndex ) {
+            for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 

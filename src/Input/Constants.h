@@ -36,8 +36,8 @@ namespace Constants {
     const std::string cOutputDirectoryName = "output";
     
     const std::string cInputParametersFileName = "Parameters.csv";
-    const std::string cOutputParametersFileName = "OutputControlParameters.csv";
-    const std::string cInitialStateFileName = "InitialModelState.csv";
+    const std::string cOutputParametersFileName = "Variables.csv";
+    const std::string cInitialStateFileName = "InitialState.csv";
     const std::string cModelStateFileName = "State.csv";
     const std::string cFileNameExtension = ".csv";
     

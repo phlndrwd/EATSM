@@ -2,10 +2,10 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2016-12-21_17-19-52';
+optionCurrentDataSet            = '2017-01-11_17-26-11';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
-optionOutputParametersFile      = 'OutputControlParameters';
+optionOutputParametersFile      = 'Variables';
 optionFileExtension             = '.csv';
 
 optionPrintPlotsToFile          = 0; % yes = 1, no = anything else

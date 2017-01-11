@@ -157,8 +157,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
         Types::TaggerPointer tagger = environment->GetHeterotrophs( )->GetTagger( );
         unsigned numberOfTags = tagger->GetNumberOfTags( );
 
-        if( tagger->GetNumberOfTags( ) > 0 ) {
-
+        if( numberOfTags > 0 ) {
             for( unsigned int tagIndex = 0; tagIndex < numberOfTags; ++tagIndex ) {
                 Types::DataTagPointer tag = tagger->GetTag( tagIndex );
 

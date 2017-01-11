@@ -31,7 +31,6 @@ namespace Types {
     // Pointers
     typedef Autotrophs* AutotrophsPointer;
     typedef ConsumptionEvent* ConsumptionEventPointer;
-    typedef Strings* StringsPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef DataTag* DataTagPointer;
     typedef Environment* EnvironmentPointer;
@@ -47,6 +46,7 @@ namespace Types {
     typedef RandomSFMT* RandomSFMTPointer;
     typedef Tagger* TaggerPointer;
     typedef TimeStep* TimePointer;
+    typedef Strings* StringsPointer;
     typedef VectorDatum* VectorDatumPointer;
 
     // Containers of class pointers

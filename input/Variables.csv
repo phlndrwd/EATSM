@@ -1,4 +1,4 @@
-DatumName,DatumType,DataLabel,ResamplingMethod
+Name,Type,Label,Resampling
 AxisSizeClassMidPointValues,vector,Equivalent Spherical Volume,none
 AxisSizeClassBoundaryValues,vector,Equivalent Spherical Volume,none
 AxisTimeSteps,vector,Time Steps,standard
