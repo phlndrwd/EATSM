@@ -22,7 +22,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     fileReader.ReadInputFiles( stateFile );
     Timer timer = Timer( true );
     FileWriter fileWriter; // Created here to initialise output directory
-    Types::EnvironmentPointer environment = new Environment( );
+    Environment environment;
 
     double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
     double cumulativeTenthsOfRunTime = 0;
@@ -32,7 +32,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     std::cout << "Starting main time loop..." << std::endl;
     do {
         // Update before data collection; calculates essential variables for encounter rates.
-        environment->Update( );
+        environment.Update( );
 
         // Text output at the completion of each ten percent of the run 
         if( timer.Elapsed( ) >= ( unsigned )cumulativeTenthsOfRunTime ) {
@@ -45,7 +45,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         if( TimeStep::Get( )->DoRecordData( ) == true ) {
             DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
             DataRecorder::Get( )->AddDataTo( "SamplingTime", timer.Split( ) );
-            isAlive = environment->RecordData( );
+            isAlive = environment.RecordData( );
         }
         TimeStep::Get( )->IncrementTimeStep( );
 
@@ -56,10 +56,8 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         std::cout << "Heterotroph population crashed. Main time loop aborted." << std::endl << std::endl;
     }
 
-    fileWriter.WriteOutputData( environment );
+    fileWriter.WriteOutputData( &environment );
     std::cout << "Total run time " << timer.Stop( ) << "s" << std::endl;
-
-    delete environment;
 
     return 0;
 }
