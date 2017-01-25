@@ -14,35 +14,28 @@ FileReader::FileReader( ) {
 FileReader::~FileReader( ) {
 }
 
-bool FileReader::ReadInputFiles( std::string& stateFile ) {
-    bool success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName );
+void FileReader::ReadInputFiles( std::string& stateFile ) {
+    bool success = false;
+    if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName ) )
+        if( Parameters::Get( )->Initialise( mRawTextData ) )
+            if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName ) )
+                if( DataRecorder::Get( )->Initialise( mRawTextData ) )
+                    success = true;
 
-    if( success == true )
-        success = Parameters::Get( )->Initialise( mRawTextData );
-
-    if( success == true )
-        success = ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName );
-
-    if( success == true )
-        success = DataRecorder::Get( )->Initialise( mRawTextData );
-
-    if( Parameters::Get( )->GetCreateNewPopulation( ) == false ) {
-        if( success == true ) {
-            if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
-            success = ReadTextFile( stateFile, false );
-        }
-
-        if( success == true )
-            success = InitialState::Get( )->Initialise( mRawTextData );
+    if( success == true && Parameters::Get( )->GetCreateNewPopulation( ) == false ) {
+        success = false;
+        if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
+        if( ReadTextFile( stateFile, false ) )
+            if( InitialState::Get( )->Initialise( mRawTextData ) )
+                success = true;
     }
-
-    ClearRawTextData( );
-
-    return success;
-}
-
-Types::StringMatrix& FileReader::GetRawTextData( ) {
-    return mRawTextData;
+    
+    if( success )
+        std::cout << "Files read successfully..." << std::endl << std::endl;
+    else {
+        std::cout << "ERROR> File reading failed. System exiting..." << std::endl;
+        exit( 1 );
+    }
 }
 
 bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) {

@@ -12,7 +12,12 @@ public:
 
 private:
     void InitialiseOutputDirectory( );
-    void WriteInputFiles( );
+    bool WriteInputFiles( );
+    
+    bool WriteVectorDatums( );
+    bool WriteMatrixDatums( );
+    bool WriteTagData( Types::TaggerPointer );
+    bool WriteStateFile( Types::EnvironmentPointer );
 
     std::string mOutputPath;
     std::string mDataSetDirectoryName;

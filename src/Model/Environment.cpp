@@ -11,7 +11,7 @@ Environment::Environment( ) {
     mNutrient = new Nutrient( );
     mAutotrophs = new Autotrophs( mNutrient );
     mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
-    std::cout << "Environment created." << std::endl;
+    std::cout << "Environment created." << std::endl << std::endl;
 }
 
 Environment::~Environment( ) {
