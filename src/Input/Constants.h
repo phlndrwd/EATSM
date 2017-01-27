@@ -23,14 +23,9 @@ namespace Constants {
         eVolume
     };
     
-    const unsigned cStateLineIsNormalCalculated = 0;
-    const unsigned cStateLineNormalValue = 1;
-    const unsigned cStateLineRandomIndex = 2;
-    const unsigned cStateLineMOAState = 3;
-    const unsigned cStateLineSFMTState = 4;
-    const unsigned cStateLineNutrientVol = 92;
-    const unsigned cStateLineAutotrophVol = 93;
-    const unsigned cStateLineFirstHeterotroph = 94;
+    const unsigned cStateLineNutrientVol = 0;
+    const unsigned cStateLineAutotrophVol = 1;
+    const unsigned cStateLineFirstHeterotroph = 2;
 
     const std::string cConfigurationDirectory = "./input/";
     const std::string cOutputDirectoryName = "output";

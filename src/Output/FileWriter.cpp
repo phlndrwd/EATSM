@@ -79,33 +79,7 @@ bool FileWriter::WriteInputFiles( ) {
 
         std::ofstream destinationFileStream( outputFilePath.c_str( ), std::ios::out );
         if( destinationFileStream.is_open( ) ) {
-            if( fileName != Constants::cInputParametersFileName )
-                destinationFileStream << sourceFileStream.rdbuf( );
-            else {
-                // This routine is specific to the input parameters file and is added to record a random seed value with the output.
-                if( sourceFileStream.is_open( ) ) {
-                    std::string readLine;
-                    unsigned lineCount = 0;
-
-                    while( std::getline( sourceFileStream, readLine ) ) {
-                        if( lineCount > 0 ) {
-                            Types::StringVector readWords = Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue );
-                            std::string parameterName = Strings::Get( )->RemoveWhiteSpace( readWords[ Constants::eParameterName ] );
-
-                            if( Strings::Get( )->ToLowercase( parameterName ) != "randomseed" )
-                                destinationFileStream << readLine << std::endl;
-                            else
-                                destinationFileStream << parameterName << Constants::cDataDelimiterValue << Parameters::Get( )->GetRandomSeed( ) << std::endl;
-
-                        } else if( lineCount == 0 ) {
-                            destinationFileStream << readLine << std::endl;
-                        }
-                        ++lineCount;
-                    }
-                } else {
-                    return false;
-                }
-            }
+            destinationFileStream << sourceFileStream.rdbuf( );
             sourceFileStream.close( );
             destinationFileStream.close( );
         } else {
@@ -283,20 +257,6 @@ bool FileWriter::WriteStateFile( Types::EnvironmentPointer environment ) {
         if( modelStateFileStream.is_open( ) == true ) {
             // Header (for consistency with general file reading function)
             modelStateFileStream << Constants::cModelStateFileName << std::endl;
-            // Calculated normal data
-            modelStateFileStream << RandomSFMT::Get( )->GetIsNormalCalculated( ) << std::endl;
-            modelStateFileStream << RandomSFMT::Get( )->GetCalculatedNormalValue( ) << std::endl;
-            // Random state index
-            modelStateFileStream << RandomSFMT::Get( )->GetStateIndex( ) << std::endl;
-            // Random (mother-of-all) state
-            for( unsigned index = 0; index < MOA_N - 1; ++index ) {
-                modelStateFileStream << RandomSFMT::Get( )->GetMotherState( index ) << Constants::cDataDelimiterValue;
-            }
-            modelStateFileStream << RandomSFMT::Get( )->GetMotherState( MOA_N - 1 ) << std::endl;
-            // Random (SFMT) state
-            for( unsigned index = 0; index < SFMT_N; ++index ) {
-                modelStateFileStream << Strings::Get( )->M128iToString< unsigned >( RandomSFMT::Get( )->GetState( index ) ) << std::endl;
-            }
             // Model variables
             modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
             modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;

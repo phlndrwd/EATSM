@@ -127,103 +127,103 @@ void Parameters::CalculateParameters( ) {
     delete temporaryHeterotrophProcessor;
 }
 
-unsigned Parameters::GetRunTimeInSeconds( ) const {
+unsigned& Parameters::GetRunTimeInSeconds( ) {
     return mRunTimeInSeconds;
 }
 
-unsigned Parameters::GetRandomSeed( ) const {
+unsigned& Parameters::GetRandomSeed( ) {
     return mRandomSeed;
 }
 
-unsigned Parameters::GetSamplingRate( ) const {
+unsigned& Parameters::GetSamplingRate( ) {
     return mSamplingRate;
 }
 
-unsigned Parameters::GetNumberOfSizeClasses( ) const {
+unsigned& Parameters::GetNumberOfSizeClasses( ) {
     return mNumberOfSizeClasses;
 }
 
-bool Parameters::GetCreateNewPopulation( ) const {
+bool Parameters::GetCreateNewPopulation( ) {
     return mCreateNewPopulation;
 }
 
-bool Parameters::GetApplyStarvationFunction( ) const {
+bool Parameters::GetApplyStarvationFunction( ) {
     return mApplyStarvationFunction;
 }
 
-bool Parameters::GetWriteModelState( ) const {
+bool Parameters::GetWriteModelState( ) {
     return mWriteModelState;
 }
 
-double Parameters::GetPopulationTagFraction( ) const {
+double& Parameters::GetPopulationTagFraction( ) {
     return mPopulationTagFraction;
 }
 
-double Parameters::GetInitialAutotrophVolume( ) const {
+double& Parameters::GetInitialAutotrophVolume( ) {
     return mInitialAutotrophVolume;
 }
 
-double Parameters::GetInitialHeterotrophVolume( ) const {
+double& Parameters::GetInitialHeterotrophVolume( ) {
     return mInitialHeterotrophVolume;
 }
 
-double Parameters::GetMinimumHeterotrophVolume( ) const {
+double& Parameters::GetMinimumHeterotrophVolume( ) {
     return mMinimumHeterotrophVolume;
 }
 
-double Parameters::GetSmallestIndividualVolume( ) const {
+double& Parameters::GetSmallestIndividualVolume( ) {
     return mSmallestIndividualVolume;
 }
 
-double Parameters::GetLargestIndividualVolume( ) const {
+double& Parameters::GetLargestIndividualVolume( ) {
     return mLargestIndividualVolume;
 }
 
-unsigned Parameters::GetPreferredPreyVolumeRatio( ) const {
+unsigned& Parameters::GetPreferredPreyVolumeRatio( ) {
     return mPreferredPreyVolumeRatio;
 }
 
-double Parameters::GetPreferenceFunctionWidth( ) const {
+double& Parameters::GetPreferenceFunctionWidth( ) {
     return mPreferenceFunctionWidth;
 }
 
-double Parameters::GetSizeClassSubsetFraction( ) const {
+double& Parameters::GetSizeClassSubsetFraction( ) {
     return mSizeClassSubsetFraction;
 }
 
-double Parameters::GetHalfSaturationConstantFraction( ) const {
+double& Parameters::GetHalfSaturationConstantFraction( ) {
     return mHalfSaturationConstantFraction;
 }
 
-double Parameters::GetAssimilationEfficiency( ) const {
+double& Parameters::GetAssimilationEfficiency( ) {
     return mAssimilationEfficiency;
 }
 
-double Parameters::GetFractionalMetabolicExpense( ) const {
+double& Parameters::GetFractionalMetabolicExpense( ) {
     return mFractionalMetabolicExpense;
 }
 
-double Parameters::GetMetabolicIndex( ) const {
+double& Parameters::GetMetabolicIndex( ) {
     return mMetabolicIndex;
 }
 
-double Parameters::GetMutationProbability( ) const {
+double& Parameters::GetMutationProbability( ) {
     return mMutationProbability;
 }
 
-double Parameters::GetMutationStandardDeviation( ) const {
+double& Parameters::GetMutationStandardDeviation( ) {
     return mMutationStandardDeviation;
 }
 
-unsigned Parameters::GetPhytoplanktonSizeClassIndex( ) const {
+unsigned& Parameters::GetPhytoplanktonSizeClassIndex( ) {
     return mPhytoplanktonSizeClassIndex;
 }
 
-double Parameters::GetSmallestVolumeExponent( ) const {
+double& Parameters::GetSmallestVolumeExponent( ) {
     return mSmallestVolumeExponent;
 }
 
-double Parameters::GetLargestVolumeExponent( ) const {
+double& Parameters::GetLargestVolumeExponent( ) {
     return mLargestVolumeExponent;
 }
 
@@ -235,11 +235,11 @@ double Parameters::GetSizeClassMidPoint( const unsigned index ) const {
     return mSizeClassMidPoints[ index ];
 }
 
-const Types::FloatVector Parameters::GetSizeClassBoundaries( ) const {
+const Types::FloatVector& Parameters::GetSizeClassBoundaries( ) {
     return mSizeClassBoundaries;
 }
 
-const Types::FloatVector Parameters::GetSizeClassMidPoints( ) const {
+const Types::FloatVector& Parameters::GetSizeClassMidPoints( ) {
     return mSizeClassMidPoints;
 }
 
@@ -251,19 +251,19 @@ double Parameters::GetInterSizeClassVolume( const unsigned subjectIndex, const u
     return mInterSizeClassVolumeMatrix[ subjectIndex ][ referenceIndex ];
 }
 
-double Parameters::GetTotalVolume( ) const {
+double& Parameters::GetTotalVolume( ) {
     return mTotalVolume;
 }
 
-double Parameters::GetHalfSaturationConstant( ) const {
+double& Parameters::GetHalfSaturationConstant( ) {
     return mHalfSaturationConstant;
 }
 
-const Types::FloatVector Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {
+const Types::FloatVector& Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {
     return mInterSizeClassPreferenceMatrix[ index ];
 }
 
-const Types::FloatVector Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
+const Types::FloatVector& Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
     return mInterSizeClassVolumeMatrix[ index ];
 }
 

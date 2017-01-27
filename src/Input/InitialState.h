@@ -9,12 +9,12 @@ public:
     ~InitialState( );
     static Types::InitialStatePointer Get( );
 
-    bool Initialise( const Types::StringMatrix& );
+    void Initialise( const Types::StringMatrix& );
 
-    double GetNutrientVolume( ) const;
-    double GetAutotrophVolume( ) const;
+    double& GetNutrientVolume( );
+    double& GetAutotrophVolume( );
     Types::IndividualMatrix& GetHeterotrophs( );
-    unsigned GetInitialPopulationSize( );
+    unsigned& GetInitialPopulationSize( );
 
 private:
     InitialState( );

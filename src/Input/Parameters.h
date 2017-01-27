@@ -15,36 +15,36 @@ public:
     void CalculateParameters( );
 
     // Getters
-    unsigned GetRunTimeInSeconds( ) const;
-    unsigned GetRandomSeed( ) const;
-    unsigned GetSamplingRate( ) const;
-    unsigned GetNumberOfSizeClasses( ) const;
+    unsigned& GetRunTimeInSeconds( );
+    unsigned& GetRandomSeed( );
+    unsigned& GetSamplingRate( );
+    unsigned& GetNumberOfSizeClasses( );
 
-    bool GetCreateNewPopulation( ) const;
-    bool GetApplyStarvationFunction( ) const;
-    bool GetWriteModelState( ) const;
+    bool GetCreateNewPopulation( );
+    bool GetApplyStarvationFunction( );
+    bool GetWriteModelState( );
 
-    double GetPopulationTagFraction( ) const;
+    double& GetPopulationTagFraction( );
 
-    double GetInitialAutotrophVolume( ) const;
-    double GetInitialHeterotrophVolume( ) const;
-    double GetMinimumHeterotrophVolume( ) const;
+    double& GetInitialAutotrophVolume( );
+    double& GetInitialHeterotrophVolume( );
+    double& GetMinimumHeterotrophVolume( );
 
-    double GetSmallestIndividualVolume( ) const;
-    double GetLargestIndividualVolume( ) const;
+    double& GetSmallestIndividualVolume( );
+    double& GetLargestIndividualVolume( );
 
-    unsigned GetPreferredPreyVolumeRatio( ) const;
-    double GetPreferenceFunctionWidth( ) const;
+    unsigned& GetPreferredPreyVolumeRatio( );
+    double& GetPreferenceFunctionWidth( );
 
-    double GetSizeClassSubsetFraction( ) const;
-    double GetHalfSaturationConstantFraction( ) const;
+    double& GetSizeClassSubsetFraction( );
+    double& GetHalfSaturationConstantFraction( );
 
-    double GetAssimilationEfficiency( ) const;
-    double GetFractionalMetabolicExpense( ) const;
-    double GetMetabolicIndex( ) const;
+    double& GetAssimilationEfficiency( );
+    double& GetFractionalMetabolicExpense( );
+    double& GetMetabolicIndex( );
 
-    double GetMutationProbability( ) const;
-    double GetMutationStandardDeviation( ) const;
+    double& GetMutationProbability( );
+    double& GetMutationStandardDeviation( );
 
     // Setters
     void SetRandomSeed( const unsigned );
@@ -80,10 +80,10 @@ public:
 
     // Calculated variables
 
-    double GetSmallestVolumeExponent( ) const;
-    double GetLargestVolumeExponent( ) const;
+    double& GetSmallestVolumeExponent( );
+    double& GetLargestVolumeExponent( );
 
-    unsigned GetPhytoplanktonSizeClassIndex( ) const;
+    unsigned& GetPhytoplanktonSizeClassIndex( );
 
     double GetSizeClassBoundary( const unsigned ) const;
     double GetSizeClassMidPoint( const unsigned ) const;
@@ -91,14 +91,14 @@ public:
     double GetInterSizeClassPreference( const unsigned, const unsigned ) const;
     double GetInterSizeClassVolume( const unsigned, const unsigned ) const;
 
-    double GetTotalVolume( ) const;
-    double GetHalfSaturationConstant( ) const;
+    double& GetTotalVolume( );
+    double& GetHalfSaturationConstant( );
 
-    const Types::FloatVector GetSizeClassBoundaries( ) const;
-    const Types::FloatVector GetSizeClassMidPoints( ) const;
+    const Types::FloatVector& GetSizeClassBoundaries( );
+    const Types::FloatVector& GetSizeClassMidPoints( );
 
-    const Types::FloatVector GetInterSizeClassPreferenceVector( const unsigned ) const;
-    const Types::FloatVector GetInterSizeClassVolumeVector( const unsigned ) const;
+    const Types::FloatVector& GetInterSizeClassPreferenceVector( const unsigned ) const;
+    const Types::FloatVector& GetInterSizeClassVolumeVector( const unsigned ) const;
 
 private:
     Parameters( );

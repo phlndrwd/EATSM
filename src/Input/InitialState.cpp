@@ -20,43 +20,7 @@ InitialState::InitialState( ) {
 
 }
 
-bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
-    // Essential call to RandomSFMT to construct the static object and allow state initialisation to overwrite constructed values.
-    RandomSFMT::Get( );
-
-    bool success = true;
-
-    // Calculated normal data
-    bool isNormalValueCalculated = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineIsNormalCalculated ][ 0 ] );
-    RandomSFMT::Get( )->SetIsNormalCalculated( isNormalValueCalculated );
-
-    double calculatedNormalValue = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNormalValue ][ 0 ] );
-    RandomSFMT::Get( )->SetCalculatedNormalValue( calculatedNormalValue );
-
-    // Random state index
-    unsigned stateIndex = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineRandomIndex ][ 0 ] );
-    RandomSFMT::Get( )->SetStateIndex( stateIndex );
-
-    // Random (mother-of-all) state
-    unsigned randomMotherState[ MOA_N ];
-    for( unsigned columnIndex = 0; columnIndex < MOA_N; ++columnIndex ) {
-        randomMotherState[ columnIndex ] = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineMOAState ][ columnIndex ] );
-    }
-    RandomSFMT::Get( )->SetMotherState( randomMotherState );
-
-    // Random (SFMT) state
-    unsigned arrayCounter = 0;
-    __m128i randomSFMTState[ SFMT_N ];
-    for( unsigned lineIndex = Constants::cStateLineSFMTState; lineIndex < SFMT_N + Constants::cStateLineSFMTState; ++lineIndex ) {
-        unsigned values[ 4 ];
-        for( unsigned columnIndex = 0; columnIndex < 4; ++columnIndex ) {
-            values[ columnIndex ] = Strings::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ columnIndex ] );
-        }
-        randomSFMTState[ arrayCounter ] = _mm_loadu_si128( ( __m128i* )values );
-        ++arrayCounter;
-    }
-    RandomSFMT::Get( )->SetState( randomSFMTState );
-
+void InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
     // Model variables
     mNutrientVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
     mAutotrophVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
@@ -74,14 +38,13 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }
-    return success;
 }
 
-double InitialState::GetNutrientVolume( ) const {
+double& InitialState::GetNutrientVolume( ) {
     return mNutrientVolume;
 }
 
-double InitialState::GetAutotrophVolume( ) const {
+double& InitialState::GetAutotrophVolume( ) {
     return mAutotrophVolume;
 }
 
@@ -89,6 +52,6 @@ Types::IndividualMatrix& InitialState::GetHeterotrophs( ) {
     return mHeterotrophs;
 }
 
-unsigned InitialState::GetInitialPopulationSize( ) {
+unsigned& InitialState::GetInitialPopulationSize( ) {
     return mInitialPopulationSize;
 }

@@ -25,11 +25,12 @@ void FileReader::ReadInputFiles( std::string& stateFile ) {
     if( success == true && Parameters::Get( )->GetCreateNewPopulation( ) == false ) {
         success = false;
         if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
-        if( ReadTextFile( stateFile, false ) )
-            if( InitialState::Get( )->Initialise( mRawTextData ) )
-                success = true;
+        if( ReadTextFile( stateFile, false ) ) {
+            InitialState::Get( )->Initialise( mRawTextData );
+            success = true;
+        }
     }
-    
+
     if( success )
         std::cout << "Files read successfully..." << std::endl << std::endl;
     else {

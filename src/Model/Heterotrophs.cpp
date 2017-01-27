@@ -99,7 +99,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
 
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
-        std::cout << "Multiple heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
+        std::cout << "Heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
     }
 }
 

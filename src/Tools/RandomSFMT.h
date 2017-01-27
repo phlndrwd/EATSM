@@ -5,9 +5,8 @@
  *   with improved randomness and speed, adapted to the SSE2 instruction set.
  *   The SFMT was invented by Mutsuo Saito and Makoto Matsumoto.
  *   The present C++ implementation is by Agner Fog. This has been modified by 
- *   Philip J. Underwood to include functions for getting and setting the state
- *   of the object, as well as the inclusion of a function for drawing values 
- *   from a normal distribution.
+ *   Philip J. Underwood to include functions for drawing values from a normal
+ *   distribution.
  * 
  *   Copyright notice
  *   ================
@@ -164,18 +163,6 @@ public:
 
     double GetUniform( ); // Output random floating point number on the interval 0 < x <= 1
     double GetNormal( const double mean = 0.0, const double standardDeviation = 1.0 );
-    
-    __m128i GetState( const unsigned ) const;
-    uint32_t GetMotherState( const unsigned ) const;
-    uint32_t GetStateIndex( ) const;
-    bool GetIsNormalCalculated( ) const;
-    double GetCalculatedNormalValue( ) const;
-    
-    void SetState( const __m128i[ ] );
-    void SetMotherState( const uint32_t[ ] );
-    void SetStateIndex( const uint32_t& );
-    void SetIsNormalCalculated( const bool );
-    void SetCalculatedNormalValue( const double& );
 
 private:
     void Initialise( ); // Various initializations and period certification

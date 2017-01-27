@@ -5,9 +5,8 @@
  *   with improved randomness and speed, adapted to the SSE2 instruction set.
  *   The SFMT was invented by Mutsuo Saito and Makoto Matsumoto.
  *   The present C++ implementation is by Agner Fog. This has been modified by 
- *   Philip J. Underwood to include functions for getting and setting the state
- *   of the object, as well as the inclusion of a function for drawing values 
- *   from a normal distribution.
+ *   Philip J. Underwood to include functions for drawing values from a normal 
+ *   distribution.
  * 
  *   Copyright notice
  *   ================
@@ -383,46 +382,4 @@ double RandomSFMT::GetNormal( const double mean, const double standardDeviation 
     }
 
     return ( mean + normalValue * standardDeviation );
-}
-
-__m128i RandomSFMT::GetState( const unsigned index ) const {
-    return mState[ index ];
-}
-
-uint32_t RandomSFMT::GetMotherState( const unsigned index ) const {
-    return mMotherState[ index ];
-}
-
-uint32_t RandomSFMT::GetStateIndex( ) const {
-    return mStateIndex;
-}
-
-bool RandomSFMT::GetIsNormalCalculated( ) const {
-    return mIsNormalCalculated;
-}
-
-double RandomSFMT::GetCalculatedNormalValue( ) const {
-    return mCalculatedNormalValue;
-}
-
-void RandomSFMT::SetState( const __m128i state[ ] ) {
-    for( unsigned index = 0; index < SFMT_N; ++index )
-        mState[ index ] = state[ index ];
-}
-
-void RandomSFMT::SetMotherState( const uint32_t motherState[ ] ) {
-    for( unsigned index = 0; index < MOA_N; ++index )
-        mMotherState[ index ] = motherState[ index ];
-}
-
-void RandomSFMT::SetStateIndex( const uint32_t& index ) {
-    mStateIndex = index;
-}
-
-void RandomSFMT::SetIsNormalCalculated( const bool isNormalCalculated ) {
-    mIsNormalCalculated = isNormalCalculated;
-}
-
-void RandomSFMT::SetCalculatedNormalValue( const double& normalValue ) {
-    mCalculatedNormalValue = normalValue;
 }
