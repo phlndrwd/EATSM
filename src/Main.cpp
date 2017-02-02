@@ -48,7 +48,6 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             isAlive = environment.RecordData( );
         }
         TimeStep::Get( )->IncrementTimeStep( );
-
     } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
     if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
         std::cout << "Main time loop complete." << std::endl << std::endl;

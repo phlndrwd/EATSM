@@ -13,17 +13,15 @@ void Timer::Start( ) {
 }
 
 double Timer::Elapsed( ) {
-    
-    mSplitTime = std::chrono::high_resolution_clock::now( );
+    mElapsedTime = std::chrono::high_resolution_clock::now( );
     std::chrono::duration< double > elapsed;
 
-    elapsed = mSplitTime - mStartTime;
+    elapsed = mElapsedTime - mStartTime;
     
     return elapsed.count( );
 }
 
 double Timer::Split( ) {
-    
     std::chrono::high_resolution_clock::time_point timeNow = std::chrono::high_resolution_clock::now( );
     std::chrono::duration< double > split;
 
@@ -34,7 +32,6 @@ double Timer::Split( ) {
 }
 
 double Timer::Stop( ) {
-    
     mStopTime = std::chrono::high_resolution_clock::now( );
     std::chrono::duration< double > total;
 

@@ -16,6 +16,7 @@ public:
 private:
     std::chrono::high_resolution_clock::time_point mStartTime;
     std::chrono::high_resolution_clock::time_point mSplitTime;
+    std::chrono::high_resolution_clock::time_point mElapsedTime;
     std::chrono::high_resolution_clock::time_point mStopTime;
 };
 
