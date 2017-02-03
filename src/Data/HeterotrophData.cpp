@@ -30,7 +30,7 @@ HeterotrophData::~HeterotrophData( ) {
     mSizeClassInteractionProbabilityMatrix.clear( );
 
     mSizeClassPopulation.clear( );
-    mSizeClassVegetarianFrequencies.clear( );
+    mSizeClassHerbivoreFrequencies.clear( );
     mSizeClassCarnivoreFrequencies.clear( );
     mSizeClassPreyFrequencies.clear( );
     mSizeClassStarvedFrequencies.clear( );
@@ -89,7 +89,7 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "InHeterotrophFlux", mInFlux );
 
     DataRecorder::Get( )->AddDataTo( "SizeClassPopulation", mSizeClassPopulation );
-    DataRecorder::Get( )->AddDataTo( "SizeClassVegetarianFrequencies", mSizeClassVegetarianFrequencies );
+    DataRecorder::Get( )->AddDataTo( "SizeClassHerbivoreFrequencies", mSizeClassHerbivoreFrequencies );
     DataRecorder::Get( )->AddDataTo( "SizeClassCarnivoreFrequencies", mSizeClassCarnivoreFrequencies );
     DataRecorder::Get( )->AddDataTo( "SizeClassPreyFrequencies", mSizeClassPreyFrequencies );
     DataRecorder::Get( )->AddDataTo( "SizeClassStarvedFrequencies", mSizeClassStarvedFrequencies );
@@ -212,7 +212,7 @@ void HeterotrophData::AddTrophicLevel( const double trophicLevel, const double v
 void HeterotrophData::NormaliseData( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         if( mSizeClassPreyVolumeRatios[ sizeClassIndex ] > 0 ) {
-            mSizeClassPreyVolumeRatios[ sizeClassIndex ] = mSizeClassPreyVolumeRatios[ sizeClassIndex ] / ( mSizeClassCarnivoreFrequencies[ sizeClassIndex ] + mSizeClassVegetarianFrequencies[ sizeClassIndex ] );
+            mSizeClassPreyVolumeRatios[ sizeClassIndex ] = mSizeClassPreyVolumeRatios[ sizeClassIndex ] / ( mSizeClassCarnivoreFrequencies[ sizeClassIndex ] + mSizeClassHerbivoreFrequencies[ sizeClassIndex ] );
         } else {
             mSizeClassPreyVolumeRatios[ sizeClassIndex ] = Constants::cMissingValue;
         }
@@ -232,7 +232,7 @@ void HeterotrophData::ResetDataStructures( ) {
     mToFlux = 0;
     mInFlux = 0;
 
-    mSizeClassVegetarianFrequencies.clear( );
+    mSizeClassHerbivoreFrequencies.clear( );
     mSizeClassPreyFrequencies.clear( );
     mSizeClassCarnivoreFrequencies.clear( );
     mSizeClassStarvedFrequencies.clear( );
@@ -246,7 +246,7 @@ void HeterotrophData::ResetDataStructures( ) {
     mSizeClassFeedingProbabilities.clear( );
     mSizeClassCouplings.clear( );
 
-    mSizeClassVegetarianFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
+    mSizeClassHerbivoreFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassPreyFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassCarnivoreFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mSizeClassStarvedFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
@@ -265,7 +265,7 @@ void HeterotrophData::ResetDataStructures( ) {
 }
 
 void HeterotrophData::IncrementVegetarianFrequencies( const Types::IndividualPointer grazer ) {
-    ++mSizeClassVegetarianFrequencies[ grazer->GetSizeClassIndex( ) ];
+    ++mSizeClassHerbivoreFrequencies[ grazer->GetSizeClassIndex( ) ];
     
     double preyVolumeRatio = grazer->GetVolumeActual( ) / Parameters::Get( )->GetSmallestIndividualVolume( );
     mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] = mSizeClassPreyVolumeRatios[ grazer->GetSizeClassIndex( ) ] + preyVolumeRatio;

@@ -86,7 +86,7 @@ for datumIndex = 1:numberOfDatums
                     if isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
                         dataSet( dataSet == 0 ) = NaN;
                     end
-                    if ~isempty( strfind( lower( dataLabel ), 'log' ) )
+                    if ~isempty( strfind( lower( dataLabel ), 'c' ) )
                         dataSet = log10( dataSet );
                     end
                     

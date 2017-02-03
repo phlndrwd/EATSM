@@ -54,7 +54,7 @@ private:
     Types::FloatMatrix mSizeClassInteractionProbabilityMatrix;
     
     Types::FloatVector mSizeClassPopulation;
-    Types::FloatVector mSizeClassVegetarianFrequencies;
+    Types::FloatVector mSizeClassHerbivoreFrequencies;
     Types::FloatVector mSizeClassCarnivoreFrequencies;
     Types::FloatVector mSizeClassPreyFrequencies;
     Types::FloatVector mSizeClassStarvedFrequencies;
