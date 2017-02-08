@@ -59,7 +59,7 @@ namespace Constants {
     const char cFolderDelimiter = '/';
     const char cWhiteSpaceCharacter = ' ';
     const char cDataDelimiterValue = ',';
-    const char cTextFileCommentCharacter = '#';
+    const char cCommentCharacter = '#';
 
 
     const std::string cSystemName = "EATSM";

@@ -1,5 +1,5 @@
-#ifndef STRINGS
-#define	STRINGS
+#ifndef CONVERTOR
+#define CONVERTOR
 
 #include "Types.h"
 #include "Constants.h"
@@ -7,11 +7,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
-#include <stdlib.h>
 #include <iomanip>
-#include <emmintrin.h>
-#include <algorithm>
-
 
 class Strings {
 public:
@@ -28,10 +24,14 @@ public:
 
     double StringToNumber( const std::string& ) const;
 
-    Types::StringVector StringToWords( const std::string&, const char ) const;
-    std::string DoubleToPrecisionString( const double&, const unsigned& ) const;
+    const Types::StringVector StringToWords( const std::string&, const char ) const;
+    const std::string DoubleToPrecisionString( const double&, const unsigned& ) const;
+    
+    int FindFirstPositionOfCharacter( const std::string, const char ) const;
+    std::string TruncateStringAtCharacter( const std::string, const char ) const;
 
     std::string ToLowercase( const std::string ) const;
+    std::string RemoveCharacter( const std::string, const char ) const;
     std::string RemoveWhiteSpace( const std::string ) const;
 
 private:
