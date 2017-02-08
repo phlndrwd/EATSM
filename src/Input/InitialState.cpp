@@ -20,7 +20,7 @@ InitialState::InitialState( ) {
 
 }
 
-void InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
+bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
     // Model variables
     mNutrientVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
     mAutotrophVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
@@ -38,6 +38,7 @@ void InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }
+    return true; // Currently no circumstance under which this function can return false.
 }
 
 double& InitialState::GetNutrientVolume( ) {

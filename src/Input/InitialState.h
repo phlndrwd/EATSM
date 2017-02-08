@@ -9,7 +9,7 @@ public:
     ~InitialState( );
     static Types::InitialStatePointer Get( );
 
-    void Initialise( const Types::StringMatrix& );
+    bool Initialise( const Types::StringMatrix& );
 
     double& GetNutrientVolume( );
     double& GetAutotrophVolume( );

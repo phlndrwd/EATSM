@@ -19,16 +19,13 @@ void FileReader::ReadInputFiles( std::string& stateFile ) {
     if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName ) )
         if( Parameters::Get( )->Initialise( mRawTextData ) )
             if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName ) )
-                if( DataRecorder::Get( )->Initialise( mRawTextData ) )
-                    success = true;
+                success = DataRecorder::Get( )->Initialise( mRawTextData );
 
     if( success == true && Parameters::Get( )->GetCreateNewPopulation( ) == false ) {
         success = false;
         if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
-        if( ReadTextFile( stateFile, false ) ) {
-            InitialState::Get( )->Initialise( mRawTextData );
-            success = true;
-        }
+        if( ReadTextFile( stateFile, false ) )
+            success = InitialState::Get( )->Initialise( mRawTextData );
     }
 
     if( success )

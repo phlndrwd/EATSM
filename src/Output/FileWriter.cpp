@@ -95,8 +95,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     if( WriteVectorDatums( ) )
         if( WriteMatrixDatums( ) )
             if( WriteTagData( environment->GetHeterotrophs( )->GetTagger( ) ) )
-                if( WriteStateFile( environment ) )
-                    success = true;
+                success = WriteStateFile( environment );
 
     if( success )
         std::cout << "Output data written to \"" << mOutputPath << "\"." << std::endl;
