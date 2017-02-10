@@ -38,7 +38,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
     if( rawInputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
 
-            std::string parameterName = Strings::Get( )->RemoveWhiteSpace( Strings::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] ) );
+            std::string parameterName = Strings::Get( )->ToLowercase( rawInputParameterData[ rowIndex ][ Constants::eParameterName ] );
             double parameterValue = Strings::Get( )->StringToNumber( rawInputParameterData[ rowIndex ][ Constants::eParameterValue ] );
 
             if( parameterName == "randomseed" ) SetRandomSeed( parameterValue );
@@ -46,8 +46,8 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "samplingrate" ) SetSamplingRate( parameterValue );
             else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( parameterValue );
 
-            else if( parameterName == "createnewpopulation" ) SetCreateNewPopulation( parameterValue );
             else if( parameterName == "applystarvationfunction" ) SetApplyStarvationFunction( parameterValue );
+            else if( parameterName == "readmodelstate" ) SetReadModelState( parameterValue );
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
 
             else if( parameterName == "populationtagfraction" ) SetPopulationTagFraction( parameterValue );
@@ -143,8 +143,8 @@ unsigned& Parameters::GetNumberOfSizeClasses( ) {
     return mNumberOfSizeClasses;
 }
 
-bool Parameters::GetCreateNewPopulation( ) {
-    return mCreateNewPopulation;
+bool Parameters::GetReadModelState( ) {
+    return mReadModelState;
 }
 
 bool Parameters::GetApplyStarvationFunction( ) {
@@ -283,8 +283,8 @@ void Parameters::SetNumberOfSizeClasses( const unsigned numberOfSizeClasses ) {
     mNumberOfSizeClasses = numberOfSizeClasses;
 }
 
-void Parameters::SetCreateNewPopulation( const bool createNewPopulation ) {
-    mCreateNewPopulation = createNewPopulation;
+void Parameters::SetReadModelState( const bool createNewPopulation ) {
+    mReadModelState = createNewPopulation;
 }
 
 void Parameters::SetApplyStarvationFunction( const bool applyStarvationFunction ) {

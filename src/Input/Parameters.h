@@ -20,8 +20,8 @@ public:
     unsigned& GetSamplingRate( );
     unsigned& GetNumberOfSizeClasses( );
 
-    bool GetCreateNewPopulation( );
     bool GetApplyStarvationFunction( );
+    bool GetReadModelState( );
     bool GetWriteModelState( );
 
     double& GetPopulationTagFraction( );
@@ -52,8 +52,8 @@ public:
     void SetSamplingRate( const unsigned );
     void SetNumberOfSizeClasses( const unsigned );
 
-    void SetCreateNewPopulation( const bool );
     void SetApplyStarvationFunction( const bool );
+    void SetReadModelState( const bool );
     void SetWriteModelState( const bool );
 
     void SetPopulationTagFraction( const double );
@@ -111,8 +111,8 @@ private:
     unsigned mSamplingRate;
     unsigned mNumberOfSizeClasses;
 
-    bool mCreateNewPopulation;
     bool mApplyStarvationFunction;
+    bool mReadModelState;
     bool mWriteModelState;
 
     double mPopulationTagFraction;

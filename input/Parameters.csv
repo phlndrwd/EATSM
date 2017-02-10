@@ -3,9 +3,9 @@ RandomSeed,0
 RunTimeInSeconds,60
 SamplingRate,20
 NumberOfSizeClasses,100
-CreateNewPopulation,0
 ApplyStarvationFunction,1
-WriteModelState,1
+ReadModelState,1
+WriteModelState,0
 PopulationTagFraction,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
