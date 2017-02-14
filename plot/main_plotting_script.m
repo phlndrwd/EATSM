@@ -5,7 +5,7 @@ clear
 optionCurrentDataSet            = '2017-02-10_12-48-42';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
-optionOutputParametersFile      = 'Variables';
+optionOutputVariablesFile      = 'Variables';
 optionFileExtension             = '.csv';
 
 optionPrintPlotsToFile          = 0; % yes = 1, no = anything else

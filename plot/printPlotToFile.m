@@ -2,7 +2,7 @@ function printPlotToFile( plotHandle, imageDimensions, filePath, fileFormat, pai
 
 set( plotHandle,'PaperUnits','centimeters', 'PaperSize', imageDimensions, 'PaperPosition', [ 0 0 imageDimensions( 1 ) imageDimensions( 2 ) ] );
 
-if length( ReturnFileNameExtension( filePath ) ) > 0
+if length( ReturnFileNameExtension( ReturnFileNameFromFullPath( filePath ) ) ) > 0
     outputPath = filePath;
 else
     outputPath = [ filePath '.' lower( fileFormat ) ];

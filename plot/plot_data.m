@@ -24,7 +24,7 @@ trophicLevelNames{ 8 } = 'Nonary';
 trophicLevelNames{ 9 } = 'Denary';
 
 %% Load Meta Data
-OutputParameters = ReadTable( [ optionOutputDirectory optionCurrentDataSet optionOutputParametersFile optionFileExtension ], ',' );
+OutputParameters = ReadTable( [ optionOutputDirectory optionCurrentDataSet optionOutputVariablesFile optionFileExtension ], ',' );
 
 
 %% Load Data
@@ -86,8 +86,13 @@ for datumIndex = 1:numberOfDatums
                     if isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
                         dataSet( dataSet == 0 ) = NaN;
                     end
-                    if ~isempty( strfind( lower( dataLabel ), 'c' ) )
+                    
+                    if ~isempty( strfind( lower( dataLabel ), 'log_{10}' ) )
                         dataSet = log10( dataSet );
+                    elseif ~isempty( strfind( lower( dataLabel ), 'log_{2}' ) )
+                        dataSet = log2( dataSet );
+                    elseif ~isempty( strfind( lower( dataLabel ), 'log' ) )
+                        dataSet = log( dataSet );
                     end
                     
                     if strfind( lower( dataSetName ), searchTermTrophic ) == 1
@@ -125,7 +130,7 @@ for datumIndex = 1:numberOfDatums
                 xlabel( labelTimeAxis );
                 if optionPrintPlotsToFile == 1
                     printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
-                    close( handle );
+                    %close( handle );
                 end
             end
             eval( [ dataSetName ' = dataSet;' ] ); % Necessary to overwrite original data.
