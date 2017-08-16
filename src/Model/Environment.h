@@ -1,5 +1,5 @@
 #ifndef ENVIRONMENT
-#define	ENVIRONMENT
+#define ENVIRONMENT
 
 #include "Types.h"
 
@@ -10,7 +10,7 @@ public:
 
     void Update( );
     bool RecordData( );
-    
+
     Types::NutrientPointer GetNutrient( ) const;
     Types::AutotrophsPointer GetAutotrophs( ) const;
     Types::HeterotrophsPointer GetHeterotrophs( ) const;

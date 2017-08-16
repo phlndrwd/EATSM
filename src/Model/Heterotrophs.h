@@ -6,7 +6,7 @@
 
 class Heterotrophs {
 public:
-
+    Heterotrophs( );
     Heterotrophs( Types::NutrientPointer, Types::AutotrophsPointer );
     ~Heterotrophs( );
 

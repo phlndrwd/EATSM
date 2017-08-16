@@ -24,16 +24,16 @@ trophicLevelNames{ 8 } = 'Nonary';
 trophicLevelNames{ 9 } = 'Denary';
 
 %% Load Meta Data
-OutputParameters = ReadTable( [ optionOutputDirectory optionCurrentDataSet optionOutputVariablesFile optionFileExtension ], ',' );
+OutputVariables = ReadTable( [ optionOutputDirectory optionCurrentDataSet optionOutputVariablesFile optionFileExtension ], ',' );
 
 
 %% Load Data
-numberOfDatums = length( OutputParameters( :, 1 ) );
+numberOfDatums = length( OutputVariables( :, 1 ) );
 
 volumeMatrixIndex = 3;
 
 for datumIndex = 1:numberOfDatums
-    dataSetName = OutputParameters{ datumIndex, 1 };
+    dataSetName = OutputVariables{ datumIndex, 1 };
     dataInputFile = [ optionOutputDirectory optionCurrentDataSet dataSetName optionFileExtension ];
     
     if exist( dataInputFile, 'file' ) == 2
@@ -50,7 +50,7 @@ for datumIndex = 1:numberOfDatums
                 end
             end
             if optionResampleTimeTo > 0
-                resamplingMethod = OutputParameters{ datumIndex, 4 };
+                resamplingMethod = OutputVariables{ datumIndex, 4 };
                 if strcmpi( resamplingMethod, 'cumulative' ) == 1
                     dataSet = ResampleCumulativeMatrix( dataSet, optionResampleTimeTo );
                 elseif strcmpi( resamplingMethod, 'standard' ) == 1
@@ -64,8 +64,8 @@ for datumIndex = 1:numberOfDatums
                 volumeMatrix = zeros( length( AxisTimeSteps ), volumeMatrixIndex );
             else                                                               % Is data for plotting
                 %% Plotting
-                plotType = OutputParameters{ datumIndex, 2 };
-                dataLabel = OutputParameters{ datumIndex, 3 };
+                plotType = OutputVariables{ datumIndex, 2 };
+                dataLabel = OutputVariables{ datumIndex, 3 };
                 
                 handle = figure;
                 
@@ -85,6 +85,10 @@ for datumIndex = 1:numberOfDatums
                     
                     if isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
                         dataSet( dataSet == 0 ) = NaN;
+                    end
+                    
+                    if strcmpi( dataSetName, 'SizeClassVolumes' ) == 1
+                        a = 1;
                     end
                     
                     if ~isempty( strfind( lower( dataLabel ), 'log_{10}' ) )
@@ -107,7 +111,7 @@ for datumIndex = 1:numberOfDatums
                     else
                         %% Size class plots
                         dataSet = PadMatrix( dataSet ); % Extend matrix for pcolor plot
-
+                        
                         pcolor( AxisTimeStepsExtended, AxisSizeClassBoundaryValues, dataSet ), shading flat;
                         
                         set( gca, 'YScale', 'log' );
@@ -118,7 +122,7 @@ for datumIndex = 1:numberOfDatums
                         
                         if ~isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
                             caxis( [ 0, traitResolution ] )
-                        elseif minVal < maxVal
+                        elseif minVal < maxVal 
                             caxis( [ minVal, maxVal ] )
                         end
                         ylabel( c, dataLabel );
@@ -130,13 +134,15 @@ for datumIndex = 1:numberOfDatums
                 xlabel( labelTimeAxis );
                 if optionPrintPlotsToFile == 1
                     printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
-                    %close( handle );
+                    close( handle );
                 end
             end
             eval( [ dataSetName ' = dataSet;' ] ); % Necessary to overwrite original data.
         elseif ~isempty( strfind( lower( dataSetName ), searchTermMidPoint ) ) % Data is mid-point values vector
             traitResolution = length( AxisSizeClassMidPointValues );
         end
+    else
+        disp( [ 'File "' dataInputFile '" does not exist.' ] );
     end
 end
 

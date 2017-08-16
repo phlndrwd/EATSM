@@ -260,11 +260,9 @@ bool FileWriter::WriteStateFile( Types::EnvironmentPointer environment ) {
             modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
             modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
 
-            Types::HeterotrophsPointer heterotrophs = environment->GetHeterotrophs( );
-
             for( unsigned populationIndex = 0; populationIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++populationIndex ) {
-                for( unsigned individualIndex = 0; individualIndex < heterotrophs->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
-                    Types::IndividualPointer individual = heterotrophs->GetIndividual( populationIndex, individualIndex );
+                for( unsigned individualIndex = 0; individualIndex <  environment->GetHeterotrophs( )->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
+                    Types::IndividualPointer individual = environment->GetHeterotrophs( )->GetIndividual( populationIndex, individualIndex );
                     modelStateFileStream << individual->GetSizeClassIndex( ) << Constants::cDataDelimiterValue << individual->GetHeritableTraits( )->GetValue( Constants::eVolume ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << std::endl;
                 }
             }

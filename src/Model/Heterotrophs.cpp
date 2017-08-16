@@ -13,6 +13,10 @@
 
 #include <cmath>
 
+Heterotrophs::Heterotrophs( ) {
+
+}
+
 Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
     mNutrient = nutrient;
     mPhytoplankton = phytoplankton;
@@ -35,14 +39,7 @@ Heterotrophs::~Heterotrophs( ) {
         for( unsigned individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
             delete mSizeClasses[ sizeClassIndex ][ individualIndex ];
         }
-        mSizeClasses[ sizeClassIndex ].clear( );
-        mDeadFrequencies[ sizeClassIndex ].clear( );
     }
-
-    mSizeClasses.clear( );
-    mDeadFrequencies.clear( );
-
-    mChildren.clear( );
 }
 
 void Heterotrophs::Update( ) {
@@ -109,7 +106,7 @@ void Heterotrophs::TagInitialPopulation( ) {
         for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
 
             unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
-            
+
             unsigned numberToTagInThisSizeClass = static_cast < unsigned >( ::floor( sizeClassPopulation * Parameters::Get( )->GetPopulationTagFraction( ) + 0.5 ) );
 
             if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
@@ -256,7 +253,7 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
                 } else {
                     effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * ( GetSizeClassPopulation( preyIndex ) - 1 );
                 }
-                mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
+                 mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
 
                 if( effectiveSizeClassVolume > highestEffectivePreyVolume ) {
                     highestEffectivePreyVolume = effectiveSizeClassVolume;

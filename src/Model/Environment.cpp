@@ -1,10 +1,7 @@
 #include "Environment.h"
-
 #include "Nutrient.h"
 #include "Autotrophs.h"
 #include "Heterotrophs.h"
-#include "DataRecorder.h"
-#include "Parameters.h"
 #include "Strings.h"
 
 Environment::Environment( ) {

@@ -5,6 +5,7 @@
 
 class Autotrophs {
 public:
+    Autotrophs( );
     Autotrophs( Types::NutrientPointer );
     ~Autotrophs( );
     
