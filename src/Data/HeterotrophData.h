@@ -13,9 +13,9 @@ public:
     void InitialiseDataStructures( );
     void ResetDataStructures( );
     
-    unsigned GetProbabilisticPreySizeClassIndex( const unsigned ) const;
+    //unsigned GetProbabilisticPreySizeClassIndex( const unsigned ) const;
+    //void CalculateSizeClassInteractionProbabilities( );
     
-    void CalculateSizeClassInteractionProbabilities( );
     double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
     void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
     

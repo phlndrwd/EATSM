@@ -111,18 +111,21 @@ bool FileWriter::WriteVectorDatums( ) {
     for( Types::VectorDatumMap::iterator iter = vectorDatumMap.begin( ); iter != vectorDatumMap.end( ); ++iter ) {
         std::string fileName = iter->first;
         Types::VectorDatumPointer vectorDatum = iter->second;
-        fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
-        std::ofstream outputFileStream;
-        outputFileStream.open( fileName.c_str( ), std::ios::out );
+        unsigned datumSize = vectorDatum->GetSize( );
+        if( datumSize > 0 ) {
+            fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
+            std::ofstream outputFileStream;
+            outputFileStream.open( fileName.c_str( ), std::ios::out );
 
-        if( outputFileStream.is_open( ) == true ) {
-            for( unsigned dataIndex = 0; dataIndex < vectorDatum->GetSize( ) - 1; ++dataIndex ) {
-                outputFileStream << vectorDatum->GetDataAtIndex( dataIndex ) << Constants::cDataDelimiterValue;
+            if( outputFileStream.is_open( ) == true ) {
+                for( unsigned dataIndex = 0; dataIndex < datumSize - 1; ++dataIndex ) {
+                    outputFileStream << vectorDatum->GetDataAtIndex( dataIndex ) << Constants::cDataDelimiterValue;
+                }
+                outputFileStream << vectorDatum->GetDataAtIndex( vectorDatum->GetSize( ) - 1 );
+                outputFileStream.close( );
+            } else {
+                return false;
             }
-            outputFileStream << vectorDatum->GetDataAtIndex( vectorDatum->GetSize( ) - 1 );
-            outputFileStream.close( );
-        } else {
-            return false;
         }
     }
     return true;
@@ -134,19 +137,22 @@ bool FileWriter::WriteMatrixDatums( ) {
 
         std::string fileName = iter->first;
         Types::MatrixDatumPointer matrixDatum = iter->second;
-        fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
-        std::ofstream outputFileStream;
-        outputFileStream.open( fileName.c_str( ), std::ios::out );
-        if( outputFileStream.is_open( ) == true ) {
-            for( unsigned rowIndex = 0; rowIndex < matrixDatum->GetRows( ); ++rowIndex ) {
-                for( unsigned columnIndex = 0; columnIndex < matrixDatum->GetColumns( ) - 1; ++columnIndex ) {
-                    outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, columnIndex ) << Constants::cDataDelimiterValue;
+        unsigned rowSize = matrixDatum->GetRows( );
+        if( rowSize > 0 ) {
+            fileName.insert( 0, mOutputPath ).append( Constants::cFileNameExtension );
+            std::ofstream outputFileStream;
+            outputFileStream.open( fileName.c_str( ), std::ios::out );
+            if( outputFileStream.is_open( ) == true ) {
+                for( unsigned rowIndex = 0; rowIndex < rowSize; ++rowIndex ) {
+                    for( unsigned columnIndex = 0; columnIndex < matrixDatum->GetColumns( ) - 1; ++columnIndex ) {
+                        outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, columnIndex ) << Constants::cDataDelimiterValue;
+                    }
+                    outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, matrixDatum->GetColumns( ) - 1 ) << std::endl;
                 }
-                outputFileStream << matrixDatum->GetDataAtIndices( rowIndex, matrixDatum->GetColumns( ) - 1 ) << std::endl;
-            }
-            outputFileStream.close( );
-        } else
-            return false;
+                outputFileStream.close( );
+            } else
+                return false;
+        }
     }
     return true;
 }
@@ -261,7 +267,7 @@ bool FileWriter::WriteStateFile( Types::EnvironmentPointer environment ) {
             modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
 
             for( unsigned populationIndex = 0; populationIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++populationIndex ) {
-                for( unsigned individualIndex = 0; individualIndex <  environment->GetHeterotrophs( )->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
+                for( unsigned individualIndex = 0; individualIndex < environment->GetHeterotrophs( )->GetSizeClassPopulation( populationIndex ); ++individualIndex ) {
                     Types::IndividualPointer individual = environment->GetHeterotrophs( )->GetIndividual( populationIndex, individualIndex );
                     modelStateFileStream << individual->GetSizeClassIndex( ) << Constants::cDataDelimiterValue << individual->GetHeritableTraits( )->GetValue( Constants::eVolume ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << std::endl;
                 }

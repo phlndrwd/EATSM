@@ -104,29 +104,6 @@ void HeterotrophData::RecordOutputData( ) {
     ResetDataStructures( );
 }
 
-unsigned HeterotrophData::GetProbabilisticPreySizeClassIndex( const unsigned predatorIndex ) const {
-    unsigned randomPreySizeClassIndex = 0;
-    double randomValue = RandomSFMT::Get( )->GetUniform( );
-    double probabilitySum = 0;
-    for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
-        probabilitySum += mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ];
-        if( randomValue <= probabilitySum ) {
-            randomPreySizeClassIndex = preyIndex;
-            break;
-        }
-    }
-    return randomPreySizeClassIndex;
-}
-
-void HeterotrophData::CalculateSizeClassInteractionProbabilities( ) {
-    for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
-        for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
-            if( mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] != 0 )
-                mSizeClassInteractionProbabilityMatrix[ predatorIndex ][ preyIndex ] = mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] / mSizeClassEffectivePreyVolumes[ predatorIndex ];
-        }
-    }
-}
-
 double HeterotrophData::GetEffectiveSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) const {
     return mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ];
 }

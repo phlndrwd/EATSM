@@ -293,7 +293,6 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
             mHeterotrophData->SetFeedingProbability( predatorIndex, mHeterotrophProcessor->CalculateFeedingProbability( effectivePreyVolume ) );
         }
     }
-    mHeterotrophData->CalculateSizeClassInteractionProbabilities( );
 }
 
 void Heterotrophs::FeedFromPhytoplankton( const Types::IndividualPointer grazer ) {
