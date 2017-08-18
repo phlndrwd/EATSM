@@ -10,6 +10,8 @@
 #include "InitialState.h"
 #include "RandomSFMT.h"
 #include "Tagger.h"
+#include "Timer.h"
+#include "DataRecorder.h"
 
 #include <cmath>
 
@@ -25,6 +27,8 @@ Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPo
     mTagger = new Tagger( );
 
     InitialiseSizeClasses( );
+
+    DataRecorder::Get( )->InitialiseMatrix( "Timing", 4 );
 }
 
 Heterotrophs::~Heterotrophs( ) {
@@ -43,10 +47,40 @@ Heterotrophs::~Heterotrophs( ) {
 }
 
 void Heterotrophs::Update( ) {
+    Timer timer( false );
+
+    double feedingTime = 0;
+    double metabolismTime = 0;
+    double starvationTime = 0;
+    double reproductionTime = 0;
+
+    timer.Start( );
     Feeding( );
+    feedingTime = timer.Stop( );
+
+    timer.Start( );
     Metabolisation( );
+    metabolismTime = timer.Stop( );
+
+    timer.Start( );
     Starvation( );
+    starvationTime = timer.Stop( );
+
+    timer.Start( );
     Reproduction( );
+    reproductionTime = timer.Stop( );
+
+    double totalTime = feedingTime + metabolismTime + starvationTime + reproductionTime;
+
+    feedingTime = feedingTime / totalTime;
+    metabolismTime = metabolismTime / totalTime;
+    starvationTime = starvationTime / totalTime;
+    reproductionTime = reproductionTime / totalTime;
+
+    DataRecorder::Get( )->AddDataTo( "Timing", 0, feedingTime );
+    DataRecorder::Get( )->AddDataTo( "Timing", 1, metabolismTime );
+    DataRecorder::Get( )->AddDataTo( "Timing", 2, starvationTime );
+    DataRecorder::Get( )->AddDataTo( "Timing", 3, reproductionTime );
 }
 
 bool Heterotrophs::RecordData( ) {
@@ -165,12 +199,10 @@ void Heterotrophs::Metabolisation( ) {
                 double waste = individual->Metabolise( metabolicDeduction );
                 mNutrient->AddToVolume( waste );
 
-                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( individual ) == true ) {
+                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( individual ) == true )
                     MoveSizeClass( individual );
-                }
-            } else {
+            } else
                 StarveToDeath( individual );
-            }
         }
     }
 
@@ -188,11 +220,9 @@ void Heterotrophs::Starvation( ) {
                 for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                     Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                    if( individual != 0 ) {
-                        if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) ) {
+                    if( individual != 0 )
+                        if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
                             StarveToDeath( individual );
-                        }
-                    }
                 }
             }
         }
@@ -209,23 +239,20 @@ void Heterotrophs::Reproduction( ) {
             if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
                 Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
 
-                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( potentialParent ) == true ) {
+                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( potentialParent ) == true )
                     MoveSizeClass( potentialParent );
-                }
 
                 Types::BoolVector isMutant = childIndividual->GetHeritableTraits( )->IsMutant( );
-                if( isMutant[ Constants::eVolume ] == false ) {
+                if( isMutant[ Constants::eVolume ] == false )
                     childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
-                } else if( isMutant[ Constants::eVolume ] == true ) {
+                else if( isMutant[ Constants::eVolume ] == true )
                     mHeterotrophProcessor->FindAndSetSizeClassIndex( childIndividual );
-                }
 
                 mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
-                for( unsigned geneIndex = 0; geneIndex < isMutant.size( ); ++geneIndex ) {
-                    if( isMutant[ geneIndex ] == true ) {
+                for( unsigned geneIndex = 0; geneIndex < isMutant.size( ); ++geneIndex )
+                    if( isMutant[ geneIndex ] == true )
                         mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), geneIndex );
-                    }
-                }
+
                 AddChild( childIndividual );
             }
         }
@@ -253,7 +280,7 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
                 } else {
                     effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * ( GetSizeClassPopulation( preyIndex ) - 1 );
                 }
-                 mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
+                mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
 
                 if( effectiveSizeClassVolume > highestEffectivePreyVolume ) {
                     highestEffectivePreyVolume = effectiveSizeClassVolume;
@@ -304,17 +331,15 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
         double trophicLevel = -1;
 
         if( predatorTrophicLevel == 0 ) {
-            if( preyTrophicLevel == 0 ) {
+            if( preyTrophicLevel == 0 )
                 trophicLevel = 3;
-            } else {
+            else
                 trophicLevel = preyTrophicLevel + 1;
-            }
         } else {
-            if( preyTrophicLevel == 0 ) {
+            if( preyTrophicLevel == 0 )
                 trophicLevel = ( predatorTrophicLevel + 3 ) / 2.0;
-            } else {
+            else
                 trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) / 2.0;
-            }
         }
 
         predator->SetTrophicLevel( trophicLevel );

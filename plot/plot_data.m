@@ -11,6 +11,7 @@ searchTermTimeAxis = 'axistime';
 searchTermTrophic = 'trophic';
 searchTermValues = 'values';
 searchTermVolume = 'volume';
+searchTermTiming = 'timing';
 
 %% Trophic Level Names
 trophicLevelNames{ 1 } = 'Secondary';
@@ -108,6 +109,15 @@ for datumIndex = 1:numberOfDatums
                         plot( AxisTimeSteps, dataSet' ), shading flat;
                         ylabel( dataLabel );
                         legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
+                    elseif strfind( lower( dataSetName ), searchTermTiming ) == 1
+                        %% Timing plot
+                        area( dataSet );
+                        legend( 'Feeding', 'Metabolisation', 'Starvation', 'Reproduction');
+                        xlim( [ 0 maximumTime ] );
+                        ylim( [ 0 1 ] );
+                        title( dataSetName );
+                        xlabel( labelTimeAxis );
+                        ylabel( dataLabel );
                     else
                         %% Size class plots
                         dataSet = PadMatrix( dataSet ); % Extend matrix for pcolor plot
@@ -122,7 +132,7 @@ for datumIndex = 1:numberOfDatums
                         
                         if ~isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
                             caxis( [ 0, traitResolution ] )
-                        elseif minVal < maxVal 
+                        elseif minVal < maxVal
                             caxis( [ minVal, maxVal ] )
                         end
                         ylabel( c, dataLabel );

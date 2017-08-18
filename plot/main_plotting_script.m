@@ -2,13 +2,13 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2017-08-16_17-49-47';
+optionCurrentDataSet            = '2017-08-18_12-55-09';
 optionOutputDirectory           = '/home/philju/Dropbox/Development/EATSM/output/0.1/';
 
 optionOutputVariablesFile      = 'Variables';
 optionFileExtension             = '.csv';
 
-optionPrintPlotsToFile          = 0; % yes = 1, no = anything else
+optionPrintPlotsToFile          = 1; % yes = 1, no = anything else
 optionOutputFileFormat          = 'png'; % EPS or PNG
 optionPlotImageWidth            = 12; % cm
 optionPlotImageHeight           = 10; % cm

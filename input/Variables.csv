@@ -32,3 +32,4 @@ SizeClassAges,matrix,Average Age,standard
 TrophicFrequencies,matrix,log_{10}( Individual Frequency ),standard
 TrophicVolumes,matrix,Volume,standard
 TrophicAges,matrix,Average Age,standard
+Timing,matrix,Normalised Time Step,cumulative

@@ -9,7 +9,7 @@ Types::DataRecorderPointer DataRecorder::mThis = NULL;
 
 Types::DataRecorderPointer DataRecorder::Get( ) {
     if( mThis == NULL ) mThis = new DataRecorder( );
-    
+
     return mThis;
 }
 
@@ -49,28 +49,34 @@ bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData
     }
 }
 
+void DataRecorder::InitialiseMatrix( const std::string& name, const unsigned& size ) {
+    Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
+
+    if( matrixDatum != NULL ) matrixDatum->SetGroupSize( size );
+}
+
 void DataRecorder::AddDataTo( const std::string& name, const float& data ) {
     Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
 
-    if( vectorDatum != NULL ) {
-        vectorDatum->AddData( data );
-    }
+    if( vectorDatum != NULL ) vectorDatum->AddData( data );
 }
 
 void DataRecorder::SetVectorDataOn( const std::string& name, const Types::FloatVector data ) {
     Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
 
-    if( vectorDatum != NULL ) {
-        vectorDatum->SetData( data );
-    }
+    if( vectorDatum != NULL ) vectorDatum->SetData( data );
 }
 
 void DataRecorder::AddDataTo( const std::string& name, const Types::FloatVector data ) {
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
-    if( matrixDatum != NULL ) {
-        matrixDatum->AddData( data );
-    }
+    if( matrixDatum != NULL ) matrixDatum->AddData( data );
+}
+
+void DataRecorder::AddDataTo( const std::string& name, const unsigned& index, const float& data ) {
+    Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
+
+    if( matrixDatum != NULL ) matrixDatum->AddDataAtIndex( index, data );
 }
 
 void DataRecorder::AddInputFilePath( const std::string& inputFilePath ) {
@@ -98,7 +104,7 @@ Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::strin
     } else {
         for( unsigned datumIndex = 0; datumIndex < mVectorDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mVectorDatumMetadata[ datumIndex ][ Constants::eDatumName ];
-            
+
             if( Strings::Get( )->ToLowercase( datumName ) == Strings::Get( )->ToLowercase( name ) ) {
                 vectorDatum = new VectorDatum( datumName );
                 mVectorDatumMap.insert( std::pair< std::string, Types::VectorDatumPointer >( datumName, vectorDatum ) );

@@ -5,7 +5,7 @@
 
 class Timer {
 public:
-    Timer( bool );
+    Timer( bool start = true );
     ~Timer( );
     
     void Start( );
