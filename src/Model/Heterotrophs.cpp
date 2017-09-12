@@ -122,7 +122,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
         while( individualVolume <= initialHeterotrophVolume ) {
             initialHeterotrophVolume -= individualVolume;
             Types::IndividualPointer individual = new Individual( mHeterotrophProcessor, individualVolume, firstPopulatedIndex );
-            AddToSizeClass( individual, false );
+            AddToSizeClass( individual );
             ++initialPopulationSize;
         }
         if( initialHeterotrophVolume > 0 ) mNutrient->AddToVolume( initialHeterotrophVolume );
@@ -199,13 +199,13 @@ void Heterotrophs::Metabolisation( ) {
                 double waste = individual->Metabolise( metabolicDeduction );
                 mNutrient->AddToVolume( waste );
 
-                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( individual ) == true )
-                    MoveSizeClass( individual );
+                unsigned directionToMove = mHeterotrophProcessor->DirectionIndividualShouldMoveSizeClasses( individual );
+                if( directionToMove != Constants::eNoMovement )
+                    MoveSizeClass( individual, directionToMove );
             } else
                 StarveToDeath( individual );
         }
     }
-
     DeleteDead( );
 }
 
@@ -239,14 +239,17 @@ void Heterotrophs::Reproduction( ) {
             if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
                 Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
 
-                if( mHeterotrophProcessor->ShouldIndividualMoveSizeClass( potentialParent ) == true )
-                    MoveSizeClass( potentialParent );
+                unsigned directionToMove = mHeterotrophProcessor->DirectionIndividualShouldMoveSizeClasses( potentialParent );
+                if( directionToMove != Constants::eNoMovement )
+                    MoveSizeClass( potentialParent, directionToMove );
 
+                childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
                 Types::BoolVector isMutant = childIndividual->GetHeritableTraits( )->IsMutant( );
-                if( isMutant[ Constants::eVolume ] == false )
-                    childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
-                else if( isMutant[ Constants::eVolume ] == true )
-                    mHeterotrophProcessor->FindAndSetSizeClassIndex( childIndividual );
+                if( isMutant[ Constants::eVolume ] == true ) {
+                    unsigned directionToMove = mHeterotrophProcessor->DirectionIndividualShouldMoveSizeClasses( childIndividual );
+                    if( directionToMove != Constants::eNoMovement )
+                        mHeterotrophProcessor->FindAndSetSizeClassIndex( childIndividual, directionToMove );
+                }
 
                 mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
                 for( unsigned geneIndex = 0; geneIndex < isMutant.size( ); ++geneIndex )
@@ -347,8 +350,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
     }
 }
 
-void Heterotrophs::AddToSizeClass( const Types::IndividualPointer individual, const bool setSizeClassIndex ) {
-    if( setSizeClassIndex == true ) mHeterotrophProcessor->FindAndSetSizeClassIndex( individual );
+void Heterotrophs::AddToSizeClass( const Types::IndividualPointer individual ) {
     mSizeClasses[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
@@ -388,8 +390,9 @@ void Heterotrophs::StarveToDeath( const Types::IndividualPointer individual ) {
     KillIndividual( individual );
 }
 
-void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual ) {
+void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual, unsigned direction ) {
     RemoveFromSizeClass( individual );
+    mHeterotrophProcessor->FindAndSetSizeClassIndex( individual, direction );
     AddToSizeClass( individual );
 }
 
@@ -442,7 +445,7 @@ void Heterotrophs::AddChild( const Types::IndividualPointer child ) {
 void Heterotrophs::AddChildren( ) {
     for( unsigned childIndex = 0; childIndex < mChildren.size( ); ++childIndex ) {
         Types::IndividualPointer childIndividual = mChildren[ childIndex ];
-        AddToSizeClass( childIndividual, false );
+        AddToSizeClass( childIndividual );
     }
     mChildren.clear( );
 }

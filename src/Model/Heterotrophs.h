@@ -31,7 +31,7 @@ private:
     void FeedFromPhytoplankton( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
 
-    void AddToSizeClass( const Types::IndividualPointer, const bool setSizeClassIndex = true );
+    void AddToSizeClass( const Types::IndividualPointer );
     void RemoveFromSizeClass( const Types::IndividualPointer );
     void Delete( const Types::IndividualPointer );
 
@@ -40,7 +40,7 @@ private:
 
     void StarveToDeath( const Types::IndividualPointer );
 
-    void MoveSizeClass( const Types::IndividualPointer );
+    void MoveSizeClass( const Types::IndividualPointer, unsigned );
 
     unsigned GetSizeClassDeadFrequency( const unsigned ) const;
     Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;

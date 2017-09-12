@@ -8,7 +8,6 @@
 namespace Constants {
 
     // Input data file enums
-
     enum eInputParametersMetadata {
         eParameterName,
         eParameterValue
@@ -21,6 +20,13 @@ namespace Constants {
 
     enum eHeritableTraitIndices {
         eVolume
+    };
+    
+    // Model enums
+    enum eMovementDirection {
+        eNoMovement,
+        eMoveUp,
+        eMoveDown
     };
     
     const unsigned cStateLineNutrientVol = 0;

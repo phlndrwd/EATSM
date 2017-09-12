@@ -13,11 +13,8 @@ HeterotrophData::HeterotrophData( ) {
 
     unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
     mEffectiveSizeClassVolumeMatrix.resize( numberOfSizeClasses );
-    mSizeClassInteractionProbabilityMatrix.resize( numberOfSizeClasses );
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < numberOfSizeClasses; ++sizeClassIndex ) {
         mEffectiveSizeClassVolumeMatrix[ sizeClassIndex ].resize( numberOfSizeClasses, 0 );
-        mSizeClassInteractionProbabilityMatrix[ sizeClassIndex ].resize( numberOfSizeClasses, 0 );
     }
 
     mSizeClassCouplings.resize( numberOfSizeClasses, 0 );
@@ -227,7 +224,6 @@ void HeterotrophData::ResetDataStructures( ) {
     mSizeClassCouplings.resize( numberOfSizeClasses, Constants::cMissingValue );
 
     mEffectiveSizeClassVolumeMatrix.resize( numberOfSizeClasses );
-    mSizeClassInteractionProbabilityMatrix.resize( numberOfSizeClasses );
 }
 
 void HeterotrophData::IncrementVegetarianFrequencies( const Types::IndividualPointer grazer ) {

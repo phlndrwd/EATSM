@@ -1,7 +1,7 @@
 Name,Value
 RandomSeed,0
 RunTimeInSeconds,60
-SamplingRate,10
+SamplingRate,100
 NumberOfSizeClasses,100
 ApplyStarvationFunction,1
 ReadModelState,1

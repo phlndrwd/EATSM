@@ -13,9 +13,6 @@ public:
     void InitialiseDataStructures( );
     void ResetDataStructures( );
     
-    //unsigned GetProbabilisticPreySizeClassIndex( const unsigned ) const;
-    //void CalculateSizeClassInteractionProbabilities( );
-    
     double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
     void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
     
@@ -51,7 +48,6 @@ private:
     void AddTrophicLevel( const double, const double, const unsigned, const unsigned );
 
     Types::FloatMatrix mEffectiveSizeClassVolumeMatrix;
-    Types::FloatMatrix mSizeClassInteractionProbabilityMatrix;
     
     Types::FloatVector mSizeClassPopulation;
     Types::FloatVector mSizeClassHerbivoreFrequencies;

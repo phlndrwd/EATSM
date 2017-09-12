@@ -29,53 +29,66 @@ double HeterotrophProcessor::CalculateStarvationProbability( const Types::Indivi
     return CalculateLinearStarvation( individual->GetVolumeActual( ), individual->GetVolumeHeritable( ), individual->GetVolumeMinimum( ) );
 }
 
-unsigned HeterotrophProcessor::FindAndSetSizeClassIndex( const Types::IndividualPointer individual ) const {
-    unsigned sizeClassIndex = FindSizeClassIndexFromVolume( individual->GetVolumeActual( ) );
-    individual->SetSizeClassIndex( sizeClassIndex );
+unsigned HeterotrophProcessor::FindAndSetSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
+    unsigned sizeClassIndex = individual->GetSizeClassIndex( );
+    
+    if( directionToMove != Constants::eNoMovement ) {
+        sizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );
+        individual->SetSizeClassIndex( sizeClassIndex );
+    }
 
     return sizeClassIndex;
+}
+
+unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
+    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
+    unsigned currentSizeClass = individual->GetSizeClassIndex( );
+    unsigned newSizeClassIndex = currentSizeClass;
+    double volume = individual->GetVolumeActual( );
+
+    if( directionToMove == Constants::eMoveUp ) {
+        for( unsigned index = currentSizeClass; index < numberOfSizeClasses; ++index ) {
+            if( volume < Parameters::Get( )->GetSizeClassBoundary( index ) ) {
+                newSizeClassIndex = index - 1;
+                break;
+            }
+        }
+    } else if( directionToMove == Constants::eMoveDown ) {
+        for( int index = currentSizeClass; index >= 0; --index ) {
+            if( volume >= Parameters::Get( )->GetSizeClassBoundary( index ) ) {
+                newSizeClassIndex = ( unsigned )index;
+                break;
+            }
+        }
+    }
+
+    return newSizeClassIndex;
 }
 
 unsigned HeterotrophProcessor::FindSizeClassIndexFromVolume( const double volume ) const {
     unsigned sizeClassIndex = 0;
 
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
-
-    if( volume >= Parameters::Get( )->GetSizeClassBoundary( numberOfSizeClasses - 1 ) ) {
-        sizeClassIndex = numberOfSizeClasses - 1;
-    } else {
-        for( unsigned potentialIndex = 1; potentialIndex <= numberOfSizeClasses; ++potentialIndex ) {
-            if( volume < Parameters::Get( )->GetSizeClassBoundary( potentialIndex ) ) {
-                sizeClassIndex = potentialIndex - 1;
-                break;
-            }
+    for( unsigned index = 1; index <= Parameters::Get( )->GetNumberOfSizeClasses( ); ++index ) {
+        if( volume < Parameters::Get( )->GetSizeClassBoundary( index ) ) {
+            sizeClassIndex = index - 1;
+            break;
         }
     }
     return sizeClassIndex;
 }
 
-bool HeterotrophProcessor::ShouldIndividualMoveSizeClass( const Types::IndividualPointer individual ) const {
-    bool individualShouldMoveSizeClass = false;
+unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer individual ) const {
+    unsigned directionToMove = Constants::eNoMovement;
 
     unsigned sizeClassIndex = individual->GetSizeClassIndex( );
     double volumeActual = individual->GetVolumeActual( );
 
-    if( sizeClassIndex == 0 ) {
+    if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) )
+        directionToMove = Constants::eMoveUp;
+    else if( volumeActual < Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex ) )
+        directionToMove = Constants::eMoveDown;
 
-        if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) ) {
-            individualShouldMoveSizeClass = true;
-        }
-    } else if( sizeClassIndex == Parameters::Get( )->GetNumberOfSizeClasses( ) - 1 ) {
-
-        if( volumeActual < Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex ) ) {
-            individualShouldMoveSizeClass = true;
-        }
-    } else {
-        if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) || volumeActual < Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex ) ) {
-            individualShouldMoveSizeClass = true;
-        }
-    }
-    return individualShouldMoveSizeClass;
+    return directionToMove;
 }
 
 double HeterotrophProcessor::CalculateFeedingProbabilityType1( const double effectivePreyVolume ) const {
@@ -87,7 +100,6 @@ double HeterotrophProcessor::CalculateFeedingProbabilityType2( const double effe
 }
 
 double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
-
     double starvationProbability = 1;
 
     if( volumeActual <= volumeMinimum ) {
@@ -97,12 +109,10 @@ double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActua
     } else {
         starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) / ( volumeHeritable - volumeMinimum ) );
     }
-
     return starvationProbability;
 }
 
 double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
-
     double starvationProbability = 1;
 
     if( volumeActual <= volumeMinimum ) {
