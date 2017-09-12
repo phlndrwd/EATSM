@@ -9,7 +9,6 @@
 #include "HeritableTraits.h"
 #include "InitialState.h"
 #include "RandomSFMT.h"
-#include "Tagger.h"
 #include "Timer.h"
 #include "DataRecorder.h"
 
@@ -24,9 +23,8 @@ Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPo
     mPhytoplankton = phytoplankton;
     mHeterotrophProcessor = new HeterotrophProcessor( );
     mHeterotrophData = new HeterotrophData( );
-    mTagger = new Tagger( );
 
-    InitialiseSizeClasses( );
+    CreateInitialPopulation( );
 
     DataRecorder::Get( )->InitialiseMatrix( "Timing", 4 );
 }
@@ -34,7 +32,6 @@ Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPo
 Heterotrophs::~Heterotrophs( ) {
     delete mHeterotrophProcessor;
     delete mHeterotrophData;
-    delete mTagger;
 
     delete mPhytoplankton;
     delete mNutrient;
@@ -89,7 +86,6 @@ bool Heterotrophs::RecordData( ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
         for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
             Types::IndividualPointer individual = mSizeClasses[ sizeClassIndex ][ individualIndex ];
-            individual->RecordTagData( );
             mHeterotrophData->AddIndividualData( individual );
         }
         mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassSize );
@@ -100,13 +96,8 @@ bool Heterotrophs::RecordData( ) {
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
-void Heterotrophs::InitialiseSizeClasses( ) {
-    CreateInitialPopulation( );
-    TagInitialPopulation( );
-}
-
 void Heterotrophs::CreateInitialPopulation( ) {
-    mDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    mDeadIndividuals.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
     if( Parameters::Get( )->GetReadModelState( ) == false ) {
         mSizeClasses.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
@@ -131,31 +122,6 @@ void Heterotrophs::CreateInitialPopulation( ) {
     } else {
         mSizeClasses = InitialState::Get( )->GetHeterotrophs( );
         std::cout << "Heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
-    }
-}
-
-void Heterotrophs::TagInitialPopulation( ) {
-    if( Parameters::Get( )->GetPopulationTagFraction( ) > 0 ) {
-        unsigned totalTagged = 0;
-        for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-
-            unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
-
-            unsigned numberToTagInThisSizeClass = static_cast < unsigned >( ::floor( sizeClassPopulation * Parameters::Get( )->GetPopulationTagFraction( ) + 0.5 ) );
-
-            if( numberToTagInThisSizeClass == 0 && sizeClassPopulation > 0 ) numberToTagInThisSizeClass = 1;
-
-            for( unsigned tagIndex = 0; tagIndex < numberToTagInThisSizeClass; ++tagIndex ) {
-                Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex, individual );
-                if( individual != NULL ) {
-                    individual->SetTag( mTagger->GetNextTag( individual ) );
-                    ++totalTagged;
-                }
-            }
-        }
-        std::cout << "Tagging applied to " << totalTagged << " individuals." << std::endl;
-    } else {
-        std::cout << "No individuals tagged." << std::endl;
     }
 }
 
@@ -372,15 +338,15 @@ void Heterotrophs::Delete( const Types::IndividualPointer individual ) {
 
 void Heterotrophs::KillIndividual( const Types::IndividualPointer individual ) {
     individual->Kill( );
-    mDeadFrequencies[ individual->GetSizeClassIndex( ) ].push_back( individual );
+    mDeadIndividuals[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
 void Heterotrophs::DeleteDead( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         for( unsigned individualIndex = 0; individualIndex < GetSizeClassDeadFrequency( sizeClassIndex ); ++individualIndex ) {
-            Delete( mDeadFrequencies[ sizeClassIndex ][ individualIndex ] );
+            Delete( mDeadIndividuals[ sizeClassIndex ][ individualIndex ] );
         }
-        mDeadFrequencies[ sizeClassIndex ].clear( );
+        mDeadIndividuals[ sizeClassIndex ].clear( );
     }
 }
 
@@ -401,15 +367,11 @@ unsigned Heterotrophs::GetSizeClassPopulation( const unsigned sizeClassIndex ) c
 }
 
 unsigned Heterotrophs::GetSizeClassDeadFrequency( const unsigned sizeClassIndex ) const {
-    return mDeadFrequencies[ sizeClassIndex ].size( );
+    return mDeadIndividuals[ sizeClassIndex ].size( );
 }
 
 Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned sizeClassIndex, const unsigned individualIndex ) const {
     return mSizeClasses[ sizeClassIndex ][ individualIndex ];
-}
-
-Types::TaggerPointer Heterotrophs::GetTagger( ) const {
-    return mTagger;
 }
 
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer individual ) const {

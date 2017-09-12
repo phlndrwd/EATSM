@@ -4,7 +4,6 @@
 #include "Types.h"
 #include "Parameters.h"
 #include "RandomSFMT.h"
-#include "DataTag.h"
 #include "TimeStep.h"
 #include "HeterotrophProcessor.h"
 
@@ -25,7 +24,6 @@ Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor,
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
-    mTag = NULL;
 }
 
 // For reproduction.
@@ -40,7 +38,6 @@ Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, con
 
     mAge = 0;
     mIsDead = false;
-    mTag = NULL;
 }
 
 // For model restart.
@@ -58,7 +55,6 @@ Individual::Individual( Types::HeterotrophProcessorPointer heterotrophProcessor,
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
-    mTag = NULL;
 }
 
 Individual::~Individual( ) {
@@ -98,7 +94,6 @@ double Individual::ConsumePreyVolume( const double preyVolume, const bool isHerb
     double wasteVolume = preyVolume - volumeAssimilated;
 
     mVolumeActual += volumeAssimilated;
-    if( mTag != NULL ) mTag->AddConsumptionEvent( preyVolume, volumeAssimilated, wasteVolume, isHerbivory );
 
     return wasteVolume;
 }
@@ -159,12 +154,4 @@ void Individual::SetAge( const unsigned age ) {
 
 void Individual::Kill( ) {
     mIsDead = true;
-}
-
-void Individual::SetTag( Types::DataTagPointer tag ) {
-    mTag = tag;
-}
-
-void Individual::RecordTagData( ) {
-    if( mTag != NULL ) mTag->RecordTimeSeriesData( );
 }

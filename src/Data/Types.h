@@ -8,9 +8,7 @@
 #include <map>          // For map
 
 class Autotrophs;
-class ConsumptionEvent;
 class DataRecorder;
-class DataTag;
 class Environment;
 class Heterotrophs;
 class HeterotrophData;
@@ -23,16 +21,13 @@ class Nutrient;
 class Parameters;
 class RandomSFMT;
 class Strings;
-class Tagger;
 class TimeStep;
 class VectorDatum;
 
 namespace Types {
     // Pointers
     typedef Autotrophs* AutotrophsPointer;
-    typedef ConsumptionEvent* ConsumptionEventPointer;
     typedef DataRecorder* DataRecorderPointer;
-    typedef DataTag* DataTagPointer;
     typedef Environment* EnvironmentPointer;
     typedef Heterotrophs* HeterotrophsPointer;
     typedef HeterotrophData* HeterotrophDataPointer;
@@ -44,7 +39,6 @@ namespace Types {
     typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
     typedef RandomSFMT* RandomSFMTPointer;
-    typedef Tagger* TaggerPointer;
     typedef TimeStep* TimePointer;
     typedef Strings* StringsPointer;
     typedef VectorDatum* VectorDatumPointer;
@@ -53,8 +47,6 @@ namespace Types {
     typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
-    typedef std::vector< ConsumptionEventPointer > ConsumptionEventVector;
-    typedef std::vector< DataTagPointer > DataTagVector;
     typedef std::vector< IndividualPointer > IndividualVector;
 
     // Containers of containers of class pointers

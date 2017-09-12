@@ -35,11 +35,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/Data/ConsumptionEvent.o \
-	${OBJECTDIR}/src/Data/DataTag.o \
 	${OBJECTDIR}/src/Data/HeterotrophData.o \
 	${OBJECTDIR}/src/Data/MatrixDatum.o \
-	${OBJECTDIR}/src/Data/Tagger.o \
 	${OBJECTDIR}/src/Data/VectorDatum.o \
 	${OBJECTDIR}/src/Input/FileReader.o \
 	${OBJECTDIR}/src/Input/InitialState.o \
@@ -65,8 +62,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-O2 -std=c++11 -march=core2 -mfpmath=sse
-CXXFLAGS=-O2 -std=c++11 -march=core2 -mfpmath=sse
+CCFLAGS=-std=c++11 -march=core2 -mfpmath=sse -fopenmp
+CXXFLAGS=-std=c++11 -march=core2 -mfpmath=sse -fopenmp
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -85,16 +82,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/eatsm ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/src/Data/ConsumptionEvent.o: src/Data/ConsumptionEvent.cpp
-	${MKDIR} -p ${OBJECTDIR}/src/Data
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/ConsumptionEvent.o src/Data/ConsumptionEvent.cpp
-
-${OBJECTDIR}/src/Data/DataTag.o: src/Data/DataTag.cpp
-	${MKDIR} -p ${OBJECTDIR}/src/Data
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/DataTag.o src/Data/DataTag.cpp
-
 ${OBJECTDIR}/src/Data/HeterotrophData.o: src/Data/HeterotrophData.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Data
 	${RM} "$@.d"
@@ -104,11 +91,6 @@ ${OBJECTDIR}/src/Data/MatrixDatum.o: src/Data/MatrixDatum.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Data
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/MatrixDatum.o src/Data/MatrixDatum.cpp
-
-${OBJECTDIR}/src/Data/Tagger.o: src/Data/Tagger.cpp
-	${MKDIR} -p ${OBJECTDIR}/src/Data
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Data/Tagger.o src/Data/Tagger.cpp
 
 ${OBJECTDIR}/src/Data/VectorDatum.o: src/Data/VectorDatum.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Data

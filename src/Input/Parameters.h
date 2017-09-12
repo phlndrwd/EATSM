@@ -24,8 +24,6 @@ public:
     bool GetReadModelState( );
     bool GetWriteModelState( );
 
-    double& GetPopulationTagFraction( );
-
     double& GetInitialAutotrophVolume( );
     double& GetInitialHeterotrophVolume( );
     double& GetMinimumHeterotrophVolume( );
@@ -55,8 +53,6 @@ public:
     void SetApplyStarvationFunction( const bool );
     void SetReadModelState( const bool );
     void SetWriteModelState( const bool );
-
-    void SetPopulationTagFraction( const double );
 
     void SetInitialAutotrophVolume( const double );
     void SetInitialHeterotrophVolume( const double );
@@ -114,8 +110,6 @@ private:
     bool mApplyStarvationFunction;
     bool mReadModelState;
     bool mWriteModelState;
-
-    double mPopulationTagFraction;
 
     double mInitialAutotrophVolume;
     double mInitialHeterotrophVolume;

@@ -5,11 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="f5" displayName="Data" projectFiles="true">
-        <itemPath>src/Data/ConsumptionEvent.h</itemPath>
-        <itemPath>src/Data/DataTag.h</itemPath>
         <itemPath>src/Data/HeterotrophData.h</itemPath>
         <itemPath>src/Data/MatrixDatum.h</itemPath>
-        <itemPath>src/Data/Tagger.h</itemPath>
         <itemPath>src/Data/Types.h</itemPath>
         <itemPath>src/Data/VectorDatum.h</itemPath>
       </logicalFolder>
@@ -48,11 +45,8 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="f5" displayName="Data" projectFiles="true">
-        <itemPath>src/Data/ConsumptionEvent.cpp</itemPath>
-        <itemPath>src/Data/DataTag.cpp</itemPath>
         <itemPath>src/Data/HeterotrophData.cpp</itemPath>
         <itemPath>src/Data/MatrixDatum.cpp</itemPath>
-        <itemPath>src/Data/Tagger.cpp</itemPath>
         <itemPath>src/Data/VectorDatum.cpp</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="Input" projectFiles="true">
@@ -117,14 +111,6 @@
           <commandLine>-Wall -Wextra -Wpedantic -std=c++11 -march=core2 -mfpmath=sse</commandLine>
         </ccTool>
       </compileType>
-      <item path="src/Data/ConsumptionEvent.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/ConsumptionEvent.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Data/DataTag.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/DataTag.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Data/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Data/HeterotrophData.h" ex="false" tool="3" flavor2="0">
@@ -132,10 +118,6 @@
       <item path="src/Data/MatrixDatum.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Data/MatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Data/Tagger.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/Tagger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Data/Types.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -235,7 +217,7 @@
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-O2 -std=c++11 -march=core2 -mfpmath=sse</commandLine>
+          <commandLine>-std=c++11 -march=core2 -mfpmath=sse -fopenmp</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -244,14 +226,6 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="src/Data/ConsumptionEvent.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/ConsumptionEvent.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Data/DataTag.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/DataTag.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/Data/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Data/HeterotrophData.h" ex="false" tool="3" flavor2="0">
@@ -259,10 +233,6 @@
       <item path="src/Data/MatrixDatum.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Data/MatrixDatum.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Data/Tagger.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Data/Tagger.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Data/Types.h" ex="false" tool="3" flavor2="0">
       </item>

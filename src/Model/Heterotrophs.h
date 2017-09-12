@@ -1,5 +1,5 @@
 #ifndef HETEROTROPHS
-#define	HETEROTROPHS
+#define HETEROTROPHS
 
 #include "Heterotrophs.h"
 #include "Types.h"
@@ -15,12 +15,9 @@ public:
 
     unsigned GetSizeClassPopulation( const unsigned ) const;
     Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
-    Types::TaggerPointer GetTagger( ) const;
 
 private:
-    void InitialiseSizeClasses( );
     void CreateInitialPopulation( );
-    void TagInitialPopulation( );
 
     void Feeding( );
     void Metabolisation( );
@@ -50,13 +47,12 @@ private:
 
     Types::HeterotrophProcessorPointer mHeterotrophProcessor;
     Types::HeterotrophDataPointer mHeterotrophData;
-    Types::TaggerPointer mTagger;
 
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mPhytoplankton;
 
     Types::IndividualMatrix mSizeClasses;
-    Types::IndividualMatrix mDeadFrequencies;
+    Types::IndividualMatrix mDeadIndividuals;
 
     Types::IndividualVector mChildren;
 };

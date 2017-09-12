@@ -35,12 +35,8 @@ public:
     void SetAge( const unsigned );
     void Kill( );
 
-    void SetTag( Types::DataTagPointer );
-    void RecordTagData( );
-
 private:
     Types::HeritableTraitsPointer mHeritableTraits;
-    Types::DataTagPointer mTag;
 
     double mVolumeHeritable;
     double mVolumeMinimum;

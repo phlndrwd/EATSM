@@ -14,9 +14,6 @@
 #include "Heterotrophs.h"
 #include "Individual.h"
 #include "HeritableTraits.h"
-#include "Tagger.h"
-#include "DataTag.h"
-#include "ConsumptionEvent.h"
 #include "RandomSFMT.h"
 
 FileWriter::FileWriter( ) {
@@ -94,8 +91,7 @@ void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
 
     if( WriteVectorDatums( ) )
         if( WriteMatrixDatums( ) )
-            if( WriteTagData( environment->GetHeterotrophs( )->GetTagger( ) ) )
-                success = WriteStateFile( environment );
+            success = WriteStateFile( environment );
 
     if( success )
         std::cout << "Output data written to \"" << mOutputPath << "\"." << std::endl;
@@ -152,96 +148,6 @@ bool FileWriter::WriteMatrixDatums( ) {
                 outputFileStream.close( );
             } else
                 return false;
-        }
-    }
-    return true;
-}
-
-bool FileWriter::WriteTagData( Types::TaggerPointer tagger ) {
-
-    unsigned numberOfTags = tagger->GetNumberOfTags( );
-
-    if( numberOfTags > 0 ) {
-        for( unsigned int tagIndex = 0; tagIndex < numberOfTags; ++tagIndex ) {
-            Types::DataTagPointer tag = tagger->GetTag( tagIndex );
-
-            std::string outputSubdirectory = mOutputPath;
-            outputSubdirectory.append( Constants::cTagFileName + Strings::Get( )->ToString( tag->GetID( ) ) );
-            mkdir( outputSubdirectory.c_str( ), Constants::cOutputFolderPermissions );
-            outputSubdirectory.append( Strings::Get( )->ToString( Constants::cFolderDelimiter ) );
-
-            // Write tag attributes
-            std::string fileName = outputSubdirectory;
-            fileName.append( Constants::cAttributesFileName );
-            std::ofstream outputFileStream;
-            outputFileStream.open( fileName.c_str( ), std::ios::out );
-
-            if( outputFileStream.is_open( ) == true ) {
-                Types::FloatMap& attributeMap = tag->GetAttributes( );
-
-                for( Types::FloatMap::iterator iter = attributeMap.begin( ); iter != attributeMap.end( ); ++iter ) {
-                    outputFileStream << iter->first << Constants::cDataDelimiterValue << iter->second << std::endl;
-                }
-                outputFileStream.close( );
-            } else
-                return false;
-
-            // Write tag time series
-            Types::FloatVectorMap timeSeriesDataMap = tag->GetTimeSeriesData( );
-
-            for( Types::FloatVectorMap::iterator iter = timeSeriesDataMap.begin( ); iter != timeSeriesDataMap.end( ); ++iter ) {
-                std::string fileName = outputSubdirectory;
-
-                fileName.append( iter->first );
-                fileName.append( Constants::cFileNameExtension );
-                std::ofstream outputFileStream;
-                outputFileStream.open( fileName.c_str( ), std::ios::out );
-
-                if( outputFileStream.is_open( ) == true ) {
-                    Types::FloatVector data = iter->second;
-
-                    for( unsigned index = 0; index < data.size( ) - 1; ++index ) {
-                        outputFileStream << data[ index ] << Constants::cDataDelimiterValue;
-                    }
-                    outputFileStream << data[ data.size( ) - 1 ] << std::endl;
-                    outputFileStream.close( );
-                } else
-                    return false;
-            }
-            // Write tag herbivory consumption events
-            Types::ConsumptionEventVector& herbivoryEvents = tag->GetHerbivoryEvents( );
-            if( herbivoryEvents.size( ) > 0 ) {
-                std::string fileName = outputSubdirectory; // Reused variable
-                fileName.append( Constants::cHerbivoryEventsFileName );
-                std::ofstream outputFileStream;
-                outputFileStream.open( fileName.c_str( ), std::ios::out ); // Reused variable
-
-                if( outputFileStream.is_open( ) == true ) {
-                    outputFileStream << "TimeStep,PreyVolume,VolumeAssimilated,WasteVolume" << std::endl;
-                    for( unsigned index = 0; index < herbivoryEvents.size( ); ++index ) {
-                        outputFileStream << herbivoryEvents[ index ]->GetTimeStep( ) << Constants::cDataDelimiterValue << herbivoryEvents[ index ]->GetPreyVolume( ) << Constants::cDataDelimiterValue << herbivoryEvents[ index ]->GetVolumeAssimilated( ) << Constants::cDataDelimiterValue << herbivoryEvents[ index ]->GetWasteVolume( ) << std::endl;
-                    }
-                    outputFileStream.close( );
-                } else
-                    return false;
-            }
-            // Write tag carnivory consumption events
-            Types::ConsumptionEventVector& carnivoryEvents = tag->GetCarnivoryEvents( );
-            if( carnivoryEvents.size( ) > 0 ) {
-                std::string fileName = outputSubdirectory; // Reused variable
-                fileName.append( Constants::cCarnivoryEventsFileName );
-                std::ofstream outputFileStream;
-                outputFileStream.open( fileName.c_str( ), std::ios::out ); // Reused variable
-
-                if( outputFileStream.is_open( ) == true ) {
-                    outputFileStream << "TimeStep,PreyVolume,VolumeAssimilated,WasteVolume" << std::endl;
-                    for( unsigned index = 0; index < carnivoryEvents.size( ); ++index ) {
-                        outputFileStream << carnivoryEvents[ index ]->GetTimeStep( ) << Constants::cDataDelimiterValue << carnivoryEvents[ index ]->GetPreyVolume( ) << Constants::cDataDelimiterValue << carnivoryEvents[ index ]->GetVolumeAssimilated( ) << Constants::cDataDelimiterValue << carnivoryEvents[ index ]->GetWasteVolume( ) << std::endl;
-                    }
-                    outputFileStream.close( );
-                } else
-                    return false;
-            }
         }
     }
     return true;
