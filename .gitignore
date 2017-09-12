@@ -2,7 +2,6 @@ build/
 dist/
 output/
 README.odt
-ROAD_MAP
 *.m~
 *~
 .~lock.*

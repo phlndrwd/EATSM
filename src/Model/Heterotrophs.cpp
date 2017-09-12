@@ -25,8 +25,6 @@ Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPo
     mHeterotrophData = new HeterotrophData( );
 
     CreateInitialPopulation( );
-
-    DataRecorder::Get( )->InitialiseMatrix( "Timing", 4 );
 }
 
 Heterotrophs::~Heterotrophs( ) {
@@ -44,40 +42,10 @@ Heterotrophs::~Heterotrophs( ) {
 }
 
 void Heterotrophs::Update( ) {
-    Timer timer( false );
-
-    double feedingTime = 0;
-    double metabolismTime = 0;
-    double starvationTime = 0;
-    double reproductionTime = 0;
-
-    timer.Start( );
     Feeding( );
-    feedingTime = timer.Stop( );
-
-    timer.Start( );
     Metabolisation( );
-    metabolismTime = timer.Stop( );
-
-    timer.Start( );
     Starvation( );
-    starvationTime = timer.Stop( );
-
-    timer.Start( );
     Reproduction( );
-    reproductionTime = timer.Stop( );
-
-    double totalTime = feedingTime + metabolismTime + starvationTime + reproductionTime;
-
-    feedingTime = feedingTime / totalTime;
-    metabolismTime = metabolismTime / totalTime;
-    starvationTime = starvationTime / totalTime;
-    reproductionTime = reproductionTime / totalTime;
-
-    DataRecorder::Get( )->AddDataTo( "Timing", 0, feedingTime );
-    DataRecorder::Get( )->AddDataTo( "Timing", 1, metabolismTime );
-    DataRecorder::Get( )->AddDataTo( "Timing", 2, starvationTime );
-    DataRecorder::Get( )->AddDataTo( "Timing", 3, reproductionTime );
 }
 
 bool Heterotrophs::RecordData( ) {
