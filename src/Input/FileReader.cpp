@@ -14,9 +14,11 @@ FileReader::FileReader( ) {
 FileReader::~FileReader( ) {
 }
 
-void FileReader::ReadInputFiles( std::string& stateFile ) {
+void FileReader::ReadInputFiles( std::string& parametersFile, std::string& stateFile ) {
     bool success = false;
-    if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cInputParametersFileName ) )
+
+    if( parametersFile == "" ) parametersFile = Constants::cConfigurationDirectory + Constants::cInputParametersFileName;
+    if( ReadTextFile( parametersFile ) )
         if( Parameters::Get( )->Initialise( mRawTextData ) )
             if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName ) )
                 success = DataRecorder::Get( )->Initialise( mRawTextData );
@@ -26,6 +28,9 @@ void FileReader::ReadInputFiles( std::string& stateFile ) {
         if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
         if( ReadTextFile( stateFile, false ) )
             success = InitialState::Get( )->Initialise( mRawTextData );
+    } else if( success == true && Parameters::Get( )->GetReadModelState( ) == false && stateFile != "" ) {
+        std::cout << "ERROR> State file \"" << stateFile << "\" specified, but state reading is switched off. System exiting..." << std::endl;
+        exit( 1 );
     }
 
     if( success )

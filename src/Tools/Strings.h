@@ -22,17 +22,17 @@ public:
         return stringStream.str( );
     }
 
-    double StringToNumber( const std::string& ) const;
+    static double StringToNumber( const std::string& ) ;
 
-    const Types::StringVector StringToWords( const std::string&, const char ) const;
-    const std::string DoubleToPrecisionString( const double&, const unsigned& ) const;
+    static const Types::StringVector StringToWords( const std::string&, const char );
+    static const std::string DoubleToPrecisionString( const double&, const unsigned& );
     
-    int FindFirstPositionOfCharacter( const std::string, const char ) const;
-    std::string TruncateStringAtCharacter( const std::string, const char ) const;
+    static int FindFirstPositionOfCharacter( const std::string, const char );
+    static std::string TruncateStringAtCharacter( const std::string, const char );
 
-    std::string ToLowercase( const std::string ) const;
-    std::string RemoveCharacter( const std::string, const char ) const;
-    std::string RemoveWhiteSpace( const std::string ) const;
+    static std::string ToLowercase( const std::string );
+    static std::string RemoveCharacter( const std::string, const char );
+    static std::string RemoveWhiteSpace( const std::string );
 
 private:
     Strings( );

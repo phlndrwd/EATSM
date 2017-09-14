@@ -22,14 +22,14 @@ Strings::Strings( ) {
 
 }
 
-double Strings::StringToNumber( const std::string& string ) const {
+double Strings::StringToNumber( const std::string& string ) {
 
     double number = strtod( string.c_str( ), NULL );
 
     return number;
 }
 
-const Types::StringVector Strings::StringToWords( const std::string& inputString, const char wordTerminationCharacter ) const {
+const Types::StringVector Strings::StringToWords( const std::string& inputString, const char wordTerminationCharacter ) {
 
     std::stringstream stringStream( inputString );
 
@@ -43,7 +43,7 @@ const Types::StringVector Strings::StringToWords( const std::string& inputString
     return wordList;
 }
 
-const std::string Strings::DoubleToPrecisionString( const double& value, const unsigned& decimals ) const {
+const std::string Strings::DoubleToPrecisionString( const double& value, const unsigned& decimals ) {
 
     std::ostringstream outputStringStream;
     outputStringStream << std::fixed << std::setprecision( decimals ) << value;
@@ -51,7 +51,7 @@ const std::string Strings::DoubleToPrecisionString( const double& value, const u
     return outputStringStream.str( );
 }
 
-int Strings::FindFirstPositionOfCharacter( const std::string inString, const char character ) const {
+int Strings::FindFirstPositionOfCharacter( const std::string inString, const char character ) {
     int index = Constants::cMissingValue;
 
     for( unsigned charIndex = 0; charIndex < inString.length( ); charIndex++ ) {
@@ -63,7 +63,7 @@ int Strings::FindFirstPositionOfCharacter( const std::string inString, const cha
     return index;
 }
 
-std::string Strings::TruncateStringAtCharacter( const std::string inString, const char character ) const {
+std::string Strings::TruncateStringAtCharacter( const std::string inString, const char character ) {
     std::string outString = inString;
     
     int index = FindFirstPositionOfCharacter( outString, character );
@@ -73,7 +73,7 @@ std::string Strings::TruncateStringAtCharacter( const std::string inString, cons
     return outString;
 }
 
-std::string Strings::ToLowercase( const std::string inString ) const {
+std::string Strings::ToLowercase( const std::string inString ) {
     std::string outString;
 
     std::transform( inString.begin( ), inString.end( ), std::back_inserter( outString ), tolower );
@@ -81,13 +81,13 @@ std::string Strings::ToLowercase( const std::string inString ) const {
     return outString;
 }
 
-std::string Strings::RemoveCharacter( const std::string inString, const char character ) const {
+std::string Strings::RemoveCharacter( const std::string inString, const char character ) {
     std::string outString = inString;
     outString.erase( remove( outString.begin( ), outString.end( ), character ), outString.end( ) );
 
     return outString;
 }
 
-std::string Strings::RemoveWhiteSpace( const std::string inString ) const {
+std::string Strings::RemoveWhiteSpace( const std::string inString ) {
     return RemoveCharacter( inString, Constants::cWhiteSpaceCharacter );
 }

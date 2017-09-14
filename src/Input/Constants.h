@@ -67,6 +67,8 @@ namespace Constants {
     const char cDataDelimiterValue = ',';
     const char cCommentCharacter = '#';
 
+    const std::string cParameterFileCommand = "-p";
+    const std::string cStateFileCommand = "-s";
 
     const std::string cSystemName = "EATSM";
     const std::string cSystemVersion = "0.1";
