@@ -1,10 +1,10 @@
 Name,Value
 RandomSeed,0
 RunTimeInSeconds,60
-SamplingRate,100
+SamplingRate,10
 NumberOfSizeClasses,100
 ApplyStarvationFunction,1
-ReadModelState,0
+ReadModelState,1
 WriteModelState,0
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000

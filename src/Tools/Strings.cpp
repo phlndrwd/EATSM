@@ -3,25 +3,6 @@
 #include <algorithm>
 #include "Constants.h"
 
-Types::StringsPointer Strings::mThis = NULL;
-
-Types::StringsPointer Strings::Get( ) {
-    if( mThis == NULL ) {
-        mThis = new Strings( );
-    }
-    return mThis;
-}
-
-Strings::~Strings( ) {
-    if( mThis != NULL ) {
-        delete mThis;
-    }
-}
-
-Strings::Strings( ) {
-
-}
-
 double Strings::StringToNumber( const std::string& string ) {
 
     double number = strtod( string.c_str( ), NULL );

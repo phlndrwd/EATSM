@@ -22,17 +22,17 @@ InitialState::InitialState( ) {
 
 bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
     // Model variables
-    mNutrientVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
-    mAutotrophVolume = Strings::Get( )->StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
+    mNutrientVolume = Strings::StringToNumber( rawInitialStateData[ Constants::cStateLineNutrientVol ][ 0 ] );
+    mAutotrophVolume = Strings::StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
     mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
     HeterotrophProcessor heterotrophProcessor;
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
-        unsigned sizeClassIndex = Strings::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
-        double geneValue = Strings::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
-        double volumeActual = Strings::Get( )->StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
+        unsigned sizeClassIndex = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
+        double geneValue = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
+        double volumeActual = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
 
         Types::IndividualPointer individual = new Individual( &heterotrophProcessor, geneValue, volumeActual, sizeClassIndex );
         mHeterotrophs[ sizeClassIndex ].push_back( individual );

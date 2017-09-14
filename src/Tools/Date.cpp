@@ -2,15 +2,7 @@
 
 #include "Constants.h"
 
-Date::Date( ) {
-
-}
-
-Date::~Date( ) {
-
-}
-
-std::string Date::GetDateAndTimeString( const std::string format ) const {
+std::string Date::GetDateAndTimeString( const std::string format ) {
     char dateTimeChar[ Constants::cDateTimeBufferSize ];
 
     timeval timeNow;

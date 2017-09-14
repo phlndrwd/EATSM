@@ -53,9 +53,9 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
         while( std::getline( fileStream, readLine ) ) {
             if( readLine.length( ) > 0 ) {
                 if( readLine[ 0 ] != Constants::cCommentCharacter ) {
-                    readLine = Strings::Get( )->RemoveWhiteSpace( Strings::Get( )->TruncateStringAtCharacter( readLine, Constants::cCommentCharacter ) );
+                    readLine = Strings::RemoveWhiteSpace( Strings::TruncateStringAtCharacter( readLine, Constants::cCommentCharacter ) );
                     if( lineCount > 0 ) {
-                        mRawTextData.push_back( Strings::Get( )->StringToWords( readLine, Constants::cDataDelimiterValue ) );
+                        mRawTextData.push_back( Strings::StringToWords( readLine, Constants::cDataDelimiterValue ) );
                     }
                     lineCount++;
                 }

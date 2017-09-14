@@ -11,11 +11,8 @@
 
 class Strings {
 public:
-    ~Strings( );
-    static Types::StringsPointer Get( );
-
     template< class T >
-    const std::string ToString( const T& input ) const {
+    static const std::string ToString( const T& input ) {
         std::stringstream stringStream;
         stringStream << input;
 
@@ -33,11 +30,6 @@ public:
     static std::string ToLowercase( const std::string );
     static std::string RemoveCharacter( const std::string, const char );
     static std::string RemoveWhiteSpace( const std::string );
-
-private:
-    Strings( );
-
-    static Types::StringsPointer mThis;
 };
 
 #endif

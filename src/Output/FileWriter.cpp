@@ -32,16 +32,15 @@ void FileWriter::InitialiseOutputDirectory( ) {
     // output/
     mOutputPath = Constants::cOutputDirectoryName;
     mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
-    mOutputPath.append( Strings::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( Strings::ToString( Constants::cFolderDelimiter ) );
 
     // output/[version]/
     mOutputPath.append( Constants::cSystemVersion );
     mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
-    mOutputPath.append( Strings::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( Strings::ToString( Constants::cFolderDelimiter ) );
 
     // output/[version]/[experiment]/[date and time]
-    Date date;
-    mDataSetDirectoryName = date.GetDateAndTimeString( Constants::cDataSetNameFormat );
+    mDataSetDirectoryName = Date::GetDateAndTimeString( Constants::cDataSetNameFormat );
 
     mOutputPath.append( mDataSetDirectoryName );
     int returnValue = mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
@@ -53,13 +52,13 @@ void FileWriter::InitialiseOutputDirectory( ) {
 
         int count = 1;
         while( returnValue == -1 ) {
-            mOutputPath.replace( stringLength, 1, Strings::Get( )->ToString( count ) );
+            mOutputPath.replace( stringLength, 1, Strings::ToString( count ) );
             returnValue = mkdir( mOutputPath.c_str( ), Constants::cOutputFolderPermissions );
             ++count;
         }
     }
 
-    mOutputPath.append( Strings::Get( )->ToString( Constants::cFolderDelimiter ) );
+    mOutputPath.append( Strings::ToString( Constants::cFolderDelimiter ) );
 }
 
 bool FileWriter::WriteInputFiles( ) {
@@ -69,7 +68,7 @@ bool FileWriter::WriteInputFiles( ) {
         std::ifstream sourceFileStream( inputFilePaths[ stringIndex ].c_str( ), std::ios::in );
 
         std::string outputFilePath = mOutputPath;
-        Types::StringVector inputFilePathComponents = Strings::Get( )->StringToWords( inputFilePaths[ stringIndex ], Constants::cFolderDelimiter );
+        Types::StringVector inputFilePathComponents = Strings::StringToWords( inputFilePaths[ stringIndex ], Constants::cFolderDelimiter );
 
         std::string fileName = inputFilePathComponents[ inputFilePathComponents.size( ) - 1 ];
         outputFilePath.append( fileName );
