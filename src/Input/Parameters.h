@@ -20,7 +20,6 @@ public:
     unsigned& GetSamplingRate( );
     unsigned& GetNumberOfSizeClasses( );
 
-    bool GetApplyStarvationFunction( );
     bool GetReadModelState( );
     bool GetWriteModelState( );
 
@@ -50,7 +49,6 @@ public:
     void SetSamplingRate( const unsigned );
     void SetNumberOfSizeClasses( const unsigned );
 
-    void SetApplyStarvationFunction( const bool );
     void SetReadModelState( const bool );
     void SetWriteModelState( const bool );
 
@@ -107,7 +105,6 @@ private:
     unsigned mSamplingRate;
     unsigned mNumberOfSizeClasses;
 
-    bool mApplyStarvationFunction;
     bool mReadModelState;
     bool mWriteModelState;
 

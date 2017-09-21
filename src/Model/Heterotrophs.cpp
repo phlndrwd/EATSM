@@ -144,24 +144,22 @@ void Heterotrophs::Metabolisation( ) {
 }
 
 void Heterotrophs::Starvation( ) {
-    if( Parameters::Get( )->GetApplyStarvationFunction( ) == true ) {
-        for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-            unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+        unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
 
-            if( sizeClassSize != 0 ) {
-                unsigned sizeClassSubsetSize = mHeterotrophProcessor->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
+        if( sizeClassSize != 0 ) {
+            unsigned sizeClassSubsetSize = mHeterotrophProcessor->RoundWithProbability( sizeClassSize * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
-                for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
-                    Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
+            for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
+                Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                    if( individual != 0 )
-                        if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
-                            StarveToDeath( individual );
-                }
+                if( individual != 0 )
+                    if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
+                        StarveToDeath( individual );
             }
         }
-        DeleteDead( );
     }
+    DeleteDead( );
 }
 
 void Heterotrophs::Reproduction( ) {

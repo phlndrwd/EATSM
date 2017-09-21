@@ -46,7 +46,6 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "samplingrate" ) SetSamplingRate( parameterValue );
             else if( parameterName == "numberofsizeclasses" ) SetNumberOfSizeClasses( parameterValue );
 
-            else if( parameterName == "applystarvationfunction" ) SetApplyStarvationFunction( parameterValue );
             else if( parameterName == "readmodelstate" ) SetReadModelState( parameterValue );
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
 
@@ -143,10 +142,6 @@ unsigned& Parameters::GetNumberOfSizeClasses( ) {
 
 bool Parameters::GetReadModelState( ) {
     return mReadModelState;
-}
-
-bool Parameters::GetApplyStarvationFunction( ) {
-    return mApplyStarvationFunction;
 }
 
 bool Parameters::GetWriteModelState( ) {
@@ -279,10 +274,6 @@ void Parameters::SetNumberOfSizeClasses( const unsigned numberOfSizeClasses ) {
 
 void Parameters::SetReadModelState( const bool createNewPopulation ) {
     mReadModelState = createNewPopulation;
-}
-
-void Parameters::SetApplyStarvationFunction( const bool applyStarvationFunction ) {
-    mApplyStarvationFunction = applyStarvationFunction;
 }
 
 void Parameters::SetWriteModelState( const bool writeModelState ) {
