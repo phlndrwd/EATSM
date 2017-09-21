@@ -42,9 +42,9 @@ for datumIndex = 1:numberOfDatums
         load( dataInputFile, '-ascii' );
         dataSet = eval( dataSetName );
         %% Truncation and resampling
-        if isempty( strfind( lower( dataSetName ), searchTermValues ) ) % Data is not size class vectors
+        if ~contains(  lower( dataSetName ), searchTermValues  ) % Data is not size class vectors
             if optionTruncateTimeAt > 0 && optionTruncateTimeAt < length( dataSet )
-                if prod( size( dataSet ) ) == length( dataSet ) % Data is 1-dimensional
+                if numel(  dataSet  ) == length( dataSet ) % Data is 1-dimensional
                     dataSet = dataSet( 1:optionTruncateTimeAt );
                 else                                            % Data is n-dimensional
                     dataSet = dataSet( :, 1:optionTruncateTimeAt );
@@ -58,7 +58,7 @@ for datumIndex = 1:numberOfDatums
                     dataSet = ResampleMatrix( dataSet, optionResampleTimeTo );
                 end
             end
-            if ~isempty( strfind( lower( dataSetName ), searchTermTimeAxis ) ) % Is time axis
+            if contains(  lower( dataSetName ), searchTermTimeAxis  ) % Is time axis
                 AxisTimeSteps = dataSet;
                 AxisTimeStepsExtended = ExtendVector( AxisTimeSteps );
                 maximumTime = max( AxisTimeSteps );
@@ -75,7 +75,7 @@ for datumIndex = 1:numberOfDatums
                     plot( AxisTimeSteps, dataSet );
                     ylabel( dataLabel );
                     
-                    if ~isempty( strfind( lower( dataSetName ), searchTermVolume ) ) && isempty( strfind( lower( dataSetName ), searchTermApproxVolume ) )
+                    if contains(  lower( dataSetName ), searchTermVolume  ) && ~contains(  lower( dataSetName ), searchTermApproxVolume  )
                         % Data collection for volume area plot
                         volumeMatrix( :, volumeMatrixIndex ) = dataSet;
                         volumeMatrixIndex = volumeMatrixIndex - 1;
@@ -84,7 +84,7 @@ for datumIndex = 1:numberOfDatums
                 elseif strcmp( plotType, 'matrix' ) == 1
                     dataSet( dataSet == optionMissingValue ) = NaN;
                     
-                    if isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
+                    if ~contains(  lower( dataSetName ), searchTermCouplings  )
                         dataSet( dataSet == 0 ) = NaN;
                     end
                     
@@ -92,11 +92,11 @@ for datumIndex = 1:numberOfDatums
                         a = 1;
                     end
                     
-                    if ~isempty( strfind( lower( dataLabel ), 'log_{10}' ) )
+                    if contains(  lower( dataLabel ), 'log_{10}'  )
                         dataSet = log10( dataSet );
-                    elseif ~isempty( strfind( lower( dataLabel ), 'log_{2}' ) )
+                    elseif contains(  lower( dataLabel ), 'log_{2}'  )
                         dataSet = log2( dataSet );
-                    elseif ~isempty( strfind( lower( dataLabel ), 'log' ) )
+                    elseif contains(  lower( dataLabel ), 'log'  )
                         dataSet = log( dataSet );
                     end
                     
@@ -130,7 +130,7 @@ for datumIndex = 1:numberOfDatums
                         minVal = min( min( dataSet ) );
                         maxVal = max( max( dataSet ) );
                         
-                        if ~isempty( strfind( lower( dataSetName ), searchTermCouplings ) )
+                        if contains(  lower( dataSetName ), searchTermCouplings  )
                             caxis( [ 0, traitResolution ] )
                         elseif minVal < maxVal
                             caxis( [ minVal, maxVal ] )
@@ -148,7 +148,7 @@ for datumIndex = 1:numberOfDatums
                 end
             end
             eval( [ dataSetName ' = dataSet;' ] ); % Necessary to overwrite original data.
-        elseif ~isempty( strfind( lower( dataSetName ), searchTermMidPoint ) ) % Data is mid-point values vector
+        elseif contains(  lower( dataSetName ), searchTermMidPoint  ) % Data is mid-point values vector
             traitResolution = length( AxisSizeClassMidPointValues );
         end
     else

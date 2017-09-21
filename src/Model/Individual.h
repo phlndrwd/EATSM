@@ -13,7 +13,7 @@ public:
 
     Types::IndividualPointer Reproduce( Types::HeterotrophProcessorPointer );
 
-    double ConsumePreyVolume( const double, bool isHerbivory = true );
+    double ConsumePreyVolume( const double );
     double Metabolise( const double );
 
     Types::HeritableTraitsPointer GetHeritableTraits( ) const;

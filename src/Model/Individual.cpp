@@ -89,7 +89,7 @@ Types::IndividualPointer Individual::Reproduce( Types::HeterotrophProcessorPoint
     return childIndividual;
 }
 
-double Individual::ConsumePreyVolume( const double preyVolume, const bool isHerbivory ) {
+double Individual::ConsumePreyVolume( const double preyVolume ) {
     double volumeAssimilated = preyVolume * Parameters::Get( )->GetAssimilationEfficiency( );
     double wasteVolume = preyVolume - volumeAssimilated;
 
