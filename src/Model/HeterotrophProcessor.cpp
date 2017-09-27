@@ -29,25 +29,13 @@ double HeterotrophProcessor::CalculateStarvationProbability( const Types::Indivi
     return CalculateLinearStarvation( individual->GetVolumeActual( ), individual->GetVolumeHeritable( ), individual->GetVolumeMinimum( ) );
 }
 
-unsigned HeterotrophProcessor::FindAndSetSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
-    unsigned sizeClassIndex = individual->GetSizeClassIndex( );
-    
-    if( directionToMove != Constants::eNoMovement ) {
-        sizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );
-        individual->SetSizeClassIndex( sizeClassIndex );
-    }
-
-    return sizeClassIndex;
-}
-
 unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
-    unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
     unsigned currentSizeClass = individual->GetSizeClassIndex( );
     unsigned newSizeClassIndex = currentSizeClass;
     double volume = individual->GetVolumeActual( );
 
     if( directionToMove == Constants::eMoveUp ) {
-        for( unsigned index = currentSizeClass; index < numberOfSizeClasses; ++index ) {
+        for( unsigned index = currentSizeClass; index < Parameters::Get( )->GetNumberOfSizeClasses( ); ++index ) {
             if( volume < Parameters::Get( )->GetSizeClassBoundary( index ) ) {
                 newSizeClassIndex = index - 1;
                 break;
@@ -63,6 +51,14 @@ unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::Indivi
     }
 
     return newSizeClassIndex;
+}
+
+void HeterotrophProcessor::UpdateSizeClassIndex( const Types::IndividualPointer individual ) const {
+    unsigned directionToMove = DirectionIndividualShouldMoveSizeClasses( individual );
+    if( directionToMove != Constants::eNoMovement ) {
+        unsigned newSizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );
+        individual->SetSizeClassIndex( newSizeClassIndex );
+    }
 }
 
 unsigned HeterotrophProcessor::FindSizeClassIndexFromVolume( const double volume ) const {

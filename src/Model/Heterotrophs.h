@@ -21,8 +21,10 @@ private:
 
     void Feeding( );
     void Metabolisation( );
-    void Starvation( );
     void Reproduction( );
+    void Starvation( );
+    
+    void UpdateSizeClasses( );
 
     void CalculateFeedingProbabilities( );
     void FeedFromPhytoplankton( const Types::IndividualPointer );
@@ -37,8 +39,6 @@ private:
 
     void StarveToDeath( const Types::IndividualPointer );
 
-    void MoveSizeClass( const Types::IndividualPointer, unsigned );
-
     unsigned GetSizeClassDeadFrequency( const unsigned ) const;
     Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
 
@@ -51,7 +51,7 @@ private:
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mPhytoplankton;
 
-    Types::IndividualMatrix mSizeClasses;
+    Types::IndividualMatrix mLivingIndividuals;
     Types::IndividualMatrix mDeadIndividuals;
 
     Types::IndividualVector mChildren;
