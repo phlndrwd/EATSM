@@ -103,16 +103,15 @@ void Heterotrophs::Feeding( ) {
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
-                    Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
+                    Types::IndividualPointer predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                    if( individual != 0 ) {
+                    if( predator != NULL ) {
                         unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
 
-                        if( coupledIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) ) {
-                            FeedFromPhytoplankton( individual );
-                        } else {
-                            FeedFromHeterotrophs( individual, coupledIndex );
-                        }
+                        if( coupledIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) )
+                            FeedFromPhytoplankton( predator );
+                        else
+                            FeedFromHeterotrophs( predator, coupledIndex );
                     }
                 }
             }
@@ -161,8 +160,8 @@ void Heterotrophs::Reproduction( ) {
             }
         }
     }
-    AddChildren( );
     UpdateSizeClasses( );
+    AddChildren( );
 }
 
 void Heterotrophs::Starvation( ) {
@@ -175,7 +174,7 @@ void Heterotrophs::Starvation( ) {
             for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                if( individual != 0 )
+                if( individual != NULL )
                     if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
                         StarveToDeath( individual );
             }
@@ -342,21 +341,14 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
     unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
     unsigned sizeClassLivingFrequency = sizeClassPopulation - GetSizeClassDeadFrequency( sizeClassIndex );
 
-    if( individual != NULL ) {
-        if( individual->GetSizeClassIndex( ) == sizeClassIndex ) {
-            sizeClassLivingFrequency = sizeClassLivingFrequency - 1;
-        }
-    }
+    if( individual != NULL && individual->GetSizeClassIndex( ) == sizeClassIndex )
+        sizeClassLivingFrequency -= 1;
 
     Types::IndividualPointer randomIndividual = NULL;
 
     if( sizeClassLivingFrequency > 0 ) {
-        unsigned randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
-        randomIndividual = mLivingIndividuals[ sizeClassIndex ][ randomIndividualIndex ];
-
-        while( randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
-
-            randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
+        while( randomIndividual == NULL || randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
+            unsigned randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
             randomIndividual = mLivingIndividuals[ sizeClassIndex ][ randomIndividualIndex ];
         }
     }
