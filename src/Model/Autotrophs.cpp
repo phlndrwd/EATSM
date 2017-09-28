@@ -31,14 +31,13 @@ void Autotrophs::RecordData( ) {
 
 void Autotrophs::Update( ) {
     double nutrientVolume = mNutrient->GetVolume( );
-    double maximumPhytoplanktonVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
+    double maximumVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
 
-    if( mVolume < maximumPhytoplanktonVolume ) {
-        double growthVolume = maximumPhytoplanktonVolume - mVolume;
+    if( mVolume < maximumVolume ) {
+        double growthVolume = maximumVolume - mVolume;
 
-        if( growthVolume > nutrientVolume ) {
+        if( growthVolume > nutrientVolume )
             growthVolume = nutrientVolume;
-        }
 
         AddToVolume( growthVolume );
         mNutrient->SubtractFromVolume( growthVolume );

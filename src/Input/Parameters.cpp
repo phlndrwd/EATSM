@@ -101,7 +101,7 @@ void Parameters::CalculateParameters( ) {
 
     Types::HeterotrophProcessorPointer temporaryHeterotrophProcessor = new HeterotrophProcessor( );
 
-    mPhytoplanktonSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
+    mAutotrophSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
 
     mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
     mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
@@ -204,8 +204,8 @@ double& Parameters::GetMutationStandardDeviation( ) {
     return mMutationStandardDeviation;
 }
 
-unsigned& Parameters::GetPhytoplanktonSizeClassIndex( ) {
-    return mPhytoplanktonSizeClassIndex;
+unsigned& Parameters::GetAutotrophSizeClassIndex( ) {
+    return mAutotrophSizeClassIndex;
 }
 
 double& Parameters::GetSmallestVolumeExponent( ) {

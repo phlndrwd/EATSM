@@ -60,7 +60,7 @@ void HeterotrophData::InitialiseDataStructures( ) {
     mTrophicVolumes.clear( );
     mTrophicAges.clear( );
 
-    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, 0 ); // 0 = unclassified, 1 = phytoplankton, 2 = secondary producer
+    mTrophicFrequencies.resize( Constants::cMaximumNumberOfTrophicLevels, 0 ); // 0 = unclassified, 1 = primary producer, 2 = secondary producer
     mTrophicVolumes.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
     mTrophicAges.resize( Constants::cMaximumNumberOfTrophicLevels, 0 );
 

@@ -18,9 +18,9 @@ Heterotrophs::Heterotrophs( ) {
 
 }
 
-Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer phytoplankton ) {
+Heterotrophs::Heterotrophs( Types::NutrientPointer nutrient, Types::AutotrophsPointer autotrophs ) {
     mNutrient = nutrient;
-    mPhytoplankton = phytoplankton;
+    mAutotrophs = autotrophs;
     mHeterotrophProcessor = new HeterotrophProcessor( );
     mHeterotrophData = new HeterotrophData( );
 
@@ -31,7 +31,7 @@ Heterotrophs::~Heterotrophs( ) {
     delete mHeterotrophProcessor;
     delete mHeterotrophData;
 
-    delete mPhytoplankton;
+    delete mAutotrophs;
     delete mNutrient;
 
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
@@ -109,8 +109,8 @@ void Heterotrophs::Feeding( ) {
                     if( predator != NULL ) {
                         unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
 
-                        if( coupledIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) )
-                            FeedFromPhytoplankton( predator );
+                        if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
+                            FeedFromAutotrophs( predator );
                         else
                             FeedFromHeterotrophs( predator, coupledIndex );
                     }
@@ -208,9 +208,9 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
 
             for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
                 double effectiveSizeClassVolume = 0;
-                // Add the result of the phytoplankton volume - no frequency coefficient.
-                if( preyIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) )
-                    effectiveSizeClassVolume = Parameters::Get( )->GetInterSizeClassPreference( predatorIndex, preyIndex ) * mPhytoplankton->GetVolume( );
+                // Add the result of the autotroph volume - no frequency coefficient.
+                if( preyIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
+                    effectiveSizeClassVolume = Parameters::Get( )->GetInterSizeClassPreference( predatorIndex, preyIndex ) * mAutotrophs->GetVolume( );
                 // Add the result of the heterotrophs.
                 if( preyIndex != predatorIndex )
                     effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * GetSizeClassPopulation( preyIndex );
@@ -232,14 +232,14 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
     }
 }
 
-void Heterotrophs::FeedFromPhytoplankton( const Types::IndividualPointer grazer ) {
-    bool isPhytoplanktonAvailable = Parameters::Get( )->GetSmallestIndividualVolume( ) < mPhytoplankton->GetVolume( );
-
-    if( isPhytoplanktonAvailable == true ) {
-        mPhytoplankton->SubtractFromVolume( Parameters::Get( )->GetSmallestIndividualVolume( ) );
+void Heterotrophs::FeedFromAutotrophs( const Types::IndividualPointer grazer ) {
+    double smallestIndividualVolume = Parameters::Get( )->GetSmallestIndividualVolume( );
+    
+    if( mAutotrophs->GetVolume( ) > smallestIndividualVolume ) {
+        mAutotrophs->SubtractFromVolume( smallestIndividualVolume );
         mHeterotrophData->IncrementVegetarianFrequencies( grazer );
 
-        double waste = grazer->ConsumePreyVolume( Parameters::Get( )->GetSmallestIndividualVolume( ) );
+        double waste = grazer->ConsumePreyVolume( smallestIndividualVolume );
         double trophicLevel = grazer->GetTrophicLevel( );
 
         if( trophicLevel == 0 )

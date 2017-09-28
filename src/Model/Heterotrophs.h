@@ -27,7 +27,7 @@ private:
     void UpdateSizeClasses( );
 
     void CalculateFeedingProbabilities( );
-    void FeedFromPhytoplankton( const Types::IndividualPointer );
+    void FeedFromAutotrophs( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
 
     void AddToSizeClass( const Types::IndividualPointer );
@@ -49,7 +49,7 @@ private:
     Types::HeterotrophDataPointer mHeterotrophData;
 
     Types::NutrientPointer mNutrient;
-    Types::AutotrophsPointer mPhytoplankton;
+    Types::AutotrophsPointer mAutotrophs;
 
     Types::IndividualMatrix mLivingIndividuals;
     Types::IndividualMatrix mDeadIndividuals;

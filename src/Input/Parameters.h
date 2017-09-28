@@ -77,7 +77,7 @@ public:
     double& GetSmallestVolumeExponent( );
     double& GetLargestVolumeExponent( );
 
-    unsigned& GetPhytoplanktonSizeClassIndex( );
+    unsigned& GetAutotrophSizeClassIndex( );
 
     double GetSizeClassBoundary( const unsigned ) const;
     double GetSizeClassMidPoint( const unsigned ) const;
@@ -128,7 +128,7 @@ private:
     double mMutationStandardDeviation;
 
     // Calculated variables
-    unsigned mPhytoplanktonSizeClassIndex;
+    unsigned mAutotrophSizeClassIndex;
 
     double mSmallestVolumeExponent;
     double mLargestVolumeExponent;
