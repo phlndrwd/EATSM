@@ -17,7 +17,7 @@ HeterotrophData::HeterotrophData( ) {
         mEffectiveSizeClassVolumeMatrix[ sizeClassIndex ].resize( numberOfSizeClasses, 0 );
     }
 
-    mSizeClassCouplings.resize( numberOfSizeClasses, 0 );
+    mSizeClassCouplings.resize( numberOfSizeClasses, Constants::cMissingValue );
     mSizeClassEffectivePreyVolumes.resize( numberOfSizeClasses, 0 );
     mSizeClassFeedingProbabilities.resize( numberOfSizeClasses, 0 );
     mSizeClassHerbivoreFrequencies.resize( numberOfSizeClasses, 0 );

@@ -35,9 +35,8 @@ Heterotrophs::~Heterotrophs( ) {
     delete mNutrient;
 
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-        for( unsigned individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
+        for( unsigned individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex )
             delete mLivingIndividuals[ sizeClassIndex ][ individualIndex ];
-        }
     }
 }
 
@@ -83,7 +82,9 @@ void Heterotrophs::CreateInitialPopulation( ) {
             AddToSizeClass( individual );
             ++initialPopulationSize;
         }
-        if( initialHeterotrophVolume > 0 ) mNutrient->AddToVolume( initialHeterotrophVolume );
+        if( initialHeterotrophVolume > 0 ) 
+            mNutrient->AddToVolume( initialHeterotrophVolume );
+        
         std::cout << "A single heterotrophic size class initialised with " << initialPopulationSize << " individuals." << std::endl;
 
     } else {
@@ -200,28 +201,26 @@ void Heterotrophs::UpdateSizeClasses( ) {
 
 void Heterotrophs::CalculateFeedingProbabilities( ) {
     for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
-
         if( GetSizeClassPopulation( predatorIndex ) > 0 ) {
-            int coupledSizeClassIndex = Constants::cMissingValue;
+            unsigned coupledSizeClassIndex = 0;
             double effectivePreyVolume = 0;
-            double highestEffectivePreyVolume = 0;
+            double highestEffectiveSizeClassVolume = 0;
 
             for( unsigned preyIndex = 0; preyIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++preyIndex ) {
                 double effectiveSizeClassVolume = 0;
                 // Add the result of the phytoplankton volume - no frequency coefficient.
-                if( preyIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) ) {
+                if( preyIndex == Parameters::Get( )->GetPhytoplanktonSizeClassIndex( ) )
                     effectiveSizeClassVolume = Parameters::Get( )->GetInterSizeClassPreference( predatorIndex, preyIndex ) * mPhytoplankton->GetVolume( );
-                }
                 // Add the result of the heterotrophs.
-                if( preyIndex != predatorIndex ) {
+                if( preyIndex != predatorIndex )
                     effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * GetSizeClassPopulation( preyIndex );
-                } else {
+                else
                     effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * ( GetSizeClassPopulation( preyIndex ) - 1 );
-                }
+                
                 mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
 
-                if( effectiveSizeClassVolume > highestEffectivePreyVolume ) {
-                    highestEffectivePreyVolume = effectiveSizeClassVolume;
+                if( effectiveSizeClassVolume > highestEffectiveSizeClassVolume ) {
+                    highestEffectiveSizeClassVolume = effectiveSizeClassVolume;
                     coupledSizeClassIndex = preyIndex;
                 }
                 effectivePreyVolume += effectiveSizeClassVolume;
@@ -243,11 +242,10 @@ void Heterotrophs::FeedFromPhytoplankton( const Types::IndividualPointer grazer 
         double waste = grazer->ConsumePreyVolume( Parameters::Get( )->GetSmallestIndividualVolume( ) );
         double trophicLevel = grazer->GetTrophicLevel( );
 
-        if( trophicLevel == 0 ) {
+        if( trophicLevel == 0 )
             grazer->SetTrophicLevel( 2 );
-        } else {
+        else
             grazer->SetTrophicLevel( ( trophicLevel + 2 ) / 2.0 );
-        }
 
         mNutrient->AddToVolume( waste );
     }
@@ -312,9 +310,9 @@ void Heterotrophs::KillIndividual( const Types::IndividualPointer individual ) {
 
 void Heterotrophs::DeleteDead( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-        for( unsigned individualIndex = 0; individualIndex < GetSizeClassDeadFrequency( sizeClassIndex ); ++individualIndex ) {
+        for( unsigned individualIndex = 0; individualIndex < GetSizeClassDeadFrequency( sizeClassIndex ); ++individualIndex )
             Delete( mDeadIndividuals[ sizeClassIndex ][ individualIndex ] );
-        }
+        
         mDeadIndividuals[ sizeClassIndex ].clear( );
     }
 }

@@ -98,26 +98,25 @@ double HeterotrophProcessor::CalculateFeedingProbabilityType2( const double effe
 double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
     double starvationProbability = 1;
 
-    if( volumeActual <= volumeMinimum ) {
+    if( volumeActual <= volumeMinimum )
         starvationProbability = 1;
-    } else if( volumeActual >= volumeHeritable ) {
+    else if( volumeActual >= volumeHeritable )
         starvationProbability = 0;
-    } else {
+    else
         starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) / ( volumeHeritable - volumeMinimum ) );
-    }
+    
     return starvationProbability;
 }
 
 double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
     double starvationProbability = 1;
 
-    if( volumeActual <= volumeMinimum ) {
+    if( volumeActual <= volumeMinimum )
         starvationProbability = 1;
-    } else if( volumeActual >= volumeHeritable ) {
+    else if( volumeActual >= volumeHeritable )
         starvationProbability = 0;
-    } else {
+    else
         starvationProbability = 1 - ( 1 + ( ( volumeHeritable - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) / ( ( volumeHeritable - volumeMinimum ) ) ) * ( ( volumeActual - volumeMinimum ) / ( volumeHeritable - volumeMinimum ) );
-    }
 
     return starvationProbability;
 }
@@ -139,9 +138,8 @@ int HeterotrophProcessor::RoundWithProbability( const double& value ) const {
     int flooredValue = static_cast < int >( ::floor( value ) );
     double probability = value - flooredValue;
 
-    if( RandomSFMT::Get( )->GetUniform( ) < probability ) {
+    if( RandomSFMT::Get( )->GetUniform( ) < probability )
         return flooredValue + 1;
-    } else {
+    else
         return flooredValue;
-    }
 }

@@ -88,10 +88,6 @@ for datumIndex = 1:numberOfDatums
                         dataSet( dataSet == 0 ) = NaN;
                     end
                     
-                    if strcmpi( dataSetName, 'SizeClassVolumes' ) == 1
-                        a = 1;
-                    end
-                    
                     if contains(  lower( dataLabel ), 'log_{10}'  )
                         dataSet = log10( dataSet );
                     elseif contains(  lower( dataLabel ), 'log_{2}'  )

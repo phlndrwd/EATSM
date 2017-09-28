@@ -77,11 +77,10 @@ Types::IndividualPointer Individual::Reproduce( Types::HeterotrophProcessorPoint
         childVolumeHeritable = heterotrophProcessor->GeneValueToVolume( childHeritableTraits->GetValue( Constants::eVolume ) );
         childVolumeMinimum = childVolumeHeritable * Constants::cMinimumFractionalVolume;
 
-        if( childVolumeHeritable < mVolumeActual ) {
+        if( childVolumeHeritable < mVolumeActual )
             childVolumeActual = childVolumeHeritable;
-        } else {
+        else
             childVolumeActual = mVolumeActual / 2;
-        }
     }
     mVolumeActual = mVolumeActual - childVolumeActual;
     childIndividual = new Individual( childHeritableTraits, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
