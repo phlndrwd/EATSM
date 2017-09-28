@@ -13,7 +13,6 @@
 #include "DataRecorder.h"
 
 #include <cmath>
-#include <omp.h>
 
 Heterotrophs::Heterotrophs( ) {
 
