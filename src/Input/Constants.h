@@ -69,11 +69,12 @@ namespace Constants {
 
     const std::string cParameterFileCommand = "-p";
     const std::string cStateFileCommand = "-s";
+    const std::string cVersionCommand = "-v";
 
     const std::string cSystemName = "EATSM";
     const std::string cSystemVersion = "0.1";
-    const std::string cSystemDate = "06/07/2016";
-    const std::string cSystemTime = "16:02";
+    const std::string cSystemDate = "04/10/2017";
+    const std::string cSystemTime = "17:13";
 }
 
 #endif

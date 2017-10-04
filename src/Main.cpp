@@ -12,8 +12,6 @@
 #include "RandomSFMT.h"
 
 int main( int numberOfArguments, char* commandlineArguments[ ] ) {
-    std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." << std::endl << std::endl;
-
     std::string parametersFile = "";
     std::string stateFile = "";
 
@@ -22,17 +20,32 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     switch( numberOfArguments ) {
         case 1:
             break;
+
+        case 2:
+        {
+            commandLineArgumentsAreValid = false;
+            std::string command = commandlineArguments[ 1 ];
+            if( command == Constants::cVersionCommand ) {
+                std::cout << Constants::cSystemName << std::endl;
+                std::cout << Constants::cSystemVersion << std::endl;
+                std::cout << Constants::cSystemDate << std::endl;
+                std::cout << Constants::cSystemTime << std::endl;
+            } else
+                std::cout << "ERROR> Command \"" << command << "\" is not recognised. System exiting..." << std::endl;
+            
+            break;
+        }
         case 3:
         {
-            std::string firstTerm = commandlineArguments[ 1 ];
-            std::string secondTerm = commandlineArguments[ 2 ];
+            std::string command = commandlineArguments[ 1 ];
+            std::string filePath = commandlineArguments[ 2 ];
 
-            if( firstTerm == Constants::cParameterFileCommand ) {
-                parametersFile = secondTerm;
-            } else if( firstTerm == Constants::cStateFileCommand ) {
-                stateFile = secondTerm;
+            if( command == Constants::cParameterFileCommand ) {
+                parametersFile = filePath;
+            } else if( command == Constants::cStateFileCommand ) {
+                stateFile = filePath;
             } else {
-                std::cout << "ERROR> Command \"" << firstTerm << "\" is not recognised. System exiting..." << std::endl;
+                std::cout << "ERROR> Command \"" << command << "\" is not recognised. System exiting..." << std::endl;
                 commandLineArgumentsAreValid = false;
             }
             break;
@@ -79,8 +92,9 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             break;
         }
     }
-    
+
     if( commandLineArgumentsAreValid ) {
+        std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." << std::endl << std::endl;
         FileReader fileReader;
         fileReader.ReadInputFiles( parametersFile, stateFile );
         Timer timer = Timer( true );
