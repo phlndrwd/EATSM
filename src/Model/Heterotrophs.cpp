@@ -49,11 +49,15 @@ void Heterotrophs::Update( ) {
 
 bool Heterotrophs::RecordData( ) {
     mHeterotrophData->InitialiseDataStructures( );
+
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         unsigned sizeClassSize = GetSizeClassPopulation( sizeClassIndex );
-        for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
-            Types::IndividualPointer individual = mLivingIndividuals[ sizeClassIndex ][ individualIndex ];
-            mHeterotrophData->AddIndividualData( individual );
+
+        if( sizeClassSize > 0 ) {
+            for( unsigned individualIndex = 0; individualIndex < sizeClassSize; ++individualIndex ) {
+                Types::IndividualPointer individual = mLivingIndividuals[ sizeClassIndex ][ individualIndex ];
+                mHeterotrophData->AddIndividualData( individual );
+            }
         }
         mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassSize );
     }
