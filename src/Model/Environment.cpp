@@ -2,12 +2,13 @@
 #include "Nutrient.h"
 #include "Autotrophs.h"
 #include "Heterotrophs.h"
+#include "HeterotrophsParallel.h"
 #include "Strings.h"
 
 Environment::Environment( ) {
     mNutrient = new Nutrient( );
     mAutotrophs = new Autotrophs( mNutrient );
-    mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
+    mHeterotrophs = new HeterotrophsParallel( mNutrient, mAutotrophs );
     std::cout << "Environment created." << std::endl << std::endl;
 }
 

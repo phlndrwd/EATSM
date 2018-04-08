@@ -5,10 +5,19 @@
     </code-assistance-data>
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>1</activeConfTypeElem>
-        <activeConfIndexElem>1</activeConfIndexElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/HeterotrophsParallel.cpp</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/Environment.cpp</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/HeterotrophsParallel.h</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/HeterotrophProcessor.cpp</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/Heterotrophs.h</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/Environment.h</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Data/Types.h</file>
+            <file>file:/home/philju/Dropbox/EATSM/EATSM/src/Model/Heterotrophs.cpp</file>
+        </group>
     </open-files>
 </project-private>

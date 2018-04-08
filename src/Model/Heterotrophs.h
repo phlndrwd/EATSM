@@ -1,7 +1,6 @@
 #ifndef HETEROTROPHS
 #define HETEROTROPHS
 
-#include "Heterotrophs.h"
 #include "Types.h"
 
 class Heterotrophs {

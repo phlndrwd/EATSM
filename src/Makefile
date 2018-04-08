@@ -40,5 +40,7 @@ $(OBJDIR)%.o : %.cpp
 	@$(CXX) $(CXXFLAGS) $(addprefix -I,$(INCDIR)) -c -o $@ $<
 
 clean :
+	@echo Cleaning...
 	@$(RM) -r $(OBJDIR)
 	@$(RM) -r $(BINDIR)
+	@echo EATSM cleaning complete.
