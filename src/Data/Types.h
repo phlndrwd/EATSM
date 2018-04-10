@@ -11,7 +11,7 @@ class Autotrophs;
 class DataRecorder;
 class Environment;
 class Heterotrophs;
-class HeterotrophsParallel;
+class Heterotrophs;
 class HeterotrophData;
 class HeterotrophProcessor;
 class HeritableTraits;
@@ -29,7 +29,7 @@ namespace Types {
     typedef Autotrophs* AutotrophsPointer;
     typedef DataRecorder* DataRecorderPointer;
     typedef Environment* EnvironmentPointer;
-    typedef HeterotrophsParallel* HeterotrophsPointer;
+    typedef Heterotrophs* HeterotrophsPointer;
     typedef HeterotrophData* HeterotrophDataPointer;
     typedef HeterotrophProcessor* HeterotrophProcessorPointer;
     typedef HeritableTraits* HeritableTraitsPointer;

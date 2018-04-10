@@ -2,6 +2,7 @@ build/
 dist/
 output/
 README.odt
+TODO
 *.m~
 *~
 .~lock.*

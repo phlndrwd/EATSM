@@ -12,7 +12,7 @@
 #include "Nutrient.h"
 #include "Autotrophs.h"
 #include "Heterotrophs.h"
-#include "HeterotrophsParallel.h"
+#include "Heterotrophs.h"
 #include "Individual.h"
 #include "HeritableTraits.h"
 #include "RandomSFMT.h"

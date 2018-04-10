@@ -1,5 +1,5 @@
-#ifndef HETEROTROPHS
-#define HETEROTROPHS
+#ifndef HETEROTROPHSPARALLEL
+#define HETEROTROPHSPARALLEL
 
 #include "Types.h"
 
@@ -17,31 +17,21 @@ public:
 
 private:
     void CreateInitialPopulation( );
+    void ResetIndividualMatrix( );
+    void CalculateFeedingProbabilities( );
 
     void Feeding( );
     void Metabolisation( );
     void Reproduction( );
     void Starvation( );
-    
-    void UpdateSizeClasses( );
 
-    void CalculateFeedingProbabilities( );
+    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
     void FeedFromAutotrophs( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
-
-    void AddToSizeClass( const Types::IndividualPointer );
-    void RemoveFromSizeClass( const Types::IndividualPointer );
-    void Delete( const Types::IndividualPointer );
-
-    void KillIndividual( const Types::IndividualPointer );
     void DeleteDead( );
-
-    void StarveToDeath( const Types::IndividualPointer );
-
-    unsigned GetSizeClassDeadFrequency( const unsigned ) const;
-    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
-
-    void AddChild( const Types::IndividualPointer );
+    void DeleteIndividual( Types::IndividualPointer );
+    void StarveToDeath( Types::IndividualPointer );
+    void KillIndividual( Types::IndividualPointer );
     void AddChildren( );
 
     Types::HeterotrophProcessorPointer mHeterotrophProcessor;
@@ -50,10 +40,11 @@ private:
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mAutotrophs;
 
-    Types::IndividualMatrix mLivingIndividuals;
-    Types::IndividualMatrix mDeadIndividuals;
-
-    Types::IndividualVector mChildren;
+    Types::IndividualVector mLivingVector;
+    Types::IndividualMatrix mLivingMatrix;
+    Types::IndividualVector mDeadVector;
+    Types::IndividualVector mChildVector;
+    Types::UnsignedVector mSizeClassDeadFrequencies;
 };
 
 #endif
