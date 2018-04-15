@@ -35,11 +35,11 @@ Heterotrophs::~Heterotrophs( ) {
 }
 
 void Heterotrophs::CreateInitialPopulation( ) {
+    mLivingMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    mSizeClassDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    
     if( Parameters::Get( )->GetReadModelState( ) == false ) {
-        mLivingMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
-        mSizeClassDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
         unsigned initialPopulationSize = 0;
-
         double secondaryProducerVolume = Parameters::Get( )->GetSmallestIndividualVolume( ) * Parameters::Get( )->GetPreferredPreyVolumeRatio( );
         unsigned firstPopulatedIndex = mHeterotrophProcessor->FindSizeClassIndexFromVolume( secondaryProducerVolume );
         double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( firstPopulatedIndex );
@@ -56,12 +56,9 @@ void Heterotrophs::CreateInitialPopulation( ) {
             mNutrient->AddToVolume( initialHeterotrophVolume );
 
         std::cout << "A single heterotrophic size class initialised with " << initialPopulationSize << " individuals." << std::endl;
-
     } else {
-        //mLivingVector = InitialState::Get( )->GetHeterotrophs( );
-        //std::cout << "Heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
-        std::cout << "ERROR> Restart needs to be implemented!" << std::endl;
-        exit( 1 );
+        mLivingVector = InitialState::Get( )->GetHeterotrophs( );
+        std::cout << "Heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
     }
 }
 
@@ -104,12 +101,12 @@ bool Heterotrophs::RecordData( ) {
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
-unsigned Heterotrophs::GetSizeClassPopulation( const unsigned sizeClassIndex ) const {
-    return mLivingMatrix[ sizeClassIndex ].size( );
+unsigned Heterotrophs::GetPopulationSize( ) const {
+    return mLivingVector.size( );
 }
 
-Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned sizeClassIndex, const unsigned individualIndex ) const {
-    return mLivingMatrix[ sizeClassIndex ][ individualIndex ];
+Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned index ) const {
+    return mLivingVector[ index ];
 }
 
 void Heterotrophs::CalculateFeedingProbabilities( ) {

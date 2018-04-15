@@ -11,9 +11,9 @@ public:
 
     void Update( );
     bool RecordData( );
-
-    unsigned GetSizeClassPopulation( const unsigned ) const;
-    Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
+    
+    unsigned GetPopulationSize( ) const;
+    Types::IndividualPointer GetIndividual( const unsigned ) const;
 
 private:
     void CreateInitialPopulation( );

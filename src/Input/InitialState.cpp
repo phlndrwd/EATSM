@@ -26,16 +26,14 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     mAutotrophVolume = Strings::StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
-    mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
-
     HeterotrophProcessor heterotrophProcessor;
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
-        unsigned sizeClassIndex = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
-        double geneValue = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
-        double volumeActual = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
+        double geneValue = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
+        double volumeActual = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
+        unsigned sizeClassIndex = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
 
         Types::IndividualPointer individual = new Individual( &heterotrophProcessor, geneValue, volumeActual, sizeClassIndex );
-        mHeterotrophs[ sizeClassIndex ].push_back( individual );
+        mHeterotrophs.push_back( individual );
         ++mInitialPopulationSize;
     }
     return true; // Currently no circumstance under which this function can return false.
@@ -49,7 +47,7 @@ double& InitialState::GetAutotrophVolume( ) {
     return mAutotrophVolume;
 }
 
-Types::IndividualMatrix& InitialState::GetHeterotrophs( ) {
+Types::IndividualVector& InitialState::GetHeterotrophs( ) {
     return mHeterotrophs;
 }
 

@@ -13,14 +13,14 @@ public:
 
     double& GetNutrientVolume( );
     double& GetAutotrophVolume( );
-    Types::IndividualMatrix& GetHeterotrophs( );
+    Types::IndividualVector& GetHeterotrophs( );
     unsigned& GetInitialPopulationSize( );
 
 private:
     InitialState( );
     static Types::InitialStatePointer mThis;
 
-    Types::IndividualMatrix mHeterotrophs;
+    Types::IndividualVector mHeterotrophs;
     
     double mNutrientVolume;
     double mAutotrophVolume;
