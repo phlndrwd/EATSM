@@ -1,5 +1,5 @@
-#ifndef HETEROTROPHSPARALLEL
-#define HETEROTROPHSPARALLEL
+#ifndef HETEROTROPHS
+#define HETEROTROPHS
 
 #include "Types.h"
 
