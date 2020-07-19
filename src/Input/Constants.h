@@ -58,6 +58,10 @@ namespace Constants {
 
     const unsigned cReproductionFactor = 2;
     const double cMinimumFractionalVolume = 0.5;
+    
+    const unsigned cSecondsInAMinute = 60;
+    const unsigned cMinutesInAnHour = 60;
+    const unsigned cHoursInADay = 24;
 
     const std::string cCompleteDateFormat = "%c";
     const std::string cDataSetNameFormat = "%Y-%m-%d_%H-%M-%S";

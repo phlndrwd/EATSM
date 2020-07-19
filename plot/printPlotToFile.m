@@ -19,5 +19,6 @@ elseif strcmpi( fileFormat, 'png' ) == 1
         print( plotHandle, outputPath, '-dpng', '-r300' );
     else
         print( plotHandle, outputPath, '-dpng', '-r300', '-painters' );
+        print( plotHandle, outputPath, '-dpng', '-r300' );
     end
 end

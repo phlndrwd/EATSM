@@ -10,6 +10,7 @@
 #include "TimeStep.h"
 
 #include "RandomSFMT.h"
+#include "Date.h"
 
 int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     std::string parametersFile = "";
@@ -94,7 +95,8 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     }
 
     if( commandLineArgumentsAreValid ) {
-        std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " Starting up..." << std::endl << std::endl;
+        std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " starting on " << Date::GetDateAndTimeString( ) << "..." << std::endl;
+        std::cout << "Due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get()->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
         FileReader fileReader;
         fileReader.ReadInputFiles( parametersFile, stateFile );
         Timer timer = Timer( true );
@@ -103,7 +105,6 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
 
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
         double cumulativeTenthsOfRunTime = 0;
-        unsigned percentCount = 0;
         bool isAlive = true;
 
         std::cout << "Starting main time loop..." << std::endl;
@@ -114,17 +115,18 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             // Text output at the completion of each ten percent of the run 
             if( timer.Elapsed( ) >= ( unsigned )cumulativeTenthsOfRunTime ) {
                 cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << percentCount << "% completed." << std::endl;
-                percentCount += 10;
+                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
             }
 
             // Data collection
             if( TimeStep::Get( )->DoRecordData( ) == true ) {
                 DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
-                DataRecorder::Get( )->AddDataTo( "SamplingTime", timer.Split( ) );
+                DataRecorder::Get( )->AddDataTo( "TimeSampling", timer.Split( ) );
                 isAlive = environment.RecordData( );
             }
             TimeStep::Get( )->IncrementTimeStep( );
+            
+            //std::cout << "Elapsed> " << timer.ElapsedString() << std::endl;
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
         if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) ) {
             std::cout << "Main time loop complete." << std::endl << std::endl;

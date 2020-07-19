@@ -1,6 +1,7 @@
 #ifndef TIMER
 #define	TIMER
 
+#include <string>
 #include <chrono>
 
 class Timer {
@@ -12,6 +13,8 @@ public:
     double Split( );
     double Elapsed( );
     double Stop( );
+    
+    std::string RemainingString( );
     
 private:
     std::chrono::high_resolution_clock::time_point mStartTime;

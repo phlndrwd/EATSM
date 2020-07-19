@@ -2,6 +2,7 @@
 #define HETEROTROPHS
 
 #include "Types.h"
+#include "Timer.h"
 
 class Heterotrophs {
 public:
@@ -45,6 +46,7 @@ private:
     Types::IndividualVector mDeadVector;
     Types::IndividualVector mChildVector;
     Types::UnsignedVector mSizeClassDeadFrequencies;
+    Timer mTimer;
 };
 
 #endif

@@ -35,6 +35,11 @@ public:
     void IncrementStarvedFrequencies( const unsigned );
     void IncrementBirthFrequencies( const unsigned, const unsigned );
     void IncrementMutantFrequency( const unsigned, const unsigned );
+    
+    void AddToTimeFeeding( double );
+    void AddToTimeMetabolising( double );
+    void AddToTimeReproducing( double );
+    void AddToTimeStarving( double );
 
     unsigned GetVegetarianFrequency( ) const;
     unsigned GetCarnivoreFrequency( ) const;
@@ -76,6 +81,11 @@ private:
     double mApproxVolume;
     double mToFlux;
     double mInFlux;
+    
+    double mTimeFeeding;
+    double mTimeMetabolising;
+    double mTimeReproducing;
+    double mTimeStarving;
 };
 
 #endif

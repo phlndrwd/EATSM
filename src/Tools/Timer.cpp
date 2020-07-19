@@ -1,4 +1,6 @@
 #include "Timer.h"
+#include "Parameters.h"
+#include "Constants.h"
 
 Timer::Timer( bool start ) {
     if( start == true ) Start( );
@@ -38,4 +40,22 @@ double Timer::Stop( ) {
     total = mStopTime - mStartTime;
 
     return total.count( );
+}
+
+std::string Timer::RemainingString( ) {
+    unsigned secondsRemaining = Parameters::Get()->GetRunTimeInSeconds() - Elapsed( );
+    unsigned minutesRemaining = secondsRemaining / Constants::cSecondsInAMinute;
+    secondsRemaining = secondsRemaining - ( minutesRemaining * Constants::cSecondsInAMinute );
+    unsigned hoursRemaining = minutesRemaining / Constants::cMinutesInAnHour;
+    minutesRemaining = minutesRemaining - ( hoursRemaining * Constants::cMinutesInAnHour );
+    unsigned daysRemaining = hoursRemaining / Constants::cHoursInADay;
+    hoursRemaining = hoursRemaining - ( daysRemaining * Constants::cHoursInADay );
+    
+    std::string str = "";
+    if( daysRemaining > 0 ) str.append( std::to_string( daysRemaining ) ).append( "d" );
+    str.append( std::to_string( hoursRemaining ) ).append( "h");
+    str.append( std::to_string( minutesRemaining  ) ).append( "m" );
+    str.append(std::to_string( secondsRemaining ) ).append( "s" );
+    
+    return str;
 }

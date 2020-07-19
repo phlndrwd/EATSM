@@ -75,6 +75,11 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "HeterotrophApproxVolume", mApproxVolume );
     DataRecorder::Get( )->AddDataTo( "ToHeterotrophFlux", mToFlux );
     DataRecorder::Get( )->AddDataTo( "InHeterotrophFlux", mInFlux );
+    
+    DataRecorder::Get( )->AddDataTo( "TimeFeeding", mTimeFeeding );
+    DataRecorder::Get( )->AddDataTo( "TimeMetabolising", mTimeMetabolising );
+    DataRecorder::Get( )->AddDataTo( "TimeReproducing", mTimeReproducing );
+    DataRecorder::Get( )->AddDataTo( "TimeStarving", mTimeStarving );
 
     DataRecorder::Get( )->AddDataTo( "SizeClassPopulation", mSizeClassPopulation );
     DataRecorder::Get( )->AddDataTo( "SizeClassHerbivoreFrequencies", mSizeClassHerbivoreFrequencies );
@@ -193,6 +198,11 @@ bool HeterotrophData::AreHeterotrophsAlive( ) const {
 void HeterotrophData::ResetDataStructures( ) {
     mToFlux = 0;
     mInFlux = 0;
+    
+    mTimeFeeding = 0;
+    mTimeMetabolising = 0;
+    mTimeReproducing = 0;
+    mTimeStarving = 0;
 
     mSizeClassHerbivoreFrequencies.clear( );
     mSizeClassPreyFrequencies.clear( );
@@ -255,4 +265,20 @@ void HeterotrophData::IncrementMutantFrequency( const unsigned sizeClassIndex, c
 void HeterotrophData::IncrementBirthFrequencies( const unsigned parentIndex, const unsigned childIndex ) {
     ++mSizeClassParentFrequencies[ parentIndex ];
     ++mSizeClassChildFrequencies[ childIndex ];
+}
+
+void HeterotrophData::AddToTimeFeeding( double timeFeeding ) {
+    mTimeFeeding += timeFeeding;
+}
+    
+void HeterotrophData::AddToTimeMetabolising( double timeMetabolising ) {
+    mTimeMetabolising += timeMetabolising;
+}
+    
+void HeterotrophData::AddToTimeReproducing( double timeReproducing ) {
+    mTimeReproducing += timeReproducing;
+}
+    
+void HeterotrophData::AddToTimeStarving( double timeStarving ) {
+    mTimeStarving += timeStarving;
 }

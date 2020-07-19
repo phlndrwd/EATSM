@@ -7,7 +7,8 @@
 
 class Date {
 public:
-    static std::string GetDateAndTimeString( const std::string format = Constants::cDataSetNameFormat );
+    static std::string GetDateAndTimeString( const std::string format = Constants::cCompleteDateFormat, unsigned addedSeconds = 0 );
+    static std::string GetEndDataAndTime( const std::string format = Constants::cCompleteDateFormat );
 };
 
 #endif

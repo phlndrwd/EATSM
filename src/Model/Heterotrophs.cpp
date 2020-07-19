@@ -9,7 +9,10 @@
 #include "InitialState.h"
 #include "HeritableTraits.h"
 
+#include "DataRecorder.h"
+
 #include <iostream>
+#include <omp.h>
 
 Heterotrophs::Heterotrophs( ) {
 }
@@ -66,18 +69,33 @@ void Heterotrophs::ResetIndividualMatrix( ) {
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         mLivingMatrix[ sizeClassIndex ].clear( );
     }
-
-    for( unsigned individualIndex = 0; individualIndex < mLivingVector.size( ); ++individualIndex ) {
-        Types::IndividualPointer individual = mLivingVector[ individualIndex ];
-        mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
+    //#pragma omp parallel num_threads(omp_get_num_procs()) shared(mLivingMatrix)
+    {
+        //#pragma omp for schedule(dynamic)
+        for( unsigned individualIndex = 0; individualIndex < mLivingVector.size( ); ++individualIndex ) {
+           Types::IndividualPointer individual = mLivingVector[ individualIndex ];
+           mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
+        }
     }
 }
 
 void Heterotrophs::Update( ) {
+    // Feeding
+    mTimer.Start();
     Feeding( );
+    mHeterotrophData->AddToTimeFeeding( mTimer.Stop() );
+    // Metabolising
+    mTimer.Start();
     Metabolisation( );
+    mHeterotrophData->AddToTimeMetabolising( mTimer.Stop() );
+    // Reproducing
+    mTimer.Start();
     Reproduction( );
+    mHeterotrophData->AddToTimeReproducing( mTimer.Stop() );
+    // Starving
+    mTimer.Start();
     Starvation( );
+    mHeterotrophData->AddToTimeStarving( mTimer.Stop() );
 }
 
 bool Heterotrophs::RecordData( ) {
@@ -173,37 +191,46 @@ void Heterotrophs::Feeding( ) {
 }
 
 void Heterotrophs::Metabolisation( ) {
-    for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
-        Types::IndividualPointer individual = mLivingVector[ index ];
-        double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
+    //#pragma omp parallel num_threads(omp_get_num_procs()) default(none) shared(mLivingVector, mHeterotrophProcessor, mNutrient)
+    {
+        //#pragma omp for schedule(static)
+        for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
+            Types::IndividualPointer individual = mLivingVector[ index ];
+            double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
 
-        if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
-            double waste = individual->Metabolise( metabolicDeduction );
-            mNutrient->AddToVolume( waste );
-            mHeterotrophProcessor->UpdateSizeClassIndex( individual );
-        } else
-            StarveToDeath( individual );
+            if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
+                double waste = individual->Metabolise( metabolicDeduction );
+                //#pragma omp critical(lock)
+                mNutrient->AddToVolume( waste );
+                mHeterotrophProcessor->UpdateSizeClassIndex( individual );
+            } else StarveToDeath( individual );
+        }
     }
     DeleteDead( );
 }
 
 void Heterotrophs::Reproduction( ) {
-    for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
-        Types::IndividualPointer potentialParent = mLivingVector[ index ];
+    //#pragma omp parallel num_threads(omp_get_num_procs()) default(none) shared(mLivingVector, mHeterotrophProcessor, mHeterotrophData)
+    {
+        //#pragma omp for schedule(static)
+        for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
+            Types::IndividualPointer potentialParent = mLivingVector[ index ];
 
-        if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
-            Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
+            if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
+                Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
 
-            mHeterotrophProcessor->UpdateSizeClassIndex( potentialParent );
-            childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
-            if( childIndividual->GetHeritableTraits( )->IsValueMutant( Constants::eVolume ) == true ) {
-                mHeterotrophProcessor->UpdateSizeClassIndex( childIndividual );
-                mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), Constants::eVolume );
+                mHeterotrophProcessor->UpdateSizeClassIndex( potentialParent );
+                childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
+                if( childIndividual->GetHeritableTraits( )->IsValueMutant( Constants::eVolume ) == true ) {
+                    mHeterotrophProcessor->UpdateSizeClassIndex( childIndividual );
+                    //#pragma omp critical(lock)
+                    mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), Constants::eVolume );
+                }
+                //#pragma omp critical(lock)
+                mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
+
+                mChildVector.push_back( childIndividual );
             }
-
-            mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
-
-            mChildVector.push_back( childIndividual );
         }
     }
     AddChildren( );
