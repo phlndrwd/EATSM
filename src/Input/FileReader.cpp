@@ -33,9 +33,9 @@ void FileReader::ReadInputFiles( std::string& parametersFile, std::string& state
         exit( 1 );
     }
 
-    if( success )
-        std::cout << "Files read successfully..." << std::endl << std::endl;
-    else {
+    if( success ) {
+        std::cout << "Files read successfully..." << std::endl;
+    } else {
         std::cout << "ERROR> File reading failed. System exiting..." << std::endl;
         exit( 1 );
     }

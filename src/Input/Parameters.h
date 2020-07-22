@@ -12,8 +12,6 @@ public:
 
     bool Initialise( const Types::StringMatrix& );
 
-    void CalculateParameters( );
-
     // Getters
     unsigned& GetRunTimeInSeconds( );
     unsigned& GetRandomSeed( );
@@ -96,6 +94,7 @@ public:
 
 private:
     Parameters( );
+    void CalculateParameters( );
 
     static Types::ParametersPointer mThis;
 

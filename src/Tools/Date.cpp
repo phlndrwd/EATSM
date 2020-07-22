@@ -7,8 +7,8 @@ std::string Date::GetDateAndTimeString( const std::string format, unsigned added
     char dateTimeChar[ Constants::cDateTimeBufferSize ];
     timeval timeNow;
     gettimeofday( &timeNow, NULL );
-
-    time_t rawtime = static_cast < time_t >( timeNow.tv_sec + addedSeconds);
+    time_t rawtime = static_cast < time_t > ( timeNow.tv_sec + addedSeconds );
+    
     struct tm *timeinfo;
     timeinfo = localtime( &rawtime );
 

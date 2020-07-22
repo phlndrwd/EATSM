@@ -96,9 +96,6 @@ void Parameters::CalculateParameters( ) {
 
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
 
-    mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
-    mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
-
     Types::HeterotrophProcessorPointer temporaryHeterotrophProcessor = new HeterotrophProcessor( );
 
     mAutotrophSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
@@ -106,6 +103,9 @@ void Parameters::CalculateParameters( ) {
     mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
     mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
 
+    mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
+    mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
+    
     for( unsigned subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
         double subjectVolumeMean = mSizeClassMidPoints[ subjectIndex ];
         double preferenceSum = 0;

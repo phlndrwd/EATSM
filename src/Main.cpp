@@ -95,11 +95,14 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
     }
 
     if( commandLineArgumentsAreValid ) {
-        std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " starting on " << Date::GetDateAndTimeString( ) << "..." << std::endl;
-        std::cout << "Due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get()->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
+        std::cout << Constants::cSystemName + " " + Constants::cSystemVersion + " starting on " << Date::GetDateAndTimeString( ) << "..." << std::endl << std::endl;
         FileReader fileReader;
         fileReader.ReadInputFiles( parametersFile, stateFile );
         Timer timer = Timer( true );
+        
+        
+        std::cout << "Model run due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get( )->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
+        
         FileWriter fileWriter; // Created here to initialise output directory
         Environment environment;
 
