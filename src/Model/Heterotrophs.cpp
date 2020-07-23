@@ -327,6 +327,7 @@ void Heterotrophs::DeleteIndividual( Types::IndividualPointer individual ) {
     for( unsigned index = 0; index < mLivingVector.size( ); index++ ) {
         if( individual == mLivingVector[ index ] ) {
             mLivingVector.erase( mLivingVector.begin( ) + index );
+            delete individual;
             break;
         }
     }
