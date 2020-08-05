@@ -5,7 +5,6 @@
 #include "Strings.h"
 #include "Individual.h"
 #include "HeritableTraits.h"
-#include "RandomSFMT.h"
 
 HeterotrophData::HeterotrophData( ) {
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", Parameters::Get( )->GetSizeClassMidPoints( ) );
@@ -146,17 +145,17 @@ void HeterotrophData::AddIndividualData( const Types::IndividualPointer individu
     mSizeClassAges[ individual->GetSizeClassIndex( ) ] += individual->GetAge( );
 }
 
-void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassSize ) {
-    mFrequency += sizeClassSize;
+void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassPopulation ) {
+    mFrequency += sizeClassPopulation;
 
-    double sizeClassVolumeApproximation = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex ) * sizeClassSize;
+    double sizeClassVolumeApproximation = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex ) * sizeClassPopulation;
     mApproxVolume += sizeClassVolumeApproximation;
-    if( sizeClassSize > 0 ) {
-        mSizeClassPopulation[ sizeClassIndex ] = sizeClassSize;
+    if( sizeClassPopulation > 0 ) {
+        mSizeClassPopulation[ sizeClassIndex ] = sizeClassPopulation;
         mSizeClassApproxVolumes[ sizeClassIndex ] = sizeClassVolumeApproximation;
-        mSizeClassGrowthRatios[ sizeClassIndex ] = mSizeClassGrowthRatios[ sizeClassIndex ] / ( double )sizeClassSize;
-        mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] / ( double )sizeClassSize;
-        mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] / ( double )sizeClassSize;
+        mSizeClassGrowthRatios[ sizeClassIndex ] = mSizeClassGrowthRatios[ sizeClassIndex ] / ( double )sizeClassPopulation;
+        mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] / ( double )sizeClassPopulation;
+        mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] / ( double )sizeClassPopulation;
     } else {
         mSizeClassVolumes[ sizeClassIndex ] = Constants::cMissingValue;
         mSizeClassGrowthRatios[ sizeClassIndex ] = Constants::cMissingValue;

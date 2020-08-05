@@ -1,9 +1,9 @@
 Name,Value
 RandomSeed,0
 RunTimeInSeconds,60
-SamplingRate,500
+SamplingRate,10
 NumberOfSizeClasses,100
-ReadModelState,0
+ReadModelState,1
 WriteModelState,1
 InitialAutotrophVolume,1000000
 InitialHeterotrophVolume,1000000
@@ -16,6 +16,6 @@ SizeClassSubsetFraction,0.01
 HalfSaturationConstantFraction,0.15
 AssimilationEfficiency,0.5
 FractionalMetabolicExpense,1e-5
-MetabolicIndex,0.75
-MutationProbability,0.1
-MutationStandardDeviation,0.02
+MetabolicIndex,0.67
+MutationProbability,0.001
+MutationStandardDeviation,0.01

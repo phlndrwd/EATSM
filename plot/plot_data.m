@@ -136,6 +136,7 @@ for datumIndex = 1:numberOfDatums
                     end
                 end
                 xlim( [ 0 maximumTime ] );
+                grid on; set( gca,'layer','top' );
                 title( dataSetName );
                 xlabel( labelTimeAxis );
                 if optionPrintPlotsToFile == 1

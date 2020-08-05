@@ -53,7 +53,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
 	${OBJECTDIR}/src/Output/FileWriter.o \
 	${OBJECTDIR}/src/Tools/Date.o \
-	${OBJECTDIR}/src/Tools/RandomSFMT.o \
+	${OBJECTDIR}/src/Tools/RandomSimple.o \
 	${OBJECTDIR}/src/Tools/Strings.o \
 	${OBJECTDIR}/src/Tools/Timer.o
 
@@ -62,8 +62,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-std=c++11 -fopenmp
-CXXFLAGS=-std=c++11 -fopenmp
+CCFLAGS=-std=c++11
+CXXFLAGS=-std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -172,10 +172,10 @@ ${OBJECTDIR}/src/Tools/Date.o: src/Tools/Date.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/Date.o src/Tools/Date.cpp
 
-${OBJECTDIR}/src/Tools/RandomSFMT.o: src/Tools/RandomSFMT.cpp
+${OBJECTDIR}/src/Tools/RandomSimple.o: src/Tools/RandomSimple.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Tools
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomSFMT.o src/Tools/RandomSFMT.cpp
+	$(COMPILE.cc) -O2 -Isrc/Input/ -Isrc/Data/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Tools/RandomSimple.o src/Tools/RandomSimple.cpp
 
 ${OBJECTDIR}/src/Tools/Strings.o: src/Tools/Strings.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Tools

@@ -32,7 +32,7 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Date.h</itemPath>
-        <itemPath>src/Tools/RandomSFMT.h</itemPath>
+        <itemPath>src/Tools/RandomSimple.h</itemPath>
         <itemPath>src/Tools/Strings.h</itemPath>
         <itemPath>src/Tools/Timer.h</itemPath>
       </logicalFolder>
@@ -70,7 +70,7 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="Tools" projectFiles="true">
         <itemPath>src/Tools/Date.cpp</itemPath>
-        <itemPath>src/Tools/RandomSFMT.cpp</itemPath>
+        <itemPath>src/Tools/RandomSimple.cpp</itemPath>
         <itemPath>src/Tools/Strings.cpp</itemPath>
         <itemPath>src/Tools/Timer.cpp</itemPath>
       </logicalFolder>
@@ -185,9 +185,9 @@
       </item>
       <item path="src/Tools/Date.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Tools/RandomSimple.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Tools/RandomSimple.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Strings.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -217,7 +217,7 @@
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-std=c++11 -fopenmp</commandLine>
+          <commandLine>-std=c++11</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -300,9 +300,9 @@
       </item>
       <item path="src/Tools/Date.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/Tools/RandomSFMT.cpp" ex="false" tool="1" flavor2="0">
+      <item path="src/Tools/RandomSimple.cpp" ex="false" tool="1" flavor2="0">
       </item>
-      <item path="src/Tools/RandomSFMT.h" ex="false" tool="3" flavor2="0">
+      <item path="src/Tools/RandomSimple.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Tools/Strings.cpp" ex="false" tool="1" flavor2="0">
       </item>

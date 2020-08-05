@@ -8,8 +8,8 @@
 #include "Individual.h"
 #include "InitialState.h"
 #include "HeritableTraits.h"
-
 #include "DataRecorder.h"
+#include "RandomSimple.h"
 
 #include <iostream>
 #include <omp.h>
@@ -33,26 +33,32 @@ Heterotrophs::~Heterotrophs( ) {
     delete mAutotrophs;
     delete mNutrient;
 
-    for( unsigned individualIndex = 0; individualIndex < mLivingVector.size( ); ++individualIndex )
-        delete mLivingVector[ individualIndex ];
+    for( unsigned int sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+        for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
+            delete mLivingMatrix[ sizeClassIndex ][ individualIndex ];
+        }
+        mLivingMatrix[ sizeClassIndex ].clear( );
+    }
 }
 
 void Heterotrophs::CreateInitialPopulation( ) {
     mLivingMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
-    mSizeClassDeadFrequencies.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
+    mDeadMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
     if( Parameters::Get( )->GetReadModelState( ) == false ) {
         unsigned initialPopulationSize = 0;
         double secondaryProducerVolume = Parameters::Get( )->GetSmallestIndividualVolume( ) * Parameters::Get( )->GetPreferredPreyVolumeRatio( );
+
         unsigned firstPopulatedIndex = mHeterotrophProcessor->FindSizeClassIndexFromVolume( secondaryProducerVolume );
         double individualVolume = Parameters::Get( )->GetSizeClassMidPoint( firstPopulatedIndex );
+        double geneValue = mHeterotrophProcessor->VolumeToTraitValue( individualVolume );
 
         double initialHeterotrophVolume = Parameters::Get( )->GetInitialHeterotrophVolume( );
 
         while( individualVolume <= initialHeterotrophVolume ) {
             initialHeterotrophVolume -= individualVolume;
-            Types::IndividualPointer individual = new Individual( mHeterotrophProcessor, individualVolume, firstPopulatedIndex );
-            mLivingVector.push_back( individual );
+            Types::IndividualPointer individual = new Individual( individualVolume, geneValue, firstPopulatedIndex );
+            mLivingMatrix[ firstPopulatedIndex ].push_back( individual );
             ++initialPopulationSize;
         }
         if( initialHeterotrophVolume > 0 )
@@ -60,18 +66,8 @@ void Heterotrophs::CreateInitialPopulation( ) {
 
         std::cout << "A single heterotrophic size class initialised with " << initialPopulationSize << " individuals." << std::endl;
     } else {
-        mLivingVector = InitialState::Get( )->GetHeterotrophs( );
+        mLivingMatrix = InitialState::Get( )->GetHeterotrophs( );
         std::cout << "Heterotrophic size classes initialised with " << InitialState::Get( )->GetInitialPopulationSize( ) << " individuals." << std::endl;
-    }
-}
-
-void Heterotrophs::ResetIndividualMatrix( ) {
-    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-        mLivingMatrix[ sizeClassIndex ].clear( );
-    }
-    for( unsigned individualIndex = 0; individualIndex < mLivingVector.size( ); ++individualIndex ) {
-        Types::IndividualPointer individual = mLivingVector[ individualIndex ];
-        mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
     }
 }
 
@@ -97,35 +93,30 @@ void Heterotrophs::Update( ) {
 bool Heterotrophs::RecordData( ) {
     mHeterotrophData->InitialiseDataStructures( );
 
-    Types::UnsignedVector sizeClassPopulationSizes( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
-
-    for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
-        Types::IndividualPointer individual = mLivingVector[ index ];
-        mHeterotrophData->AddIndividualData( individual );
-        sizeClassPopulationSizes[ individual->GetSizeClassIndex( ) ] += 1;
-    }
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-        mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassPopulationSizes[ sizeClassIndex ] );
-    }
 
+        unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
+        for( unsigned int individualIndex = 0; individualIndex < sizeClassPopulation; ++individualIndex ) {
+            mHeterotrophData->AddIndividualData( mLivingMatrix[ sizeClassIndex ][ individualIndex ] );
+        }
+
+        mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassPopulation );
+    }
     mHeterotrophData->NormaliseData( );
     mHeterotrophData->RecordOutputData( );
 
     return mHeterotrophData->AreHeterotrophsAlive( );
 }
 
-unsigned Heterotrophs::GetPopulationSize( ) const {
-    return mLivingVector.size( );
+unsigned Heterotrophs::GetSizeClassPopulation( const unsigned sizeClassIndex ) const {
+    return mLivingMatrix[ sizeClassIndex ].size( );
 }
 
-Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned index ) const {
-    return mLivingVector[ index ];
+Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned sizeClassIndex, const unsigned individualIndex ) const {
+    return mLivingMatrix[ sizeClassIndex ][ individualIndex ];
 }
 
 void Heterotrophs::CalculateFeedingProbabilities( ) {
-    ResetIndividualMatrix( );
-
     for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
         if( mLivingMatrix[ predatorIndex ].size( ) > 0 ) {
             unsigned coupledSizeClassIndex = 0;
@@ -138,10 +129,8 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
                 if( preyIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
                     effectiveSizeClassVolume = Parameters::Get( )->GetInterSizeClassPreference( predatorIndex, preyIndex ) * mAutotrophs->GetVolume( );
                 // Add the result of the heterotrophs.
-                if( preyIndex != predatorIndex )
-                    effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * mLivingMatrix[ preyIndex ].size( );
-                else
-                    effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * ( mLivingMatrix[ preyIndex ].size( ) - 1 );
+                if( preyIndex != predatorIndex ) effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * mLivingMatrix[ preyIndex ].size( );
+                else effectiveSizeClassVolume += Parameters::Get( )->GetInterSizeClassVolume( predatorIndex, preyIndex ) * ( mLivingMatrix[ preyIndex ].size( ) - 1 );
 
                 mHeterotrophData->SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
 
@@ -168,7 +157,7 @@ void Heterotrophs::Feeding( ) {
             unsigned sizeClassPopulationSubset = mHeterotrophProcessor->RoundWithProbability( sizeClassPopulation * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
-                if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
+                if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
                     Types::IndividualPointer predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
                     if( predator != NULL ) {
@@ -187,43 +176,51 @@ void Heterotrophs::Feeding( ) {
 }
 
 void Heterotrophs::Metabolisation( ) {
-    for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
-        Types::IndividualPointer individual = mLivingVector[ index ];
-        double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
 
-        if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
-            double waste = individual->Metabolise( metabolicDeduction );
-            mNutrient->AddToVolume( waste );
-            mHeterotrophProcessor->UpdateSizeClassIndex( individual );
-        } else StarveToDeath( individual );
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+
+        for( unsigned individualIndex = 0; individualIndex < mLivingMatrix[ sizeClassIndex ].size( ); ++individualIndex ) {
+            Types::IndividualPointer individual = mLivingMatrix[ sizeClassIndex ][ individualIndex ];
+            double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
+
+            if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
+                double waste = individual->Metabolise( metabolicDeduction );
+                mNutrient->AddToVolume( waste );
+                if( mHeterotrophProcessor->UpdateSizeClassIndex( individual ) == true )
+                    MoveSizeClass( individual, sizeClassIndex );
+
+            } else StarveToDeath( individual );
+        }
     }
     DeleteDead( );
 }
 
 void Heterotrophs::Reproduction( ) {
-    for( unsigned index = 0; index < mLivingVector.size( ); ++index ) {
-        Types::IndividualPointer potentialParent = mLivingVector[ index ];
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+        for( unsigned individualIndex = 0; individualIndex < mLivingMatrix[ sizeClassIndex ].size( ); ++individualIndex ) {
+            Types::IndividualPointer potentialParent = mLivingMatrix[ sizeClassIndex ][ individualIndex ];
 
-        if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
-            Types::IndividualPointer childIndividual = potentialParent->Reproduce( mHeterotrophProcessor );
+            if( potentialParent->GetVolumeActual( ) >= potentialParent->GetVolumeReproduction( ) ) {
+                Types::IndividualPointer childIndividual = potentialParent->Reproduce( );
 
-            mHeterotrophProcessor->UpdateSizeClassIndex( potentialParent );
-            childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
-            if( childIndividual->GetHeritableTraits( )->IsValueMutant( Constants::eVolume ) == true ) {
-                mHeterotrophProcessor->UpdateSizeClassIndex( childIndividual );
-                mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), Constants::eVolume );
+                if( mHeterotrophProcessor->UpdateSizeClassIndex( potentialParent ) == true )
+                    MoveSizeClass( potentialParent, sizeClassIndex );
+                
+                childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
+                if( childIndividual->GetHeritableTraits( )->IsValueMutant( Constants::eVolume ) == true ) {
+                    mHeterotrophProcessor->UpdateSizeClassIndex( childIndividual );
+                    mHeterotrophData->IncrementMutantFrequency( childIndividual->GetSizeClassIndex( ), Constants::eVolume );
+                }
+                mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
+
+                mChildVector.push_back( childIndividual );
             }
-            mHeterotrophData->IncrementBirthFrequencies( potentialParent->GetSizeClassIndex( ), childIndividual->GetSizeClassIndex( ) );
-
-            mChildVector.push_back( childIndividual );
         }
     }
     AddChildren( );
 }
 
 void Heterotrophs::Starvation( ) {
-    ResetIndividualMatrix( );
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
         unsigned sizeClassPopulation = mLivingMatrix[ sizeClassIndex ].size( );
 
@@ -234,7 +231,7 @@ void Heterotrophs::Starvation( ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
                 if( individual != NULL )
-                    if( RandomSFMT::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
+                    if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
                         StarveToDeath( individual );
             }
         }
@@ -296,7 +293,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer individual ) const {
     // TODO - Improve this function. Risk of looping for a long time to randomly select one of few living individuals...
     unsigned sizeClassPopulation = mLivingMatrix[ sizeClassIndex ].size( );
-    unsigned sizeClassLivingFrequency = sizeClassPopulation - mSizeClassDeadFrequencies[ sizeClassIndex ];
+    unsigned sizeClassLivingFrequency = sizeClassPopulation - mDeadMatrix[ sizeClassIndex ].size( );
 
     if( individual != NULL && individual->GetSizeClassIndex( ) == sizeClassIndex )
         sizeClassLivingFrequency -= 1;
@@ -305,7 +302,7 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
 
     if( sizeClassLivingFrequency > 0 ) {
         while( randomIndividual == NULL || randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
-            unsigned randomIndividualIndex = RandomSFMT::Get( )->GetUniformInt( sizeClassPopulation - 1 );
+            unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( sizeClassPopulation - 1 );
             randomIndividual = mLivingMatrix[ sizeClassIndex ][ randomIndividualIndex ];
         }
     }
@@ -314,23 +311,36 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
 }
 
 void Heterotrophs::DeleteDead( ) {
-    for( unsigned individualIndex = 0; individualIndex < mDeadVector.size( ); ++individualIndex )
-        DeleteIndividual( mDeadVector[ individualIndex ] );
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
+        for( unsigned individualIndex = 0; individualIndex < mDeadMatrix[ sizeClassIndex ].size( ); ++individualIndex )
+            DeleteIndividual( mDeadMatrix[ sizeClassIndex ][ individualIndex ] );
 
-    mDeadVector.clear( );
-    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex )
-        mSizeClassDeadFrequencies[ sizeClassIndex ] = 0;
+        mDeadMatrix[ sizeClassIndex ].clear( );
+    }
 }
 
 void Heterotrophs::DeleteIndividual( Types::IndividualPointer individual ) {
     // TODO - Speed up by pre-calculating the starting index
-    for( unsigned index = 0; index < mLivingVector.size( ); index++ ) {
-        if( individual == mLivingVector[ index ] ) {
-            mLivingVector.erase( mLivingVector.begin( ) + index );
+    unsigned sizeClassIndex = individual->GetSizeClassIndex( );
+    for( unsigned index = 0; index < mLivingMatrix[ sizeClassIndex ].size( ); index++ ) {
+        if( individual == mLivingMatrix[ sizeClassIndex ][ index ] ) {
+            mLivingMatrix[ sizeClassIndex ].erase( mLivingMatrix[ sizeClassIndex ].begin( ) + index );
             delete individual;
             break;
         }
     }
+}
+
+void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual, const unsigned oldSizeClassIndex ) {
+    // Remove from old population
+    for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( oldSizeClassIndex ); ++individualIndex ) {
+        if( individual == mLivingMatrix[ oldSizeClassIndex ][ individualIndex ] ) {
+            mLivingMatrix[ oldSizeClassIndex ].erase( mLivingMatrix[ oldSizeClassIndex ].begin( ) + individualIndex );
+            break;
+        }
+    }
+    // Add to new
+    mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
 void Heterotrophs::StarveToDeath( Types::IndividualPointer individual ) {
@@ -341,13 +351,13 @@ void Heterotrophs::StarveToDeath( Types::IndividualPointer individual ) {
 
 void Heterotrophs::KillIndividual( Types::IndividualPointer individual ) {
     individual->Kill( );
-    mSizeClassDeadFrequencies[ individual->GetSizeClassIndex( ) ] += 1;
-    mDeadVector.push_back( individual );
+    mDeadMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
 void Heterotrophs::AddChildren( ) {
     for( unsigned childIndex = 0; childIndex < mChildVector.size( ); ++childIndex ) {
-        mLivingVector.push_back( mChildVector[ childIndex ] );
+        Types::IndividualPointer child = mChildVector[ childIndex ];
+        mLivingMatrix[ child->GetSizeClassIndex( ) ].push_back( child );
     }
     mChildVector.clear( );
 }

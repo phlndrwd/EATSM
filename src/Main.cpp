@@ -8,8 +8,6 @@
 #include "Timer.h"
 #include "HeterotrophProcessor.h"
 #include "TimeStep.h"
-
-#include "RandomSFMT.h"
 #include "Date.h"
 
 int main( int numberOfArguments, char* commandlineArguments[ ] ) {

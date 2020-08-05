@@ -2,8 +2,8 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2020-07-19_17-40-12';
-optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.1';
+optionCurrentDataSet            = '2020-08-05_20-08-20';
+optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.1/';
 
 optionOutputVariablesFile      = 'Variables';
 optionFileExtension             = '.csv';
@@ -14,8 +14,8 @@ optionPlotImageWidth            = 12; % cm
 optionPlotImageHeight           = 10; % cm
 
 optionMissingValue              = -9999;
-optionTruncateTimeAt            = 0; % Index, not value
-optionResampleTimeTo            = 0; % Index, not value
+optionTruncateTimeAt            = 0; % Index not value
+optionResampleTimeTo            = 0; % Value not index
 
 %% Input Formatting
 if strcmp( optionOutputDirectory( end ), '/' ) == 0

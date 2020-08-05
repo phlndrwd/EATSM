@@ -1,7 +1,7 @@
 #include "HeterotrophProcessor.h"
 #include "Parameters.h"
 #include "Individual.h"
-#include "RandomSFMT.h"
+#include "RandomSimple.h"
 
 #include <cmath>
 
@@ -53,12 +53,14 @@ unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::Indivi
     return newSizeClassIndex;
 }
 
-void HeterotrophProcessor::UpdateSizeClassIndex( const Types::IndividualPointer individual ) const {
+bool HeterotrophProcessor::UpdateSizeClassIndex( const Types::IndividualPointer individual ) const {
     unsigned directionToMove = DirectionIndividualShouldMoveSizeClasses( individual );
     if( directionToMove != Constants::eNoMovement ) {
         unsigned newSizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );
         individual->SetSizeClassIndex( newSizeClassIndex );
+        return true;
     }
+    return false;
 }
 
 unsigned HeterotrophProcessor::FindSizeClassIndexFromVolume( const double volume ) const {
@@ -121,25 +123,23 @@ double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double vo
     return starvationProbability;
 }
 
-double HeterotrophProcessor::GeneValueToVolume( double geneValue ) const {
-    double volumeExponent = geneValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
+double HeterotrophProcessor::TraitValueToVolume( double traitValue ) {
+    double volumeExponent = traitValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
     double volume = std::pow( 10, volumeExponent );
 
     return volume;
 }
 
-double HeterotrophProcessor::VolumeToGeneValue( double volume ) const {
-    double geneValue = ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
+double HeterotrophProcessor::VolumeToTraitValue( double volume ) const {
+    double traitValue = ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
 
-    return geneValue;
+    return traitValue;
 }
 
 int HeterotrophProcessor::RoundWithProbability( const double& value ) const {
     int flooredValue = static_cast < int >( ::floor( value ) );
     double probability = value - flooredValue;
 
-    if( RandomSFMT::Get( )->GetUniform( ) < probability )
-        return flooredValue + 1;
-    else
-        return flooredValue;
+    if( RandomSimple::Get( )->GetUniform( ) < probability ) return flooredValue + 1;
+    else return flooredValue;
 }

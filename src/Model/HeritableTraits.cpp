@@ -1,5 +1,5 @@
 #include "HeritableTraits.h"
-#include "RandomSFMT.h"
+#include "RandomSimple.h"
 #include "Parameters.h"
 #include "Strings.h"
 
@@ -29,10 +29,10 @@ Types::HeritableTraitsPointer HeritableTraits::GetChildTraits( ) {
     if( mutationProbability > 0 ) {
         for( unsigned i = 0; i < numberOfGenes; ++i ) {
 
-            if( RandomSFMT::Get( )->GetUniform( ) <= mutationProbability ) {
+            if( RandomSimple::Get( )->GetUniform( ) <= mutationProbability ) {
                 areTraitsMutations[ i ] = true;
 
-                double mutationValue = RandomSFMT::Get( )->GetNormal( 0.0, Parameters::Get( )->GetMutationStandardDeviation( ) );
+                double mutationValue = RandomSimple::Get( )->GetNormal( 0.0, Parameters::Get( )->GetMutationStandardDeviation( ) );
 
                 childValues[ i ] += mutationValue;
 

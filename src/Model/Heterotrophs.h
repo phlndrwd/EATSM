@@ -13,12 +13,11 @@ public:
     void Update( );
     bool RecordData( );
     
-    unsigned GetPopulationSize( ) const;
-    Types::IndividualPointer GetIndividual( const unsigned ) const;
+    unsigned GetSizeClassPopulation( const unsigned ) const;
+    Types::IndividualPointer GetIndividual( const unsigned, const unsigned ) const;
 
 private:
     void CreateInitialPopulation( );
-    void ResetIndividualMatrix( );
     void CalculateFeedingProbabilities( );
 
     void Feeding( );
@@ -31,6 +30,9 @@ private:
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
     void DeleteDead( );
     void DeleteIndividual( Types::IndividualPointer );
+    
+    void MoveSizeClass( const Types::IndividualPointer, const unsigned );
+    
     void StarveToDeath( Types::IndividualPointer );
     void KillIndividual( Types::IndividualPointer );
     void AddChildren( );
@@ -41,11 +43,9 @@ private:
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mAutotrophs;
 
-    Types::IndividualVector mLivingVector;
     Types::IndividualMatrix mLivingMatrix;
-    Types::IndividualVector mDeadVector;
+    Types::IndividualMatrix mDeadMatrix;
     Types::IndividualVector mChildVector;
-    Types::UnsignedVector mSizeClassDeadFrequencies;
     Timer mTimer;
 };
 

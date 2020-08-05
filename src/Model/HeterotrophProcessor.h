@@ -15,13 +15,13 @@ public:
     double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;
     double CalculateStarvationProbability( const Types::IndividualPointer ) const;
 
-    void UpdateSizeClassIndex( const Types::IndividualPointer ) const;
+    bool UpdateSizeClassIndex( const Types::IndividualPointer ) const;
     unsigned FindSizeClassIndexFromVolume( const double ) const;
     unsigned FindIndividualSizeClassIndex( const Types::IndividualPointer, unsigned ) const;
     unsigned DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer ) const;
 
-    double GeneValueToVolume( double ) const;
-    double VolumeToGeneValue( double ) const;
+    static double TraitValueToVolume( double );
+    double VolumeToTraitValue( double ) const;
 
     int RoundWithProbability( const double& ) const;
 

@@ -2,7 +2,6 @@
 #define	INITIALSTATE
 
 #include "Types.h"
-#include "RandomSFMT.h"
 
 class InitialState {
 public:
@@ -13,14 +12,14 @@ public:
 
     double& GetNutrientVolume( );
     double& GetAutotrophVolume( );
-    Types::IndividualVector& GetHeterotrophs( );
+    Types::IndividualMatrix& GetHeterotrophs( );
     unsigned& GetInitialPopulationSize( );
 
 private:
     InitialState( );
     static Types::InitialStatePointer mThis;
 
-    Types::IndividualVector mHeterotrophs;
+    Types::IndividualMatrix mHeterotrophs;
     
     double mNutrientVolume;
     double mAutotrophVolume;

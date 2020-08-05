@@ -20,7 +20,7 @@ class InitialState;
 class MatrixDatum;
 class Nutrient;
 class Parameters;
-class RandomSFMT;
+class RandomSimple;
 class TimeStep;
 class VectorDatum;
 
@@ -38,7 +38,7 @@ namespace Types {
     typedef MatrixDatum* MatrixDatumPointer;
     typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
-    typedef RandomSFMT* RandomSFMTPointer;
+    typedef RandomSimple* RandomSimplePointer;
     typedef TimeStep* TimePointer;
     typedef VectorDatum* VectorDatumPointer;
 

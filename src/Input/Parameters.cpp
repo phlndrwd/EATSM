@@ -232,12 +232,12 @@ const Types::FloatVector& Parameters::GetSizeClassMidPoints( ) {
     return mSizeClassMidPoints;
 }
 
-double Parameters::GetInterSizeClassPreference( const unsigned subjectIndex, const unsigned referenceIndex ) const {
-    return mInterSizeClassPreferenceMatrix[ subjectIndex ][ referenceIndex ];
+double Parameters::GetInterSizeClassPreference( const unsigned predatorIndex, const unsigned preyIndex ) const {
+    return mInterSizeClassPreferenceMatrix[ predatorIndex ][ preyIndex ];
 }
 
-double Parameters::GetInterSizeClassVolume( const unsigned subjectIndex, const unsigned referenceIndex ) const {
-    return mInterSizeClassVolumeMatrix[ subjectIndex ][ referenceIndex ];
+double Parameters::GetInterSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) const {
+    return mInterSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ];
 }
 
 double& Parameters::GetTotalVolume( ) {
