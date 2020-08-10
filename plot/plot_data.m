@@ -174,7 +174,7 @@ if timingMatrixIndex == 0
     dataSetName = 'Timing';
     handle = figure;
     area( AxisTimeSteps, timingMatrix );
-    legend( 'Feeding', 'Metabolisation', 'Starvation', 'Reproduction');
+    legend( 'Feeding', 'Metabolisation', 'Starvation', 'Reproduction', 'Location', 'NorthWest' );
     xlim( [ 0 maximumTime ] );
     ylim( [ 0 max( sum( timingMatrix, 2 ) ) ] );
     grid on; set( gca,'layer','top' );

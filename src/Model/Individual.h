@@ -18,8 +18,7 @@ public:
 
     Types::HeritableTraitsPointer GetHeritableTraits( ) const;
     double GetTrophicLevel( ) const;
-    unsigned GetSizeClassIndex( ) const;
-
+    unsigned GetSizeClassIndex( ) const;   
     unsigned GetAge( ) const;
 
     bool IsDead( ) const;
@@ -43,8 +42,9 @@ private:
     double mVolumeReproduction;
 
     double mVolumeActual;
-    unsigned mSizeClassIndex;
     double mTrophicLevel;
+    
+    unsigned mSizeClassIndex;
     unsigned mAge;
 
     bool mIsDead;

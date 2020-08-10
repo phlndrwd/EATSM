@@ -57,7 +57,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
 
         while( individualVolume <= initialHeterotrophVolume ) {
             initialHeterotrophVolume -= individualVolume;
-            Types::IndividualPointer individual = new Individual( individualVolume, geneValue, firstPopulatedIndex );
+            Types::IndividualPointer individual = new Individual( individualVolume, geneValue, firstPopulatedIndex, mLivingMatrix[ firstPopulatedIndex ].size( ) );
             mLivingMatrix[ firstPopulatedIndex ].push_back( individual );
             ++initialPopulationSize;
         }
@@ -331,7 +331,7 @@ void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual, con
 
 void Heterotrophs::RemoveFromSizeClass( const Types::IndividualPointer individual, const unsigned sizeClassIndex ) {
     // TODO - Speed up by pre-calculating the starting index
-    for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
+    for( unsigned individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
         if( individual == mLivingMatrix[ sizeClassIndex ][ individualIndex ] ) {
             mLivingMatrix[ sizeClassIndex ].erase( mLivingMatrix[ sizeClassIndex ].begin( ) + individualIndex );
             break;
