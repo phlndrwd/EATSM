@@ -320,19 +320,17 @@ void Heterotrophs::DeleteDead( ) {
 }
 
 void Heterotrophs::DeleteIndividual( Types::IndividualPointer individual ) {
-    // TODO - Speed up by pre-calculating the starting index
     RemoveFromSizeClass( individual, individual->GetSizeClassIndex( ) );
     delete individual;
 }
 
 void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual, const unsigned oldSizeClassIndex ) {
-    // Remove from old population
     RemoveFromSizeClass( individual, oldSizeClassIndex );
-    // Add to new
     mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
 void Heterotrophs::RemoveFromSizeClass( const Types::IndividualPointer individual, const unsigned sizeClassIndex ) {
+    // TODO - Speed up by pre-calculating the starting index
     for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
         if( individual == mLivingMatrix[ sizeClassIndex ][ individualIndex ] ) {
             mLivingMatrix[ sizeClassIndex ].erase( mLivingMatrix[ sizeClassIndex ].begin( ) + individualIndex );
