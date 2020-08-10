@@ -57,6 +57,8 @@
         <gdb_interceptlist>
           <gdbinterceptoptions gdb_all="false" gdb_unhandled="true" gdb_unexpected="true"/>
         </gdb_interceptlist>
+        <gdb_signals>
+        </gdb_signals>
         <gdb_options>
           <DebugOptions>
           </DebugOptions>
@@ -70,12 +72,12 @@
         <runcommandpicklist>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s /home/philju/Development/In Progress/EATSM/EATSM/output/0.1/2020-07-19_19-07-19/State.csv</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s "/home/philju/Development/In Progress/EATSM/EATSM/output/0.1/2020-07-19_19-07-19/State.csv"</runcommandpicklistitem>
-          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s "/home/philju/Development/In Progress/EATSM/EATSM/output/0.1/2020-07-19_20-34-25/State.csv"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s "/home/philju/Development/In Progress/EATSM/EATSM/input/RestartState.csv"</runcommandpicklistitem>
           <runcommandpicklistitem>"${OUTPUT_PATH}" -s "/home/philju/Development/In Progress/EATSM/EATSM/input/InitialState.csv"</runcommandpicklistitem>
+          <runcommandpicklistitem>"${OUTPUT_PATH}"</runcommandpicklistitem>
         </runcommandpicklist>
-        <runcommand>"${OUTPUT_PATH}" -s "/home/philju/Development/In Progress/EATSM/EATSM/input/InitialState.csv"</runcommand>
+        <runcommand>"${OUTPUT_PATH}"</runcommand>
         <rundir></rundir>
         <buildfirst>true</buildfirst>
         <terminal-type>0</terminal-type>
