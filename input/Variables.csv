@@ -14,7 +14,8 @@ ToNutrientFlux,vector,Volume,cumulative
 TimingFeeding,vector,Seconds,cumulative
 TimingMetabolising,vector,Seconds,cumulative
 TimingReproducing,vector,Seconds,cumulative
-TimingStarving,vector,Seconds,cumulative
+TimiingStarving,vector,Seconds,cumulative
+TimeSampling,vector,Seconds,cumulative
 SizeClassPopulation,matrix,log_{10}( Individual Frequency ),standard
 SizeClassHerbivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
 SizeClassCarnivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
