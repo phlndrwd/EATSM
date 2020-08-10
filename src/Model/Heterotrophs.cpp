@@ -205,7 +205,7 @@ void Heterotrophs::Reproduction( ) {
 
                 if( mHeterotrophProcessor->UpdateSizeClassIndex( potentialParent ) == true )
                     MoveSizeClass( potentialParent, sizeClassIndex );
-                
+
                 childIndividual->SetSizeClassIndex( potentialParent->GetSizeClassIndex( ) );
                 if( childIndividual->GetHeritableTraits( )->IsValueMutant( Constants::eVolume ) == true ) {
                     mHeterotrophProcessor->UpdateSizeClassIndex( childIndividual );
@@ -321,26 +321,24 @@ void Heterotrophs::DeleteDead( ) {
 
 void Heterotrophs::DeleteIndividual( Types::IndividualPointer individual ) {
     // TODO - Speed up by pre-calculating the starting index
-    unsigned sizeClassIndex = individual->GetSizeClassIndex( );
-    for( unsigned index = 0; index < mLivingMatrix[ sizeClassIndex ].size( ); index++ ) {
-        if( individual == mLivingMatrix[ sizeClassIndex ][ index ] ) {
-            mLivingMatrix[ sizeClassIndex ].erase( mLivingMatrix[ sizeClassIndex ].begin( ) + index );
-            delete individual;
-            break;
-        }
-    }
+    RemoveFromSizeClass( individual, individual->GetSizeClassIndex( ) );
+    delete individual;
 }
 
 void Heterotrophs::MoveSizeClass( const Types::IndividualPointer individual, const unsigned oldSizeClassIndex ) {
     // Remove from old population
-    for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( oldSizeClassIndex ); ++individualIndex ) {
-        if( individual == mLivingMatrix[ oldSizeClassIndex ][ individualIndex ] ) {
-            mLivingMatrix[ oldSizeClassIndex ].erase( mLivingMatrix[ oldSizeClassIndex ].begin( ) + individualIndex );
+    RemoveFromSizeClass( individual, oldSizeClassIndex );
+    // Add to new
+    mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
+}
+
+void Heterotrophs::RemoveFromSizeClass( const Types::IndividualPointer individual, const unsigned sizeClassIndex ) {
+    for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
+        if( individual == mLivingMatrix[ sizeClassIndex ][ individualIndex ] ) {
+            mLivingMatrix[ sizeClassIndex ].erase( mLivingMatrix[ sizeClassIndex ].begin( ) + individualIndex );
             break;
         }
     }
-    // Add to new
-    mLivingMatrix[ individual->GetSizeClassIndex( ) ].push_back( individual );
 }
 
 void Heterotrophs::StarveToDeath( Types::IndividualPointer individual ) {

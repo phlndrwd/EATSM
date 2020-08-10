@@ -75,10 +75,10 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "ToHeterotrophFlux", mToFlux );
     DataRecorder::Get( )->AddDataTo( "InHeterotrophFlux", mInFlux );
     
-    DataRecorder::Get( )->AddDataTo( "TimeFeeding", mTimeFeeding );
-    DataRecorder::Get( )->AddDataTo( "TimeMetabolising", mTimeMetabolising );
-    DataRecorder::Get( )->AddDataTo( "TimeReproducing", mTimeReproducing );
-    DataRecorder::Get( )->AddDataTo( "TimeStarving", mTimeStarving );
+    DataRecorder::Get( )->AddDataTo( "TimingFeeding", mTimeFeeding );
+    DataRecorder::Get( )->AddDataTo( "TimingMetabolising", mTimeMetabolising );
+    DataRecorder::Get( )->AddDataTo( "TimingReproducing", mTimeReproducing );
+    DataRecorder::Get( )->AddDataTo( "TimingStarving", mTimeStarving );
 
     DataRecorder::Get( )->AddDataTo( "SizeClassPopulation", mSizeClassPopulation );
     DataRecorder::Get( )->AddDataTo( "SizeClassHerbivoreFrequencies", mSizeClassHerbivoreFrequencies );

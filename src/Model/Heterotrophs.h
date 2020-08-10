@@ -29,9 +29,10 @@ private:
     void FeedFromAutotrophs( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
     void DeleteDead( );
-    void DeleteIndividual( Types::IndividualPointer );
     
+    void DeleteIndividual( Types::IndividualPointer );
     void MoveSizeClass( const Types::IndividualPointer, const unsigned );
+    void RemoveFromSizeClass( const Types::IndividualPointer, const unsigned );
     
     void StarveToDeath( Types::IndividualPointer );
     void KillIndividual( Types::IndividualPointer );

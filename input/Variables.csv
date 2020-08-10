@@ -11,11 +11,10 @@ AutotrophVolume,vector,Volume,standard
 ToAutotrophFlux,vector,Volume,cumulative
 NutrientVolume,vector,Volume,standard
 ToNutrientFlux,vector,Volume,cumulative
-TimeFeeding,vector,Seconds,cumulative
-TimeMetabolising,vector,Seconds,cumulative
-TimeReproducing,vector,Seconds,cumulative
-TimeStarving,vector,Seconds,cumulative
-TimeSampling,vector,Seconds,cumulative
+TimingFeeding,vector,Seconds,cumulative
+TimingMetabolising,vector,Seconds,cumulative
+TimingReproducing,vector,Seconds,cumulative
+TimingStarving,vector,Seconds,cumulative
 SizeClassPopulation,matrix,log_{10}( Individual Frequency ),standard
 SizeClassHerbivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative
 SizeClassCarnivoreFrequencies,matrix,log_{10}( Individual Frequency ),cumulative

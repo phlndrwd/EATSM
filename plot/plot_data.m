@@ -32,6 +32,7 @@ OutputVariables = ReadTable( [ optionOutputDirectory optionCurrentDataSet option
 numberOfDatums = length( OutputVariables( :, 1 ) );
 
 volumeMatrixIndex = 3;
+timingMatrixIndex = 4;
 
 for datumIndex = 1:numberOfDatums
     dataSetName = OutputVariables{ datumIndex, 1 };
@@ -63,7 +64,8 @@ for datumIndex = 1:numberOfDatums
                 AxisTimeStepsExtended = ExtendVector( AxisTimeSteps );
                 maximumTime = max( AxisTimeSteps );
                 volumeMatrix = zeros( length( AxisTimeSteps ), volumeMatrixIndex );
-            else                                                               % Is data for plotting
+                timingMatrix = zeros( length( AxisTimeSteps ), timingMatrixIndex );
+            else                                                      % Is data for plotting
                 %% Plotting
                 plotType = OutputVariables{ datumIndex, 2 };
                 dataLabel = OutputVariables{ datumIndex, 3 };
@@ -79,6 +81,10 @@ for datumIndex = 1:numberOfDatums
                         % Data collection for volume area plot
                         volumeMatrix( :, volumeMatrixIndex ) = dataSet;
                         volumeMatrixIndex = volumeMatrixIndex - 1;
+                    elseif contains( lower( dataSetName ), searchTermTiming ) == 1
+                        % Data collection for timing area plot
+                        timingMatrix( :, timingMatrixIndex ) = dataSet;
+                        timingMatrixIndex = timingMatrixIndex - 1;
                     end
                     
                 elseif strcmp( plotType, 'matrix' ) == 1
@@ -105,15 +111,6 @@ for datumIndex = 1:numberOfDatums
                         plot( AxisTimeSteps, dataSet' ), shading flat;
                         ylabel( dataLabel );
                         legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
-                    elseif strfind( lower( dataSetName ), searchTermTiming ) == 1
-                        %% Timing plot
-                        area( dataSet );
-                        legend( 'Feeding', 'Metabolisation', 'Starvation', 'Reproduction');
-                        xlim( [ 0 maximumTime ] );
-                        ylim( [ 0 1 ] );
-                        title( dataSetName );
-                        xlabel( labelTimeAxis );
-                        ylabel( dataLabel );
                     else
                         %% Size class plots
                         dataSet = PadMatrix( dataSet ); % Extend matrix for pcolor plot
@@ -163,6 +160,7 @@ if volumeMatrixIndex == 0
     legend( 'Nutrient', 'Autotrophs', 'Heterotrophs');
     xlim( [ 0 maximumTime ] );
     ylim( [ 0 max( sum( volumeMatrix, 2 ) ) ] );
+    grid on; set( gca,'layer','top' );
     title( dataSetName );
     xlabel( labelTimeAxis );
     ylabel( 'Volume' );
@@ -170,4 +168,21 @@ if volumeMatrixIndex == 0
         printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
         close( handle );
     end
+end
+
+if timingMatrixIndex == 0
+    dataSetName = 'Timing';
+    handle = figure;
+    area( AxisTimeSteps, timingMatrix );
+    legend( 'Feeding', 'Metabolisation', 'Starvation', 'Reproduction');
+    xlim( [ 0 maximumTime ] );
+    ylim( [ 0 max( sum( timingMatrix, 2 ) ) ] );
+    grid on; set( gca,'layer','top' );
+    title( dataSetName );
+    xlabel( labelTimeAxis );
+    ylabel( 'Time (s)' );
+    if optionPrintPlotsToFile == 1
+        printPlotToFile( handle, [ optionPlotImageWidth optionPlotImageHeight ], [ optionOutputDirectory optionCurrentDataSet dataSetName ], optionOutputFileFormat );
+        close( handle );
+    end                      
 end
