@@ -25,7 +25,7 @@ public:
     void SetFeedingProbability( const unsigned, const double );
 
     void AddIndividualData( const Types::IndividualPointer );
-    void AddSizeClassData( const unsigned, const unsigned );
+    void AddSizeClassData( const unsigned, const unsigned, const double );
     void NormaliseData( );
 
     bool AreHeterotrophsAlive( ) const;

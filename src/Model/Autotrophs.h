@@ -23,6 +23,7 @@ private:
     Types::NutrientPointer mNutrient;
     
     double mVolume;
+    double mMaximumVolume;
     double mToFlux;
 
 };

@@ -26,7 +26,7 @@ double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::Individua
 }
 
 double HeterotrophProcessor::CalculateStarvationProbability( const Types::IndividualPointer individual ) const {
-    return CalculateLinearStarvation( individual->GetVolumeActual( ), individual->GetVolumeHeritable( ), individual->GetVolumeMinimum( ) );
+    return CalculateLinearStarvation( individual->GetVolumeActual( ), individual->GetVolumeHeritable( ), individual->GetVolumeMinimum( ), individual->GetStarvationMultiplier( ) );
 }
 
 unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
@@ -81,11 +81,11 @@ unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const T
     unsigned sizeClassIndex = individual->GetSizeClassIndex( );
     double volumeActual = individual->GetVolumeActual( );
 
-    if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) )
-        directionToMove = Constants::eMoveUp;
-    else if( volumeActual < Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex ) )
+    if( volumeActual < Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex ) )
         directionToMove = Constants::eMoveDown;
-
+    else if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) )
+        directionToMove = Constants::eMoveUp;
+    
     return directionToMove;
 }
 
@@ -97,7 +97,7 @@ double HeterotrophProcessor::CalculateFeedingProbabilityType2( const double effe
     return ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( ) + effectivePreyVolume ) );
 }
 
-double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
+double HeterotrophProcessor::CalculateLinearStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {
     double starvationProbability = 1;
 
     if( volumeActual <= volumeMinimum )
@@ -105,12 +105,12 @@ double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActua
     else if( volumeActual >= volumeHeritable )
         starvationProbability = 0;
     else
-        starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) / ( volumeHeritable - volumeMinimum ) );
+        starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) * starvationMultiplier );
     
     return starvationProbability;
 }
 
-double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum ) const {
+double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {
     double starvationProbability = 1;
 
     if( volumeActual <= volumeMinimum )
@@ -118,22 +118,18 @@ double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double vo
     else if( volumeActual >= volumeHeritable )
         starvationProbability = 0;
     else
-        starvationProbability = 1 - ( 1 + ( ( volumeHeritable - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) / ( ( volumeHeritable - volumeMinimum ) ) ) * ( ( volumeActual - volumeMinimum ) / ( volumeHeritable - volumeMinimum ) );
+        starvationProbability = 1 - ( 1 + ( ( volumeHeritable - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) * starvationMultiplier ) * ( ( volumeActual - volumeMinimum ) * starvationMultiplier );
 
     return starvationProbability;
 }
 
 double HeterotrophProcessor::TraitValueToVolume( double traitValue ) {
     double volumeExponent = traitValue * ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) + Parameters::Get( )->GetSmallestVolumeExponent( );
-    double volume = std::pow( 10, volumeExponent );
-
-    return volume;
+    return std::pow( 10, volumeExponent );
 }
 
 double HeterotrophProcessor::VolumeToTraitValue( double volume ) const {
-    double traitValue = ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
-
-    return traitValue;
+    return ( std::log10( volume ) - Parameters::Get( )->GetSmallestVolumeExponent( ) ) / ( Parameters::Get( )->GetLargestVolumeExponent( ) - Parameters::Get( )->GetSmallestVolumeExponent( ) );
 }
 
 int HeterotrophProcessor::RoundWithProbability( const double& value ) const {

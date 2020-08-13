@@ -57,6 +57,7 @@ namespace Constants {
     const unsigned cOutputFolderPermissions = 0777;
 
     const unsigned cReproductionFactor = 2;
+    const double cReproductionMultiplier = 1 / ( double )cReproductionFactor; // Equivalent to 1 / 2
     const double cMinimumFractionalVolume = 0.5;
     
     const unsigned cSecondsInAMinute = 60;

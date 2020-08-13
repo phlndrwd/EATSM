@@ -27,6 +27,8 @@ public:
     double GetVolumeHeritable( ) const;
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
+    
+    double GetStarvationMultiplier( ) const;
 
     void SetTrophicLevel( const double );
     void SetSizeClassIndex( const unsigned );
@@ -43,6 +45,8 @@ private:
 
     double mVolumeActual;
     double mTrophicLevel;
+    
+    double mStarvationMultiplier;
     
     unsigned mSizeClassIndex;
     unsigned mAge;

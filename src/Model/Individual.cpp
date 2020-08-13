@@ -18,7 +18,9 @@ Individual::Individual( const double volumeHeritable, const double geneValue, co
     mVolumeActual = mVolumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-
+    
+    mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
+    
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
@@ -33,7 +35,9 @@ Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, con
     mTrophicLevel = trophicLevel;
 
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-
+    
+    mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
+    
     mAge = 0;
     mIsDead = false;
 }
@@ -49,7 +53,9 @@ Individual::Individual( const double traitValue, const double volumeHeritable, c
     mVolumeHeritable = volumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-
+    
+    mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
+    
     mAge = 0;
     mTrophicLevel = 0;
     mIsDead = false;
@@ -68,7 +74,7 @@ Types::IndividualPointer Individual::Reproduce( ) {
     double childVolumeMinimum = 0;
 
     if( childHeritableTraits->IsValueMutant( Constants::eVolume ) == false ) {
-        childVolumeActual = mVolumeActual / Constants::cReproductionFactor;
+        childVolumeActual = mVolumeActual * Constants::cReproductionMultiplier;
         childVolumeHeritable = mVolumeHeritable;
         childVolumeMinimum = mVolumeMinimum;
     } else {
@@ -78,7 +84,7 @@ Types::IndividualPointer Individual::Reproduce( ) {
         if( childVolumeHeritable < mVolumeActual )
             childVolumeActual = childVolumeHeritable;
         else
-            childVolumeActual = mVolumeActual / Constants::cReproductionFactor;
+            childVolumeActual = mVolumeActual * Constants::cReproductionMultiplier;
     }
     mVolumeActual = mVolumeActual - childVolumeActual;
     childIndividual = new Individual( childHeritableTraits, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
@@ -135,6 +141,10 @@ double Individual::GetVolumeMinimum( ) const {
 
 double Individual::GetVolumeReproduction( ) const {
     return mVolumeReproduction;
+}
+
+double Individual::GetStarvationMultiplier( ) const {
+    return mStarvationMultiplier;
 }
 
 void Individual::SetTrophicLevel( const double trophicLevel ) {

@@ -29,8 +29,8 @@ private:
     double CalculateFeedingProbabilityType1( const double ) const;
     double CalculateFeedingProbabilityType2( const double ) const;
 
-    double CalculateLinearStarvation( const double, const double, const double ) const;
-    double CalculateBetaExponentialStarvation( const double, const double, const double ) const;
+    double CalculateLinearStarvation( const double&, const double&, const double&, const double& ) const;
+    double CalculateBetaExponentialStarvation( const double&, const double&, const double&, const double& ) const;
 };
 
 #endif

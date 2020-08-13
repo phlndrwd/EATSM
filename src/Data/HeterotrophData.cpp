@@ -145,7 +145,7 @@ void HeterotrophData::AddIndividualData( const Types::IndividualPointer individu
     mSizeClassAges[ individual->GetSizeClassIndex( ) ] += individual->GetAge( );
 }
 
-void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassPopulation ) {
+void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const unsigned sizeClassPopulation, const double sizeClassMultiplier ) {
     mFrequency += sizeClassPopulation;
 
     double sizeClassVolumeApproximation = Parameters::Get( )->GetSizeClassMidPoint( sizeClassIndex ) * sizeClassPopulation;
@@ -153,9 +153,9 @@ void HeterotrophData::AddSizeClassData( const unsigned sizeClassIndex, const uns
     if( sizeClassPopulation > 0 ) {
         mSizeClassPopulation[ sizeClassIndex ] = sizeClassPopulation;
         mSizeClassApproxVolumes[ sizeClassIndex ] = sizeClassVolumeApproximation;
-        mSizeClassGrowthRatios[ sizeClassIndex ] = mSizeClassGrowthRatios[ sizeClassIndex ] / ( double )sizeClassPopulation;
-        mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] / ( double )sizeClassPopulation;
-        mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] / ( double )sizeClassPopulation;
+        mSizeClassGrowthRatios[ sizeClassIndex ] = mSizeClassGrowthRatios[ sizeClassIndex ] * sizeClassMultiplier;
+        mSizeClassTrophicClassifications[ sizeClassIndex ] = mSizeClassTrophicClassifications[ sizeClassIndex ] * sizeClassMultiplier;
+        mSizeClassAges[ sizeClassIndex ] = mSizeClassAges[ sizeClassIndex ] * sizeClassMultiplier;
     } else {
         mSizeClassVolumes[ sizeClassIndex ] = Constants::cMissingValue;
         mSizeClassGrowthRatios[ sizeClassIndex ] = Constants::cMissingValue;

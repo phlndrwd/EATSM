@@ -99,8 +99,8 @@ bool Heterotrophs::RecordData( ) {
         for( unsigned int individualIndex = 0; individualIndex < sizeClassPopulation; ++individualIndex ) {
             mHeterotrophData->AddIndividualData( mLivingMatrix[ sizeClassIndex ][ individualIndex ] );
         }
-
-        mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassPopulation );
+        double sizeClassMultiplier = 1 / ( double ) sizeClassPopulation;
+        mHeterotrophData->AddSizeClassData( sizeClassIndex, sizeClassPopulation, sizeClassMultiplier );
     }
     mHeterotrophData->NormaliseData( );
     mHeterotrophData->RecordOutputData( );
@@ -160,14 +160,12 @@ void Heterotrophs::Feeding( ) {
                 if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
                     Types::IndividualPointer predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                    if( predator != NULL ) {
-                        unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
+                    unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
 
-                        if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
-                            FeedFromAutotrophs( predator );
-                        else
-                            FeedFromHeterotrophs( predator, coupledIndex );
-                    }
+                    if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
+                        FeedFromAutotrophs( predator );
+                    else
+                        FeedFromHeterotrophs( predator, coupledIndex );
                 }
             }
         }
@@ -230,9 +228,8 @@ void Heterotrophs::Starvation( ) {
             for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                if( individual != NULL )
-                    if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
-                        StarveToDeath( individual );
+                if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
+                    StarveToDeath( individual );
             }
         }
     }
@@ -249,11 +246,8 @@ void Heterotrophs::FeedFromAutotrophs( const Types::IndividualPointer grazer ) {
         double waste = grazer->ConsumePreyVolume( smallestIndividualVolume );
         double trophicLevel = grazer->GetTrophicLevel( );
 
-        if( trophicLevel == 0 )
-            grazer->SetTrophicLevel( 2 );
-        else
-            grazer->SetTrophicLevel( ( trophicLevel + 2 ) / 2.0 );
-
+        if( trophicLevel != 0 ) grazer->SetTrophicLevel( ( trophicLevel + 2 ) * 0.5 );
+        else grazer->SetTrophicLevel( 2 );
         mNutrient->AddToVolume( waste );
     }
 }
@@ -261,33 +255,27 @@ void Heterotrophs::FeedFromAutotrophs( const Types::IndividualPointer grazer ) {
 void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator, unsigned coupledIndex ) {
     Types::IndividualPointer prey = GetRandomIndividualFromSizeClass( coupledIndex, predator );
 
-    if( prey != NULL ) {
-        double preyVolume = prey->GetVolumeActual( );
-        mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
+    double preyVolume = prey->GetVolumeActual( );
+    mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
 
-        double waste = predator->ConsumePreyVolume( preyVolume );
+    double waste = predator->ConsumePreyVolume( preyVolume );
 
-        double predatorTrophicLevel = predator->GetTrophicLevel( );
-        double preyTrophicLevel = prey->GetTrophicLevel( );
+    double predatorTrophicLevel = predator->GetTrophicLevel( );
+    double preyTrophicLevel = prey->GetTrophicLevel( );
 
-        double trophicLevel = -1;
+    double trophicLevel = -1;
 
-        if( predatorTrophicLevel == 0 ) {
-            if( preyTrophicLevel == 0 )
-                trophicLevel = 3;
-            else
-                trophicLevel = preyTrophicLevel + 1;
-        } else {
-            if( preyTrophicLevel == 0 )
-                trophicLevel = ( predatorTrophicLevel + 3 ) / 2.0;
-            else
-                trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) / 2.0;
-        }
-
-        predator->SetTrophicLevel( trophicLevel );
-        mNutrient->AddToVolume( waste );
-        KillIndividual( prey );
+    if( predatorTrophicLevel != 0 ) {
+        if( preyTrophicLevel != 0 ) trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
+        else  trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
+    } else {
+        if( preyTrophicLevel != 0 ) trophicLevel = preyTrophicLevel + 1;
+        else trophicLevel = 3;
     }
+
+    predator->SetTrophicLevel( trophicLevel );
+    mNutrient->AddToVolume( waste );
+    KillIndividual( prey );
 }
 
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer individual ) const {
@@ -301,12 +289,11 @@ Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const u
     Types::IndividualPointer randomIndividual = NULL;
 
     if( sizeClassLivingFrequency > 0 ) {
-        while( randomIndividual == NULL || randomIndividual->IsDead( ) == true || randomIndividual == individual ) {
+        do {
             unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( sizeClassPopulation - 1 );
             randomIndividual = mLivingMatrix[ sizeClassIndex ][ randomIndividualIndex ];
-        }
+        } while( randomIndividual->IsDead( ) == true || randomIndividual == individual );
     }
-
     return randomIndividual;
 }
 
