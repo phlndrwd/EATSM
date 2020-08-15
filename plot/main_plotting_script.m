@@ -2,8 +2,8 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2020-08-13_15-52-33';
-optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.2.1/';
+optionCurrentDataSet            = '2020-08-15_22-56-32';
+optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.3/';
 
 optionOutputVariablesFile      = 'Variables';
 optionFileExtension             = '.csv';

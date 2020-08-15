@@ -4,6 +4,8 @@
 #include "RandomSimple.h"
 
 #include <cmath>
+#include <iostream>
+
 
 HeterotrophProcessor::HeterotrophProcessor( ) {
 
@@ -17,8 +19,8 @@ double HeterotrophProcessor::CalculatePreferenceForPrey( const double grazerVolu
     return std::exp( -std::pow( ( std::log( ( Parameters::Get( )->GetPreferredPreyVolumeRatio( ) * preyVolume ) / grazerVolume ) ), 2 ) / ( 2 * std::pow( Parameters::Get( )->GetPreferenceFunctionWidth( ), 2 ) ) );
 }
 
-double HeterotrophProcessor::CalculateFeedingProbability( const double effectivePreyVolume ) {
-    return CalculateFeedingProbabilityType2( effectivePreyVolume );
+double HeterotrophProcessor::CalculateFeedingProbability( const unsigned predatorIndex, const double effectivePreyVolume ) {
+    return CalculateFeedingProbabilityType2( predatorIndex, effectivePreyVolume );
 }
 
 double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::IndividualPointer individual ) const {
@@ -93,8 +95,15 @@ double HeterotrophProcessor::CalculateFeedingProbabilityType1( const double effe
     return ( effectivePreyVolume / Parameters::Get( )->GetTotalVolume( ) );
 }
 
-double HeterotrophProcessor::CalculateFeedingProbabilityType2( const double effectivePreyVolume ) const {
-    return ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( ) + effectivePreyVolume ) );
+double HeterotrophProcessor::CalculateFeedingProbabilityType2( const unsigned predatorIndex, const double effectivePreyVolume ) const {
+    //std::cout << "predatorIndex> " << predatorIndex << ", HalfSaturationConstant( predatorIndex )> " << Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) << std::endl;
+    //
+    
+    double hscOne = Parameters::Get( )->GetHalfSaturationConstantFraction( ) * Parameters::Get( )->GetTotalVolume( );
+    double hscTwo = Parameters::Get( )->GetHalfSaturationConstant( predatorIndex );
+    double one = ( effectivePreyVolume / ( hscOne + effectivePreyVolume ) );
+    double two = ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) + effectivePreyVolume ) );
+    return two;
 }
 
 double HeterotrophProcessor::CalculateLinearStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {

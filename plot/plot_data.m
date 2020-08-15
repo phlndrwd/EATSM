@@ -107,10 +107,12 @@ for datumIndex = 1:numberOfDatums
                         dataSet( all( isnan( dataSet ), 2 ), : ) = []; % Remove rows where all data are missing
                         sizeDataSet = size( dataSet );
                         numberOfTrophicLevels = sizeDataSet( 1 ) - 1;
-                        dataSet = dataSet( 2:sizeDataSet( 1 ), : );
-                        plot( AxisTimeSteps, dataSet' ), shading flat;
-                        ylabel( dataLabel );
-                        legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
+                        if numberOfTrophicLevels > 0 % No trophic levels when no feeding events have occurred
+                            dataSet = dataSet( 2:sizeDataSet( 1 ), : );
+                            plot( AxisTimeSteps, dataSet' ), shading flat;
+                            ylabel( dataLabel );
+                            legend( trophicLevelNames( 1:numberOfTrophicLevels ) );
+                        end
                     else
                         %% Size class plots
                         dataSet = PadMatrix( dataSet ); % Extend matrix for pcolor plot

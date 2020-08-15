@@ -10,7 +10,7 @@ public:
 
     double CalculatePreferenceForPrey( const double, const double ) const;
 
-    double CalculateFeedingProbability( const double );
+    double CalculateFeedingProbability( const unsigned, const double );
 
     double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;
     double CalculateStarvationProbability( const Types::IndividualPointer ) const;
@@ -27,7 +27,7 @@ public:
 
 private:
     double CalculateFeedingProbabilityType1( const double ) const;
-    double CalculateFeedingProbabilityType2( const double ) const;
+    double CalculateFeedingProbabilityType2( const unsigned, const double ) const;
 
     double CalculateLinearStarvation( const double&, const double&, const double&, const double& ) const;
     double CalculateBetaExponentialStarvation( const double&, const double&, const double&, const double& ) const;

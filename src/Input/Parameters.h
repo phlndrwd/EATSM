@@ -84,7 +84,7 @@ public:
     double GetInterSizeClassVolume( const unsigned, const unsigned ) const;
 
     double& GetTotalVolume( );
-    double& GetHalfSaturationConstant( );
+    float& GetHalfSaturationConstant( const unsigned );
 
     const Types::FloatVector& GetSizeClassBoundaries( );
     const Types::FloatVector& GetSizeClassMidPoints( );
@@ -133,7 +133,8 @@ private:
     double mLargestVolumeExponent;
 
     double mTotalVolume;
-    double mHalfSaturationConstant;
+    
+    Types::FloatVector mHalfSaturationConstants;
 
     Types::FloatVector mSizeClassBoundaries;
     Types::FloatVector mSizeClassMidPoints;

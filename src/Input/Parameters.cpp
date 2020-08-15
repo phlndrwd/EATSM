@@ -21,6 +21,7 @@ Parameters::~Parameters( ) {
         mInterSizeClassPreferenceMatrix.clear( );
         mInterSizeClassVolumeMatrix.clear( );
 
+        mHalfSaturationConstants.clear( );
         mSizeClassBoundaries.clear( );
         mSizeClassMidPoints.clear( );
 
@@ -76,11 +77,14 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 }
 
 void Parameters::CalculateParameters( ) {
+    mHalfSaturationConstants.resize( mNumberOfSizeClasses );
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
 
     mSmallestVolumeExponent = std::log10( mSmallestIndividualVolume );
     mLargestVolumeExponent = std::log10( mLargestIndividualVolume );
+    
+    mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
 
     double sizeClassExponentIncrement = ( mLargestVolumeExponent - mSmallestVolumeExponent ) / mNumberOfSizeClasses;
 
@@ -90,18 +94,14 @@ void Parameters::CalculateParameters( ) {
 
         mSizeClassBoundaries[ sizeClassIndex ] = std::pow( 10, sizeClassBoundaryExponent );
         mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
+        
+        mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * ( mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ] );
     }
-
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
-
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
 
     Types::HeterotrophProcessorPointer temporaryHeterotrophProcessor = new HeterotrophProcessor( );
-
     mAutotrophSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
-
-    mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
-    mHalfSaturationConstant = mHalfSaturationConstantFraction * mTotalVolume;
 
     mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
     mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
@@ -244,8 +244,8 @@ double& Parameters::GetTotalVolume( ) {
     return mTotalVolume;
 }
 
-double& Parameters::GetHalfSaturationConstant( ) {
-    return mHalfSaturationConstant;
+float& Parameters::GetHalfSaturationConstant( const unsigned sizeClassIndex ) {
+    return mHalfSaturationConstants[ sizeClassIndex ];
 }
 
 const Types::FloatVector& Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {

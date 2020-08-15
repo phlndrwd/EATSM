@@ -142,7 +142,7 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
             }
             mHeterotrophData->SetCoupledSizeClassIndex( predatorIndex, coupledSizeClassIndex );
             mHeterotrophData->SetEffectivePreyVolume( predatorIndex, effectivePreyVolume );
-            mHeterotrophData->SetFeedingProbability( predatorIndex, mHeterotrophProcessor->CalculateFeedingProbability( effectivePreyVolume ) );
+            mHeterotrophData->SetFeedingProbability( predatorIndex, mHeterotrophProcessor->CalculateFeedingProbability( predatorIndex, effectivePreyVolume ) );
         }
     }
 }
