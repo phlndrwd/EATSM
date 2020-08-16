@@ -96,14 +96,7 @@ double HeterotrophProcessor::CalculateFeedingProbabilityType1( const double effe
 }
 
 double HeterotrophProcessor::CalculateFeedingProbabilityType2( const unsigned predatorIndex, const double effectivePreyVolume ) const {
-    //std::cout << "predatorIndex> " << predatorIndex << ", HalfSaturationConstant( predatorIndex )> " << Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) << std::endl;
-    //
-    
-    double hscOne = Parameters::Get( )->GetHalfSaturationConstantFraction( ) * Parameters::Get( )->GetTotalVolume( );
-    double hscTwo = Parameters::Get( )->GetHalfSaturationConstant( predatorIndex );
-    double one = ( effectivePreyVolume / ( hscOne + effectivePreyVolume ) );
-    double two = ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) + effectivePreyVolume ) );
-    return two;
+    return ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) + effectivePreyVolume ) );
 }
 
 double HeterotrophProcessor::CalculateLinearStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {
