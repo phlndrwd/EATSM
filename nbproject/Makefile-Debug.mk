@@ -62,8 +62,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-Wall -Wextra -Wpedantic -std=c++11 -fopenmp
-CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++11 -fopenmp
+CCFLAGS=-Wall -Wextra -Wpedantic -std=c++11
+CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++11
 
 # Fortran Compiler Flags
 FFLAGS=

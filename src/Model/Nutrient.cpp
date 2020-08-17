@@ -7,7 +7,7 @@
 #include <iostream>
 
 Nutrient::Nutrient( ) {
-    if( Parameters::Get( )->GetReadModelState( ) == true )
+    if( InitialState::Get( )->IsInitialised( ) == true )
         mVolume = InitialState::Get( )->GetNutrientVolume( );
     else
         mVolume = 0;

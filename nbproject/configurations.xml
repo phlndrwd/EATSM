@@ -108,7 +108,7 @@
             <pElem>src/Output/</pElem>
             <pElem>src/Tools/</pElem>
           </incDir>
-          <commandLine>-Wall -Wextra -Wpedantic -std=c++11 -fopenmp</commandLine>
+          <commandLine>-Wall -Wextra -Wpedantic -std=c++11</commandLine>
         </ccTool>
       </compileType>
       <item path="src/Data/HeterotrophData.cpp" ex="false" tool="1" flavor2="0">

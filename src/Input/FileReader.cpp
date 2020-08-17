@@ -23,16 +23,14 @@ void FileReader::ReadInputFiles( std::string& parametersFile, std::string& state
             if( ReadTextFile( Constants::cConfigurationDirectory + Constants::cOutputParametersFileName ) )
                 success = DataRecorder::Get( )->Initialise( mRawTextData );
 
-    if( success == true && Parameters::Get( )->GetReadModelState( ) == true ) {
+    // State file is specified, this overrides the option to avoid a restart.
+    if( success == true && ( Parameters::Get( )->GetReadModelState( ) == true || stateFile != "" ) ) {
+        Parameters::Get( )->SetReadModelState( true ); // For cases when a state file is specified, but the option not set.
         success = false;
         if( stateFile == "" ) stateFile = Constants::cConfigurationDirectory + Constants::cInitialStateFileName;
-        if( ReadTextFile( stateFile, false ) )
-            success = InitialState::Get( )->Initialise( mRawTextData );
-    } else if( success == true && Parameters::Get( )->GetReadModelState( ) == false && stateFile != "" ) {
-        std::cout << "ERROR> State file \"" << stateFile << "\" specified, but state reading is switched off. System exiting..." << std::endl;
-        exit( 1 );
+        if( ReadTextFile( stateFile, false ) == true ) success = InitialState::Get( )->Initialise( mRawTextData );
     }
-
+    
     if( success ) {
         std::cout << "Files read successfully..." << std::endl;
     } else {
@@ -63,9 +61,8 @@ bool FileReader::ReadTextFile( const std::string& filePath, bool copyToOutput ) 
         }
 
         fileStream.close( );
-    } else {
-        std::cout << "File path \"" << filePath << "\" is invalid." << std::endl;
-    }
+    } else std::cout << "File path \"" << filePath << "\" is invalid." << std::endl;
+    
     if( copyToOutput == true ) DataRecorder::Get( )->AddInputFilePath( filePath );
 
     return mRawTextData.size( ) > 0;

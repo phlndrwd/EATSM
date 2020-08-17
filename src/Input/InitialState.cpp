@@ -17,7 +17,7 @@ InitialState::~InitialState( ) {
 }
 
 InitialState::InitialState( ) {
-
+    mIsInitialised = false;
 }
 
 bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) {
@@ -26,7 +26,7 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     mAutotrophVolume = Strings::StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
-    // TODO - Restart uses a mixture of restart and parameters files as input.
+
     mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
         double geneValue = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
@@ -38,7 +38,8 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }
-    return true; // Currently no circumstance under which this function can return false.
+    mIsInitialised = true;
+    return mIsInitialised; // Currently no circumstance under which this function can return false.
 }
 
 double& InitialState::GetNutrientVolume( ) {
@@ -55,4 +56,8 @@ Types::IndividualMatrix& InitialState::GetHeterotrophs( ) {
 
 unsigned& InitialState::GetInitialPopulationSize( ) {
     return mInitialPopulationSize;
+}
+
+bool InitialState::IsInitialised( ) {
+    return mIsInitialised;
 }

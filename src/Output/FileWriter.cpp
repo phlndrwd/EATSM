@@ -59,6 +59,7 @@ void FileWriter::InitialiseOutputDirectory( ) {
     }
 
     mOutputPath.append( Strings::ToString( Constants::cFolderDelimiter ) );
+    std::cout << "Output directory initialised at \"" << mOutputPath << "\"." << std::endl;
 }
 
 bool FileWriter::WriteInputFiles( ) {

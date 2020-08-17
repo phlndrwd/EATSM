@@ -2,8 +2,8 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2020-08-16_00-59-37';
-optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.3';
+optionCurrentDataSet            = '1e7,0.05';
+optionOutputDirectory           = '/home/philju/Work/Writing/EATSM/Experiments/LargestIndividualVolume,MutationProbability/';
 
 optionOutputVariablesFile      = 'Variables';
 optionFileExtension             = '.csv';

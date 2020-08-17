@@ -12,7 +12,7 @@ Autotrophs::Autotrophs( ) {
 
 Autotrophs::Autotrophs( Types::NutrientPointer nutrient ) {
     mNutrient = nutrient;
-    if( Parameters::Get( )->GetReadModelState( ) == true ) mVolume = InitialState::Get( )->GetAutotrophVolume( );
+    if( InitialState::Get( )->IsInitialised( ) == true ) mVolume = InitialState::Get( )->GetAutotrophVolume( );
     else mVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
     mMaximumVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
 

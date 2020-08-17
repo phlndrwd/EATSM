@@ -45,7 +45,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
     mLivingMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mDeadMatrix.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
-    if( Parameters::Get( )->GetReadModelState( ) == false ) {
+    if( InitialState::Get( )->IsInitialised( ) == false ) {
         unsigned initialPopulationSize = 0;
         double secondaryProducerVolume = Parameters::Get( )->GetSmallestIndividualVolume( ) * Parameters::Get( )->GetPreferredPreyVolumeRatio( );
 

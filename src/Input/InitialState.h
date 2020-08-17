@@ -9,6 +9,7 @@ public:
     static Types::InitialStatePointer Get( );
 
     bool Initialise( const Types::StringMatrix& );
+    bool IsInitialised( );
 
     double& GetNutrientVolume( );
     double& GetAutotrophVolume( );
@@ -21,6 +22,7 @@ private:
 
     Types::IndividualMatrix mHeterotrophs;
     
+    bool mIsInitialised;
     double mNutrientVolume;
     double mAutotrophVolume;
     unsigned mInitialPopulationSize;
