@@ -9,7 +9,6 @@ public:
     ~HeterotrophProcessor( );
 
     double CalculatePreferenceForPrey( const double, const double ) const;
-
     double CalculateFeedingProbability( const unsigned, const double );
 
     double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;

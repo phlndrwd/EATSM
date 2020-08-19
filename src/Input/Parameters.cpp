@@ -21,6 +21,7 @@ Parameters::~Parameters( ) {
         mInterSizeClassPreferenceMatrix.clear( );
         mInterSizeClassVolumeMatrix.clear( );
 
+        mRemainingVolumes.clear( );
         mHalfSaturationConstants.clear( );
         mSizeClassBoundaries.clear( );
         mSizeClassMidPoints.clear( );
@@ -77,6 +78,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 }
 
 void Parameters::CalculateParameters( ) {
+    mRemainingVolumes.resize( mNumberOfSizeClasses );
     mHalfSaturationConstants.resize( mNumberOfSizeClasses );
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
@@ -95,7 +97,8 @@ void Parameters::CalculateParameters( ) {
         mSizeClassBoundaries[ sizeClassIndex ] = std::pow( 10, sizeClassBoundaryExponent );
         mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
         
-        mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * ( mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ] );
+        mRemainingVolumes[ sizeClassIndex ] = mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ];
+        mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * mRemainingVolumes[ sizeClassIndex ];
     }
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
@@ -242,6 +245,10 @@ double Parameters::GetInterSizeClassVolume( const unsigned predatorIndex, const 
 
 double& Parameters::GetTotalVolume( ) {
     return mTotalVolume;
+}
+
+float& Parameters::GetRemainingVolume( const unsigned sizeClassIndex ) {
+    return mRemainingVolumes[ sizeClassIndex ];
 }
 
 float& Parameters::GetHalfSaturationConstant( const unsigned sizeClassIndex ) {

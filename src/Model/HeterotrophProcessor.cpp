@@ -20,7 +20,7 @@ double HeterotrophProcessor::CalculatePreferenceForPrey( const double grazerVolu
 }
 
 double HeterotrophProcessor::CalculateFeedingProbability( const unsigned predatorIndex, const double effectivePreyVolume ) {
-    return CalculateFeedingProbabilityType2( predatorIndex, effectivePreyVolume );
+    return CalculateFeedingProbabilityType1( effectivePreyVolume );
 }
 
 double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::IndividualPointer individual ) const {
@@ -92,7 +92,7 @@ unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const T
 }
 
 double HeterotrophProcessor::CalculateFeedingProbabilityType1( const double effectivePreyVolume ) const {
-    return ( effectivePreyVolume / Parameters::Get( )->GetTotalVolume( ) );
+    return std::min( effectivePreyVolume / ( Parameters::Get( )->GetTotalVolume( ) * ( 0.5 + Parameters::Get()->GetHalfSaturationConstantFraction( ) ) ), 1.0 );
 }
 
 double HeterotrophProcessor::CalculateFeedingProbabilityType2( const unsigned predatorIndex, const double effectivePreyVolume ) const {

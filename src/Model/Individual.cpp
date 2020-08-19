@@ -23,6 +23,7 @@ Individual::Individual( const double volumeHeritable, const double geneValue, co
     
     mAge = 0;
     mTrophicLevel = 0;
+    mHasFed = false;
     mIsDead = false;
 }
 
@@ -39,6 +40,7 @@ Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, con
     mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
     
     mAge = 0;
+    mHasFed = false;
     mIsDead = false;
 }
 
@@ -58,6 +60,7 @@ Individual::Individual( const double traitValue, const double volumeHeritable, c
     
     mAge = 0;
     mTrophicLevel = 0;
+    mHasFed = false;
     mIsDead = false;
 }
 
@@ -123,6 +126,10 @@ unsigned Individual::GetAge( ) const {
     return mAge;
 }
 
+bool Individual::HasFed( ) const {
+    return mHasFed;
+}
+
 bool Individual::IsDead( ) const {
     return mIsDead;
 }
@@ -157,6 +164,10 @@ void Individual::SetSizeClassIndex( const unsigned sizeClassIndex ) {
 
 void Individual::SetAge( const unsigned age ) {
     mAge = age;
+}
+
+void Individual::SetHasFed( const bool hasFed ) {
+    mHasFed = hasFed;
 }
 
 void Individual::Kill( ) {

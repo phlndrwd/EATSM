@@ -158,8 +158,12 @@ void Heterotrophs::Feeding( ) {
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
-                    Types::IndividualPointer predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
-
+                    
+                    Types::IndividualPointer predator = NULL;
+                    do {
+                        predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
+                    } while( predator->HasFed( ) == true );
+                    
                     unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
 
                     if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
@@ -182,6 +186,7 @@ void Heterotrophs::Metabolisation( ) {
             double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
 
             if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
+                individual->SetHasFed( false ); // Reset for the next time step
                 double waste = individual->Metabolise( metabolicDeduction );
                 mNutrient->AddToVolume( waste );
                 if( mHeterotrophProcessor->UpdateSizeClassIndex( individual ) == true )
@@ -267,7 +272,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
 
     if( predatorTrophicLevel != 0 ) {
         if( preyTrophicLevel != 0 ) trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
-        else  trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
+        else trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
     } else {
         if( preyTrophicLevel != 0 ) trophicLevel = preyTrophicLevel + 1;
         else trophicLevel = 3;
