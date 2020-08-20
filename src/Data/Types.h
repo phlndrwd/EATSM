@@ -66,8 +66,9 @@ namespace Types {
     // Containers of containers of primitives
     typedef std::map< std::string, FloatVector > FloatVectorMap;
 
-    typedef std::vector< FloatVector > FloatMatrix;
     typedef std::vector< IntVector > IntMatrix;
+    typedef std::vector< FloatVector > FloatMatrix;
+    typedef std::vector< DoubleVector > DoubleMatrix;
     typedef std::vector< StringVector > StringMatrix;
 }
 

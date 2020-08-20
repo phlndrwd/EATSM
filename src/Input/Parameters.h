@@ -20,6 +20,7 @@ public:
 
     bool GetReadModelState( );
     bool GetWriteModelState( );
+    bool GetUseLinearFeeding( );
 
     double& GetInitialAutotrophVolume( );
     double& GetInitialHeterotrophVolume( );
@@ -49,6 +50,7 @@ public:
 
     void SetReadModelState( const bool );
     void SetWriteModelState( const bool );
+    void SetUseLinearFeeding( const bool );
 
     void SetInitialAutotrophVolume( const double );
     void SetInitialHeterotrophVolume( const double );
@@ -85,14 +87,15 @@ public:
 
     double& GetTotalVolume( );
     
-    float& GetRemainingVolume( const unsigned );
-    float& GetHalfSaturationConstant( const unsigned );
+    double& GetRemainingVolume( const unsigned );
+    double& GetLinearFeedingDenominator( const unsigned );
+    double& GetHalfSaturationConstant( const unsigned );
 
-    const Types::FloatVector& GetSizeClassBoundaries( );
-    const Types::FloatVector& GetSizeClassMidPoints( );
+    const Types::DoubleVector& GetSizeClassBoundaries( );
+    const Types::DoubleVector& GetSizeClassMidPoints( );
 
-    const Types::FloatVector& GetInterSizeClassPreferenceVector( const unsigned ) const;
-    const Types::FloatVector& GetInterSizeClassVolumeVector( const unsigned ) const;
+    const Types::DoubleVector& GetInterSizeClassPreferenceVector( const unsigned ) const;
+    const Types::DoubleVector& GetInterSizeClassVolumeVector( const unsigned ) const;
 
 private:
     Parameters( );
@@ -108,6 +111,7 @@ private:
 
     bool mReadModelState;
     bool mWriteModelState;
+    bool mUseLinearFeeding;
 
     double mInitialAutotrophVolume;
     double mInitialHeterotrophVolume;
@@ -136,14 +140,15 @@ private:
 
     double mTotalVolume;
     
-    Types::FloatVector mRemainingVolumes;
-    Types::FloatVector mHalfSaturationConstants;
+    Types::DoubleVector mRemainingVolumes;
+    Types::DoubleVector mLinearFeedingDenominators;
+    Types::DoubleVector mHalfSaturationConstants;
 
-    Types::FloatVector mSizeClassBoundaries;
-    Types::FloatVector mSizeClassMidPoints;
+    Types::DoubleVector mSizeClassBoundaries;
+    Types::DoubleVector mSizeClassMidPoints;
 
-    Types::FloatMatrix mInterSizeClassPreferenceMatrix;
-    Types::FloatMatrix mInterSizeClassVolumeMatrix;
+    Types::DoubleMatrix mInterSizeClassPreferenceMatrix;
+    Types::DoubleMatrix mInterSizeClassVolumeMatrix;
 };
 
 #endif

@@ -82,7 +82,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         Timer timer = Timer( true );
         FileWriter fileWriter; // Created here to initialise output directory
         std::cout << "Model run due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get( )->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
-
+        
         Environment environment;
 
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;

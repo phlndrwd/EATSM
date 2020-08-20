@@ -7,8 +7,15 @@
 #include "HeritableTraits.h"
 
 HeterotrophData::HeterotrophData( ) {
-    DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", Parameters::Get( )->GetSizeClassMidPoints( ) );
-    DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassBoundaryValues", Parameters::Get( )->GetSizeClassBoundaries( ) );
+    // Convert double vectors used in the model to floats for writing to file
+    Types::DoubleVector sizeClassMidPoints = Parameters::Get( )->GetSizeClassMidPoints( );
+    Types::DoubleVector sizeClassBoundaries = Parameters::Get( )->GetSizeClassBoundaries( );
+    
+    Types::FloatVector sizeClassMidPointsFloat( sizeClassMidPoints.begin( ), sizeClassMidPoints.end( ) );
+    Types::FloatVector sizeClassBoundariesFloat( sizeClassBoundaries.begin( ), sizeClassBoundaries.end( ) );
+    
+    DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", sizeClassMidPointsFloat );
+    DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassBoundaryValues", sizeClassBoundariesFloat );
 
     unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
     mEffectiveSizeClassVolumeMatrix.resize( numberOfSizeClasses );
@@ -46,7 +53,7 @@ void HeterotrophData::InitialiseDataStructures( ) {
     mSizeClassGrowthRatios.clear( );
     mSizeClassTrophicClassifications.clear( );
     mSizeClassAges.clear( );
-    
+
     unsigned numberOfSizeClasses = Parameters::Get( )->GetNumberOfSizeClasses( );
     mSizeClassPopulation.resize( numberOfSizeClasses, Constants::cMissingValue );
     mSizeClassVolumes.resize( numberOfSizeClasses, 0 );
@@ -74,7 +81,7 @@ void HeterotrophData::RecordOutputData( ) {
     DataRecorder::Get( )->AddDataTo( "HeterotrophApproxVolume", mApproxVolume );
     DataRecorder::Get( )->AddDataTo( "ToHeterotrophFlux", mToFlux );
     DataRecorder::Get( )->AddDataTo( "InHeterotrophFlux", mInFlux );
-    
+
     DataRecorder::Get( )->AddDataTo( "TimingFeeding", mTimeFeeding );
     DataRecorder::Get( )->AddDataTo( "TimingMetabolising", mTimeMetabolising );
     DataRecorder::Get( )->AddDataTo( "TimingReproducing", mTimeReproducing );
@@ -186,7 +193,7 @@ void HeterotrophData::NormaliseData( ) {
     }
     for( unsigned trophicIndex = 0; trophicIndex < Constants::cMaximumNumberOfTrophicLevels; ++trophicIndex ) {
         if( mTrophicFrequencies[ trophicIndex ] > 0 )
-            mTrophicAges[ trophicIndex ] = mTrophicAges[ trophicIndex ] / ( double )mTrophicFrequencies[ trophicIndex ];
+            mTrophicAges[ trophicIndex ] = mTrophicAges[ trophicIndex ] / ( double ) mTrophicFrequencies[ trophicIndex ];
     }
 }
 
@@ -197,7 +204,7 @@ bool HeterotrophData::AreHeterotrophsAlive( ) const {
 void HeterotrophData::ResetDataStructures( ) {
     mToFlux = 0;
     mInFlux = 0;
-    
+
     mTimeFeeding = 0;
     mTimeMetabolising = 0;
     mTimeReproducing = 0;
@@ -269,15 +276,15 @@ void HeterotrophData::IncrementBirthFrequencies( const unsigned parentIndex, con
 void HeterotrophData::AddToTimeFeeding( double timeFeeding ) {
     mTimeFeeding += timeFeeding;
 }
-    
+
 void HeterotrophData::AddToTimeMetabolising( double timeMetabolising ) {
     mTimeMetabolising += timeMetabolising;
 }
-    
+
 void HeterotrophData::AddToTimeReproducing( double timeReproducing ) {
     mTimeReproducing += timeReproducing;
 }
-    
+
 void HeterotrophData::AddToTimeStarving( double timeStarving ) {
     mTimeStarving += timeStarving;
 }

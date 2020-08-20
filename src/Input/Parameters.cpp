@@ -22,6 +22,7 @@ Parameters::~Parameters( ) {
         mInterSizeClassVolumeMatrix.clear( );
 
         mRemainingVolumes.clear( );
+        mLinearFeedingDenominators.clear( );
         mHalfSaturationConstants.clear( );
         mSizeClassBoundaries.clear( );
         mSizeClassMidPoints.clear( );
@@ -50,6 +51,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 
             else if( parameterName == "readmodelstate" ) SetReadModelState( parameterValue );
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
+            else if( parameterName == "uselinearfeeding" ) SetUseLinearFeeding( parameterValue );
 
             else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( parameterValue );
             else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( parameterValue );
@@ -79,6 +81,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 
 void Parameters::CalculateParameters( ) {
     mRemainingVolumes.resize( mNumberOfSizeClasses );
+    mLinearFeedingDenominators.resize( mNumberOfSizeClasses );
     mHalfSaturationConstants.resize( mNumberOfSizeClasses );
     mSizeClassMidPoints.resize( mNumberOfSizeClasses );
     mSizeClassBoundaries.resize( mNumberOfSizeClasses + 1 );
@@ -98,6 +101,7 @@ void Parameters::CalculateParameters( ) {
         mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
         
         mRemainingVolumes[ sizeClassIndex ] = mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ];
+        mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * Parameters::Get()->GetHalfSaturationConstantFraction( ) ) * mRemainingVolumes[ sizeClassIndex ];
         mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * mRemainingVolumes[ sizeClassIndex ];
     }
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
@@ -149,6 +153,10 @@ bool Parameters::GetReadModelState( ) {
 
 bool Parameters::GetWriteModelState( ) {
     return mWriteModelState;
+}
+
+bool Parameters::GetUseLinearFeeding( ) {
+    return mUseLinearFeeding;
 }
 
 double& Parameters::GetInitialAutotrophVolume( ) {
@@ -227,11 +235,11 @@ double Parameters::GetSizeClassMidPoint( const unsigned index ) const {
     return mSizeClassMidPoints[ index ];
 }
 
-const Types::FloatVector& Parameters::GetSizeClassBoundaries( ) {
+const Types::DoubleVector& Parameters::GetSizeClassBoundaries( ) {
     return mSizeClassBoundaries;
 }
 
-const Types::FloatVector& Parameters::GetSizeClassMidPoints( ) {
+const Types::DoubleVector& Parameters::GetSizeClassMidPoints( ) {
     return mSizeClassMidPoints;
 }
 
@@ -247,19 +255,23 @@ double& Parameters::GetTotalVolume( ) {
     return mTotalVolume;
 }
 
-float& Parameters::GetRemainingVolume( const unsigned sizeClassIndex ) {
+double& Parameters::GetRemainingVolume( const unsigned sizeClassIndex ) {
     return mRemainingVolumes[ sizeClassIndex ];
 }
 
-float& Parameters::GetHalfSaturationConstant( const unsigned sizeClassIndex ) {
+double& Parameters::GetLinearFeedingDenominator( const unsigned sizeClassIndex ) {
+    return mLinearFeedingDenominators[ sizeClassIndex ];
+}
+
+double& Parameters::GetHalfSaturationConstant( const unsigned sizeClassIndex ) {
     return mHalfSaturationConstants[ sizeClassIndex ];
 }
 
-const Types::FloatVector& Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {
+const Types::DoubleVector& Parameters::GetInterSizeClassPreferenceVector( const unsigned index ) const {
     return mInterSizeClassPreferenceMatrix[ index ];
 }
 
-const Types::FloatVector& Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
+const Types::DoubleVector& Parameters::GetInterSizeClassVolumeVector( const unsigned index ) const {
     return mInterSizeClassVolumeMatrix[ index ];
 }
 
@@ -285,6 +297,10 @@ void Parameters::SetReadModelState( const bool createNewPopulation ) {
 
 void Parameters::SetWriteModelState( const bool writeModelState ) {
     mWriteModelState = writeModelState;
+}
+
+void Parameters::SetUseLinearFeeding( const bool useLinearFeeding ) {
+    mUseLinearFeeding = useLinearFeeding;
 }
 
 void Parameters::SetInitialAutotrophVolume( const double initialAutotrophVolume ) {

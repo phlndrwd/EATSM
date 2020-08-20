@@ -78,9 +78,9 @@ namespace Constants {
     const std::string cVersionCommand = "-v";
 
     const std::string cSystemName = "EATSM";
-    const std::string cSystemVersion = "0.4";
-    const std::string cSystemDate = "19/08/2020";
-    const std::string cSystemTime = "22:50";
+    const std::string cSystemVersion = "0.4.1";
+    const std::string cSystemDate = "20/08/2020";
+    const std::string cSystemTime = "17:57";
 }
 
 #endif

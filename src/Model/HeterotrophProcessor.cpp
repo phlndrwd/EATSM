@@ -8,7 +8,9 @@
 
 
 HeterotrophProcessor::HeterotrophProcessor( ) {
-
+    // Set function option once for the duration of the model execution
+    if( Parameters::Get()->GetUseLinearFeeding() == true ) fStarvationProbability = &HeterotrophProcessor::CalculateFeedingProbabilityLinear;
+    else fStarvationProbability = &HeterotrophProcessor::CalculateFeedingProbabilityNonLinear;
 }
 
 HeterotrophProcessor::~HeterotrophProcessor( ) {
@@ -20,7 +22,7 @@ double HeterotrophProcessor::CalculatePreferenceForPrey( const double grazerVolu
 }
 
 double HeterotrophProcessor::CalculateFeedingProbability( const unsigned predatorIndex, const double effectivePreyVolume ) {
-    return CalculateFeedingProbabilityType1( effectivePreyVolume );
+    return ( this->*fStarvationProbability )( predatorIndex, effectivePreyVolume );
 }
 
 double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::IndividualPointer individual ) const {
@@ -91,11 +93,11 @@ unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const T
     return directionToMove;
 }
 
-double HeterotrophProcessor::CalculateFeedingProbabilityType1( const double effectivePreyVolume ) const {
-    return std::min( effectivePreyVolume / ( Parameters::Get( )->GetTotalVolume( ) * ( 0.5 + Parameters::Get()->GetHalfSaturationConstantFraction( ) ) ), 1.0 );
+double HeterotrophProcessor::CalculateFeedingProbabilityLinear( const unsigned predatorIndex, const double effectivePreyVolume ) {
+    return std::min( effectivePreyVolume / ( Parameters::Get( )->GetLinearFeedingDenominator( predatorIndex ) ), 1.0 );
 }
 
-double HeterotrophProcessor::CalculateFeedingProbabilityType2( const unsigned predatorIndex, const double effectivePreyVolume ) const {
+double HeterotrophProcessor::CalculateFeedingProbabilityNonLinear( const unsigned predatorIndex, const double effectivePreyVolume ) {
     return ( effectivePreyVolume / ( Parameters::Get( )->GetHalfSaturationConstant( predatorIndex ) + effectivePreyVolume ) );
 }
 
