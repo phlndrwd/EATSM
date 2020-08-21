@@ -33,8 +33,7 @@ private:
     
     typedef double(HeterotrophProcessor::*function)( const unsigned, const double );
     
-    //function fStarvationProbability;
-    double (HeterotrophProcessor::*fStarvationProbability)( const unsigned, const double );
+    double ( HeterotrophProcessor::*fStarvationProbability )( const unsigned, const double );
 };
 
 #endif

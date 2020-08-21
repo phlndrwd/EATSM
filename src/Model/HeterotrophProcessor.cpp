@@ -6,10 +6,9 @@
 #include <cmath>
 #include <iostream>
 
-
 HeterotrophProcessor::HeterotrophProcessor( ) {
     // Set function option once for the duration of the model execution
-    if( Parameters::Get()->GetUseLinearFeeding() == true ) fStarvationProbability = &HeterotrophProcessor::CalculateFeedingProbabilityLinear;
+    if( Parameters::Get( )->GetUseLinearFeeding( ) == true ) fStarvationProbability = &HeterotrophProcessor::CalculateFeedingProbabilityLinear;
     else fStarvationProbability = &HeterotrophProcessor::CalculateFeedingProbabilityNonLinear;
 }
 
@@ -89,7 +88,7 @@ unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const T
         directionToMove = Constants::eMoveDown;
     else if( volumeActual >= Parameters::Get( )->GetSizeClassBoundary( sizeClassIndex + 1 ) )
         directionToMove = Constants::eMoveUp;
-    
+
     return directionToMove;
 }
 
@@ -110,7 +109,7 @@ double HeterotrophProcessor::CalculateLinearStarvation( const double& volumeActu
         starvationProbability = 0;
     else
         starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) * starvationMultiplier );
-    
+
     return starvationProbability;
 }
 
