@@ -24,8 +24,11 @@ private:
     void Metabolisation( );
     void Reproduction( );
     void Starvation( );
-
-    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
+    
+    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned ) const;
+    Types::IndividualPointer GetRandomPredatorFromSizeClass( const unsigned ) const ;
+    Types::IndividualPointer GetRandomPreyFromSizeClass( const unsigned, const Types::IndividualPointer individual ) const;
+    
     void FeedFromAutotrophs( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
     
@@ -47,6 +50,7 @@ private:
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mAutotrophs;
 
+    Types::UnsignedVector mFedCount;
     Types::UnsignedVector mOldSizeClassIndicies;
     Types::IndividualVector mIndividualsToMove;
     

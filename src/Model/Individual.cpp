@@ -101,7 +101,8 @@ double Individual::ConsumePreyVolume( const double preyVolume ) {
     double wasteVolume = preyVolume - volumeAssimilated;
 
     mVolumeActual += volumeAssimilated;
-
+    mHasFed = true;
+    
     return wasteVolume;
 }
 

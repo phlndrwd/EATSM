@@ -70,6 +70,7 @@ namespace Types {
     typedef std::vector< FloatVector > FloatMatrix;
     typedef std::vector< DoubleVector > DoubleMatrix;
     typedef std::vector< StringVector > StringMatrix;
+    typedef std::vector< UnsignedVector > UnsignedMatrix;
 }
 
 #endif

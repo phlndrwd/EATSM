@@ -43,6 +43,7 @@ Heterotrophs::~Heterotrophs( ) {
 }
 
 void Heterotrophs::CreateInitialPopulation( ) {
+    mFedCount.resize( Parameters::Get( )->GetNumberOfSizeClasses( ), 0 );
     mIndividualsLiving.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mIndividualsDead.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
@@ -93,7 +94,6 @@ void Heterotrophs::Update( ) {
 
 bool Heterotrophs::RecordData( ) {
     mHeterotrophData->InitialiseDataStructures( );
-
     for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
 
         unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
@@ -119,6 +119,7 @@ Types::IndividualPointer Heterotrophs::GetIndividual( const unsigned sizeClassIn
 
 void Heterotrophs::CalculateFeedingProbabilities( ) {
     for( unsigned predatorIndex = 0; predatorIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++predatorIndex ) {
+        mFedCount[ predatorIndex ] = 0;
         if( mIndividualsLiving[ predatorIndex ].size( ) > 0 ) {
             unsigned coupledSizeClassIndex = 0;
             double effectivePreyVolume = 0;
@@ -157,22 +158,20 @@ void Heterotrophs::Feeding( ) {
         unsigned sizeClassPopulation = mIndividualsLiving[ sizeClassIndex ].size( );
 
         if( sizeClassPopulation > 0 ) {
+
             unsigned sizeClassPopulationSubset = mHeterotrophProcessor->RoundWithProbability( sizeClassPopulation * Parameters::Get( )->GetSizeClassSubsetFraction( ) );
+            unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
 
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophData->GetFeedingProbability( sizeClassIndex ) ) {
 
-                    Types::IndividualPointer predator = NULL;
-                    do {
-                        predator = GetRandomIndividualFromSizeClass( sizeClassIndex );
-                    } while( predator->HasFed( ) == true );
-
-                    unsigned coupledIndex = mHeterotrophData->GetCoupledSizeClassIndex( sizeClassIndex );
-
-                    if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
-                        FeedFromAutotrophs( predator );
-                    else
-                        FeedFromHeterotrophs( predator, coupledIndex );
+                    Types::IndividualPointer predator = GetRandomPredatorFromSizeClass( sizeClassIndex );
+                    if( predator != NULL ) {
+                        if( coupledIndex == Parameters::Get( )->GetAutotrophSizeClassIndex( ) )
+                            FeedFromAutotrophs( predator );
+                        else
+                            FeedFromHeterotrophs( predator, coupledIndex );
+                    }
                 }
             }
         }
@@ -244,8 +243,9 @@ void Heterotrophs::Starvation( ) {
             for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                 Types::IndividualPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
-                    StarveToDeath( individual );
+                if( individual != NULL )
+                    if( RandomSimple::Get( )->GetUniform( ) <= mHeterotrophProcessor->CalculateStarvationProbability( individual ) )
+                        StarveToDeath( individual );
             }
         }
     }
@@ -260,8 +260,9 @@ void Heterotrophs::FeedFromAutotrophs( const Types::IndividualPointer grazer ) {
         mHeterotrophData->IncrementVegetarianFrequencies( grazer );
 
         double waste = grazer->ConsumePreyVolume( smallestIndividualVolume );
-        double trophicLevel = grazer->GetTrophicLevel( );
+        ++mFedCount[ grazer->GetSizeClassIndex( )];
 
+        double trophicLevel = grazer->GetTrophicLevel( );
         if( trophicLevel != 0 ) grazer->SetTrophicLevel( ( trophicLevel + 2 ) * 0.5 );
         else grazer->SetTrophicLevel( 2 );
         mNutrient->AddToVolume( waste );
@@ -269,45 +270,72 @@ void Heterotrophs::FeedFromAutotrophs( const Types::IndividualPointer grazer ) {
 }
 
 void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator, unsigned coupledIndex ) {
-    Types::IndividualPointer prey = GetRandomIndividualFromSizeClass( coupledIndex, predator );
+    Types::IndividualPointer prey = GetRandomPreyFromSizeClass( coupledIndex, predator );
+    if( prey != NULL ) {
+        double preyVolume = prey->GetVolumeActual( );
+        mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
 
-    double preyVolume = prey->GetVolumeActual( );
-    mHeterotrophData->IncrementCarnivoreFrequencies( predator, prey );
+        double waste = predator->ConsumePreyVolume( preyVolume );
+        ++mFedCount[ predator->GetSizeClassIndex( ) ];
 
-    double waste = predator->ConsumePreyVolume( preyVolume );
+        double predatorTrophicLevel = predator->GetTrophicLevel( );
+        double preyTrophicLevel = prey->GetTrophicLevel( );
 
-    double predatorTrophicLevel = predator->GetTrophicLevel( );
-    double preyTrophicLevel = prey->GetTrophicLevel( );
+        double trophicLevel = -1;
 
-    double trophicLevel = -1;
+        if( predatorTrophicLevel != 0 ) {
+            if( preyTrophicLevel != 0 ) trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
+            else trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
+        } else {
+            if( preyTrophicLevel != 0 ) trophicLevel = preyTrophicLevel + 1;
+            else trophicLevel = 3;
+        }
 
-    if( predatorTrophicLevel != 0 ) {
-        if( preyTrophicLevel != 0 ) trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
-        else trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
-    } else {
-        if( preyTrophicLevel != 0 ) trophicLevel = preyTrophicLevel + 1;
-        else trophicLevel = 3;
+        predator->SetTrophicLevel( trophicLevel );
+        mNutrient->AddToVolume( waste );
+        KillIndividual( prey );
     }
-
-    predator->SetTrophicLevel( trophicLevel );
-    mNutrient->AddToVolume( waste );
-    KillIndividual( prey );
 }
 
-Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer predator ) const {
-    // TODO - Improve this function. Risk of looping for a long time to randomly select one of few living individuals...
-    unsigned sizeClassPopulation = mIndividualsLiving[ sizeClassIndex ].size( );
-    unsigned sizeClassLivingFrequency = sizeClassPopulation - mIndividualsDead[ sizeClassIndex ].size( );
+Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex ) const {
+    unsigned numberLiving = mIndividualsLiving[ sizeClassIndex ].size( );
+    unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( );
+    Types::IndividualPointer randomIndividual = NULL;
+    if( numberActive > 0 ) {
+        do {
+            unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( numberLiving - 1 );
+            randomIndividual = mIndividualsLiving[ sizeClassIndex ][ randomIndividualIndex ];
+        } while( randomIndividual->IsDead( ) == true );
+    }
+    return randomIndividual;
+}
 
-    // Only applicable for carnivory. Failsafe check on sizeClassLivingFrequency
-    // prevents decrement from taking it out of bounds.
-    if( predator != NULL && predator->GetSizeClassIndex( ) == sizeClassIndex && sizeClassLivingFrequency > 0 )
-        sizeClassLivingFrequency -= 1;
+Types::IndividualPointer Heterotrophs::GetRandomPredatorFromSizeClass( const unsigned sizeClassIndex ) const {
+    unsigned numberLiving = mIndividualsLiving[ sizeClassIndex ].size( );
+    unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( ) - mFedCount[ sizeClassIndex ];
 
     Types::IndividualPointer randomIndividual = NULL;
-    if( sizeClassLivingFrequency > 0 ) {
+    if( numberActive > 0 ) {
         do {
-            unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( sizeClassPopulation - 1 );
+            unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( numberLiving - 1 );
+            randomIndividual = mIndividualsLiving[ sizeClassIndex ][ randomIndividualIndex ];
+        } while( randomIndividual->IsDead( ) == true || randomIndividual->HasFed( ) );
+    }
+    return randomIndividual;
+}
+
+Types::IndividualPointer Heterotrophs::GetRandomPreyFromSizeClass( const unsigned sizeClassIndex, const Types::IndividualPointer predator ) const {
+    unsigned numberOfLiving = mIndividualsLiving[ sizeClassIndex ].size( );
+    unsigned numberActive = numberOfLiving - mIndividualsDead[ sizeClassIndex ].size( );
+
+    // Only applicable when predator feeds from its own size class
+    if( predator->GetSizeClassIndex( ) == sizeClassIndex && numberActive > 0 )
+        numberActive -= 1;
+
+    Types::IndividualPointer randomIndividual = NULL;
+    if( numberActive > 0 ) {
+        do {
+            unsigned randomIndividualIndex = RandomSimple::Get( )->GetUniformInt( numberOfLiving - 1 );
             randomIndividual = mIndividualsLiving[ sizeClassIndex ][ randomIndividualIndex ];
         } while( randomIndividual->IsDead( ) == true || randomIndividual == predator );
     }

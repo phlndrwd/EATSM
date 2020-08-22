@@ -42,14 +42,6 @@ public:
     void AddToTimeReproducing( double );
     void AddToTimeStarving( double );
 
-    unsigned GetVegetarianFrequency( ) const;
-    unsigned GetCarnivoreFrequency( ) const;
-    unsigned GetChildFrequency( ) const;
-    unsigned GetStarvedFrequency( ) const;
-    unsigned GetFailedCarnivoreFrequency( ) const;
-    unsigned GeFailedVegetarianFrequency( ) const;
-    unsigned GetFailedFeedingAttemptFrequency( ) const;
-
 private:
     void AddTrophicLevel( const double, const double, const unsigned, const unsigned );
 
