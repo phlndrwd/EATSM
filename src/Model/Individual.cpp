@@ -28,12 +28,13 @@ Individual::Individual( const double volumeHeritable, const double geneValue, co
 }
 
 // For reproduction.
-Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel ) {
+Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel, const unsigned sizeClassIndex ) {
     mHeritableTraits = heritableTraits;
     mVolumeHeritable = volumeHeritable;
     mVolumeActual = volumeActual;
     mVolumeMinimum = volumeMinimum;
     mTrophicLevel = trophicLevel;
+    mSizeClassIndex = sizeClassIndex;
 
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
     
@@ -90,7 +91,7 @@ Types::IndividualPointer Individual::Reproduce( ) {
             childVolumeActual = mVolumeActual * Constants::cReproductionMultiplier;
     }
     mVolumeActual = mVolumeActual - childVolumeActual;
-    childIndividual = new Individual( childHeritableTraits, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel );
+    childIndividual = new Individual( childHeritableTraits, childVolumeHeritable, childVolumeActual, childVolumeMinimum, mTrophicLevel, mSizeClassIndex );
 
     return childIndividual;
 }

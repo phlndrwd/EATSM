@@ -28,15 +28,18 @@ private:
     Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned, const Types::IndividualPointer individual = NULL ) const;
     void FeedFromAutotrophs( const Types::IndividualPointer );
     void FeedFromHeterotrophs( const Types::IndividualPointer, unsigned );
-    void DeleteDead( );
     
-    void DeleteIndividual( Types::IndividualPointer );
+    void StageForMoving( const Types::IndividualPointer, const unsigned );
     void MoveSizeClass( const Types::IndividualPointer, const unsigned );
     void RemoveFromSizeClass( const Types::IndividualPointer, const unsigned );
+    void DeleteIndividual( Types::IndividualPointer );
     
     void StarveToDeath( Types::IndividualPointer );
     void KillIndividual( Types::IndividualPointer );
+    
     void AddChildren( );
+    void MoveIndividuals( );
+    void DeleteDead( );
 
     Types::HeterotrophProcessorPointer mHeterotrophProcessor;
     Types::HeterotrophDataPointer mHeterotrophData;
@@ -44,9 +47,12 @@ private:
     Types::NutrientPointer mNutrient;
     Types::AutotrophsPointer mAutotrophs;
 
-    Types::IndividualMatrix mLivingMatrix;
-    Types::IndividualMatrix mDeadMatrix;
-    Types::IndividualVector mChildVector;
+    Types::UnsignedVector mOldSizeClassIndicies;
+    Types::IndividualVector mIndividualsToMove;
+    
+    Types::IndividualMatrix mIndividualsLiving;
+    Types::IndividualMatrix mIndividualsDead;
+    Types::IndividualVector mChildren;
     Timer mTimer;
 };
 

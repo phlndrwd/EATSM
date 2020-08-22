@@ -268,9 +268,12 @@ void HeterotrophData::IncrementMutantFrequency( const unsigned sizeClassIndex, c
         ++mSizeClassVolumeMutantFrequencies[ sizeClassIndex ];
 }
 
-void HeterotrophData::IncrementBirthFrequencies( const unsigned parentIndex, const unsigned childIndex ) {
-    ++mSizeClassParentFrequencies[ parentIndex ];
-    ++mSizeClassChildFrequencies[ childIndex ];
+void HeterotrophData::IncrementParentFrequencies( const unsigned sizeClassIndex ) {
+    ++mSizeClassParentFrequencies[ sizeClassIndex ];
+}
+
+void HeterotrophData::IncrementChildFrequencies( const unsigned sizeClassIndex ) {
+    ++mSizeClassChildFrequencies[ sizeClassIndex ];
 }
 
 void HeterotrophData::AddToTimeFeeding( double timeFeeding ) {

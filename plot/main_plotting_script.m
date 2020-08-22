@@ -2,7 +2,7 @@ tic
 clear
 
 %% User Defined Parameters
-optionCurrentDataSet            = '2020-08-20_18-03-09';
+optionCurrentDataSet            = '2020-08-22_16-18-04';
 optionOutputDirectory           = '/home/philju/Development/In Progress/EATSM/EATSM/output/0.4.1/';
 
 optionOutputVariablesFile      = 'Variables';

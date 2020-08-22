@@ -82,7 +82,7 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         Timer timer = Timer( true );
         FileWriter fileWriter; // Created here to initialise output directory
         std::cout << "Model run due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get( )->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
-        
+
         Environment environment;
 
         double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
@@ -93,20 +93,20 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         do {
             // Update before data collection; calculates essential variables for encounter rates.
             environment.Update( );
-
+            
+            // Text output at the completion of each ten percent of the run 
+            if( timer.Elapsed( ) >= ( unsigned ) cumulativeTenthsOfRunTime ) {
+                cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
+                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
+            }
+            
             // Data collection
             if( TimeStep::Get( )->DoRecordData( ) == true ) {
                 DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
                 DataRecorder::Get( )->AddDataTo( "TimeSampling", timer.Split( ) );
                 isAlive = environment.RecordData( );
-                
-                // Text output at the completion of each ten percent of the run 
-                if( timer.Elapsed( ) >= ( unsigned ) cumulativeTenthsOfRunTime ) {
-                    cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                    std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
-                }
             }
-            
+
             TimeStep::Get( )->IncrementTimeStep( );
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
 

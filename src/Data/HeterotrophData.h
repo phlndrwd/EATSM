@@ -33,7 +33,8 @@ public:
     void IncrementVegetarianFrequencies( const Types::IndividualPointer );
     void IncrementCarnivoreFrequencies( const Types::IndividualPointer, const Types::IndividualPointer );
     void IncrementStarvedFrequencies( const unsigned );
-    void IncrementBirthFrequencies( const unsigned, const unsigned );
+    void IncrementParentFrequencies( const unsigned );
+    void IncrementChildFrequencies( const unsigned );
     void IncrementMutantFrequency( const unsigned, const unsigned );
     
     void AddToTimeFeeding( double );
