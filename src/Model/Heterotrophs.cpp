@@ -188,6 +188,7 @@ void Heterotrophs::Metabolisation( ) {
             double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
 
             if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
+                
                 individual->SetHasFed( false ); // Reset for the next time step
                 double waste = individual->Metabolise( metabolicDeduction );
                 mNutrient->AddToVolume( waste );
@@ -197,8 +198,7 @@ void Heterotrophs::Metabolisation( ) {
                 // avoid handling them twice.
                 if( mHeterotrophProcessor->UpdateSizeClassIndex( individual ) == true )
                     StageForMoving( individual, sizeClassIndex );
-
-
+                
             } else StarveToDeath( individual );
         }
     }
@@ -300,6 +300,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex ) const {
     unsigned numberLiving = mIndividualsLiving[ sizeClassIndex ].size( );
     unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( );
+    
     Types::IndividualPointer randomIndividual = NULL;
     if( numberActive > 0 ) {
         do {
@@ -328,10 +329,11 @@ Types::IndividualPointer Heterotrophs::GetRandomPreyFromSizeClass( const unsigne
     unsigned numberOfLiving = mIndividualsLiving[ sizeClassIndex ].size( );
     unsigned numberActive = numberOfLiving - mIndividualsDead[ sizeClassIndex ].size( );
 
-    // Only applicable when predator feeds from its own size class
+    // Only applicable when predator feeds from its own size class. Check 
+    // ensures numberActive does not go out of bounds
     if( predator->GetSizeClassIndex( ) == sizeClassIndex && numberActive > 0 )
-        numberActive -= 1;
-
+        --numberActive;
+    
     Types::IndividualPointer randomIndividual = NULL;
     if( numberActive > 0 ) {
         do {
