@@ -82,14 +82,14 @@ void Heterotrophs::Update( ) {
     mTimer.Start( );
     Metabolisation( );
     mHeterotrophData->AddToTimeMetabolising( mTimer.Stop( ) );
-    // Reproducing
-    mTimer.Start( );
-    Reproduction( );
-    mHeterotrophData->AddToTimeReproducing( mTimer.Stop( ) );
     // Starving
     mTimer.Start( );
     Starvation( );
     mHeterotrophData->AddToTimeStarving( mTimer.Stop( ) );
+    // Reproducing
+    mTimer.Start( );
+    Reproduction( );
+    mHeterotrophData->AddToTimeReproducing( mTimer.Stop( ) );
 }
 
 bool Heterotrophs::RecordData( ) {
