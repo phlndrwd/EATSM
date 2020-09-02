@@ -9,6 +9,9 @@ public:
     Individual( const double, const double, const unsigned );
     Individual( const Types::HeritableTraitsPointer, const double, const double, const double, const double, const unsigned );
     Individual( const double, const double, const double, const unsigned );
+    //Individual( Types::HeritableTraitsPointer, double, double, double, double, double, double, unsigned, unsigned, bool, bool );
+    //Individual( const Individual& );
+    //Individual( const Individual&& ) noexcept;
     ~Individual( );
 
     Types::IndividualPointer Reproduce( );

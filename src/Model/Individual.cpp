@@ -7,6 +7,7 @@
 #include "HeterotrophProcessor.h"
 
 // For model initialisation.
+
 Individual::Individual( const double volumeHeritable, const double geneValue, const unsigned sizeClassIndex ) {
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
@@ -18,9 +19,9 @@ Individual::Individual( const double volumeHeritable, const double geneValue, co
     mVolumeActual = mVolumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-    
+
     mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
-    
+
     mAge = 0;
     mTrophicLevel = 0;
     mHasFed = false;
@@ -28,6 +29,7 @@ Individual::Individual( const double volumeHeritable, const double geneValue, co
 }
 
 // For reproduction.
+
 Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel, const unsigned sizeClassIndex ) {
     mHeritableTraits = heritableTraits;
     mVolumeHeritable = volumeHeritable;
@@ -37,15 +39,16 @@ Individual::Individual( const Types::HeritableTraitsPointer heritableTraits, con
     mSizeClassIndex = sizeClassIndex;
 
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-    
+
     mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
-    
+
     mAge = 0;
     mHasFed = false;
     mIsDead = false;
 }
 
 // For model restart.
+
 Individual::Individual( const double traitValue, const double volumeHeritable, const double volumeActual, const unsigned sizeClassIndex ) {
     Types::DoubleVector traitValues;
     traitValues.push_back( traitValue );
@@ -56,14 +59,61 @@ Individual::Individual( const double traitValue, const double volumeHeritable, c
     mVolumeHeritable = volumeHeritable;
     mVolumeMinimum = mVolumeHeritable * Constants::cMinimumFractionalVolume;
     mVolumeReproduction = Constants::cReproductionFactor * mVolumeHeritable;
-    
+
     mStarvationMultiplier = 1 / ( mVolumeHeritable - mVolumeMinimum );
-    
+
     mAge = 0;
     mTrophicLevel = 0;
     mHasFed = false;
     mIsDead = false;
 }
+
+//Individual::Individual( Types::HeritableTraitsPointer heritableTraits, double volumeHeritable, double volumeMinimum, double volumeReproduction, double volumeActual, double trophicLevel, double starvationMultiplier, unsigned sizeClassIndex, unsigned age, bool hasFed, bool isDead ):
+//mHeritableTraits( std::move( heritableTraits ) ), mVolumeHeritable( std::move( volumeHeritable ) ), mVolumeMinimum( std::move( mVolumeMinimum ) ), mVolumeReproduction( std::move( volumeReproduction ) ), mVolumeActual( std::move( volumeActual ) ),
+//mTrophicLevel( std::move( trophicLevel ) ), mStarvationMultiplier( std::move( starvationMultiplier ) ), mSizeClassIndex( std::move( sizeClassIndex ) ), mAge( std::move( age ) ), mHasFed( std::move( hasFed ) ), mIsDead( std::move( isDead ) ) {
+//
+//}
+//
+//// Copy constructor
+//Individual::Individual( const Individual& individual ) {
+//    mHeritableTraits = individual.mHeritableTraits;
+//
+//    mVolumeHeritable = individual.mVolumeHeritable;
+//    mVolumeMinimum = individual.mVolumeMinimum;
+//    mVolumeReproduction = individual.mVolumeReproduction;
+//
+//    mVolumeActual = individual.mVolumeActual;
+//    mTrophicLevel = individual.mTrophicLevel;
+//
+//    mStarvationMultiplier = individual.mStarvationMultiplier;
+//
+//    mSizeClassIndex = individual.mSizeClassIndex;
+//    mAge = individual.mAge;
+//
+//    mHasFed = individual.mHasFed;
+//    mIsDead = individual.mIsDead;
+//}
+//
+//// Move constructor
+//
+//Individual::Individual( const Individual&& individual ) noexcept {
+//    mHeritableTraits = std::move( individual.mHeritableTraits );
+//
+//    mVolumeHeritable = std::move( individual.mVolumeHeritable );
+//    mVolumeMinimum = std::move( individual.mVolumeMinimum );
+//    mVolumeReproduction = std::move( individual.mVolumeReproduction );
+//
+//    mVolumeActual = std::move( individual.mVolumeActual );
+//    mTrophicLevel = std::move( individual.mTrophicLevel );
+//
+//    mStarvationMultiplier = std::move( individual.mStarvationMultiplier );
+//
+//    mSizeClassIndex = std::move( individual.mSizeClassIndex );
+//    mAge = std::move( individual.mAge );
+//
+//    mHasFed = std::move( individual.mHasFed );
+//    mIsDead = std::move( individual.mIsDead );
+//}
 
 Individual::~Individual( ) {
     delete mHeritableTraits;
@@ -102,7 +152,7 @@ double Individual::ConsumePreyVolume( const double preyVolume ) {
 
     mVolumeActual += volumeAssimilated;
     mHasFed = true;
-    
+
     return wasteVolume;
 }
 

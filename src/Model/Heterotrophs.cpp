@@ -47,6 +47,9 @@ void Heterotrophs::CreateInitialPopulation( ) {
     mIndividualsLiving.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     mIndividualsDead.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
 
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex )
+        mIndividualsLiving[ sizeClassIndex ].reserve( Parameters::Get( )->GetMaximumSizeClassPopulation( sizeClassIndex ) );
+
     if( InitialState::Get( )->IsInitialised( ) == false ) {
         unsigned initialPopulationSize = 0;
         double secondaryProducerVolume = Parameters::Get( )->GetSmallestIndividualVolume( ) * Parameters::Get( )->GetPreferredPreyVolumeRatio( );
@@ -61,6 +64,7 @@ void Heterotrophs::CreateInitialPopulation( ) {
             initialHeterotrophVolume -= individualVolume;
             Types::IndividualPointer individual = new Individual( individualVolume, geneValue, firstPopulatedIndex );
             mIndividualsLiving[ firstPopulatedIndex ].push_back( individual );
+            //mIndividualsLiving[ firstPopulatedIndex ].emplace_back( individualVolume, geneValue, firstPopulatedIndex );
             ++initialPopulationSize;
         }
         if( initialHeterotrophVolume > 0 )
@@ -188,7 +192,7 @@ void Heterotrophs::Metabolisation( ) {
             double metabolicDeduction = mHeterotrophProcessor->CalculateMetabolicDeduction( individual );
 
             if( ( individual->GetVolumeActual( ) - metabolicDeduction ) > 0 ) {
-                
+
                 individual->SetHasFed( false ); // Reset for the next time step
                 double waste = individual->Metabolise( metabolicDeduction );
                 mNutrient->AddToVolume( waste );
@@ -198,7 +202,7 @@ void Heterotrophs::Metabolisation( ) {
                 // avoid handling them twice.
                 if( mHeterotrophProcessor->UpdateSizeClassIndex( individual ) == true )
                     StageForMoving( individual, sizeClassIndex );
-                
+
             } else StarveToDeath( individual );
         }
     }
@@ -300,7 +304,7 @@ void Heterotrophs::FeedFromHeterotrophs( const Types::IndividualPointer predator
 Types::IndividualPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex ) const {
     unsigned numberLiving = mIndividualsLiving[ sizeClassIndex ].size( );
     unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( );
-    
+
     Types::IndividualPointer randomIndividual = NULL;
     if( numberActive > 0 ) {
         do {
@@ -333,7 +337,7 @@ Types::IndividualPointer Heterotrophs::GetRandomPreyFromSizeClass( const unsigne
     // ensures numberActive does not go out of bounds
     if( predator->GetSizeClassIndex( ) == sizeClassIndex && numberActive > 0 )
         --numberActive;
-    
+
     Types::IndividualPointer randomIndividual = NULL;
     if( numberActive > 0 ) {
         do {

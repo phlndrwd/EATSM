@@ -80,6 +80,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 }
 
 void Parameters::CalculateParameters( ) {
+    mMaximumSizeClassPopulations.resize( mNumberOfSizeClasses, 0 );
     mRemainingVolumes.resize( mNumberOfSizeClasses );
     mLinearFeedingDenominators.resize( mNumberOfSizeClasses );
     mHalfSaturationConstants.resize( mNumberOfSizeClasses );
@@ -103,6 +104,7 @@ void Parameters::CalculateParameters( ) {
         mRemainingVolumes[ sizeClassIndex ] = mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ];
         mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * Parameters::Get()->GetHalfSaturationConstantFraction( ) ) * mRemainingVolumes[ sizeClassIndex ];
         mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * mRemainingVolumes[ sizeClassIndex ];
+        mMaximumSizeClassPopulations[ sizeClassIndex ] = std::ceil( mTotalVolume / mSizeClassMidPoints[ sizeClassIndex ] );
     }
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
@@ -253,6 +255,10 @@ double Parameters::GetInterSizeClassVolume( const unsigned predatorIndex, const 
 
 double& Parameters::GetTotalVolume( ) {
     return mTotalVolume;
+}
+
+unsigned& Parameters::GetMaximumSizeClassPopulation( const unsigned sizeClassIndex ) {
+    return mMaximumSizeClassPopulations[ sizeClassIndex ];
 }
 
 double& Parameters::GetRemainingVolume( const unsigned sizeClassIndex ) {

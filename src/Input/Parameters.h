@@ -87,6 +87,7 @@ public:
 
     double& GetTotalVolume( );
     
+    unsigned& GetMaximumSizeClassPopulation( const unsigned );
     double& GetRemainingVolume( const unsigned );
     double& GetLinearFeedingDenominator( const unsigned );
     double& GetHalfSaturationConstant( const unsigned );
@@ -139,6 +140,8 @@ private:
     double mLargestVolumeExponent;
 
     double mTotalVolume;
+    
+    Types::UnsignedVector mMaximumSizeClassPopulations;
     
     Types::DoubleVector mRemainingVolumes;
     Types::DoubleVector mLinearFeedingDenominators;

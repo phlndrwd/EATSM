@@ -88,7 +88,7 @@ bool FileWriter::WriteInputFiles( ) {
 
 void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
     bool success = false;
-
+    
     if( WriteVectorDatums( ) )
         if( WriteMatrixDatums( ) )
             success = WriteStateFile( environment );
