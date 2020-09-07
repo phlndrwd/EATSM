@@ -56,7 +56,7 @@ unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::Indivi
     return newSizeClassIndex;
 }
 
-bool HeterotrophProcessor::UpdateSizeClassIndex( const Types::IndividualPointer individual ) const {
+bool HeterotrophProcessor::UpdateSizeClassIndex( Types::IndividualPointer individual ) const {
     unsigned directionToMove = DirectionIndividualShouldMoveSizeClasses( individual );
     if( directionToMove != Constants::eNoMovement ) {
         unsigned newSizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );

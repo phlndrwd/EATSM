@@ -1,14 +1,14 @@
 #ifndef FILEWRITER
 #define	FILEWRITER
 
-#include "Types.h"
+#include "Environment.h"
 
 class FileWriter {
 public:
     FileWriter( );
     ~FileWriter( );
     
-    void WriteOutputData( Types::EnvironmentPointer );
+    void WriteOutputData( Environment& );
 
 private:
     void InitialiseOutputDirectory( );
@@ -16,7 +16,7 @@ private:
     
     bool WriteVectorDatums( );
     bool WriteMatrixDatums( );
-    bool WriteStateFile( Types::EnvironmentPointer );
+    bool WriteStateFile( Environment& );
 
     std::string mOutputPath;
     std::string mDataSetDirectoryName;

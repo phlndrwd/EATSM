@@ -37,10 +37,10 @@ public:
     void IncrementChildFrequencies( const unsigned );
     void IncrementMutantFrequency( const unsigned, const unsigned );
     
-    void AddToTimeFeeding( double );
-    void AddToTimeMetabolising( double );
-    void AddToTimeReproducing( double );
-    void AddToTimeStarving( double );
+    void AddToTimeFeeding( const double );
+    void AddToTimeMetabolising( const double );
+    void AddToTimeReproducing( const double );
+    void AddToTimeStarving( const double );
 
 private:
     void AddTrophicLevel( const double, const double, const unsigned, const unsigned );

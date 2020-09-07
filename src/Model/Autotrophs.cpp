@@ -6,20 +6,16 @@
 
 #include <iostream>
 
-Autotrophs::Autotrophs( ) {
-
-}
-
-Autotrophs::Autotrophs( Types::NutrientPointer nutrient ) {
-    mNutrient = nutrient;
+Autotrophs::Autotrophs( Nutrient& nutrient ):
+mNutrient( nutrient ) {
     if( InitialState::Get( )->IsInitialised( ) == true ) mVolume = InitialState::Get( )->GetAutotrophVolume( );
     else mVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
-    mMaximumVolume = Parameters::Get( )->GetInitialAutotrophVolume( );
 
     std::cout << "Autotroph pool created." << std::endl;
 }
 
 Autotrophs::~Autotrophs( ) {
+
 }
 
 void Autotrophs::RecordData( ) {
@@ -29,15 +25,9 @@ void Autotrophs::RecordData( ) {
 }
 
 void Autotrophs::Update( ) {
-    double nutrientVolume = mNutrient->GetVolume( );
-
-    if( mVolume < mMaximumVolume ) {
-        double growthVolume = mMaximumVolume - mVolume;
-        if( growthVolume > nutrientVolume ) growthVolume = nutrientVolume;
-
-        AddToVolume( growthVolume );
-        mNutrient->SubtractFromVolume( growthVolume );
-    }
+    double growthVolume = mNutrient.GetVolume( );
+    AddToVolume( growthVolume );
+    mNutrient.SubtractFromVolume( growthVolume );
 }
 
 double Autotrophs::GetVolume( ) {

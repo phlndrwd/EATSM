@@ -1,42 +1,39 @@
 #include "Environment.h"
-#include "Nutrient.h"
-#include "Autotrophs.h"
-#include "Heterotrophs.h"
-#include "Heterotrophs.h"
 #include "Strings.h"
 
-Environment::Environment( ) {
-    mNutrient = new Nutrient( );
-    mAutotrophs = new Autotrophs( mNutrient );
-    mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
+Environment::Environment( ) :
+mNutrient( ), mAutotrophs( mNutrient ), mHeterotrophs( mNutrient, mAutotrophs ) {
+    //mNutrient = new Nutrient( );
+    //mAutotrophs = new Autotrophs( mNutrient );
+    //mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
     std::cout << "Environment created." << std::endl << std::endl;
 }
 
 Environment::~Environment( ) {
-    delete mHeterotrophs;
+    
 }
 
 void Environment::Update( ) {
-    mAutotrophs->Update( );
-    mHeterotrophs->Update( );
+    mAutotrophs.Update( );
+    mHeterotrophs.Update( );
 }
 
 bool Environment::RecordData( ) {
-    bool isAlive = mHeterotrophs->RecordData( );
-    mAutotrophs->RecordData( );
-    mNutrient->RecordData( );
+    bool isAlive = mHeterotrophs.RecordData( );
+    mAutotrophs.RecordData( );
+    mNutrient.RecordData( );
 
     return isAlive;
 }
 
-Types::NutrientPointer Environment::GetNutrient( ) const {
+Nutrient& Environment::GetNutrient( ) {
     return mNutrient;
 }
 
-Types::AutotrophsPointer Environment::GetAutotrophs( ) const {
+Autotrophs&  Environment::GetAutotrophs( ) {
     return mAutotrophs;
 }
 
-Types::HeterotrophsPointer Environment::GetHeterotrophs( ) const {
+Heterotrophs& Environment::GetHeterotrophs( ) {
     return mHeterotrophs;
 }

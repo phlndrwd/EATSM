@@ -1,7 +1,9 @@
 #ifndef ENVIRONMENT
 #define ENVIRONMENT
 
-#include "Types.h"
+#include "Nutrient.h"
+#include "Autotrophs.h"
+#include "Heterotrophs.h"
 
 class Environment {
 public:
@@ -11,14 +13,14 @@ public:
     void Update( );
     bool RecordData( );
 
-    Types::NutrientPointer GetNutrient( ) const;
-    Types::AutotrophsPointer GetAutotrophs( ) const;
-    Types::HeterotrophsPointer GetHeterotrophs( ) const;
+    Nutrient& GetNutrient( );
+    Autotrophs& GetAutotrophs( );
+    Heterotrophs& GetHeterotrophs( );
 
 private:
-    Types::NutrientPointer mNutrient;
-    Types::AutotrophsPointer mAutotrophs;
-    Types::HeterotrophsPointer mHeterotrophs;
+    Nutrient mNutrient;
+    Autotrophs mAutotrophs;
+    Heterotrophs mHeterotrophs;
 };
 
 #endif

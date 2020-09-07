@@ -86,7 +86,7 @@ bool FileWriter::WriteInputFiles( ) {
     return true;
 }
 
-void FileWriter::WriteOutputData( Types::EnvironmentPointer environment ) {
+void FileWriter::WriteOutputData( Environment& environment ) {
     bool success = false;
     
     if( WriteVectorDatums( ) )
@@ -153,7 +153,7 @@ bool FileWriter::WriteMatrixDatums( ) {
     return true;
 }
 
-bool FileWriter::WriteStateFile( Types::EnvironmentPointer environment ) {
+bool FileWriter::WriteStateFile( Environment& environment ) {
     if( Parameters::Get( )->GetWriteModelState( ) == true ) {
 
         std::string fileName = mOutputPath;
@@ -169,13 +169,13 @@ bool FileWriter::WriteStateFile( Types::EnvironmentPointer environment ) {
             // Header (for consistency with general file reading function)
             modelStateFileStream << Constants::cModelStateFileName << std::endl;
             // Model variables
-            modelStateFileStream << environment->GetNutrient( )->GetVolume( ) << std::endl;
-            modelStateFileStream << environment->GetAutotrophs( )->GetVolume( ) << std::endl;
+            modelStateFileStream << environment.GetNutrient( ).GetVolume( ) << std::endl;
+            modelStateFileStream << environment.GetAutotrophs( ).GetVolume( ) << std::endl;
 
             for( unsigned int sizeClassIndex = 0; sizeClassIndex < Parameters::Get( )->GetNumberOfSizeClasses( ); ++sizeClassIndex ) {
-                for( unsigned int individualIndex = 0; individualIndex < environment->GetHeterotrophs( )->GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
-                    Types::IndividualPointer individual = environment->GetHeterotrophs( )->GetIndividual( sizeClassIndex, individualIndex );
-                    modelStateFileStream << individual->GetHeritableTraits( )->GetValue( Constants::eVolume ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << Constants::cDataDelimiterValue << individual->GetSizeClassIndex( ) << std::endl;
+                for( unsigned int individualIndex = 0; individualIndex < environment.GetHeterotrophs( ).GetSizeClassPopulation( sizeClassIndex ); ++individualIndex ) {
+                    Types::IndividualPointer individual = environment.GetHeterotrophs( ).GetIndividual( sizeClassIndex, individualIndex );
+                    modelStateFileStream << individual->GetHeritableTraits( ).GetValue( Constants::eVolume ) << Constants::cDataDelimiterValue << individual->GetVolumeActual( ) << Constants::cDataDelimiterValue << individual->GetSizeClassIndex( ) << std::endl;
                 }
             }
             modelStateFileStream.close( );

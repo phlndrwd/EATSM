@@ -14,7 +14,7 @@ public:
     double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;
     double CalculateStarvationProbability( const Types::IndividualPointer ) const;
 
-    bool UpdateSizeClassIndex( const Types::IndividualPointer ) const;
+    bool UpdateSizeClassIndex( Types::IndividualPointer ) const;
     unsigned FindSizeClassIndexFromVolume( const double ) const;
     unsigned FindIndividualSizeClassIndex( const Types::IndividualPointer, unsigned ) const;
     unsigned DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer ) const;
@@ -30,9 +30,8 @@ private:
 
     double CalculateLinearStarvation( const double&, const double&, const double&, const double& ) const;
     double CalculateBetaExponentialStarvation( const double&, const double&, const double&, const double& ) const;
-    
-    typedef double(HeterotrophProcessor::*function)( const unsigned, const double );
-    
+
+    typedef double( HeterotrophProcessor::*function )( const unsigned, const double );
     double ( HeterotrophProcessor::*fStarvationProbability )( const unsigned, const double );
 };
 

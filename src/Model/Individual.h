@@ -1,25 +1,27 @@
 #ifndef INDIVIDUAL
-#define	INDIVIDUAL
+#define INDIVIDUAL
 
-#include "Constants.h"
 #include "Types.h"
+#include "HeritableTraits.h"
 
 class Individual {
 public:
-    Individual( const double, const double, const unsigned );
-    Individual( const Types::HeritableTraitsPointer, const double, const double, const double, const double, const unsigned );
-    Individual( const double, const double, const double, const unsigned );
-    //Individual( Types::HeritableTraitsPointer, double, double, double, double, double, double, unsigned, unsigned, bool, bool );
-    //Individual( const Individual& );
-    //Individual( const Individual&& ) noexcept;
+    Individual( const HeritableTraits&, const double, const unsigned );
+    Individual( const HeritableTraits&, const double, const double, const double, const double, const unsigned );
+    Individual( const HeritableTraits&, const double, const double, const unsigned );
+    Individual( const HeritableTraits&, const double, const double, const double, const double, const double, const double, const unsigned, const unsigned, const bool, const bool );
+    Individual( const Individual& );
+    Individual( const Individual&& ) noexcept;
     ~Individual( );
+    Individual& operator = ( const Individual& individual );
+    bool operator == ( const Individual& );
 
     Types::IndividualPointer Reproduce( );
 
     double ConsumePreyVolume( const double );
     double Metabolise( const double );
 
-    Types::HeritableTraitsPointer GetHeritableTraits( ) const;
+    HeritableTraits& GetHeritableTraits( );
     double GetTrophicLevel( ) const;
     unsigned GetSizeClassIndex( ) const;
     unsigned GetAge( ) const;
@@ -31,7 +33,7 @@ public:
     double GetVolumeHeritable( ) const;
     double GetVolumeMinimum( ) const;
     double GetVolumeReproduction( ) const;
-    
+
     double GetStarvationMultiplier( ) const;
 
     void SetTrophicLevel( const double );
@@ -42,7 +44,7 @@ public:
     void Kill( );
 
 private:
-    Types::HeritableTraitsPointer mHeritableTraits;
+    HeritableTraits mHeritableTraits;
 
     double mVolumeHeritable;
     double mVolumeMinimum;
@@ -50,9 +52,9 @@ private:
 
     double mVolumeActual;
     double mTrophicLevel;
-    
+
     double mStarvationMultiplier;
-    
+
     unsigned mSizeClassIndex;
     unsigned mAge;
 

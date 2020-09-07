@@ -5,8 +5,7 @@
 
 class Autotrophs {
 public:
-    Autotrophs( );
-    Autotrophs( Types::NutrientPointer );
+    Autotrophs( Nutrient& );
     ~Autotrophs( );
     
     void RecordData( );
@@ -20,10 +19,9 @@ public:
     void SubtractFromVolume( const double );
     
 private:
-    Types::NutrientPointer mNutrient;
+    Nutrient& mNutrient;
     
     double mVolume;
-    double mMaximumVolume;
     double mToFlux;
 
 };

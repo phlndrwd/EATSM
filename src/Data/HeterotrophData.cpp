@@ -276,18 +276,18 @@ void HeterotrophData::IncrementChildFrequencies( const unsigned sizeClassIndex )
     ++mSizeClassChildFrequencies[ sizeClassIndex ];
 }
 
-void HeterotrophData::AddToTimeFeeding( double timeFeeding ) {
+void HeterotrophData::AddToTimeFeeding( const double timeFeeding ) {
     mTimeFeeding += timeFeeding;
 }
 
-void HeterotrophData::AddToTimeMetabolising( double timeMetabolising ) {
+void HeterotrophData::AddToTimeMetabolising( const double timeMetabolising ) {
     mTimeMetabolising += timeMetabolising;
 }
 
-void HeterotrophData::AddToTimeReproducing( double timeReproducing ) {
+void HeterotrophData::AddToTimeReproducing( const double timeReproducing ) {
     mTimeReproducing += timeReproducing;
 }
 
-void HeterotrophData::AddToTimeStarving( double timeStarving ) {
+void HeterotrophData::AddToTimeStarving( const double timeStarving ) {
     mTimeStarving += timeStarving;
 }

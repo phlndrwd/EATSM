@@ -1,27 +1,25 @@
 #ifndef HERITABLETRAITS
 #define	HERITABLETRAITS
 
-#include "Types.h"
 #include "Constants.h"
 
 class HeritableTraits {
 public:
-    HeritableTraits( const Types::DoubleVector );
-    HeritableTraits( const Types::DoubleVector, const Types::BoolVector );
+    HeritableTraits( const std::vector< double >&, const std::vector< bool >& );
     ~HeritableTraits( );
 
-    Types::HeritableTraitsPointer GetChildTraits( );
-    const Types::BoolVector IsMutant( ) const;
-    bool IsValueMutant( const unsigned ) const;
-
-    Types::DoubleVector GetValues( ) const;
+    HeritableTraits GetChildTraits( );
+    const std::vector< double >& GetValues( ) const;
+    const std::vector< bool >& AreTraitsMutant( ) const;
     
-    double GetValue( Constants::eHeritableTraitIndices ) const;
-    void SetValue( Constants::eHeritableTraitIndices, double );
+    const double& GetValue( const Constants::eHeritableTraitIndices ) const;
+    bool IsTraitMutant( const unsigned ) const;
+    
+    void SetValue( const Constants::eHeritableTraitIndices, const double );
 
 private:
-    Types::DoubleVector mValues;
-    Types::BoolVector mAreTraitsMutations;
+    std::vector< double > mValues;
+    std::vector< bool > mAreMutantTraits;
 };
 
 #endif

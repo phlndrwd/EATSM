@@ -3,31 +3,26 @@
 #include "Parameters.h"
 #include "Strings.h"
 
-HeritableTraits::HeritableTraits( const Types::DoubleVector values ) {
-    mValues = values;
-}
-
-HeritableTraits::HeritableTraits( const Types::DoubleVector values, const Types::BoolVector areTraitsMutations ) {
-    mValues = values;
-    mAreTraitsMutations = areTraitsMutations;
+HeritableTraits::HeritableTraits( const std::vector< double >& values, const std::vector< bool >& areTraitsMutations ) {
+    for( unsigned i = 0; i < values.size( ); ++i ) {
+        mValues.push_back( values[ i ] );
+        mAreMutantTraits.push_back( areTraitsMutations[ i ] );
+    }
 }
 
 HeritableTraits::~HeritableTraits( ) {
     mValues.clear( );
 }
 
-Types::HeritableTraitsPointer HeritableTraits::GetChildTraits( ) {
-    Types::BoolVector areTraitsMutations;
-
-    unsigned numberOfGenes = mValues.size( );
-    areTraitsMutations.resize( numberOfGenes, false );
-
-    Types::DoubleVector childValues = mValues;
+HeritableTraits HeritableTraits::GetChildTraits( ) {
+    std::size_t numberOfGenes = mValues.size( );
+    std::vector< double > childValues = mValues;
+    std::vector< bool > areTraitsMutations( numberOfGenes, false );
 
     double mutationProbability = Parameters::Get( )->GetMutationProbability( );
 
     if( mutationProbability > 0 ) {
-        for( unsigned i = 0; i < numberOfGenes; ++i ) {
+        for( std::size_t i = 0; i < numberOfGenes; ++i ) {
 
             if( RandomSimple::Get( )->GetUniform( ) <= mutationProbability ) {
                 areTraitsMutations[ i ] = true;
@@ -45,28 +40,25 @@ Types::HeritableTraitsPointer HeritableTraits::GetChildTraits( ) {
             }
         }
     }
-
-    Types::HeritableTraitsPointer childTraits = new HeritableTraits( childValues, areTraitsMutations );
-
-    return childTraits;
+    return HeritableTraits( childValues, areTraitsMutations );
 }
 
-const Types::BoolVector HeritableTraits::IsMutant( ) const {
-    return mAreTraitsMutations;
+const std::vector< bool >& HeritableTraits::AreTraitsMutant( ) const {
+    return mAreMutantTraits;
 }
 
-Types::DoubleVector HeritableTraits::GetValues( ) const {
+const std::vector< double >& HeritableTraits::GetValues( ) const {
     return mValues;
 }
 
-bool HeritableTraits::IsValueMutant( const unsigned geneIndex ) const {
-    return mAreTraitsMutations[ geneIndex ];
+bool HeritableTraits::IsTraitMutant( const unsigned traitIndex ) const {
+    return mAreMutantTraits[ traitIndex ];
 }
 
-double HeritableTraits::GetValue( Constants::eHeritableTraitIndices index ) const {
-    return mValues[ index ];
+const double& HeritableTraits::GetValue( const Constants::eHeritableTraitIndices trait ) const {
+    return mValues[ trait ];
 }
 
-void HeritableTraits::SetValue( Constants::eHeritableTraitIndices index, double geneValue ) {
-    mValues[ index ] = geneValue;
+void HeritableTraits::SetValue( const Constants::eHeritableTraitIndices trait, const double traitValue ) {
+    mValues[ trait ] = traitValue;
 }

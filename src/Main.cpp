@@ -100,22 +100,22 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
                 DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
                 DataRecorder::Get( )->AddDataTo( "TimeSampling", timer.Split( ) );
                 isAlive = environment.RecordData( );
+            }
 
-                // Text output at the completion of each ten percent of the run 
-                if( timer.Elapsed( ) >= ( unsigned ) cumulativeTenthsOfRunTime ) {
-                    cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                    std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
-                }
+            // Text output at the completion of each ten percent of the run 
+            if( timer.Elapsed( ) >= ( unsigned ) cumulativeTenthsOfRunTime ) {
+                cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
+                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
             }
 
             TimeStep::Get( )->IncrementTimeStep( );
         } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
 
         if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) )
-            std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue <<  Constants::cWhiteSpaceCharacter << "main time loop complete." << std::endl << std::endl;
+            std::cout << "Main time loop complete." << std::endl << std::endl;
         else std::cout << "Heterotroph population crashed. Main time loop aborted." << std::endl << std::endl;
 
-        fileWriter.WriteOutputData( &environment );
+        fileWriter.WriteOutputData( environment );
         std::cout << "Total run time " << timer.Stop( ) << "s" << std::endl;
     } else if( showErrorMessage == true ) {
         std::cout << "ERROR> Command combination not recognised. System exiting..." << std::endl;
