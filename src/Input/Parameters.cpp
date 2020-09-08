@@ -53,9 +53,9 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
             else if( parameterName == "writemodelstate" ) SetWriteModelState( parameterValue );
             else if( parameterName == "uselinearfeeding" ) SetUseLinearFeeding( parameterValue );
 
-            else if( parameterName == "initialautotrophvolume" ) SetInitialAutotrophVolume( parameterValue );
-            else if( parameterName == "initialheterotrophvolume" ) SetInitialHeterotrophVolume( parameterValue );
-            else if( parameterName == "minimumheterotrophvolume" ) SetMinimumHeterotrophVolume( parameterValue );
+            else if( parameterName == "initialautotrophicvolume" ) SetInitialAutotrophicVolume( parameterValue );
+            else if( parameterName == "initialheterotrophicvolume" ) SetInitialHeterotrophicVolume( parameterValue );
+            else if( parameterName == "minimumheterotrophicvolume" ) SetMinimumHeterotrophicVolume( parameterValue );
 
             else if( parameterName == "smallestindividualvolume" ) SetSmallestIndividualVolume( parameterValue );
             else if( parameterName == "largestindividualvolume" ) SetLargestIndividualVolume( parameterValue );
@@ -89,8 +89,8 @@ void Parameters::CalculateParameters( ) {
 
     mSmallestVolumeExponent = std::log10( mSmallestIndividualVolume );
     mLargestVolumeExponent = std::log10( mLargestIndividualVolume );
-    
-    mTotalVolume = mInitialAutotrophVolume + mInitialHeterotrophVolume;
+
+    mTotalVolume = mInitialAutotrophicVolume + mInitialHeterotrophicVolume;
 
     double sizeClassExponentIncrement = ( mLargestVolumeExponent - mSmallestVolumeExponent ) / mNumberOfSizeClasses;
 
@@ -100,9 +100,9 @@ void Parameters::CalculateParameters( ) {
 
         mSizeClassBoundaries[ sizeClassIndex ] = std::pow( 10, sizeClassBoundaryExponent );
         mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
-        
+
         mRemainingVolumes[ sizeClassIndex ] = mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ];
-        mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * Parameters::Get()->GetHalfSaturationConstantFraction( ) ) * mRemainingVolumes[ sizeClassIndex ];
+        mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * Parameters::Get( )->GetHalfSaturationConstantFraction( ) ) * mRemainingVolumes[ sizeClassIndex ];
         mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * mRemainingVolumes[ sizeClassIndex ];
         mMaximumSizeClassPopulations[ sizeClassIndex ] = std::ceil( mTotalVolume / mSizeClassMidPoints[ sizeClassIndex ] );
     }
@@ -114,7 +114,7 @@ void Parameters::CalculateParameters( ) {
 
     mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
     mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
-    
+
     for( unsigned subjectIndex = 0; subjectIndex < mNumberOfSizeClasses; ++subjectIndex ) {
         double subjectVolumeMean = mSizeClassMidPoints[ subjectIndex ];
         double preferenceSum = 0;
@@ -162,15 +162,15 @@ bool Parameters::GetUseLinearFeeding( ) {
 }
 
 double& Parameters::GetInitialAutotrophVolume( ) {
-    return mInitialAutotrophVolume;
+    return mInitialAutotrophicVolume;
 }
 
 double& Parameters::GetInitialHeterotrophVolume( ) {
-    return mInitialHeterotrophVolume;
+    return mInitialHeterotrophicVolume;
 }
 
-double& Parameters::GetMinimumHeterotrophVolume( ) {
-    return mMinimumHeterotrophVolume;
+double& Parameters::GetMinimumHeterotrophicVolume( ) {
+    return mMinimumHeterotrophicVolume;
 }
 
 double& Parameters::GetSmallestIndividualVolume( ) {
@@ -245,6 +245,18 @@ const Types::DoubleVector& Parameters::GetSizeClassMidPoints( ) {
     return mSizeClassMidPoints;
 }
 
+const Types::DoubleVector& Parameters::GetLinearFeedingDenominators( ) {
+    return mLinearFeedingDenominators;
+}
+
+const Types::DoubleVector& Parameters::GetHalfSaturationConstants( ) {
+    return mHalfSaturationConstants;
+}
+
+const Types::UnsignedVector& Parameters::GetMaximumSizeClassPopulations( ) {
+    return mMaximumSizeClassPopulations;
+}
+
 double Parameters::GetInterSizeClassPreference( const unsigned predatorIndex, const unsigned preyIndex ) const {
     return mInterSizeClassPreferenceMatrix[ predatorIndex ][ preyIndex ];
 }
@@ -281,6 +293,14 @@ const Types::DoubleVector& Parameters::GetInterSizeClassVolumeVector( const unsi
     return mInterSizeClassVolumeMatrix[ index ];
 }
 
+const Types::DoubleMatrix& Parameters::GetInterSizeClassPreferenceMatrix( ) const {
+    return mInterSizeClassPreferenceMatrix;
+}
+
+const Types::DoubleMatrix& Parameters::GetInterSizeClassVolumeMatrix( ) const {
+    return mInterSizeClassVolumeMatrix;
+}
+
 void Parameters::SetRandomSeed( const unsigned randomNumberSeed ) {
     mRandomSeed = randomNumberSeed;
 }
@@ -309,16 +329,16 @@ void Parameters::SetUseLinearFeeding( const bool useLinearFeeding ) {
     mUseLinearFeeding = useLinearFeeding;
 }
 
-void Parameters::SetInitialAutotrophVolume( const double initialAutotrophVolume ) {
-    mInitialAutotrophVolume = initialAutotrophVolume;
+void Parameters::SetInitialAutotrophicVolume( const double initialAutotrophicVolume ) {
+    mInitialAutotrophicVolume = initialAutotrophicVolume;
 }
 
-void Parameters::SetInitialHeterotrophVolume( const double initialHeterotrophVolume ) {
-    mInitialHeterotrophVolume = initialHeterotrophVolume;
+void Parameters::SetInitialHeterotrophicVolume( const double initialHeterotrophicVolume ) {
+    mInitialHeterotrophicVolume = initialHeterotrophicVolume;
 }
 
-void Parameters::SetMinimumHeterotrophVolume( const double minimumHeterotrophVolume ) {
-    mMinimumHeterotrophVolume = minimumHeterotrophVolume;
+void Parameters::SetMinimumHeterotrophicVolume( const double minimumHeterotrophicVolume ) {
+    mMinimumHeterotrophicVolume = minimumHeterotrophicVolume;
 }
 
 void Parameters::SetSmallestIndividualVolume( double smallestIndividualVolume ) {

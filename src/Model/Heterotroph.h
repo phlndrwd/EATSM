@@ -1,22 +1,23 @@
-#ifndef INDIVIDUAL
-#define INDIVIDUAL
+#ifndef HETEROTROPH
+#define HETEROTROPH
 
 #include "Types.h"
+#include "HeterotrophProcessor.h"
 #include "HeritableTraits.h"
 
-class Individual {
+class Heterotroph {
 public:
-    Individual( const HeritableTraits&, const double, const unsigned );
-    Individual( const HeritableTraits&, const double, const double, const double, const double, const unsigned );
-    Individual( const HeritableTraits&, const double, const double, const unsigned );
-    Individual( const HeritableTraits&, const double, const double, const double, const double, const double, const double, const unsigned, const unsigned, const bool, const bool );
-    Individual( const Individual& );
-    Individual( const Individual&& ) noexcept;
-    ~Individual( );
-    Individual& operator = ( const Individual& individual );
-    bool operator == ( const Individual& );
+    Heterotroph( const HeritableTraits&, const double, const unsigned );
+    Heterotroph( const HeritableTraits&, const double, const double, const double, const double, const unsigned );
+    Heterotroph( const HeritableTraits&, const double, const double, const unsigned );
+    Heterotroph( const HeritableTraits&, const double, const double, const double, const double, const double, const double, const unsigned, const unsigned, const bool, const bool );
+    Heterotroph( const Heterotroph& );
+    Heterotroph( const Heterotroph&& ) noexcept;
+    ~Heterotroph( );
+    Heterotroph& operator = ( const Heterotroph& );
+    bool operator == ( const Heterotroph& );
 
-    Types::IndividualPointer Reproduce( );
+    Types::IndividualPointer Reproduce( HeterotrophProcessor& );
 
     double ConsumePreyVolume( const double );
     double Metabolise( const double );
@@ -45,6 +46,8 @@ public:
 
 private:
     HeritableTraits mHeritableTraits;
+    
+    const double mAssimilationEfficiency;
 
     double mVolumeHeritable;
     double mVolumeMinimum;

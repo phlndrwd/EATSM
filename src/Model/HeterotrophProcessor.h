@@ -18,8 +18,11 @@ public:
     unsigned FindSizeClassIndexFromVolume( const double ) const;
     unsigned FindIndividualSizeClassIndex( const Types::IndividualPointer, unsigned ) const;
     unsigned DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer ) const;
+    
+    void UpdateHerbivoreTrophicIndex( const Types::IndividualPointer ) const;
+    void UpdateCarnivoreTrophicIndex( const Types::IndividualPointer, Types::IndividualPointer ) const;
 
-    static double TraitValueToVolume( double );
+    double TraitValueToVolume( double );
     double VolumeToTraitValue( double ) const;
 
     int RoundWithProbability( const double& ) const;
@@ -33,6 +36,21 @@ private:
 
     typedef double( HeterotrophProcessor::*function )( const unsigned, const double );
     double ( HeterotrophProcessor::*fStarvationProbability )( const unsigned, const double );
+    
+    const Types::DoubleVector mSizeClassBoundaries;
+    const Types::DoubleVector mLinearFeedingDenominators;
+    const Types::DoubleVector mHalfSaturationConstants;
+    
+    const double mPreferredPreyVolumeRatio;
+    const double mPreferenceFunctionWidth;
+    const double mFractionalMetabolicExpense;
+    const double mMetabolicIndex;
+    const double mNumberOfSizeClasses;
+    
+    const double mLargestVolumeExponent;
+    const double mSmallestVolumeExponent;
+    
+    const double mPreferenceDenominator;
 };
 
 #endif

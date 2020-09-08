@@ -20,9 +20,9 @@
         <itemPath>src/Model/Autotrophs.h</itemPath>
         <itemPath>src/Model/Environment.h</itemPath>
         <itemPath>src/Model/HeritableTraits.h</itemPath>
+        <itemPath>src/Model/Heterotroph.h</itemPath>
         <itemPath>src/Model/HeterotrophProcessor.h</itemPath>
         <itemPath>src/Model/Heterotrophs.h</itemPath>
-        <itemPath>src/Model/Individual.h</itemPath>
         <itemPath>src/Model/Nutrient.h</itemPath>
         <itemPath>src/Model/TimeStep.h</itemPath>
       </logicalFolder>
@@ -58,9 +58,9 @@
         <itemPath>src/Model/Autotrophs.cpp</itemPath>
         <itemPath>src/Model/Environment.cpp</itemPath>
         <itemPath>src/Model/HeritableTraits.cpp</itemPath>
+        <itemPath>src/Model/Heterotroph.cpp</itemPath>
         <itemPath>src/Model/HeterotrophProcessor.cpp</itemPath>
         <itemPath>src/Model/Heterotrophs.cpp</itemPath>
-        <itemPath>src/Model/Individual.cpp</itemPath>
         <itemPath>src/Model/Nutrient.cpp</itemPath>
         <itemPath>src/Model/TimeStep.cpp</itemPath>
       </logicalFolder>
@@ -153,6 +153,10 @@
       </item>
       <item path="src/Model/HeritableTraits.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Model/Heterotroph.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotroph.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Model/HeterotrophProcessor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Model/HeterotrophProcessor.h" ex="false" tool="3" flavor2="0">
@@ -160,10 +164,6 @@
       <item path="src/Model/Heterotrophs.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Model/Heterotrophs.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Model/Individual.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Model/Individual.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Model/Nutrient.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -268,6 +268,10 @@
       </item>
       <item path="src/Model/HeritableTraits.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/Model/Heterotroph.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Model/Heterotroph.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/Model/HeterotrophProcessor.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Model/HeterotrophProcessor.h" ex="false" tool="3" flavor2="0">
@@ -275,10 +279,6 @@
       <item path="src/Model/Heterotrophs.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/Model/Heterotrophs.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/Model/Individual.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Model/Individual.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/Model/Nutrient.cpp" ex="false" tool="1" flavor2="0">
       </item>

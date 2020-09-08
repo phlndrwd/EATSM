@@ -15,7 +15,7 @@ class Heterotrophs;
 class HeterotrophData;
 class HeterotrophProcessor;
 class HeritableTraits;
-class Individual;
+class Heterotroph;
 class InitialState;
 class MatrixDatum;
 class Nutrient;
@@ -33,7 +33,7 @@ namespace Types {
     typedef HeterotrophData* HeterotrophDataPointer;
     typedef HeterotrophProcessor* HeterotrophProcessorPointer;
     typedef HeritableTraits* HeritableTraitsPointer;
-    typedef Individual* IndividualPointer;
+    typedef Heterotroph* IndividualPointer;
     typedef InitialState* InitialStatePointer;
     typedef MatrixDatum* MatrixDatumPointer;
     typedef Nutrient* NutrientPointer;

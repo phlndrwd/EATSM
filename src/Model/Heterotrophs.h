@@ -30,7 +30,7 @@ private:
     Types::IndividualPointer GetRandomPreyFromSizeClass( const unsigned, const Types::IndividualPointer );
 
     void FeedFromAutotrophs( Types::IndividualPointer );
-    void FeedFromHeterotrophs( Types::IndividualPointer, unsigned );
+    void FeedFromHeterotrophs( Types::IndividualPointer, const unsigned );
 
     void StageForMoving( Types::IndividualPointer, const unsigned );
     void MoveSizeClass( Types::IndividualPointer, const unsigned );
@@ -43,7 +43,7 @@ private:
     void AddChildren( );
     void MoveIndividuals( );
     void DeleteDead( );
-
+    
     Nutrient& mNutrient;
     Autotrophs& mAutotrophs;
 
@@ -51,15 +51,28 @@ private:
     HeterotrophData mHeterotrophData;
     
     Timer mTimer;
+    
+    const Types::DoubleMatrix mInterSizeClassPreferenceMatrix;
+    const Types::DoubleMatrix mInterSizeClassVolumeMatrix;
+    
+    const Types::DoubleVector mSizeClassMidPoints;
+    const Types::UnsignedVector mMaximumSizeClassPopulations;
+
+    const double mSmallestIndividualVolume;
+    const double mInitialHeterotrophicVolume;
+    const double mSizeClassSubsetFraction;
+
+    const unsigned mNumberOfSizeClasses;
+    const unsigned mPreferredPreyVolumeRatio;
+    const unsigned mAutotrophSizeClassIndex;
 
     Types::UnsignedVector mFedCount;
     
     Types::IndividualVector mChildren;
+    Types::IndividualIndexVector mIndividualsToMove;
 
     Types::IndividualMatrix mIndividuals;
     Types::IndividualMatrix mIndividualsDead;
-    
-    Types::IndividualIndexVector mIndividualsToMove;
 };
 
 #endif

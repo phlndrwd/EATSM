@@ -13,7 +13,7 @@
 #include "Autotrophs.h"
 #include "Heterotrophs.h"
 #include "Heterotrophs.h"
-#include "Individual.h"
+#include "Heterotroph.h"
 #include "HeritableTraits.h"
 
 FileWriter::FileWriter( ) {

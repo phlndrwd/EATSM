@@ -1,7 +1,7 @@
 #include "FileReader.h"
 
 #include "Parameters.h"
-#include "Individual.h"
+#include "Heterotroph.h"
 #include "HeritableTraits.h"
 #include "Strings.h"
 #include "DataRecorder.h"

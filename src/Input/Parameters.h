@@ -24,7 +24,7 @@ public:
 
     double& GetInitialAutotrophVolume( );
     double& GetInitialHeterotrophVolume( );
-    double& GetMinimumHeterotrophVolume( );
+    double& GetMinimumHeterotrophicVolume( );
 
     double& GetSmallestIndividualVolume( );
     double& GetLargestIndividualVolume( );
@@ -52,9 +52,9 @@ public:
     void SetWriteModelState( const bool );
     void SetUseLinearFeeding( const bool );
 
-    void SetInitialAutotrophVolume( const double );
-    void SetInitialHeterotrophVolume( const double );
-    void SetMinimumHeterotrophVolume( const double );
+    void SetInitialAutotrophicVolume( const double );
+    void SetInitialHeterotrophicVolume( const double );
+    void SetMinimumHeterotrophicVolume( const double );
 
     void SetSmallestIndividualVolume( const double );
     void SetLargestIndividualVolume( const double );
@@ -94,9 +94,17 @@ public:
 
     const Types::DoubleVector& GetSizeClassBoundaries( );
     const Types::DoubleVector& GetSizeClassMidPoints( );
+    
+    const Types::DoubleVector& GetLinearFeedingDenominators( );
+    const Types::DoubleVector& GetHalfSaturationConstants( );
+    
+    const Types::UnsignedVector& GetMaximumSizeClassPopulations( );
 
     const Types::DoubleVector& GetInterSizeClassPreferenceVector( const unsigned ) const;
     const Types::DoubleVector& GetInterSizeClassVolumeVector( const unsigned ) const;
+    
+    const Types::DoubleMatrix& GetInterSizeClassPreferenceMatrix( ) const;
+    const Types::DoubleMatrix& GetInterSizeClassVolumeMatrix( ) const;
 
 private:
     Parameters( );
@@ -114,9 +122,9 @@ private:
     bool mWriteModelState;
     bool mUseLinearFeeding;
 
-    double mInitialAutotrophVolume;
-    double mInitialHeterotrophVolume;
-    double mMinimumHeterotrophVolume;
+    double mInitialAutotrophicVolume;
+    double mInitialHeterotrophicVolume;
+    double mMinimumHeterotrophicVolume;
 
     double mSmallestIndividualVolume;
     double mLargestIndividualVolume;

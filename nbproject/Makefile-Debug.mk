@@ -45,9 +45,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/Model/Autotrophs.o \
 	${OBJECTDIR}/src/Model/Environment.o \
 	${OBJECTDIR}/src/Model/HeritableTraits.o \
+	${OBJECTDIR}/src/Model/Heterotroph.o \
 	${OBJECTDIR}/src/Model/HeterotrophProcessor.o \
 	${OBJECTDIR}/src/Model/Heterotrophs.o \
-	${OBJECTDIR}/src/Model/Individual.o \
 	${OBJECTDIR}/src/Model/Nutrient.o \
 	${OBJECTDIR}/src/Model/TimeStep.o \
 	${OBJECTDIR}/src/Output/DataRecorder.o \
@@ -132,6 +132,11 @@ ${OBJECTDIR}/src/Model/HeritableTraits.o: src/Model/HeritableTraits.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/HeritableTraits.o src/Model/HeritableTraits.cpp
 
+${OBJECTDIR}/src/Model/Heterotroph.o: src/Model/Heterotroph.cpp
+	${MKDIR} -p ${OBJECTDIR}/src/Model
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Heterotroph.o src/Model/Heterotroph.cpp
+
 ${OBJECTDIR}/src/Model/HeterotrophProcessor.o: src/Model/HeterotrophProcessor.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
@@ -141,11 +146,6 @@ ${OBJECTDIR}/src/Model/Heterotrophs.o: src/Model/Heterotrophs.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Model
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Heterotrophs.o src/Model/Heterotrophs.cpp
-
-${OBJECTDIR}/src/Model/Individual.o: src/Model/Individual.cpp
-	${MKDIR} -p ${OBJECTDIR}/src/Model
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -Isrc/Data/ -Isrc/Input/ -Isrc/Model/ -Isrc/Output/ -Isrc/Tools/ -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/src/Model/Individual.o src/Model/Individual.cpp
 
 ${OBJECTDIR}/src/Model/Nutrient.o: src/Model/Nutrient.cpp
 	${MKDIR} -p ${OBJECTDIR}/src/Model

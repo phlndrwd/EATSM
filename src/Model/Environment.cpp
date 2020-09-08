@@ -3,9 +3,6 @@
 
 Environment::Environment( ) :
 mNutrient( ), mAutotrophs( mNutrient ), mHeterotrophs( mNutrient, mAutotrophs ) {
-    //mNutrient = new Nutrient( );
-    //mAutotrophs = new Autotrophs( mNutrient );
-    //mHeterotrophs = new Heterotrophs( mNutrient, mAutotrophs );
     std::cout << "Environment created." << std::endl << std::endl;
 }
 

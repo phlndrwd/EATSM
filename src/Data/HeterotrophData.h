@@ -44,7 +44,15 @@ public:
 
 private:
     void AddTrophicLevel( const double, const double, const unsigned, const unsigned );
-
+    
+    const Types::FloatVector mSizeClassMidPointsFloat;
+    const Types::FloatVector mSizeClassBoundariesFloat;
+    
+    const double mMinimumHeterotrophicVolume;
+    const double mSmallestIndividualVolume;
+    
+    const unsigned mNumberOfSizeClasses;
+    
     Types::FloatMatrix mEffectiveSizeClassVolumeMatrix;
     
     Types::FloatVector mSizeClassPopulation;

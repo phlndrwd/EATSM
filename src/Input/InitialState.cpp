@@ -1,6 +1,6 @@
 #include "InitialState.h"
 #include "Strings.h"
-#include "Individual.h"
+#include "Heterotroph.h"
 #include "Parameters.h"
 #include "HeritableTraits.h"
 #include "HeterotrophProcessor.h"
@@ -27,17 +27,19 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
     mAutotrophVolume = Strings::StringToNumber( rawInitialStateData[ Constants::cStateLineAutotrophVol ][ 0 ] );
     // Heterotrophs
     mInitialPopulationSize = 0;
+    
+    HeterotrophProcessor heterotrophProcessor;
 
     mHeterotrophs.resize( Parameters::Get( )->GetNumberOfSizeClasses( ) );
     for( unsigned lineIndex = Constants::cStateLineFirstHeterotroph; lineIndex < rawInitialStateData.size( ); ++lineIndex ) {
         double traitValue = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 0 ] );
         double volumeActual = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 1 ] );
         unsigned sizeClassIndex = Strings::StringToNumber( rawInitialStateData[ lineIndex ][ 2 ] );
-        double volumeHeritable = HeterotrophProcessor::TraitValueToVolume( traitValue );
+        double volumeHeritable = heterotrophProcessor.TraitValueToVolume( traitValue );
         std::vector< double > heritableTraitValues{ traitValue };
         std::vector< bool > areTraitsMutant{ false };
         HeritableTraits heritableTraits( heritableTraitValues, areTraitsMutant );
-        Types::IndividualPointer individual = new Individual( heritableTraits, volumeHeritable, volumeActual, sizeClassIndex );
+        Types::IndividualPointer individual = new Heterotroph( heritableTraits, volumeHeritable, volumeActual, sizeClassIndex );
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }

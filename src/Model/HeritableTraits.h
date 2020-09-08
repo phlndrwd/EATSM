@@ -18,6 +18,9 @@ public:
     void SetValue( const Constants::eHeritableTraitIndices, const double );
 
 private:
+    const double mMutationProbability;
+    const double mMutationStandardDeviation;
+    
     std::vector< double > mValues;
     std::vector< bool > mAreMutantTraits;
 };
