@@ -7,6 +7,7 @@ class HeritableTraits {
 public:
     HeritableTraits( const std::vector< double >&, const std::vector< bool >& );
     ~HeritableTraits( );
+    HeritableTraits& operator = ( const HeritableTraits& );
 
     HeritableTraits GetChildTraits( );
     const std::vector< double >& GetValues( ) const;

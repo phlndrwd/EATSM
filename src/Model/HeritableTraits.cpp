@@ -16,6 +16,14 @@ HeritableTraits::~HeritableTraits( ) {
     mValues.clear( );
 }
 
+HeritableTraits& HeritableTraits::operator = ( const HeritableTraits& heritableTraits ) {
+    if( this != &heritableTraits ) {
+        mValues = heritableTraits.mValues;
+        mAreMutantTraits = heritableTraits.mAreMutantTraits;
+    }
+    return *this;
+}
+
 HeritableTraits HeritableTraits::GetChildTraits( ) {
     std::size_t numberOfGenes = mValues.size( );
     std::vector< double > childValues = mValues;

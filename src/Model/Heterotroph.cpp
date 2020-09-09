@@ -6,7 +6,6 @@
 #include "TimeStep.h"
 
 // For model initialisation.
-
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const unsigned sizeClassIndex ):
 mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeHeritable = volumeHeritable;
@@ -25,7 +24,6 @@ mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant(
 }
 
 // For reproduction.
-
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel, const unsigned sizeClassIndex ):
 mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeHeritable = volumeHeritable;
@@ -44,7 +42,6 @@ mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant(
 }
 
 // For model restart.
-
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const double volumeActual, const unsigned sizeClassIndex ):
 mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeActual = volumeActual;
@@ -137,7 +134,7 @@ Types::IndividualPointer Heterotroph::Reproduce( HeterotrophProcessor& heterotro
     return childIndividual;
 }
 
-Heterotroph& Heterotroph::operator=( const Heterotroph& individual ) {
+Heterotroph& Heterotroph::operator = ( const Heterotroph& individual ) {
     if( this != &individual ) {
         mHeritableTraits = individual.mHeritableTraits;
 
@@ -159,7 +156,7 @@ Heterotroph& Heterotroph::operator=( const Heterotroph& individual ) {
     return *this;
 }
 
-bool Heterotroph::operator==( const Heterotroph& individual ) {
+bool Heterotroph::operator == ( const Heterotroph& individual ) {
     return ( mVolumeActual == individual.mVolumeActual &&
             mVolumeHeritable == individual.mVolumeHeritable );
 }
