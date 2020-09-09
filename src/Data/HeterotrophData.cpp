@@ -12,7 +12,6 @@ mSizeClassBoundariesFloat( Parameters::Get( )->GetSizeClassBoundaries( ).begin( 
 mMinimumHeterotrophicVolume( Parameters::Get( )->GetMinimumHeterotrophicVolume( ) ),
 mSmallestIndividualVolume( Parameters::Get( )->GetSmallestIndividualVolume( ) ),
 mNumberOfSizeClasses( Parameters::Get( )->GetNumberOfSizeClasses( ) ) {
-    
     // Convert double vectors used in the model to floats for writing to file
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassMidPointValues", mSizeClassMidPointsFloat );
     DataRecorder::Get( )->SetVectorDataOn( "AxisSizeClassBoundaryValues", mSizeClassBoundariesFloat );
@@ -47,7 +46,6 @@ HeterotrophData::~HeterotrophData( ) {
 }
 
 void HeterotrophData::InitialiseDataStructures( ) {
-
     mSizeClassPopulation.clear( );
     mSizeClassVolumes.clear( );
     mSizeClassApproxVolumes.clear( );
@@ -76,7 +74,6 @@ void HeterotrophData::InitialiseDataStructures( ) {
 }
 
 void HeterotrophData::RecordOutputData( ) {
-
     DataRecorder::Get( )->AddDataTo( "HeterotrophFrequency", mFrequency );
     DataRecorder::Get( )->AddDataTo( "HeterotrophVolume", mVolume );
     DataRecorder::Get( )->AddDataTo( "HeterotrophApproxVolume", mApproxVolume );
@@ -114,47 +111,38 @@ void HeterotrophData::RecordOutputData( ) {
 }
 
 double HeterotrophData::GetEffectiveSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) const {
-
     return mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ];
 }
 
 void HeterotrophData::SetEffectiveSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex, const double effectiveSizeClassVolume ) {
-
     mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] = effectiveSizeClassVolume;
 }
 
 unsigned HeterotrophData::GetCoupledSizeClassIndex( const unsigned sizeClassIndex ) {
-
     return mSizeClassCouplings[ sizeClassIndex ];
 }
 
 double HeterotrophData::GetEffectivePreyVolume( const unsigned sizeClassIndex ) {
-
     return mSizeClassEffectivePreyVolumes[ sizeClassIndex ];
 }
 
 double HeterotrophData::GetFeedingProbability( const unsigned sizeClassIndex ) {
-
     return mSizeClassFeedingProbabilities[ sizeClassIndex ];
 }
 
 void HeterotrophData::SetCoupledSizeClassIndex( const unsigned sizeClassIndex, const unsigned coupledIndex ) {
-
     mSizeClassCouplings[ sizeClassIndex ] = coupledIndex;
 }
 
 void HeterotrophData::SetEffectivePreyVolume( const unsigned sizeClassIndex, const double effectivePreyVolume ) {
-
     mSizeClassEffectivePreyVolumes[ sizeClassIndex ] = effectivePreyVolume;
 }
 
 void HeterotrophData::SetFeedingProbability( const unsigned sizeClassIndex, const double feedingProbability ) {
-
     mSizeClassFeedingProbabilities[ sizeClassIndex ] = feedingProbability;
 }
 
 void HeterotrophData::AddIndividualData( const Types::HeterotrophPointer individual ) {
-
     AddTrophicLevel( individual->GetTrophicLevel( ), individual->GetVolumeActual( ), individual->GetSizeClassIndex( ), individual->GetAge( ) );
     mSizeClassGrowthRatios[ individual->GetSizeClassIndex( ) ] += ( individual->GetVolumeActual( ) / individual->GetVolumeHeritable( ) );
     mSizeClassVolumes[ individual->GetSizeClassIndex( ) ] += individual->GetVolumeActual( );
@@ -211,12 +199,10 @@ void HeterotrophData::NormaliseData( ) {
 }
 
 bool HeterotrophData::AreHeterotrophsAlive( ) const {
-
     return mVolume > mMinimumHeterotrophicVolume;
 }
 
 void HeterotrophData::ResetDataStructures( ) {
-
     mToFlux = 0;
     mInFlux = 0;
 
@@ -266,7 +252,6 @@ void HeterotrophData::IncrementVegetarianFrequencies( const Types::HeterotrophPo
 }
 
 void HeterotrophData::IncrementCarnivoreFrequencies( const Types::HeterotrophPointer predator, const Types::HeterotrophPointer prey ) {
-
     ++mSizeClassCarnivoreFrequencies[ predator->GetSizeClassIndex( ) ];
     ++mSizeClassPreyFrequencies[ prey->GetSizeClassIndex( ) ];
 
@@ -276,38 +261,31 @@ void HeterotrophData::IncrementCarnivoreFrequencies( const Types::HeterotrophPoi
 }
 
 void HeterotrophData::IncrementStarvedFrequencies( const unsigned sizeClassIndex ) {
-
     ++mSizeClassStarvedFrequencies[ sizeClassIndex ];
 }
 
 void HeterotrophData::IncrementMutantFrequency( const unsigned sizeClassIndex, const unsigned geneIndex ) {
-
     if( geneIndex == Constants::eVolume )
         ++mSizeClassVolumeMutantFrequencies[ sizeClassIndex ];
 }
 
 void HeterotrophData::IncrementParentFrequencies( const unsigned sizeClassIndex ) {
-
     ++mSizeClassParentFrequencies[ sizeClassIndex ];
 }
 
 void HeterotrophData::IncrementChildFrequencies( const unsigned sizeClassIndex ) {
-
     ++mSizeClassChildFrequencies[ sizeClassIndex ];
 }
 
 void HeterotrophData::AddToTimeFeeding( const double timeFeeding ) {
-
     mTimeFeeding += timeFeeding;
 }
 
 void HeterotrophData::AddToTimeMetabolising( const double timeMetabolising ) {
-
     mTimeMetabolising += timeMetabolising;
 }
 
 void HeterotrophData::AddToTimeReproducing( const double timeReproducing ) {
-
     mTimeReproducing += timeReproducing;
 }
 

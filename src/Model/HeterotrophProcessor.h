@@ -21,19 +21,22 @@ public:
     unsigned DirectionIndividualShouldMoveSizeClasses( const Types::HeterotrophPointer ) const;
     
     void UpdateHerbivoreTrophicIndex( const Types::HeterotrophPointer ) const;
-    void UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer, Types::HeterotrophPointer ) const;
+    void UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer, const Types::HeterotrophPointer ) const;
+    
+    double CalculateHerbivoreTrophicIndex( const double ) const;
+    double CalculateCarnivoreTrophicIndex( const double, const double ) const;
 
-    double TraitValueToVolume( double );
-    double VolumeToTraitValue( double ) const;
+    double TraitValueToVolume( const double );
+    double VolumeToTraitValue( const double ) const;
 
-    int RoundWithProbability( RandomSimple&, const double& ) const;
+    int RoundWithProbability( RandomSimple&, const double ) const;
 
 private:
     double CalculateFeedingProbabilityLinear( const unsigned, const double );
     double CalculateFeedingProbabilityNonLinear( const unsigned, const double );
 
-    double CalculateLinearStarvation( const double&, const double&, const double&, const double& ) const;
-    double CalculateBetaExponentialStarvation( const double&, const double&, const double&, const double& ) const;
+    double CalculateLinearStarvation( const double, const double, const double, const double ) const;
+    double CalculateBetaExponentialStarvation( const double, const double, const double, const double ) const;
 
     typedef double( HeterotrophProcessor::*function )( const unsigned, const double );
     double ( HeterotrophProcessor::*fStarvationProbability )( const unsigned, const double );

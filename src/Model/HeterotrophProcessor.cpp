@@ -109,19 +109,17 @@ void HeterotrophProcessor::UpdateHerbivoreTrophicIndex( const Types::Heterotroph
     else grazer->SetTrophicLevel( 2 );
 }
 
-void HeterotrophProcessor::UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer predator, Types::HeterotrophPointer prey ) const {
+void HeterotrophProcessor::UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer predator, const Types::HeterotrophPointer prey ) const {
     double predatorTrophicLevel = predator->GetTrophicLevel( );
     double preyTrophicLevel = prey->GetTrophicLevel( );
-
-    double trophicLevel = 0;
     if( predatorTrophicLevel != 0 ) {
-        if( preyTrophicLevel != 0 ) trophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
-        else trophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
+        if( preyTrophicLevel != 0 ) predatorTrophicLevel = ( predatorTrophicLevel + preyTrophicLevel + 1 ) * 0.5;
+        else predatorTrophicLevel = ( predatorTrophicLevel + 3 ) * 0.5;
     } else {
-        if( preyTrophicLevel != 0 ) trophicLevel = preyTrophicLevel + 1;
-        else trophicLevel = 3;
+        if( preyTrophicLevel != 0 ) predatorTrophicLevel = preyTrophicLevel + 1;
+        else predatorTrophicLevel = 3;
     }
-    predator->SetTrophicLevel( trophicLevel );
+    predator->SetTrophicLevel( predatorTrophicLevel );
 }
 
 double HeterotrophProcessor::CalculateFeedingProbabilityLinear( const unsigned predatorIndex, const double effectivePreyVolume ) {
@@ -132,42 +130,28 @@ double HeterotrophProcessor::CalculateFeedingProbabilityNonLinear( const unsigne
     return ( effectivePreyVolume / ( mHalfSaturationConstants[ predatorIndex ] + effectivePreyVolume ) );
 }
 
-double HeterotrophProcessor::CalculateLinearStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {
-    double starvationProbability = 1;
-
-    if( volumeActual <= volumeMinimum )
-        starvationProbability = 1;
-    else if( volumeActual >= volumeHeritable )
-        starvationProbability = 0;
-    else
-        starvationProbability = 1 + ( ( volumeMinimum - volumeActual ) * starvationMultiplier );
-
-    return starvationProbability;
+double HeterotrophProcessor::CalculateLinearStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum, const double starvationMultiplier ) const {
+    if( volumeActual <= volumeMinimum ) return 1;
+    else if( volumeActual >= volumeHeritable ) return 0;
+    else return ( 1 + ( ( volumeMinimum - volumeActual ) * starvationMultiplier ) );
 }
 
-double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double& volumeActual, const double& volumeHeritable, const double& volumeMinimum, const double& starvationMultiplier ) const {
-    double starvationProbability = 1;
-
-    if( volumeActual <= volumeMinimum )
-        starvationProbability = 1;
-    else if( volumeActual >= volumeHeritable )
-        starvationProbability = 0;
-    else
-        starvationProbability = 1 - ( 1 + ( ( volumeHeritable - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) * starvationMultiplier ) * ( ( volumeActual - volumeMinimum ) * starvationMultiplier );
-
-    return starvationProbability;
+double HeterotrophProcessor::CalculateBetaExponentialStarvation( const double volumeActual, const double volumeHeritable, const double volumeMinimum, const double starvationMultiplier ) const {
+    if( volumeActual <= volumeMinimum ) return 1;
+    else if( volumeActual >= volumeHeritable ) return 0;
+    else return ( 1 - ( 1 + ( ( volumeHeritable - volumeMinimum ) - ( volumeActual - volumeMinimum ) ) * starvationMultiplier ) * ( ( volumeActual - volumeMinimum ) * starvationMultiplier ) );
 }
 
-double HeterotrophProcessor::TraitValueToVolume( double traitValue ) {
+double HeterotrophProcessor::TraitValueToVolume( const double traitValue ) {
     double volumeExponent = traitValue * ( mLargestVolumeExponent - mSmallestVolumeExponent ) + mSmallestVolumeExponent;
     return std::pow( 10, volumeExponent );
 }
 
-double HeterotrophProcessor::VolumeToTraitValue( double volume ) const {
+double HeterotrophProcessor::VolumeToTraitValue( const double volume ) const {
     return ( std::log10( volume ) - mSmallestVolumeExponent ) / ( mLargestVolumeExponent - mSmallestVolumeExponent );
 }
 
-int HeterotrophProcessor::RoundWithProbability( RandomSimple& random, const double& value ) const {
+int HeterotrophProcessor::RoundWithProbability( RandomSimple& random, const double value ) const {
     int flooredValue = static_cast < int > ( ::floor( value ) );
     double probability = value - flooredValue;
 
