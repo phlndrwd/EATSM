@@ -39,7 +39,7 @@ bool InitialState::Initialise( const Types::StringMatrix& rawInitialStateData ) 
         std::vector< double > heritableTraitValues{ traitValue };
         std::vector< bool > areTraitsMutant{ false };
         HeritableTraits heritableTraits( heritableTraitValues, areTraitsMutant );
-        Types::IndividualPointer individual = new Heterotroph( heritableTraits, volumeHeritable, volumeActual, sizeClassIndex );
+        Types::HeterotrophPointer individual = new Heterotroph( heritableTraits, volumeHeritable, volumeActual, sizeClassIndex );
         mHeterotrophs[ sizeClassIndex ].push_back( individual );
         ++mInitialPopulationSize;
     }
@@ -55,7 +55,7 @@ double& InitialState::GetAutotrophVolume( ) {
     return mAutotrophVolume;
 }
 
-Types::IndividualMatrix& InitialState::GetHeterotrophs( ) {
+Types::HeterotrophMatrix& InitialState::GetHeterotrophs( ) {
     return mHeterotrophs;
 }
 

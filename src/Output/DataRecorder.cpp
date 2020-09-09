@@ -105,7 +105,7 @@ Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::strin
         for( unsigned datumIndex = 0; datumIndex < mVectorDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mVectorDatumMetadata[ datumIndex ][ Constants::eDatumName ];
 
-            if( Strings::ToLowercase( datumName ) == Strings::ToLowercase( name ) ) {
+            if( datumName == name ) {
                 vectorDatum = new VectorDatum( datumName );
                 mVectorDatumMap.insert( std::pair< std::string, Types::VectorDatumPointer >( datumName, vectorDatum ) );
                 break;
@@ -125,7 +125,7 @@ Types::MatrixDatumPointer DataRecorder::GetMatrixDatumFromName( const std::strin
         for( unsigned datumIndex = 0; datumIndex < mMatrixDatumMetadata.size( ); ++datumIndex ) {
             std::string datumName = mMatrixDatumMetadata[ datumIndex ][ Constants::eDatumName ];
 
-            if( Strings::ToLowercase( datumName ) == Strings::ToLowercase( name ) ) {
+            if( datumName == name ) {
                 matrixDatum = new MatrixDatum( datumName );
                 mMatrixDatumMap.insert( std::pair< std::string, Types::MatrixDatumPointer >( datumName, matrixDatum ) );
                 break;

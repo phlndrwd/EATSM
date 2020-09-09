@@ -1,8 +1,6 @@
 #ifndef RANDOMSIMPLE
 #define	RANDOMSIMPLE
 
-#include "Types.h"
-
 /*
 * Written by John D. Cook 
 * http://www.johndcook.com
@@ -11,7 +9,7 @@
 class RandomSimple {
     
 public:
-    static Types::RandomSimplePointer Get( );
+    RandomSimple( );
     ~RandomSimple( );
     
     void Reset( );
@@ -37,10 +35,6 @@ public:
     double GetBeta( double, double );
     
 private:
-    RandomSimple( );
-    
-    static Types::RandomSimplePointer mThis;
-    
     unsigned mSeed;
     unsigned mW;
     unsigned mZ;

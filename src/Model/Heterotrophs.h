@@ -3,6 +3,8 @@
 
 #include "HeterotrophProcessor.h"
 #include "HeterotrophData.h"
+#include "Nutrient.h"
+#include "Autotrophs.h"
 #include "Timer.h"
 
 class Heterotrophs {
@@ -13,7 +15,7 @@ public:
     void Update( );
     bool RecordData( );
 
-    Types::IndividualPointer GetIndividual( const unsigned, const unsigned );
+    Types::HeterotrophPointer GetIndividual( const unsigned, const unsigned );
     std::size_t GetSizeClassPopulation( const unsigned ) const;
 
 private:
@@ -25,20 +27,20 @@ private:
     void Starvation( );
     void Reproduction( );
 
-    Types::IndividualPointer GetRandomIndividualFromSizeClass( const unsigned );
-    Types::IndividualPointer GetRandomPredatorFromSizeClass( const unsigned );
-    Types::IndividualPointer GetRandomPreyFromSizeClass( const unsigned, const Types::IndividualPointer );
+    Types::HeterotrophPointer GetRandomIndividualFromSizeClass( const unsigned );
+    Types::HeterotrophPointer GetRandomPredatorFromSizeClass( const unsigned );
+    Types::HeterotrophPointer GetRandomPreyFromSizeClass( const unsigned, const Types::HeterotrophPointer );
 
-    void FeedFromAutotrophs( Types::IndividualPointer );
-    void FeedFromHeterotrophs( Types::IndividualPointer, const unsigned );
+    void FeedFromAutotrophs( Types::HeterotrophPointer );
+    void FeedFromHeterotrophs( Types::HeterotrophPointer, const unsigned );
 
-    void StageForMoving( Types::IndividualPointer, const unsigned );
-    void MoveSizeClass( Types::IndividualPointer, const unsigned );
-    bool RemoveFromSizeClass( Types::IndividualPointer, const unsigned );
-    void DeleteIndividual( Types::IndividualPointer );
+    void StageForMoving( Types::HeterotrophPointer, const unsigned );
+    void MoveSizeClass( Types::HeterotrophPointer, const unsigned );
+    bool RemoveFromSizeClass( Types::HeterotrophPointer, const unsigned );
+    void DeleteIndividual( Types::HeterotrophPointer );
 
-    void Starve( Types::IndividualPointer );
-    void Kill( Types::IndividualPointer );
+    void Starve( Types::HeterotrophPointer );
+    void Kill( Types::HeterotrophPointer );
 
     void AddChildren( );
     void MoveIndividuals( );
@@ -50,6 +52,7 @@ private:
     HeterotrophProcessor mHeterotrophProcessor;
     HeterotrophData mHeterotrophData;
     
+    RandomSimple mRandom;
     Timer mTimer;
     
     const Types::DoubleMatrix mInterSizeClassPreferenceMatrix;
@@ -68,11 +71,11 @@ private:
 
     Types::UnsignedVector mFedCount;
     
-    Types::IndividualVector mChildren;
-    Types::IndividualIndexVector mIndividualsToMove;
+    Types::HeterotrophVector mChildren;
+    Types::HeterotrophIndexVector mIndividualsToMove;
 
-    Types::IndividualMatrix mIndividuals;
-    Types::IndividualMatrix mIndividualsDead;
+    Types::HeterotrophMatrix mIndividuals;
+    Types::HeterotrophMatrix mIndividualsDead;
 };
 
 #endif

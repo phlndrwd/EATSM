@@ -80,6 +80,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
 }
 
 void Parameters::CalculateParameters( ) {
+    
     mMaximumSizeClassPopulations.resize( mNumberOfSizeClasses, 0 );
     mRemainingVolumes.resize( mNumberOfSizeClasses );
     mLinearFeedingDenominators.resize( mNumberOfSizeClasses );
@@ -102,15 +103,15 @@ void Parameters::CalculateParameters( ) {
         mSizeClassMidPoints[ sizeClassIndex ] = std::pow( 10, sizeClassMidPointExponent );
 
         mRemainingVolumes[ sizeClassIndex ] = mTotalVolume - mSizeClassMidPoints[ sizeClassIndex ];
-        mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * Parameters::Get( )->GetHalfSaturationConstantFraction( ) ) * mRemainingVolumes[ sizeClassIndex ];
+        mLinearFeedingDenominators[ sizeClassIndex ] = ( 2 * mHalfSaturationConstantFraction ) * mRemainingVolumes[ sizeClassIndex ];
         mHalfSaturationConstants[ sizeClassIndex ] = mHalfSaturationConstantFraction * mRemainingVolumes[ sizeClassIndex ];
         mMaximumSizeClassPopulations[ sizeClassIndex ] = std::ceil( mTotalVolume / mSizeClassMidPoints[ sizeClassIndex ] );
     }
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
-
-    Types::HeterotrophProcessorPointer temporaryHeterotrophProcessor = new HeterotrophProcessor( );
-    mAutotrophSizeClassIndex = temporaryHeterotrophProcessor->FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
+    
+    HeterotrophProcessor temporaryHeterotrophProcessor;
+    mAutotrophSizeClassIndex = temporaryHeterotrophProcessor.FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
 
     mInterSizeClassPreferenceMatrix.resize( mNumberOfSizeClasses );
     mInterSizeClassVolumeMatrix.resize( mNumberOfSizeClasses );
@@ -122,7 +123,7 @@ void Parameters::CalculateParameters( ) {
         for( unsigned referenceIndex = 0; referenceIndex < mNumberOfSizeClasses; ++referenceIndex ) {
             double referenceVolumeMean = mSizeClassMidPoints[ referenceIndex ];
 
-            double preferenceForReferenceSizeClass = temporaryHeterotrophProcessor->CalculatePreferenceForPrey( subjectVolumeMean, referenceVolumeMean );
+            double preferenceForReferenceSizeClass = temporaryHeterotrophProcessor.CalculatePreferenceForPrey( subjectVolumeMean, referenceVolumeMean );
 
             preferenceSum += preferenceForReferenceSizeClass;
 
@@ -130,7 +131,6 @@ void Parameters::CalculateParameters( ) {
             mInterSizeClassVolumeMatrix[ subjectIndex ].push_back( preferenceForReferenceSizeClass * referenceVolumeMean );
         }
     }
-    delete temporaryHeterotrophProcessor;
 }
 
 unsigned& Parameters::GetRunTimeInSeconds( ) {

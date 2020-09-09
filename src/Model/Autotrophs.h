@@ -1,7 +1,7 @@
 #ifndef AUTOTROPHS
 #define	AUTOTROPHS
 
-#include "Types.h"
+#include "Nutrient.h"
 
 class Autotrophs {
 public:

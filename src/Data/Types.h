@@ -7,56 +7,33 @@
 #include <sys/stat.h>   // For mkdir
 #include <map>          // For map
 
-class Autotrophs;
 class DataRecorder;
-class Environment;
-class Heterotrophs;
-class Heterotrophs;
-class HeterotrophData;
-class HeterotrophProcessor;
-class HeritableTraits;
 class Heterotroph;
 class InitialState;
 class MatrixDatum;
-class Nutrient;
 class Parameters;
-class RandomSimple;
-class TimeStep;
 class VectorDatum;
 
 namespace Types {
     // Pointers
-    typedef Autotrophs* AutotrophsPointer;
     typedef DataRecorder* DataRecorderPointer;
-    typedef Environment* EnvironmentPointer;
-    typedef Heterotrophs* HeterotrophsPointer;
-    typedef HeterotrophData* HeterotrophDataPointer;
-    typedef HeterotrophProcessor* HeterotrophProcessorPointer;
-    typedef HeritableTraits* HeritableTraitsPointer;
-    typedef Heterotroph* IndividualPointer;
+    typedef Heterotroph* HeterotrophPointer;
     typedef InitialState* InitialStatePointer;
     typedef MatrixDatum* MatrixDatumPointer;
-    typedef Nutrient* NutrientPointer;
     typedef Parameters* ParametersPointer;
-    typedef RandomSimple* RandomSimplePointer;
-    typedef TimeStep* TimePointer;
     typedef VectorDatum* VectorDatumPointer;
 
     // Containers of class pointers
     typedef std::map< std::string, MatrixDatumPointer > MatrixDatumMap;
     typedef std::map< std::string, VectorDatumPointer > VectorDatumMap;
 
-    typedef std::vector< IndividualPointer > IndividualVector;
-    typedef std::vector< std::pair< IndividualPointer, unsigned > > IndividualIndexVector;
+    typedef std::vector< HeterotrophPointer > HeterotrophVector;
+    typedef std::vector< std::pair< HeterotrophPointer, unsigned > > HeterotrophIndexVector;
 
     // Containers of containers of class pointers
-    typedef std::vector< IndividualVector > IndividualMatrix;
+    typedef std::vector< HeterotrophVector > HeterotrophMatrix;
 
     // Containers of primitives
-    typedef std::map< std::string, double > DoubleMap;
-    typedef std::map< std::string, double* > DoublePointerMap;
-    typedef std::map< std::string, float > FloatMap;
-
     typedef std::vector< bool > BoolVector;
     typedef std::vector< double > DoubleVector;
     typedef std::vector< float > FloatVector;
@@ -65,8 +42,6 @@ namespace Types {
     typedef std::vector< unsigned > UnsignedVector;
 
     // Containers of containers of primitives
-    typedef std::map< std::string, FloatVector > FloatVectorMap;
-
     typedef std::vector< IntegerVector > IntegerMatrix;
     typedef std::vector< FloatVector > FloatMatrix;
     typedef std::vector< DoubleVector > DoubleMatrix;

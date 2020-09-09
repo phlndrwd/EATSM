@@ -1,12 +1,10 @@
 #ifndef TIMESTEP
 #define	TIMESTEP
 
-#include "Types.h"
-
 class TimeStep {
 public:
+    TimeStep( );
     ~TimeStep( );
-    static Types::TimePointer Get( );
 
     unsigned GetTimeStep( ) const;
     
@@ -14,9 +12,8 @@ public:
     void IncrementTimeStep( );
 
 private:
-    TimeStep( );
-
-    static Types::TimePointer mThis;
+    const unsigned mSamplingRate;
+    
     unsigned mTimeStep;
 };
 

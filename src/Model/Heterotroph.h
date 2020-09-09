@@ -4,6 +4,7 @@
 #include "Types.h"
 #include "HeterotrophProcessor.h"
 #include "HeritableTraits.h"
+#include "RandomSimple.h"
 
 class Heterotroph {
 public:
@@ -17,7 +18,7 @@ public:
     Heterotroph& operator = ( const Heterotroph& );
     bool operator == ( const Heterotroph& );
 
-    Types::IndividualPointer Reproduce( HeterotrophProcessor& );
+    Types::HeterotrophPointer Reproduce( RandomSimple&, HeterotrophProcessor& );
 
     double ConsumePreyVolume( const double );
     double Metabolise( const double );

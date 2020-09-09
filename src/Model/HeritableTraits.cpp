@@ -3,7 +3,7 @@
 #include "Parameters.h"
 #include "Strings.h"
 
-HeritableTraits::HeritableTraits( const std::vector< double >& values, const std::vector< bool >& areTraitsMutations ):
+HeritableTraits::HeritableTraits( const Types::DoubleVector& values, const Types::BoolVector& areTraitsMutations ):
 mMutationProbability( Parameters::Get( )->GetMutationProbability( ) ),
 mMutationStandardDeviation( Parameters::Get( )->GetMutationStandardDeviation( ) ) {
     for( unsigned i = 0; i < values.size( ); ++i ) {
@@ -24,7 +24,7 @@ HeritableTraits& HeritableTraits::operator = ( const HeritableTraits& heritableT
     return *this;
 }
 
-HeritableTraits HeritableTraits::GetChildTraits( ) {
+HeritableTraits HeritableTraits::GetChildTraits( RandomSimple& random ) {
     std::size_t numberOfGenes = mValues.size( );
     std::vector< double > childValues = mValues;
     std::vector< bool > areTraitsMutations( numberOfGenes, false );
@@ -32,10 +32,10 @@ HeritableTraits HeritableTraits::GetChildTraits( ) {
     if( mMutationProbability > 0 ) {
         for( std::size_t i = 0; i < numberOfGenes; ++i ) {
 
-            if( RandomSimple::Get( )->GetUniform( ) <= mMutationProbability ) {
+            if( random.GetUniform( ) <= mMutationProbability ) {
                 areTraitsMutations[ i ] = true;
 
-                double mutationValue = RandomSimple::Get( )->GetNormal( 0.0, mMutationStandardDeviation );
+                double mutationValue = random.GetNormal( 0.0, mMutationStandardDeviation );
 
                 childValues[ i ] += mutationValue;
 

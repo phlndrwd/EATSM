@@ -7,7 +7,8 @@
 
 // For model initialisation.
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const unsigned sizeClassIndex ):
-mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
+mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ),
+mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeHeritable = volumeHeritable;
     mSizeClassIndex = sizeClassIndex;
 
@@ -25,7 +26,8 @@ mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant(
 
 // For reproduction.
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const double volumeActual, const double volumeMinimum, const double trophicLevel, const unsigned sizeClassIndex ):
-mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
+mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ),
+mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeHeritable = volumeHeritable;
     mVolumeActual = volumeActual;
     mVolumeMinimum = volumeMinimum;
@@ -43,7 +45,8 @@ mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant(
 
 // For model restart.
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const double volumeActual, const unsigned sizeClassIndex ):
-mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
+mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ),
+mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ) {
     mVolumeActual = volumeActual;
     mSizeClassIndex = sizeClassIndex;
 
@@ -60,8 +63,18 @@ mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant(
 }
 
 Heterotroph::Heterotroph( const HeritableTraits& heritableTraits, const double volumeHeritable, const double volumeMinimum, const double volumeReproduction, const double volumeActual, const double trophicLevel, const double starvationMultiplier, const unsigned sizeClassIndex, const unsigned age, const bool hasFed, const bool isDead ):
-mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ), mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ), mVolumeHeritable( std::move( volumeHeritable ) ), mVolumeMinimum( std::move( volumeMinimum ) ), mVolumeReproduction( std::move( volumeReproduction ) ), mVolumeActual( std::move( volumeActual ) ),
-mTrophicLevel( std::move( trophicLevel ) ), mStarvationMultiplier( std::move( starvationMultiplier ) ), mSizeClassIndex( std::move( sizeClassIndex ) ), mAge( std::move( age ) ), mHasFed( std::move( hasFed ) ), mIsDead( std::move( isDead ) ) {
+mHeritableTraits( heritableTraits.GetValues( ), heritableTraits.AreTraitsMutant( ) ),
+mAssimilationEfficiency( Parameters::Get( )->GetAssimilationEfficiency( ) ),
+mVolumeHeritable( std::move( volumeHeritable ) ),
+mVolumeMinimum( std::move( volumeMinimum ) ),
+mVolumeReproduction( std::move( volumeReproduction ) ),
+mVolumeActual( std::move( volumeActual ) ),
+mTrophicLevel( std::move( trophicLevel ) ),
+mStarvationMultiplier( std::move( starvationMultiplier ) ),
+mSizeClassIndex( std::move( sizeClassIndex ) ),
+mAge( std::move( age ) ),
+mHasFed( std::move( hasFed ) ),
+mIsDead( std::move( isDead ) ) {
 
 }
 
@@ -109,9 +122,9 @@ Heterotroph::~Heterotroph( ) {
 
 }
 
-Types::IndividualPointer Heterotroph::Reproduce( HeterotrophProcessor& heterotrophProcessor ) {
-    HeritableTraits childHeritableTraits = mHeritableTraits.GetChildTraits( );
-    Types::IndividualPointer childIndividual = 0;
+Types::HeterotrophPointer Heterotroph::Reproduce( RandomSimple& random, HeterotrophProcessor& heterotrophProcessor ) {
+    HeritableTraits childHeritableTraits = mHeritableTraits.GetChildTraits( random );
+    Types::HeterotrophPointer childIndividual = 0;
 
     double childVolumeHeritable = 0;
     double childVolumeActual = 0;

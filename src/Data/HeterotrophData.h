@@ -24,14 +24,14 @@ public:
     void SetEffectivePreyVolume( const unsigned, const double );
     void SetFeedingProbability( const unsigned, const double );
 
-    void AddIndividualData( const Types::IndividualPointer );
+    void AddIndividualData( const Types::HeterotrophPointer );
     void AddSizeClassData( const unsigned, const unsigned, const double );
     void NormaliseData( );
 
     bool AreHeterotrophsAlive( ) const;
 
-    void IncrementVegetarianFrequencies( const Types::IndividualPointer );
-    void IncrementCarnivoreFrequencies( const Types::IndividualPointer, const Types::IndividualPointer );
+    void IncrementVegetarianFrequencies( const Types::HeterotrophPointer );
+    void IncrementCarnivoreFrequencies( const Types::HeterotrophPointer, const Types::HeterotrophPointer );
     void IncrementStarvedFrequencies( const unsigned );
     void IncrementParentFrequencies( const unsigned );
     void IncrementChildFrequencies( const unsigned );

@@ -1,21 +1,13 @@
 #include "TimeStep.h"
-
 #include "Parameters.h"
 
-Types::TimePointer TimeStep::mThis = NULL;
-
-TimeStep::TimeStep( ) {
+TimeStep::TimeStep( ):
+mSamplingRate( Parameters::Get( )->GetSamplingRate( ) ) {
     mTimeStep = 0;
 }
 
 TimeStep::~TimeStep( ) {
-    if( mThis != NULL ) delete mThis;
-}
 
-Types::TimePointer TimeStep::Get( ) {
-    if( mThis == NULL ) mThis = new TimeStep( );
-
-    return mThis;
 }
 
 unsigned TimeStep::GetTimeStep( ) const {
@@ -23,7 +15,7 @@ unsigned TimeStep::GetTimeStep( ) const {
 }
 
 bool TimeStep::DoRecordData( ) const {
-    return ( mTimeStep % Parameters::Get( )->GetSamplingRate( ) == 0 );
+    return ( mTimeStep % mSamplingRate == 0 );
 }
 
 void TimeStep::IncrementTimeStep( ) {

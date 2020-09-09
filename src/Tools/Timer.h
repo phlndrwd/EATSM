@@ -17,6 +17,8 @@ public:
     std::string RemainingString( );
     
 private:
+    const unsigned mRunTimeInSeconds;
+    
     std::chrono::high_resolution_clock::time_point mStartTime;
     std::chrono::high_resolution_clock::time_point mSplitTime;
     std::chrono::high_resolution_clock::time_point mElapsedTime;

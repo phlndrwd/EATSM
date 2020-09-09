@@ -2,6 +2,7 @@
 #define HETEROTROPHPROCESSOR
 
 #include "Types.h"
+#include "RandomSimple.h"
 
 class HeterotrophProcessor {
 public:
@@ -11,21 +12,21 @@ public:
     double CalculatePreferenceForPrey( const double, const double ) const;
     double CalculateFeedingProbability( const unsigned, const double );
 
-    double CalculateMetabolicDeduction( const Types::IndividualPointer ) const;
-    double CalculateStarvationProbability( const Types::IndividualPointer ) const;
+    double CalculateMetabolicDeduction( const Types::HeterotrophPointer ) const;
+    double CalculateStarvationProbability( const Types::HeterotrophPointer ) const;
 
-    bool UpdateSizeClassIndex( Types::IndividualPointer ) const;
+    bool UpdateSizeClassIndex( Types::HeterotrophPointer ) const;
     unsigned FindSizeClassIndexFromVolume( const double ) const;
-    unsigned FindIndividualSizeClassIndex( const Types::IndividualPointer, unsigned ) const;
-    unsigned DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer ) const;
+    unsigned FindIndividualSizeClassIndex( const Types::HeterotrophPointer, unsigned ) const;
+    unsigned DirectionIndividualShouldMoveSizeClasses( const Types::HeterotrophPointer ) const;
     
-    void UpdateHerbivoreTrophicIndex( const Types::IndividualPointer ) const;
-    void UpdateCarnivoreTrophicIndex( const Types::IndividualPointer, Types::IndividualPointer ) const;
+    void UpdateHerbivoreTrophicIndex( const Types::HeterotrophPointer ) const;
+    void UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer, Types::HeterotrophPointer ) const;
 
     double TraitValueToVolume( double );
     double VolumeToTraitValue( double ) const;
 
-    int RoundWithProbability( const double& ) const;
+    int RoundWithProbability( RandomSimple&, const double& ) const;
 
 private:
     double CalculateFeedingProbabilityLinear( const unsigned, const double );

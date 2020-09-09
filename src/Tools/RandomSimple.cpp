@@ -5,14 +5,6 @@
 #include "RandomSimple.h"
 #include "Parameters.h"
 
-Types::RandomSimplePointer RandomSimple::mThis = NULL;
-
-Types::RandomSimplePointer RandomSimple::Get( ) {
-    if( mThis == NULL ) mThis = new RandomSimple( );
-
-    return mThis;
-}
-
 RandomSimple::RandomSimple( ) {
     Reset( );
     SetSeed( Parameters::Get( )->GetRandomSeed( ) );
@@ -20,7 +12,7 @@ RandomSimple::RandomSimple( ) {
 }
 
 RandomSimple::~RandomSimple( ) {
-    if( mThis != NULL ) delete mThis;
+    
 }
 
 void RandomSimple::Reset( ) {

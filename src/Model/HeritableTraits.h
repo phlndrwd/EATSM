@@ -1,15 +1,16 @@
 #ifndef HERITABLETRAITS
 #define	HERITABLETRAITS
 
+#include "RandomSimple.h"
 #include "Constants.h"
 
 class HeritableTraits {
 public:
-    HeritableTraits( const std::vector< double >&, const std::vector< bool >& );
+    HeritableTraits( const Types::DoubleVector&, const Types::BoolVector& );
     ~HeritableTraits( );
     HeritableTraits& operator = ( const HeritableTraits& );
 
-    HeritableTraits GetChildTraits( );
+    HeritableTraits GetChildTraits( RandomSimple& );
     const std::vector< double >& GetValues( ) const;
     const std::vector< bool >& AreTraitsMutant( ) const;
     
@@ -22,8 +23,8 @@ private:
     const double mMutationProbability;
     const double mMutationStandardDeviation;
     
-    std::vector< double > mValues;
-    std::vector< bool > mAreMutantTraits;
+    Types::DoubleVector mValues;
+    Types::BoolVector mAreMutantTraits;
 };
 
 #endif

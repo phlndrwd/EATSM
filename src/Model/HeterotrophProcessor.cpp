@@ -35,15 +35,15 @@ double HeterotrophProcessor::CalculateFeedingProbability( const unsigned predato
     return ( this->*fStarvationProbability )( predatorIndex, effectivePreyVolume );
 }
 
-double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::IndividualPointer individual ) const {
+double HeterotrophProcessor::CalculateMetabolicDeduction( const Types::HeterotrophPointer individual ) const {
     return mFractionalMetabolicExpense * std::pow( individual->GetVolumeActual( ), mMetabolicIndex );
 }
 
-double HeterotrophProcessor::CalculateStarvationProbability( const Types::IndividualPointer individual ) const {
+double HeterotrophProcessor::CalculateStarvationProbability( const Types::HeterotrophPointer individual ) const {
     return CalculateLinearStarvation( individual->GetVolumeActual( ), individual->GetVolumeHeritable( ), individual->GetVolumeMinimum( ), individual->GetStarvationMultiplier( ) );
 }
 
-unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::IndividualPointer individual, unsigned directionToMove ) const {
+unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::HeterotrophPointer individual, unsigned directionToMove ) const {
     unsigned currentSizeClass = individual->GetSizeClassIndex( );
     unsigned newSizeClassIndex = currentSizeClass;
     double volume = individual->GetVolumeActual( );
@@ -67,7 +67,7 @@ unsigned HeterotrophProcessor::FindIndividualSizeClassIndex( const Types::Indivi
     return newSizeClassIndex;
 }
 
-bool HeterotrophProcessor::UpdateSizeClassIndex( Types::IndividualPointer individual ) const {
+bool HeterotrophProcessor::UpdateSizeClassIndex( Types::HeterotrophPointer individual ) const {
     unsigned directionToMove = DirectionIndividualShouldMoveSizeClasses( individual );
     if( directionToMove != Constants::eNoMovement ) {
         unsigned newSizeClassIndex = FindIndividualSizeClassIndex( individual, directionToMove );
@@ -89,7 +89,7 @@ unsigned HeterotrophProcessor::FindSizeClassIndexFromVolume( const double volume
     return sizeClassIndex;
 }
 
-unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const Types::IndividualPointer individual ) const {
+unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const Types::HeterotrophPointer individual ) const {
     unsigned directionToMove = Constants::eNoMovement;
 
     unsigned sizeClassIndex = individual->GetSizeClassIndex( );
@@ -103,13 +103,13 @@ unsigned HeterotrophProcessor::DirectionIndividualShouldMoveSizeClasses( const T
     return directionToMove;
 }
 
-void HeterotrophProcessor::UpdateHerbivoreTrophicIndex( const Types::IndividualPointer grazer ) const {
+void HeterotrophProcessor::UpdateHerbivoreTrophicIndex( const Types::HeterotrophPointer grazer ) const {
     double trophicLevel = grazer->GetTrophicLevel( );
     if( trophicLevel != 0 ) grazer->SetTrophicLevel( ( trophicLevel + 2 ) * 0.5 );
     else grazer->SetTrophicLevel( 2 );
 }
 
-void HeterotrophProcessor::UpdateCarnivoreTrophicIndex( const Types::IndividualPointer predator, Types::IndividualPointer prey ) const {
+void HeterotrophProcessor::UpdateCarnivoreTrophicIndex( const Types::HeterotrophPointer predator, Types::HeterotrophPointer prey ) const {
     double predatorTrophicLevel = predator->GetTrophicLevel( );
     double preyTrophicLevel = prey->GetTrophicLevel( );
 
@@ -167,10 +167,10 @@ double HeterotrophProcessor::VolumeToTraitValue( double volume ) const {
     return ( std::log10( volume ) - mSmallestVolumeExponent ) / ( mLargestVolumeExponent - mSmallestVolumeExponent );
 }
 
-int HeterotrophProcessor::RoundWithProbability( const double& value ) const {
+int HeterotrophProcessor::RoundWithProbability( RandomSimple& random, const double& value ) const {
     int flooredValue = static_cast < int > ( ::floor( value ) );
     double probability = value - flooredValue;
 
-    if( RandomSimple::Get( )->GetUniform( ) < probability ) return flooredValue + 1;
+    if( random.GetUniform( ) < probability ) return flooredValue + 1;
     else return flooredValue;
 }

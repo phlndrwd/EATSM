@@ -2,7 +2,6 @@
 #define	DATE
 
 #include <sys/time.h>   // For struct timeval
-#include "Types.h"
 #include "Constants.h"
 
 class Date {

@@ -82,22 +82,24 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
         fileReader.ReadInputFiles( parametersFile, stateFile );
         Timer timer = Timer( true );
         FileWriter fileWriter; // Created here to initialise output directory
-        std::cout << "Model run due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, Parameters::Get( )->GetRunTimeInSeconds( ) ) << std::endl << std::endl;
-
-        Environment environment;
-
-        double oneTenthOfRunTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( ) / 10.0;
+        
+        unsigned runTimeInSeconds = Parameters::Get( )->GetRunTimeInSeconds( );
+        double oneTenthOfRunTimeInSeconds = runTimeInSeconds / 10.0;
         double cumulativeTenthsOfRunTime = 0;
         bool isAlive = true;
-
+        
+        Environment environment;
+        TimeStep timeStep;
+        
+        std::cout << "Model run due to complete on " << Date::GetDateAndTimeString( Constants::cCompleteDateFormat, runTimeInSeconds ) << std::endl << std::endl;
         std::cout << "Starting main time loop..." << std::endl;
         do {
             // Update before data collection; calculates essential variables for encounter rates.
             environment.Update( );
 
             // Data collection
-            if( TimeStep::Get( )->DoRecordData( ) == true ) {
-                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", TimeStep::Get( )->GetTimeStep( ) );
+            if( timeStep.DoRecordData( ) == true ) {
+                DataRecorder::Get( )->AddDataTo( "AxisTimeSteps", timeStep.GetTimeStep( ) );
                 DataRecorder::Get( )->AddDataTo( "TimeSampling", timer.Split( ) );
                 isAlive = environment.RecordData( );
             }
@@ -105,13 +107,14 @@ int main( int numberOfArguments, char* commandlineArguments[ ] ) {
             // Text output at the completion of each ten percent of the run 
             if( timer.Elapsed( ) >= ( unsigned ) cumulativeTenthsOfRunTime ) {
                 cumulativeTenthsOfRunTime = cumulativeTenthsOfRunTime + oneTenthOfRunTimeInSeconds;
-                std::cout << "t = " << TimeStep::Get( )->GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
+                std::cout << "t = " << timeStep.GetTimeStep( ) << Constants::cDataDelimiterValue << Constants::cWhiteSpaceCharacter << timer.RemainingString( ) << " remaining at " << Date::GetDateAndTimeString( ) << "..." << std::endl;
             }
 
-            TimeStep::Get( )->IncrementTimeStep( );
-        } while( timer.Elapsed( ) < Parameters::Get( )->GetRunTimeInSeconds( ) && isAlive == true );
+            timeStep.IncrementTimeStep( );
+            //std::cout << "timer.Elapsed( )> " << timer.Elapsed( ) << ", runTimeInSeconds> " << runTimeInSeconds << ", isAlive> " << isAlive << std::endl;
+        } while( timer.Elapsed( ) < runTimeInSeconds && isAlive == true );
 
-        if( timer.Elapsed( ) >= Parameters::Get( )->GetRunTimeInSeconds( ) )
+        if( timer.Elapsed( ) >= runTimeInSeconds )
             std::cout << "Main time loop complete." << std::endl << std::endl;
         else std::cout << "Heterotroph population crashed. Main time loop aborted." << std::endl << std::endl;
 
