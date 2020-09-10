@@ -79,11 +79,11 @@ public:
 
     unsigned& GetAutotrophSizeClassIndex( );
 
-    double GetSizeClassBoundary( const unsigned ) const;
-    double GetSizeClassMidPoint( const unsigned ) const;
+    double& GetSizeClassBoundary( const unsigned );
+    double& GetSizeClassMidPoint( const unsigned );
 
-    double GetInterSizeClassPreference( const unsigned, const unsigned ) const;
-    double GetInterSizeClassVolume( const unsigned, const unsigned ) const;
+    double& GetInterSizeClassPreference( const unsigned, const unsigned );
+    double& GetInterSizeClassVolume( const unsigned, const unsigned );
 
     double& GetTotalVolume( );
     
@@ -109,6 +109,7 @@ public:
 private:
     Parameters( );
     void CalculateParameters( );
+    bool IsInitialised( );
 
     static Types::ParametersPointer mThis;
 
@@ -142,13 +143,6 @@ private:
     double mMutationStandardDeviation;
 
     // Calculated variables
-    unsigned mAutotrophSizeClassIndex;
-
-    double mSmallestVolumeExponent;
-    double mLargestVolumeExponent;
-
-    double mTotalVolume;
-    
     Types::UnsignedVector mMaximumSizeClassPopulations;
     
     Types::DoubleVector mRemainingVolumes;
@@ -160,6 +154,14 @@ private:
 
     Types::DoubleMatrix mInterSizeClassPreferenceMatrix;
     Types::DoubleMatrix mInterSizeClassVolumeMatrix;
+    
+    std::array< bool, Constants::eMutationStandardDeviation + 1 > mParametersInitialised;
+
+    double mSmallestVolumeExponent;
+    double mLargestVolumeExponent;
+    double mTotalVolume;
+    
+    unsigned mAutotrophSizeClassIndex;
 };
 
 #endif

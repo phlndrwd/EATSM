@@ -9,7 +9,7 @@
 Types::ParametersPointer Parameters::mThis = NULL;
 
 Parameters::Parameters( ) {
-
+    mParametersInitialised = { false };
 }
 
 Parameters::~Parameters( ) {
@@ -32,12 +32,13 @@ Parameters::~Parameters( ) {
 }
 
 Types::ParametersPointer Parameters::Get( ) {
-    if( mThis == NULL ) mThis = new Parameters;
-
+    if( mThis == NULL ) mThis = new Parameters( );
+    
     return mThis;
 }
 
 bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) {
+
     if( rawInputParameterData.size( ) > 0 ) {
         for( unsigned rowIndex = 0; rowIndex < rawInputParameterData.size( ); ++rowIndex ) {
 
@@ -73,14 +74,14 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
         }
         CalculateParameters( );
 
-        return true;
+        return IsInitialised( );
     } else {
         return false;
     }
 }
 
 void Parameters::CalculateParameters( ) {
-    
+
     mMaximumSizeClassPopulations.resize( mNumberOfSizeClasses, 0 );
     mRemainingVolumes.resize( mNumberOfSizeClasses );
     mLinearFeedingDenominators.resize( mNumberOfSizeClasses );
@@ -109,7 +110,7 @@ void Parameters::CalculateParameters( ) {
     }
     double sizeClassBoundaryExponent = mSmallestVolumeExponent + ( mNumberOfSizeClasses * sizeClassExponentIncrement );
     mSizeClassBoundaries[ mNumberOfSizeClasses ] = std::pow( 10, sizeClassBoundaryExponent );
-    
+
     HeterotrophProcessor temporaryHeterotrophProcessor;
     mAutotrophSizeClassIndex = temporaryHeterotrophProcessor.FindSizeClassIndexFromVolume( mSmallestIndividualVolume );
 
@@ -131,6 +132,14 @@ void Parameters::CalculateParameters( ) {
             mInterSizeClassVolumeMatrix[ subjectIndex ].push_back( preferenceForReferenceSizeClass * referenceVolumeMean );
         }
     }
+}
+
+bool Parameters::IsInitialised( ) {
+    bool isInitialised = true;
+    for( unsigned i = 0; i < Constants::eMutationStandardDeviation + 1; ++i )
+        if( mParametersInitialised[ i ] == false ) isInitialised = false;
+
+    return isInitialised;
 }
 
 unsigned& Parameters::GetRunTimeInSeconds( ) {
@@ -229,11 +238,11 @@ double& Parameters::GetLargestVolumeExponent( ) {
     return mLargestVolumeExponent;
 }
 
-double Parameters::GetSizeClassBoundary( const unsigned index ) const {
+double& Parameters::GetSizeClassBoundary( const unsigned index ) {
     return mSizeClassBoundaries[ index ];
 }
 
-double Parameters::GetSizeClassMidPoint( const unsigned index ) const {
+double& Parameters::GetSizeClassMidPoint( const unsigned index ) {
     return mSizeClassMidPoints[ index ];
 }
 
@@ -257,11 +266,11 @@ const Types::UnsignedVector& Parameters::GetMaximumSizeClassPopulations( ) {
     return mMaximumSizeClassPopulations;
 }
 
-double Parameters::GetInterSizeClassPreference( const unsigned predatorIndex, const unsigned preyIndex ) const {
+double& Parameters::GetInterSizeClassPreference( const unsigned predatorIndex, const unsigned preyIndex ) {
     return mInterSizeClassPreferenceMatrix[ predatorIndex ][ preyIndex ];
 }
 
-double Parameters::GetInterSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) const {
+double& Parameters::GetInterSizeClassVolume( const unsigned predatorIndex, const unsigned preyIndex ) {
     return mInterSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ];
 }
 
@@ -303,84 +312,105 @@ const Types::DoubleMatrix& Parameters::GetInterSizeClassVolumeMatrix( ) const {
 
 void Parameters::SetRandomSeed( const unsigned randomNumberSeed ) {
     mRandomSeed = randomNumberSeed;
+    mParametersInitialised[ Constants::eRandomSeed ] = true;
 }
 
 void Parameters::SetRunTimeInSeconds( const unsigned runTimeInSeconds ) {
     mRunTimeInSeconds = runTimeInSeconds;
+    mParametersInitialised[ Constants::eRunTimeInSeconds ] = true;
 }
 
 void Parameters::SetSamplingRate( const unsigned samplingRate ) {
     mSamplingRate = samplingRate;
+    mParametersInitialised[ Constants::eSamplingRate ] = true;
 }
 
 void Parameters::SetNumberOfSizeClasses( const unsigned numberOfSizeClasses ) {
     mNumberOfSizeClasses = numberOfSizeClasses;
+    mParametersInitialised[ Constants::eNumberOfSizeClasses ] = true;
 }
 
 void Parameters::SetReadModelState( const bool createNewPopulation ) {
     mReadModelState = createNewPopulation;
+    mParametersInitialised[ Constants::eReadModelState ] = true;
 }
 
 void Parameters::SetWriteModelState( const bool writeModelState ) {
     mWriteModelState = writeModelState;
+    mParametersInitialised[ Constants::eWriteModelState ] = true;
 }
 
 void Parameters::SetUseLinearFeeding( const bool useLinearFeeding ) {
     mUseLinearFeeding = useLinearFeeding;
+    mParametersInitialised[ Constants::eUseLinearFeeding ] = true;
 }
 
 void Parameters::SetInitialAutotrophicVolume( const double initialAutotrophicVolume ) {
     mInitialAutotrophicVolume = initialAutotrophicVolume;
+    mParametersInitialised[ Constants::eInitialAutotrophicVolume ] = true;
 }
 
 void Parameters::SetInitialHeterotrophicVolume( const double initialHeterotrophicVolume ) {
     mInitialHeterotrophicVolume = initialHeterotrophicVolume;
+    mParametersInitialised[ Constants::eInitialHeterotrophicVolume ] = true;
 }
 
 void Parameters::SetMinimumHeterotrophicVolume( const double minimumHeterotrophicVolume ) {
     mMinimumHeterotrophicVolume = minimumHeterotrophicVolume;
+    mParametersInitialised[ Constants::eMinimumHeterotrophicVolume ] = true;
 }
 
 void Parameters::SetSmallestIndividualVolume( double smallestIndividualVolume ) {
     mSmallestIndividualVolume = smallestIndividualVolume;
+    mParametersInitialised[ Constants::eSmallestIndividualVolume ] = true;
 }
 
 void Parameters::SetLargestIndividualVolume( double largestIndividualVolume ) {
     mLargestIndividualVolume = largestIndividualVolume;
+    mParametersInitialised[ Constants::eLargestIndividualVolume ] = true;
 }
 
 void Parameters::SetPreferredPreyVolumeRatio( const unsigned preferredPreyVolumeRatio ) {
     mPreferredPreyVolumeRatio = preferredPreyVolumeRatio;
+    mParametersInitialised[ Constants::ePreferredPreyVolumeRatio ] = true;
 }
 
 void Parameters::SetPreferenceFunctionWidth( const double preferenceFunctionWidth ) {
     mPreferenceFunctionWidth = preferenceFunctionWidth;
+    mParametersInitialised[ Constants::ePreferenceFunctionWidth ] = true;
 }
 
 void Parameters::SetSizeClassSubsetFraction( const double sizeClassSubsetFraction ) {
     mSizeClassSubsetFraction = sizeClassSubsetFraction;
+    mParametersInitialised[ Constants::eSizeClassSubsetFraction ] = true;
 }
 
 void Parameters::SetHalfSaturationConstantFraction( const double halfSaturationConstantFraction ) {
     mHalfSaturationConstantFraction = halfSaturationConstantFraction;
+    mParametersInitialised[ Constants::eHalfSaturationConstantFraction ] = true;
 }
 
 void Parameters::SetAssimilationEfficiency( const double assimilationEfficiency ) {
     mAssimilationEfficiency = assimilationEfficiency;
+    mParametersInitialised[ Constants::eAssimilationEfficiency ] = true;
 }
 
 void Parameters::SetFractionalMetabolicExpense( const double fractionalMetabolicExpense ) {
     mFractionalMetabolicExpense = fractionalMetabolicExpense;
+    mParametersInitialised[ Constants::eFractionalMetabolicExpense ] = true;
 }
 
 void Parameters::SetMetabolicIndex( const double metabolicIndex ) {
     mMetabolicIndex = metabolicIndex;
+    mParametersInitialised[ Constants::eMetabolicIndex ] = true;
 }
 
 void Parameters::SetMutationProbability( const double mutationProbability ) {
     mMutationProbability = mutationProbability;
+    mParametersInitialised[ Constants::eMutationProbability ] = true;
 }
 
 void Parameters::SetMutationStandardDeviation( const double mutationStandardDeviation ) {
     mMutationStandardDeviation = mutationStandardDeviation;
+    mParametersInitialised[ Constants::eMutationStandardDeviation ] = true;
 }
