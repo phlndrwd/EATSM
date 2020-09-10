@@ -5,22 +5,12 @@
     </code-assistance-data>
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
         <activeConfTypeElem>1</activeConfTypeElem>
-        <activeConfIndexElem>1</activeConfIndexElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/HeritableTraits.h</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/HeritableTraits.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Input/FileReader.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Output/FileWriter.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/HeterotrophProcessor.h</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/Heterotroph.h</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/Autotrophs.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Data/HeterotrophData.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/HeterotrophProcessor.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Input/Parameters.cpp</file>
-            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/Heterotroph.cpp</file>
+            <file>file:/home/philju/Development/In%20Progress/EATSM/EATSM/src/Model/Heterotrophs.cpp</file>
         </group>
     </open-files>
 </project-private>

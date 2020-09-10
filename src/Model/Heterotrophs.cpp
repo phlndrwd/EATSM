@@ -122,10 +122,7 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
     for( unsigned predatorIndex = 0; predatorIndex < mNumberOfSizeClasses; ++predatorIndex ) {
         mFedCount[ predatorIndex ] = 0;
         if( GetSizeClassPopulation( predatorIndex ) > 0 ) {
-            unsigned coupledSizeClassIndex = 0;
             double effectivePreyVolume = 0;
-            double highestEffectiveSizeClassVolume = 0;
-
             for( unsigned preyIndex = 0; preyIndex < mNumberOfSizeClasses; ++preyIndex ) {
                 double effectiveSizeClassVolume = 0;
                 // Add the result of the autotroph volume - no frequency coefficient.
@@ -138,14 +135,8 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
                     else effectiveSizeClassVolume += mInterSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] * ( preySizeClassPopulation - 1 );
                 }
                 mHeterotrophData.SetEffectiveSizeClassVolume( predatorIndex, preyIndex, effectiveSizeClassVolume );
-
-                if( effectiveSizeClassVolume > highestEffectiveSizeClassVolume ) {
-                    highestEffectiveSizeClassVolume = effectiveSizeClassVolume;
-                    coupledSizeClassIndex = preyIndex;
-                }
                 effectivePreyVolume += effectiveSizeClassVolume;
             }
-            mHeterotrophData.SetCoupledSizeClassIndex( predatorIndex, coupledSizeClassIndex );
             mHeterotrophData.SetEffectivePreyVolume( predatorIndex, effectivePreyVolume );
             mHeterotrophData.SetFeedingProbability( predatorIndex, mHeterotrophProcessor.CalculateFeedingProbability( predatorIndex, effectivePreyVolume ) );
         }
@@ -160,13 +151,12 @@ void Heterotrophs::Feeding( ) {
 
         if( sizeClassPopulation > 0 ) {
             unsigned sizeClassPopulationSubset = mHeterotrophProcessor.RoundWithProbability( mRandom, sizeClassPopulation * mSizeClassSubsetFraction );
-            unsigned coupledIndex = mHeterotrophData.GetCoupledSizeClassIndex( sizeClassIndex );
-
+            
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( mRandom.GetUniform( ) <= mHeterotrophData.GetFeedingProbability( sizeClassIndex ) ) {
-
                     Types::HeterotrophPointer predator = GetRandomPredatorFromSizeClass( sizeClassIndex );
                     if( predator != NULL ) {
+                        unsigned coupledIndex = mHeterotrophData.GetCoupledSizeClassIndex( mRandom, sizeClassIndex );
                         if( coupledIndex == mAutotrophSizeClassIndex )
                             FeedFromAutotrophs( predator );
                         else

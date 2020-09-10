@@ -75,9 +75,7 @@ bool Parameters::Initialise( const Types::StringMatrix& rawInputParameterData ) 
         CalculateParameters( );
 
         return IsInitialised( );
-    } else {
-        return false;
-    }
+    } else return false;
 }
 
 void Parameters::CalculateParameters( ) {

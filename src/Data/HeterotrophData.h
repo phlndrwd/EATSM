@@ -1,6 +1,7 @@
 #ifndef HETEROTROPHDATA
-#define	HETEROTROPHDATA
+#define HETEROTROPHDATA
 
+#include "RandomSimple.h"
 #include "Types.h"
 
 class HeterotrophData {
@@ -12,15 +13,14 @@ public:
 
     void InitialiseDataStructures( );
     void ResetDataStructures( );
-    
+
     double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
     void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
-    
-    unsigned GetCoupledSizeClassIndex( const unsigned );
+
+    unsigned GetCoupledSizeClassIndex( RandomSimple&, const unsigned );
     double GetEffectivePreyVolume( const unsigned );
     double GetFeedingProbability( const unsigned );
 
-    void SetCoupledSizeClassIndex( const unsigned, const unsigned );
     void SetEffectivePreyVolume( const unsigned, const double );
     void SetFeedingProbability( const unsigned, const double );
 
@@ -36,7 +36,7 @@ public:
     void IncrementParentFrequencies( const unsigned );
     void IncrementChildFrequencies( const unsigned );
     void IncrementMutantFrequency( const unsigned, const unsigned );
-    
+
     void AddToTimeFeeding( const double );
     void AddToTimeMetabolising( const double );
     void AddToTimeReproducing( const double );
@@ -44,17 +44,18 @@ public:
 
 private:
     void AddTrophicLevel( const double, const double, const unsigned, const unsigned );
-    
+
     const Types::FloatVector mSizeClassMidPointsFloat;
     const Types::FloatVector mSizeClassBoundariesFloat;
-    
+
     const double mMinimumHeterotrophicVolume;
     const double mSmallestIndividualVolume;
-    
+
     const unsigned mNumberOfSizeClasses;
-    
-    Types::FloatMatrix mEffectiveSizeClassVolumeMatrix;
-    
+
+    Types::DoubleMatrix mEffectiveSizeClassVolumeMatrix;
+    Types::DoubleMatrix mNormalisedEffectiveVolumeMatrix;
+
     Types::FloatVector mSizeClassPopulation;
     Types::FloatVector mSizeClassHerbivoreFrequencies;
     Types::FloatVector mSizeClassCarnivoreFrequencies;
@@ -67,7 +68,6 @@ private:
     Types::FloatVector mSizeClassApproxVolumes;
     Types::FloatVector mSizeClassEffectivePreyVolumes;
     Types::FloatVector mSizeClassGrowthRatios;
-    Types::FloatVector mSizeClassCouplings;
     Types::FloatVector mSizeClassPreyVolumeRatios;
     Types::FloatVector mSizeClassFeedingProbabilities;
     Types::FloatVector mSizeClassTrophicClassifications;
@@ -76,13 +76,13 @@ private:
     Types::FloatVector mTrophicFrequencies;
     Types::FloatVector mTrophicVolumes;
     Types::FloatVector mTrophicAges;
-    
+
     unsigned mFrequency;
     double mVolume;
     double mApproxVolume;
     double mToFlux;
     double mInFlux;
-    
+
     double mTimeFeeding;
     double mTimeMetabolising;
     double mTimeReproducing;
