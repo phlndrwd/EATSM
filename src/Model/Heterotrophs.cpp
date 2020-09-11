@@ -28,8 +28,8 @@ mAutotrophSizeClassIndex( Parameters::Get( )->GetAutotrophSizeClassIndex( ) ) {
 }
 
 Heterotrophs::~Heterotrophs( ) {
-    for( unsigned int sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
-        for( unsigned int individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex )
+    for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
+        for( std::size_t individualIndex = 0; individualIndex < GetSizeClassPopulation( sizeClassIndex ); ++individualIndex )
             delete mIndividuals[ sizeClassIndex ][ individualIndex ];
 
         mIndividuals[ sizeClassIndex ].clear( );
@@ -97,8 +97,8 @@ bool Heterotrophs::RecordData( ) {
     mHeterotrophData.InitialiseDataStructures( );
     for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
 
-        unsigned sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
-        for( unsigned int individualIndex = 0; individualIndex < sizeClassPopulation; ++individualIndex ) {
+        std::size_t sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
+        for( std::size_t individualIndex = 0; individualIndex < sizeClassPopulation; ++individualIndex ) {
             mHeterotrophData.AddIndividualData( mIndividuals[ sizeClassIndex ][ individualIndex ] );
         }
         double sizeClassMultiplier = 1 / ( double ) sizeClassPopulation;
@@ -146,21 +146,19 @@ void Heterotrophs::CalculateFeedingProbabilities( ) {
 void Heterotrophs::Feeding( ) {
     CalculateFeedingProbabilities( );
 
-    for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
-        std::size_t sizeClassPopulation = GetSizeClassPopulation( sizeClassIndex );
+    for( unsigned predatorIndex = 0; predatorIndex < mNumberOfSizeClasses; ++predatorIndex ) {
+        std::size_t sizeClassPopulation = GetSizeClassPopulation( predatorIndex );
 
         if( sizeClassPopulation > 0 ) {
             unsigned sizeClassPopulationSubset = mHeterotrophProcessor.RoundWithProbability( mRandom, sizeClassPopulation * mSizeClassSubsetFraction );
             
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
-                if( mRandom.GetUniform( ) <= mHeterotrophData.GetFeedingProbability( sizeClassIndex ) ) {
-                    Types::HeterotrophPointer predator = GetRandomPredatorFromSizeClass( sizeClassIndex );
+                if( mRandom.GetUniform( ) <= mHeterotrophData.GetFeedingProbability( predatorIndex ) ) {
+                    Types::HeterotrophPointer predator = GetRandomPredatorFromSizeClass( predatorIndex );
                     if( predator != NULL ) {
-                        unsigned coupledIndex = mHeterotrophData.GetCoupledSizeClassIndex( mRandom, sizeClassIndex );
-                        if( coupledIndex == mAutotrophSizeClassIndex )
-                            FeedFromAutotrophs( predator );
-                        else
-                            FeedFromHeterotrophs( predator, coupledIndex );
+                        unsigned coupledIndex = mHeterotrophData.GetCoupledSizeClassIndex( mRandom, predatorIndex );
+                        if( coupledIndex == mAutotrophSizeClassIndex ) FeedFromAutotrophs( predator );
+                        else FeedFromHeterotrophs( predator, coupledIndex );
                     }
                 }
             }

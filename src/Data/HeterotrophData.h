@@ -17,9 +17,9 @@ public:
     double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
     void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
 
-    unsigned GetCoupledSizeClassIndex( RandomSimple&, const unsigned );
     double GetEffectivePreyVolume( const unsigned );
     double GetFeedingProbability( const unsigned );
+    unsigned GetCoupledSizeClassIndex( RandomSimple&, const unsigned );
 
     void SetEffectivePreyVolume( const unsigned, const double );
     void SetFeedingProbability( const unsigned, const double );

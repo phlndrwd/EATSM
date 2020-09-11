@@ -117,21 +117,6 @@ void HeterotrophData::SetEffectiveSizeClassVolume( const unsigned predatorIndex,
     mEffectiveSizeClassVolumeMatrix[ predatorIndex ][ preyIndex ] = effectiveSizeClassVolume;
 }
 
-unsigned HeterotrophData::GetCoupledSizeClassIndex( RandomSimple& randomSimple, const unsigned sizeClassIndex ) {
-    double randomValue = randomSimple.GetUniform( );
-    unsigned coupledIndex = 0;
-    double normalisedEffectiveVolumeSum = 0;
-    for( unsigned i = 0; i < mNumberOfSizeClasses; ++i ) {
-        normalisedEffectiveVolumeSum += mNormalisedEffectiveVolumeMatrix[ sizeClassIndex ][ i ];
-        if( normalisedEffectiveVolumeSum >= randomValue ) {
-            coupledIndex = i;
-            break;
-        }
-    }
-
-    return coupledIndex;
-}
-
 double HeterotrophData::GetEffectivePreyVolume( const unsigned sizeClassIndex ) {
     return mSizeClassEffectivePreyVolumes[ sizeClassIndex ];
 }
@@ -148,6 +133,20 @@ void HeterotrophData::SetEffectivePreyVolume( const unsigned predatorIndex, cons
 
 void HeterotrophData::SetFeedingProbability( const unsigned sizeClassIndex, const double feedingProbability ) {
     mSizeClassFeedingProbabilities[ sizeClassIndex ] = feedingProbability;
+}
+
+unsigned HeterotrophData::GetCoupledSizeClassIndex( RandomSimple& randomSimple, const unsigned predatorIndex ) {
+    double randomValue = randomSimple.GetUniform( );
+    unsigned coupledIndex = 0;
+    double normalisedEffectiveVolumeSum = 0;
+    for( unsigned preyIndex = 0; preyIndex < mNumberOfSizeClasses; ++preyIndex ) {
+        normalisedEffectiveVolumeSum += mNormalisedEffectiveVolumeMatrix[ predatorIndex ][ preyIndex ];
+        if( normalisedEffectiveVolumeSum >= randomValue ) {
+            coupledIndex = preyIndex;
+            break;
+        }
+    }
+    return coupledIndex;
 }
 
 void HeterotrophData::AddIndividualData( const Types::HeterotrophPointer individual ) {
