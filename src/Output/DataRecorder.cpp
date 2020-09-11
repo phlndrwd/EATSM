@@ -61,12 +61,6 @@ void DataRecorder::AddDataTo( const std::string& name, const float& data ) {
     if( vectorDatum != NULL ) vectorDatum->AddData( data );
 }
 
-void DataRecorder::SetVectorDataOn( const std::string& name, const Types::FloatVector data ) {
-    Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
-
-    if( vectorDatum != NULL ) vectorDatum->SetData( data );
-}
-
 void DataRecorder::AddDataTo( const std::string& name, const Types::FloatVector data ) {
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
@@ -77,6 +71,12 @@ void DataRecorder::AddDataTo( const std::string& name, const unsigned& index, co
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
     if( matrixDatum != NULL ) matrixDatum->AddDataAtIndex( index, data );
+}
+
+void DataRecorder::SetVectorDataOn( const std::string& name, const Types::FloatVector data ) {
+    Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
+
+    if( vectorDatum != NULL ) vectorDatum->SetData( data );
 }
 
 void DataRecorder::AddInputFilePath( const std::string& inputFilePath ) {

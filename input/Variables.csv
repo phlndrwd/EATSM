@@ -29,6 +29,7 @@ SizeClassEffectivePreyVolumes,matrix,log_{10}( Volume ),standard
 SizeClassPreyVolumeRatios,matrix,log_{10}( Prey Volume Ratio ),standard
 SizeClassVolumeMutantFrequencies,matrix,Individual Frequency,cumulative
 SizeClassGrowthRatios,matrix,Growth Ratio,standard
+SizeClassCouplings,matrix,Coupled Population Index,standard
 SizeClassFeedingProbabilities,matrix,Feeding Probability,standard
 SizeClassTrophicClassifications,matrix,Trophic Classification,standard
 SizeClassAges,matrix,Average Age,standard

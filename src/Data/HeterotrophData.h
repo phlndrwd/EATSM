@@ -1,7 +1,6 @@
 #ifndef HETEROTROPHDATA
 #define HETEROTROPHDATA
 
-#include "RandomSimple.h"
 #include "Types.h"
 
 class HeterotrophData {
@@ -15,14 +14,14 @@ public:
     void ResetDataStructures( );
 
     double GetEffectiveSizeClassVolume( const unsigned, const unsigned ) const;
-    void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
-
     double GetEffectivePreyVolume( const unsigned );
     double GetFeedingProbability( const unsigned );
-    unsigned GetCoupledSizeClassIndex( RandomSimple&, const unsigned );
+    unsigned GetCoupledSizeClassIndex( const unsigned );
 
+    void SetEffectiveSizeClassVolume( const unsigned, const unsigned, const double );
     void SetEffectivePreyVolume( const unsigned, const double );
     void SetFeedingProbability( const unsigned, const double );
+    void SetCoupledSizeClassIndex( const unsigned, const unsigned );
 
     void AddIndividualData( const Types::HeterotrophPointer );
     void AddSizeClassData( const unsigned, const unsigned, const double );
@@ -54,7 +53,6 @@ private:
     const unsigned mNumberOfSizeClasses;
 
     Types::DoubleMatrix mEffectiveSizeClassVolumeMatrix;
-    Types::DoubleMatrix mNormalisedEffectiveVolumeMatrix;
 
     Types::FloatVector mSizeClassPopulation;
     Types::FloatVector mSizeClassHerbivoreFrequencies;
@@ -68,6 +66,7 @@ private:
     Types::FloatVector mSizeClassApproxVolumes;
     Types::FloatVector mSizeClassEffectivePreyVolumes;
     Types::FloatVector mSizeClassGrowthRatios;
+    Types::FloatVector mSizeClassCouplings;
     Types::FloatVector mSizeClassPreyVolumeRatios;
     Types::FloatVector mSizeClassFeedingProbabilities;
     Types::FloatVector mSizeClassTrophicClassifications;

@@ -15,9 +15,10 @@ public:
     static Types::DataRecorderPointer Get( );
 
     void AddDataTo( const std::string&, const float& );
-    void SetVectorDataOn( const std::string&, const Types::FloatVector );
     void AddDataTo( const std::string&, const Types::FloatVector );
     void AddDataTo( const std::string&, const unsigned&, const float& );
+    
+    void SetVectorDataOn( const std::string&, const Types::FloatVector );
 
     void AddInputFilePath( const std::string& );
 
