@@ -5,16 +5,16 @@
 #include "HeritableTraits.h"
 #include "HeterotrophProcessor.h"
 
-Types::InitialStatePointer InitialState::mThis = NULL;
+Types::InitialStatePointer InitialState::mThis = nullptr;
 
 Types::InitialStatePointer InitialState::Get( ) {
-    if( mThis == NULL ) mThis = new InitialState( );
+    if( mThis == nullptr ) mThis = new InitialState( );
 
     return mThis;
 }
 
 InitialState::~InitialState( ) {
-    if( mThis != NULL ) delete mThis;
+    if( mThis != nullptr ) delete mThis;
 }
 
 InitialState::InitialState( ) {

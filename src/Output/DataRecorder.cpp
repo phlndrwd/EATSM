@@ -5,10 +5,10 @@
 #include "VectorDatum.h"
 #include "MatrixDatum.h"
 
-Types::DataRecorderPointer DataRecorder::mThis = NULL;
+Types::DataRecorderPointer DataRecorder::mThis = nullptr;
 
 Types::DataRecorderPointer DataRecorder::Get( ) {
-    if( mThis == NULL ) mThis = new DataRecorder( );
+    if( mThis == nullptr ) mThis = new DataRecorder( );
 
     return mThis;
 }
@@ -24,7 +24,7 @@ DataRecorder::~DataRecorder( ) {
     for( Types::MatrixDatumMap::iterator iter = mMatrixDatumMap.begin( ); iter != mMatrixDatumMap.end( ); ++iter ) {
         delete iter->second;
     }
-    if( mThis != NULL ) delete mThis;
+    if( mThis != nullptr ) delete mThis;
 }
 
 bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData ) {
@@ -52,31 +52,31 @@ bool DataRecorder::Initialise( const Types::StringMatrix& rawOutputParameterData
 void DataRecorder::InitialiseMatrix( const std::string& name, const unsigned& size ) {
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
-    if( matrixDatum != NULL ) matrixDatum->SetGroupSize( size );
+    if( matrixDatum != nullptr ) matrixDatum->SetGroupSize( size );
 }
 
 void DataRecorder::AddDataTo( const std::string& name, const float& data ) {
     Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
 
-    if( vectorDatum != NULL ) vectorDatum->AddData( data );
+    if( vectorDatum != nullptr ) vectorDatum->AddData( data );
 }
 
 void DataRecorder::AddDataTo( const std::string& name, const Types::FloatVector data ) {
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
-    if( matrixDatum != NULL ) matrixDatum->AddData( data );
+    if( matrixDatum != nullptr ) matrixDatum->AddData( data );
 }
 
 void DataRecorder::AddDataTo( const std::string& name, const unsigned& index, const float& data ) {
     Types::MatrixDatumPointer matrixDatum = GetMatrixDatumFromName( name );
 
-    if( matrixDatum != NULL ) matrixDatum->AddDataAtIndex( index, data );
+    if( matrixDatum != nullptr ) matrixDatum->AddDataAtIndex( index, data );
 }
 
 void DataRecorder::SetVectorDataOn( const std::string& name, const Types::FloatVector data ) {
     Types::VectorDatumPointer vectorDatum = GetVectorDatumFromName( name );
 
-    if( vectorDatum != NULL ) vectorDatum->SetData( data );
+    if( vectorDatum != nullptr ) vectorDatum->SetData( data );
 }
 
 void DataRecorder::AddInputFilePath( const std::string& inputFilePath ) {
@@ -96,7 +96,7 @@ Types::StringVector DataRecorder::GetInputFilePaths( ) const {
 }
 
 Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::string& name ) {
-    Types::VectorDatumPointer vectorDatum = NULL;
+    Types::VectorDatumPointer vectorDatum = nullptr;
     Types::VectorDatumMap::iterator iter = mVectorDatumMap.find( name );
 
     if( iter != mVectorDatumMap.end( ) ) {
@@ -116,7 +116,7 @@ Types::VectorDatumPointer DataRecorder::GetVectorDatumFromName( const std::strin
 }
 
 Types::MatrixDatumPointer DataRecorder::GetMatrixDatumFromName( const std::string& name ) {
-    Types::MatrixDatumPointer matrixDatum = NULL;
+    Types::MatrixDatumPointer matrixDatum = nullptr;
     Types::MatrixDatumMap::iterator iter = mMatrixDatumMap.find( name );
 
     if( iter != mMatrixDatumMap.end( ) ) {

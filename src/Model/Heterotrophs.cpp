@@ -164,7 +164,7 @@ void Heterotrophs::Feeding( ) {
             for( unsigned potentialEncounterIndex = 0; potentialEncounterIndex < sizeClassPopulationSubset; ++potentialEncounterIndex ) {
                 if( mRandom.GetUniform( ) <= mHeterotrophData.GetFeedingProbability( predatorIndex ) ) {
                     Types::HeterotrophPointer predator = GetRandomPredatorFromSizeClass( predatorIndex );
-                    if( predator != NULL ) {
+                    if( predator != nullptr ) {
                         unsigned coupledIndex = mHeterotrophData.GetCoupledSizeClassIndex( predatorIndex );
                         if( coupledIndex == mAutotrophSizeClassIndex ) FeedFromAutotrophs( predator );
                         else FeedFromHeterotrophs( predator, coupledIndex );
@@ -212,7 +212,7 @@ void Heterotrophs::Starvation( ) {
             for( unsigned potentialStarvation = 0; potentialStarvation < sizeClassSubsetSize; ++potentialStarvation ) {
                 Types::HeterotrophPointer individual = GetRandomIndividualFromSizeClass( sizeClassIndex );
 
-                if( individual != NULL )
+                if( individual != nullptr )
                     if( mRandom.GetUniform( ) <= mHeterotrophProcessor.CalculateStarvationProbability( individual ) )
                         Starve( individual );
             }
@@ -263,7 +263,7 @@ void Heterotrophs::FeedFromAutotrophs( Types::HeterotrophPointer grazer ) {
 
 void Heterotrophs::FeedFromHeterotrophs( Types::HeterotrophPointer predator, const unsigned coupledIndex ) {
     Types::HeterotrophPointer prey = GetRandomPreyFromSizeClass( coupledIndex, predator );
-    if( prey != NULL ) {
+    if( prey != nullptr ) {
         double preyVolume = prey->GetVolumeActual( );
         mHeterotrophData.IncrementCarnivoreFrequencies( predator, prey );
 
@@ -276,11 +276,12 @@ void Heterotrophs::FeedFromHeterotrophs( Types::HeterotrophPointer predator, con
     }
 }
 
+// Used for starvation. Hence check against number of dead
 Types::HeterotrophPointer Heterotrophs::GetRandomIndividualFromSizeClass( const unsigned sizeClassIndex ) {
     std::size_t numberLiving = GetSizeClassPopulation( sizeClassIndex );
     unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( );
 
-    Types::HeterotrophPointer randomIndividual = NULL;
+    Types::HeterotrophPointer randomIndividual = nullptr;
     if( numberActive > 0 ) {
         unsigned count = 0;
         do {
@@ -293,11 +294,12 @@ Types::HeterotrophPointer Heterotrophs::GetRandomIndividualFromSizeClass( const 
     return randomIndividual;
 }
 
+// Potential predators should feed only once in a discrete time step. Not likely, but they may have already been marked as dead.
 Types::HeterotrophPointer Heterotrophs::GetRandomPredatorFromSizeClass( const unsigned sizeClassIndex ) {
     std::size_t numberLiving = GetSizeClassPopulation( sizeClassIndex );
     unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( ) - mFedCount[ sizeClassIndex ];
 
-    Types::HeterotrophPointer randomIndividual = NULL;
+    Types::HeterotrophPointer randomIndividual = nullptr;
     if( numberActive > 0 ) {
         unsigned count = 0;
         do {
@@ -305,11 +307,12 @@ Types::HeterotrophPointer Heterotrophs::GetRandomPredatorFromSizeClass( const un
             unsigned randomIndividualIndex = mRandom.GetUniformInt( numberLiving - 1 );
             randomIndividual = GetIndividual( sizeClassIndex, randomIndividualIndex );
             if( count > numberActive ) break;
-        } while( randomIndividual->IsDead( ) == true || randomIndividual->HasFed( ) );
+        } while( randomIndividual->IsDead( ) == true || randomIndividual->HasFed( ) == true );
     }
     return randomIndividual;
 }
 
+// Potential prey may already be marked as dead. They cannot be eaten by themselves.
 Types::HeterotrophPointer Heterotrophs::GetRandomPreyFromSizeClass( const unsigned sizeClassIndex, const Types::HeterotrophPointer predator ) {
     std::size_t numberLiving = GetSizeClassPopulation( sizeClassIndex );
     unsigned numberActive = numberLiving - mIndividualsDead[ sizeClassIndex ].size( );
@@ -319,7 +322,7 @@ Types::HeterotrophPointer Heterotrophs::GetRandomPreyFromSizeClass( const unsign
     if( predator->GetSizeClassIndex( ) == sizeClassIndex && numberActive > 0 )
         --numberActive;
 
-    Types::HeterotrophPointer randomIndividual = NULL;
+    Types::HeterotrophPointer randomIndividual = nullptr;
     if( numberActive > 0 ) {
         unsigned count = 0;
         do {

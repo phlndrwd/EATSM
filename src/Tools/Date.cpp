@@ -6,7 +6,7 @@
 std::string Date::GetDateAndTimeString( const std::string format, unsigned addedSeconds ) {
     char dateTimeChar[ Constants::cDateTimeBufferSize ];
     timeval timeNow;
-    gettimeofday( &timeNow, NULL );
+    gettimeofday( &timeNow, nullptr );
     time_t rawtime = static_cast < time_t > ( timeNow.tv_sec + addedSeconds );
     
     struct tm *timeinfo;

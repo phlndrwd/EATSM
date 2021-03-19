@@ -5,7 +5,7 @@
 
 double Strings::StringToNumber( const std::string& string ) {
 
-    double number = strtod( string.c_str( ), NULL );
+    double number = strtod( string.c_str( ), nullptr );
 
     return number;
 }

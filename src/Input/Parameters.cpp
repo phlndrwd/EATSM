@@ -6,14 +6,14 @@
 
 #include <cmath>
 
-Types::ParametersPointer Parameters::mThis = NULL;
+Types::ParametersPointer Parameters::mThis = nullptr;
 
 Parameters::Parameters( ) {
     mParametersInitialised = { false };
 }
 
 Parameters::~Parameters( ) {
-    if( mThis != NULL ) {
+    if( mThis != nullptr ) {
         for( unsigned sizeClassIndex = 0; sizeClassIndex < mNumberOfSizeClasses; ++sizeClassIndex ) {
             mInterSizeClassPreferenceMatrix[ sizeClassIndex ].clear( );
             mInterSizeClassVolumeMatrix[ sizeClassIndex ].clear( );
@@ -32,7 +32,7 @@ Parameters::~Parameters( ) {
 }
 
 Types::ParametersPointer Parameters::Get( ) {
-    if( mThis == NULL ) mThis = new Parameters( );
+    if( mThis == nullptr ) mThis = new Parameters( );
     
     return mThis;
 }
