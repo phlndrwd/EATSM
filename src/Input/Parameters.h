@@ -1,6 +1,8 @@
 #ifndef PARAMETERS
 #define PARAMETERS
 
+#include <array>
+
 #include "Types.h"
 #include "Constants.h"
 
