@@ -1,3 +1,12 @@
+/******************************************************************************
+* Evolutionary Adaptive Trophic Structure Model (EATSM)                       *
+*                                                                             *
+* (C) Copyright 2024, Phil Underwood. All rights reserved.                    *
+*                                                                             *
+* This software is licensed under the terms of the 3-Clause BSD License       *
+* which can be obtained from https://opensource.org/license/bsd-3-clause/.    *
+******************************************************************************/
+
 #ifndef CONSTANTS
 #define CONSTANTS
 
@@ -103,9 +112,9 @@ namespace Constants {
     const std::string cVersionCommand = "-v";
 
     const std::string cSystemName = "EATSM";
-    const std::string cSystemVersion = "0.5.5";
-    const std::string cSystemDate = "19/03/2021";
-    const std::string cSystemTime = "08:12";
+    const std::string cSystemVersion = "1.0";
+    const std::string cSystemDate = "29/03/2024";
+    const std::string cSystemTime = "22:09";
 }
 
 #endif

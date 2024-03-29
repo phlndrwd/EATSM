@@ -1,11 +1,13 @@
-#ifndef RANDOMSIMPLE
-#define	RANDOMSIMPLE
-
 /*
 * Written by John D. Cook 
 * http://www.johndcook.com
 * https://www.codeproject.com/Articles/25172/Simple-Random-Number-Generation
 */
+
+#ifndef RANDOMSIMPLE
+#define	RANDOMSIMPLE
+
+
 class RandomSimple {
     
 public:

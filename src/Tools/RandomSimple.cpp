@@ -1,3 +1,9 @@
+/*
+* Written by John D. Cook 
+* http://www.johndcook.com
+* https://www.codeproject.com/Articles/25172/Simple-Random-Number-Generation
+*/
+
 #include <math.h>
 #include <assert.h>
 #include <random>
