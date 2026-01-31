@@ -6,4 +6,5 @@ TODO
 *~
 .~lock.*
 .dep.inc
-README.odt
+.qtcreator
+CMakeLists.txt.user
